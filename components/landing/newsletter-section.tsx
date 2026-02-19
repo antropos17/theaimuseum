@@ -7,7 +7,7 @@ import { CopyableTerminalCard } from "@/components/ui/copyable-terminal-card"
 
 export function NewsletterSection() {
   const [email, setEmail] = useState("")
-  const [submitted, setSubmitted] = useState(false)
+  const [subscribed, setSubscribed] = useState(false)
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const { ref, isInView } = useInView()
@@ -16,20 +16,25 @@ export function NewsletterSection() {
     e.preventDefault()
     setError("")
     setLoading(true)
+
     try {
       const res = await fetch("/api/newsletter", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       })
+
       const data = await res.json()
+
       if (!res.ok) {
         setError(data.message || "Invalid email")
+        setLoading(false)
         return
       }
-      setSubmitted(true)
+
+      setSubscribed(true)
     } catch {
-      setError("Something went wrong")
+      setError("Invalid email")
     } finally {
       setLoading(false)
     }
@@ -64,7 +69,7 @@ export function NewsletterSection() {
               </p>
             </div>
 
-            {submitted ? (
+            {subscribed ? (
               <div className="shrink-0">
                 <div className="flex items-center gap-1.5 font-mono text-xs text-foreground">
                   <Check size={14} strokeWidth={1.5} className="text-primary" />
@@ -73,6 +78,7 @@ export function NewsletterSection() {
                 <a
                   href="/ai-timeline.pdf"
                   target="_blank"
+                  rel="noopener noreferrer"
                   className="mt-3 flex items-center gap-1.5 font-mono text-xs text-primary decoration-dashed hover:underline"
                 >
                   <Download size={14} strokeWidth={1.5} />
@@ -87,7 +93,10 @@ export function NewsletterSection() {
                     <input
                       type="email"
                       value={email}
-                      onChange={(e) => { setEmail(e.target.value); setError("") }}
+                      onChange={(e) => {
+                        setEmail(e.target.value)
+                        setError("")
+                      }}
                       placeholder="your@email.com"
                       className="w-full min-w-0 bg-transparent py-2.5 pr-2 font-mono text-xs text-foreground placeholder:text-muted-foreground/40 focus:outline-none sm:w-48"
                       required
