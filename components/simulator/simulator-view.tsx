@@ -130,6 +130,25 @@ export function SimulatorView() {
   const isTyping = phase === "typing-user" || phase === "typing-ai"
   const remainingPrompts = era.prompts.slice(promptIdx)
 
+  // Challenge friend share handler
+  const handleShare = async () => {
+    const text = "I just talked to ELIZA from 1966 🤖 Try it → https://v0-theaimuseum.vercel.app/simulator"
+    const url = "https://v0-theaimuseum.vercel.app/simulator"
+    
+    if (navigator.share) {
+      try {
+        await navigator.share({ text, url })
+      } catch (err) {
+        // User cancelled or error occurred
+        console.log('Share cancelled or failed:', err)
+      }
+    } else {
+      // Fallback to Twitter intent
+      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`
+      window.open(twitterUrl, '_blank', 'noopener,noreferrer')
+    }
+  }
+
   return (
     <div className="min-h-screen pt-16">
       <div className="mx-auto max-w-3xl px-4 pb-24 pt-10">
@@ -345,6 +364,16 @@ export function SimulatorView() {
             {era.era === "2024" && "Claude 3 and GPT-4 represent frontier models with near-human reasoning. They can analyze documents, debug code, and provide nuanced analysis with far fewer hallucinations."}
             {era.era === "2025" && "o3 and DeepSeek R1 push reasoning further with chain-of-thought approaches. DeepSeek trained for $5.6M vs billions for competitors, proving efficiency can rival brute force."}
           </p>
+        </div>
+
+        {/* Challenge a Friend */}
+        <div className="mt-6 flex justify-center">
+          <button
+            onClick={handleShare}
+            className="glass-btn-primary px-6 py-3 text-foreground"
+          >
+            <span className="text-primary">{'> '}</span>CHALLENGE A FRIEND
+          </button>
         </div>
       </div>
     </div>
