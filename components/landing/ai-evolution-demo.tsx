@@ -77,16 +77,35 @@ function AnimatedCounter({ target, active }: { target: number; active: boolean }
 }
 
 /* ═══════════════════════════════════════════════════
+   TYPING INDICATOR (three bouncing dots)
+   ═══════════════════════════════════════════════════ */
+
+function TypingDots({ color }: { color: string }) {
+  return (
+    <span className="inline-flex items-center gap-1">
+      {[0, 1, 2].map((i) => (
+        <span
+          key={i}
+          className={`inline-block h-1.5 w-1.5 rounded-full ${color}`}
+          style={{ animation: `typingBounce 1.2s ease-in-out ${i * 0.15}s infinite` }}
+        />
+      ))}
+    </span>
+  )
+}
+
+/* ═══════════════════════════════════════════════════
    TYPEWRITER
    ═══════════════════════════════════════════════════ */
 
-function TypewriterText({ text, active, speed = 30 }: { text: string; active: boolean; speed?: number }) {
+function TypewriterText({ text, active, speed = 30, onDone }: { text: string; active: boolean; speed?: number; onDone?: () => void }) {
   const [displayed, setDisplayed] = useState("")
-  const [cursor, setCursor] = useState(true)
+  const doneRef = useRef(false)
 
   useEffect(() => {
     if (!active) return
     let i = 0
+    doneRef.current = false
     setDisplayed("")
     const interval = setInterval(() => {
       if (i < text.length) {
@@ -94,22 +113,19 @@ function TypewriterText({ text, active, speed = 30 }: { text: string; active: bo
         i++
       } else {
         clearInterval(interval)
-        setCursor(false)
+        if (!doneRef.current) {
+          doneRef.current = true
+          onDone?.()
+        }
       }
     }, speed)
     return () => clearInterval(interval)
-  }, [text, active, speed])
-
-  useEffect(() => {
-    if (!cursor) return
-    const id = setInterval(() => setCursor((p) => !p), 500)
-    return () => clearInterval(id)
-  }, [cursor])
+  }, [text, active, speed, onDone])
 
   return (
     <span>
       {displayed}
-      {active && displayed.length < text.length && cursor && (
+      {active && displayed.length < text.length && (
         <span className="animate-pulse">&#9611;</span>
       )}
     </span>
@@ -117,17 +133,62 @@ function TypewriterText({ text, active, speed = 30 }: { text: string; active: bo
 }
 
 /* ═══════════════════════════════════════════════════
+   QUALITY BAR + STATUS TAG
+   ═══════════════════════════════════════════════════ */
+
+const qualityMeta = {
+  eliza: { pct: 8, filled: 1, empty: 9, tag: null, tagColor: "", barColor: "bg-green-500", barTrack: "bg-green-500/10" },
+  gpt2: { pct: 35, filled: 3.5, empty: 6.5, tag: "HALLUCINATION DETECTED", tagColor: "text-amber-400 border-amber-500/40 bg-amber-500/5", barColor: "bg-amber-500", barTrack: "bg-amber-500/10" },
+  modern: { pct: 93, filled: 9, empty: 1, tag: "VERIFIED", tagColor: "text-primary border-primary/40 bg-primary/5", barColor: "bg-primary", barTrack: "bg-primary/10" },
+} as const
+
+function QualityBar({ style }: { style: "eliza" | "gpt2" | "modern" }) {
+  const q = qualityMeta[style]
+  const tagSymbol = style === "modern" ? "\u2713" : style === "gpt2" ? "\u26A0" : ""
+  return (
+    <div className="mt-3 space-y-1.5 animate-[terminalFadeIn_0.4s_ease-out]">
+      <div className="flex items-center gap-2">
+        <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground">Intelligence:</span>
+        <div className={`h-1.5 flex-1 ${q.barTrack} overflow-hidden`}>
+          <div
+            className={`h-full ${q.barColor} transition-all duration-1000 ease-out`}
+            style={{ width: `${q.pct}%` }}
+          />
+        </div>
+        <span className="font-mono text-[10px] tabular-nums text-muted-foreground">{q.pct}%</span>
+      </div>
+      {q.tag && (
+        <span className={`inline-flex items-center gap-1 border px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wider ${q.tagColor}`}>
+          {tagSymbol} {q.tag}
+        </span>
+      )}
+    </div>
+  )
+}
+
+/* ═══════════════════════════════════════════════════
    CHAT WINDOW
    ═══════════════════════════════════════════════════ */
 
-function ChatWindow({ data, index, triggerAnimation }: { data: typeof responses[0]; index: number; triggerAnimation: boolean }) {
-  const [startTyping, setStartTyping] = useState(false)
+function ChatWindow({
+  data, index, triggerAnimation, onFinished,
+}: {
+  data: typeof responses[0]; index: number; triggerAnimation: boolean; onFinished: () => void
+}) {
+  const [phase, setPhase] = useState<"idle" | "dots" | "typing" | "done">("idle")
 
   useEffect(() => {
     if (!triggerAnimation) return
-    const timer = setTimeout(() => setStartTyping(true), index * 2000)
-    return () => clearTimeout(timer)
+    // Stagger: show dots first, then start typing
+    const dotsTimer = setTimeout(() => setPhase("dots"), index * 2000)
+    const typeTimer = setTimeout(() => setPhase("typing"), index * 2000 + 1200)
+    return () => { clearTimeout(dotsTimer); clearTimeout(typeTimer) }
   }, [triggerAnimation, index])
+
+  const handleTypeDone = useCallback(() => {
+    setPhase("done")
+    onFinished()
+  }, [onFinished])
 
   const wrapperClass = {
     eliza: "bg-black border-2 border-green-500/30",
@@ -164,6 +225,11 @@ function ChatWindow({ data, index, triggerAnimation }: { data: typeof responses[
     gpt2: ["bg-amber-500", "bg-amber-500/50", "bg-amber-500/30"],
     modern: ["bg-red-500", "bg-amber-500", "bg-primary"],
   }
+  const typingDotColor = {
+    eliza: "bg-green-400",
+    gpt2: "bg-amber-400",
+    modern: "bg-muted-foreground",
+  }
 
   return (
     <div className={`relative flex flex-col overflow-hidden transition-all duration-300 ${wrapperClass[data.style]}`}>
@@ -184,19 +250,68 @@ function ChatWindow({ data, index, triggerAnimation }: { data: typeof responses[
 
       {/* Chat */}
       <div className="flex-1 space-y-3 p-4">
+        {/* User question */}
         <div className="flex justify-end">
           <div className={`max-w-[85%] rounded px-3 py-2 ${bubbleClass[data.style]}`}>
             <p className={`text-sm ${data.style === "modern" ? "" : "font-mono"}`}>{QUESTION}</p>
           </div>
         </div>
-        <div className="flex">
-          <div className={`max-w-[90%] rounded px-3 py-2 ${replyBorderClass[data.style]}`}>
-            <p className={`text-sm leading-relaxed ${textClass[data.style]}`}>
-              <TypewriterText text={data.response} active={startTyping} speed={data.style === "eliza" ? 50 : 25} />
-            </p>
+        {/* Typing indicator / Response */}
+        {phase !== "idle" && (
+          <div className="flex">
+            <div className={`max-w-[90%] rounded px-3 py-2 ${replyBorderClass[data.style]}`}>
+              {phase === "dots" && (
+                <div className="py-1">
+                  <TypingDots color={typingDotColor[data.style]} />
+                </div>
+              )}
+              {(phase === "typing" || phase === "done") && (
+                <p className={`text-sm leading-relaxed ${textClass[data.style]}`}>
+                  <TypewriterText
+                    text={data.response}
+                    active={phase === "typing" || phase === "done"}
+                    speed={data.style === "eliza" ? 50 : 25}
+                    onDone={handleTypeDone}
+                  />
+                </p>
+              )}
+              {/* Quality bar after done */}
+              {phase === "done" && <QualityBar style={data.style} />}
+            </div>
           </div>
-        </div>
+        )}
       </div>
+    </div>
+  )
+}
+
+/* ═══════════════════════════════════════════════════
+   EVOLUTION CONNECTION LINE (1966 -> 2019 -> 2025)
+   ═══════════════════════════════════════════════════ */
+
+function EvolutionLine({ visible }: { visible: boolean }) {
+  return (
+    <div
+      className="mx-auto mt-6 hidden items-center justify-center gap-0 transition-all duration-700 md:flex"
+      style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(8px)" }}
+    >
+      <span className="font-mono text-[10px] font-bold text-green-400">1966</span>
+      <div className="relative mx-2 h-px w-20 overflow-hidden bg-border/30 lg:w-28">
+        <div
+          className="absolute inset-y-0 left-0 bg-gradient-to-r from-green-500 to-amber-500 transition-all duration-1000 ease-out"
+          style={{ width: visible ? "100%" : "0%" }}
+        />
+      </div>
+      <svg className="h-3 w-3 -ml-1 text-amber-400" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+      <span className="mx-1 font-mono text-[10px] font-bold text-amber-400">2019</span>
+      <div className="relative mx-2 h-px w-20 overflow-hidden bg-border/30 lg:w-28">
+        <div
+          className="absolute inset-y-0 left-0 bg-gradient-to-r from-amber-500 to-emerald-400 transition-all duration-1000 ease-out delay-500"
+          style={{ width: visible ? "100%" : "0%" }}
+        />
+      </div>
+      <svg className="h-3 w-3 -ml-1 text-primary" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+      <span className="mx-1 font-mono text-[10px] font-bold text-primary">2025</span>
     </div>
   )
 }
@@ -385,6 +500,12 @@ export function AIEvolutionDemo() {
   const sectionRef = useRef<HTMLElement>(null)
   const [statsVisible, setStatsVisible] = useState(false)
   const statsRef = useRef<HTMLDivElement>(null)
+  const [finishedCount, setFinishedCount] = useState(0)
+  const allDone = finishedCount >= 3
+
+  const handleWindowFinished = useCallback(() => {
+    setFinishedCount((c) => c + 1)
+  }, [])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -419,11 +540,11 @@ export function AIEvolutionDemo() {
             {'>'} AI_EVOLUTION_DEMO
           </p>
           <h2 className="mb-5 text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl">
-            See How AI Evolved
+            Same Question. 75 Years Apart.
           </h2>
           <p className="mx-auto max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
-            We asked three eras of artificial intelligence the same question.
-            Watch how responses evolved from deflecting to hallucinating to genuinely understanding.
+            We asked three eras of AI the exact same question.
+            Watch the leap from deflection to hallucination to genuine understanding.
           </p>
         </div>
 
@@ -445,9 +566,12 @@ export function AIEvolutionDemo() {
         {/* ── Chat windows grid ── */}
         <div className="grid gap-6 md:grid-cols-3">
           {responses.map((data, index) => (
-            <ChatWindow key={index} data={data} index={index} triggerAnimation={isVisible} />
+            <ChatWindow key={index} data={data} index={index} triggerAnimation={isVisible} onFinished={handleWindowFinished} />
           ))}
         </div>
+
+        {/* ── Evolution connection line ── */}
+        <EvolutionLine visible={allDone} />
 
         {/* ── Interactive input ── */}
         <TryItSection />
