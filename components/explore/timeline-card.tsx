@@ -6,6 +6,7 @@ import type { AIModel } from "@/data/models"
 import { categories } from "@/data/models"
 import { cn } from "@/lib/utils"
 import { CopyableTerminalCard } from "@/components/ui/copyable-terminal-card"
+import { toast } from "@/hooks/use-toast"
 
 const statusColors: Record<string, string> = {
   active: "#00ff88",
@@ -149,24 +150,97 @@ function CardContent({
   chromeColors: string[]
   align: "left" | "right"
 }) {
+  const [showShareMenu, setShowShareMenu] = useState(false)
+  const shareRef = useRef<HTMLDivElement>(null)
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (shareRef.current && !shareRef.current.contains(event.target as Node)) {
+        setShowShareMenu(false)
+      }
+    }
+    if (showShareMenu) {
+      document.addEventListener("mousedown", handleClickOutside)
+      return () => document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [showShareMenu])
+
+  const generateTweet = () => {
+    const fact = `${model.name} (${model.year}) — ${model.description}`
+    const tweet = `Did you know? ${fact} 🤖 via @theaimuseum`
+    return tweet.length > 280 ? tweet.substring(0, 277) + "..." : tweet
+  }
+
+  const handleTwitterShare = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const tweetText = encodeURIComponent(generateTweet())
+    window.open(`https://twitter.com/intent/tweet?text=${tweetText}`, "_blank", "width=550,height=420")
+    setShowShareMenu(false)
+  }
+
+  const handleCopyFact = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const fact = `${model.name} (${model.year}) — ${model.description}`
+    navigator.clipboard.writeText(fact)
+    toast({
+      description: "Copied!",
+      duration: 2000,
+    })
+    setShowShareMenu(false)
+  }
+
+  const handleWebShare = async (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `${model.name} (${model.year})`,
+          text: model.description,
+          url: `${window.location.origin}/model/${model.slug}`,
+        })
+      } catch (err) {
+        // User cancelled or error occurred
+      }
+    } else {
+      // Fallback to copy URL
+      navigator.clipboard.writeText(`${window.location.origin}/model/${model.slug}`)
+      toast({
+        description: "Link copied!",
+        duration: 2000,
+      })
+    }
+    setShowShareMenu(false)
+  }
+
+  const toggleShareMenu = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setShowShareMenu(!showShareMenu)
+  }
+
   return (
-    <Link href={`/model/${model.slug}`} className={cn(cardBase, "group block")}>
-      {/* Terminal window chrome bar */}
-      <div className="mb-3 flex items-center gap-1.5">
-        <div className={cn("h-1.5 w-1.5 rounded-full", chromeColors[0])} />
-        <div className={cn("h-1.5 w-1.5 rounded-full", chromeColors[1])} />
-        <div className={cn("h-1.5 w-1.5 rounded-full", chromeColors[2])} />
-        <span className="ml-2 font-mono text-[9px] text-muted-foreground/60">
-          {model.slug}.exe
-        </span>
-        <div className="ml-auto">
-          <div
-            className="h-1.5 w-1.5 rounded-full"
-            style={{ backgroundColor: statusColors[model.status] || "#6b6b78" }}
-            title={model.status}
-          />
+    <div className="relative">
+      <Link href={`/model/${model.slug}`} className={cn(cardBase, "group block")}>
+        {/* Terminal window chrome bar */}
+        <div className="mb-3 flex items-center gap-1.5">
+          <div className={cn("h-1.5 w-1.5 rounded-full", chromeColors[0])} />
+          <div className={cn("h-1.5 w-1.5 rounded-full", chromeColors[1])} />
+          <div className={cn("h-1.5 w-1.5 rounded-full", chromeColors[2])} />
+          <span className="ml-2 font-mono text-[9px] text-muted-foreground/60">
+            {model.slug}.exe
+          </span>
+          <div className="ml-auto flex items-center gap-2">
+            <div
+              className="h-1.5 w-1.5 rounded-full"
+              style={{ backgroundColor: statusColors[model.status] || "#6b6b78" }}
+              title={model.status}
+            />
+          </div>
         </div>
-      </div>
 
       {/* Name + year + creator */}
       <div className={cn("flex items-baseline gap-2", align === "right" && "md:justify-end")}>
