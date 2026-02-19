@@ -20,6 +20,33 @@ const AI_MODELS = [
 
 const PASSPORT_URL = "https://v0-theaimuseum.vercel.app/passport"
 
+const PassportLabel = ({ label, children }: { label: string; children: React.ReactNode }) => (
+  <div>
+    <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+      {label}
+    </span>
+    {children}
+  </div>
+)
+
+const ActionButton = ({ onClick, disabled, icon, children }: {
+  onClick: () => void
+  disabled?: boolean
+  icon: React.ReactNode
+  children: React.ReactNode
+}) => (
+  <button
+    onClick={onClick}
+    disabled={disabled}
+    className="glass-btn flex h-9 items-center gap-2 px-4 text-foreground transition-all duration-200 hover:text-primary disabled:opacity-50"
+  >
+    {icon}
+    <span className="font-mono text-[11px] uppercase tracking-wide">
+      {children}
+    </span>
+  </button>
+)
+
 const PassportCard = ({ name, model, visitorId, date }: {
   name: string
   model: string
@@ -60,22 +87,16 @@ const PassportCard = ({ name, model, visitorId, date }: {
 
     {/* Middle: visitor info */}
     <div className="relative z-10 flex flex-col gap-2">
-      <div>
-        <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
-          [VISITOR]
-        </span>
+      <PassportLabel label="[VISITOR]">
         <div className="mt-0.5 font-mono text-lg font-bold tracking-wide text-foreground">
           {name}
         </div>
-      </div>
-      <div>
-        <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
-          [FAVORITE MODEL]
-        </span>
+      </PassportLabel>
+      <PassportLabel label="[FAVORITE MODEL]">
         <div className="mt-0.5 font-mono text-sm text-[#00d4ff]">
           {model}
         </div>
-      </div>
+      </PassportLabel>
     </div>
 
     {/* Dashed separator */}
@@ -238,29 +259,24 @@ export const PassportView = () => {
 
             {/* Action buttons */}
             <div className="flex items-center justify-center gap-3">
-              <button
+              <ActionButton
                 onClick={handleShareX}
-                className="glass-btn flex h-9 items-center gap-2 px-4 text-foreground transition-all duration-200 hover:text-primary"
+                icon={
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg>
+                }
               >
-                {/* X / Twitter inline SVG */}
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                </svg>
-                <span className="font-mono text-[11px] uppercase tracking-wide">
-                  Share on X
-                </span>
-              </button>
+                Share on X
+              </ActionButton>
 
-              <button
+              <ActionButton
                 onClick={handleDownload}
                 disabled={downloading}
-                className="glass-btn flex h-9 items-center gap-2 px-4 text-foreground transition-all duration-200 hover:text-primary disabled:opacity-50"
+                icon={<Download size={14} strokeWidth={1.5} />}
               >
-                <Download size={14} strokeWidth={1.5} />
-                <span className="font-mono text-[11px] uppercase tracking-wide">
-                  {downloading ? "Saving..." : "Download as PNG"}
-                </span>
-              </button>
+                {downloading ? "Saving..." : "Download as PNG"}
+              </ActionButton>
             </div>
 
             {/* Reset */}
