@@ -1,9 +1,10 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 import { quizQuestions } from "@/data/models"
 import { cn } from "@/lib/utils"
 import { CopyableTerminalCard } from "@/components/ui/copyable-terminal-card"
+import confetti from "canvas-confetti"
 
 const RANKS = [
   { min: 90, label: "SUPREME NEURAL ARCHITECT", msg: "You don't just know AI history -- you ARE AI history. Your neural pathways are indistinguishable from a transformer model." },
@@ -27,6 +28,7 @@ export function QuizView() {
   const [showFeedback, setShowFeedback] = useState(false)
   const [elapsed, setElapsed] = useState(0)
   const [timerActive, setTimerActive] = useState(false)
+  const confettiFired = useRef(false)
 
   const questions = quizQuestions
   const question = questions[currentQ]
@@ -97,6 +99,7 @@ export function QuizView() {
     setShowFeedback(false)
     setElapsed(0)
     setTimerActive(false)
+    confettiFired.current = false
   }
 
   const formatTime = (s: number) => {
@@ -141,6 +144,20 @@ export function QuizView() {
   if (phase === "results") {
     const pct = Math.round((score / total) * 100)
     const rank = getRank(pct)
+    
+    // Fire confetti once on score reveal
+    useEffect(() => {
+      if (!confettiFired.current) {
+        confettiFired.current = true
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 },
+          gravity: 0.8,
+          colors: ["#00ff88", "#00d4ff", "#ffb800", "#ffffff"],
+        })
+      }
+    }, [])
     
     // Dynamic challenge text based on score
     let challengeText = ""
