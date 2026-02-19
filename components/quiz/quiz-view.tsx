@@ -307,6 +307,37 @@ export function QuizView() {
   const progressPct = ((currentQ + 1) / total) * 100
   const isCorrect = selected === question.answer
 
+  // Share individual question
+  const handleShareQuestion = async () => {
+    const shareText = `Can you answer this AI history question?\n\n"${question.q}"\n\nTest your knowledge at The AI Museum`
+    const shareUrl = "https://v0-theaimuseum.vercel.app/quiz"
+    
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          text: `${shareText} ${shareUrl}`,
+          url: shareUrl,
+        })
+      } catch (err) {
+        console.log("[v0] Share cancelled or failed:", err)
+      }
+    } else {
+      // Fallback to Twitter
+      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`
+      window.open(twitterUrl, "_blank", "noopener,noreferrer")
+    }
+  }
+
+  const handleCopyQuestion = async () => {
+    const questionText = `${question.q}\n\nOptions:\nA) ${question.options[0]}\nB) ${question.options[1]}\nC) ${question.options[2]}\nD) ${question.options[3]}\n\nAnswer: ${String.fromCharCode(65 + question.answer)}) ${question.options[question.answer]}\n\nFrom The AI Museum - https://v0-theaimuseum.vercel.app/quiz`
+    
+    try {
+      await navigator.clipboard.writeText(questionText)
+    } catch (err) {
+      console.log("[v0] Copy failed:", err)
+    }
+  }
+
   return (
     <div className="min-h-screen pt-16">
       <div className="mx-auto max-w-xl px-4 pb-24 pt-10">
@@ -365,6 +396,22 @@ export function QuizView() {
             <div className="flex gap-2">
               <span className="font-mono text-sm text-primary text-glow-subtle shrink-0">{">"}</span>
               <p className="text-[15px] leading-relaxed text-foreground">{question.q}</p>
+            </div>
+
+            {/* Share question buttons */}
+            <div className="mt-4 flex items-center gap-2">
+              <button
+                onClick={handleShareQuestion}
+                className="border border-border/50 px-3 py-1.5 font-mono text-[10px] text-muted-foreground/70 transition-colors hover:border-primary/40 hover:text-primary"
+              >
+                {'>'} Share Question
+              </button>
+              <button
+                onClick={handleCopyQuestion}
+                className="border border-border/50 px-3 py-1.5 font-mono text-[10px] text-muted-foreground/70 transition-colors hover:border-cyan-500/40 hover:text-cyan-400"
+              >
+                📋 Copy
+              </button>
             </div>
 
             {/* Answer options */}
