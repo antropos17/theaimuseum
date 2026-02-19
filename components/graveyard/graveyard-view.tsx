@@ -38,16 +38,11 @@ function CrashCard({ item, index, expanded, onToggle }: {
 
   const handleShareRIP = (e: React.MouseEvent) => {
     e.stopPropagation() // Prevent card toggle
-    const twitterText = `RIP ${item.name} (${item.years}) 🪦 — ${item.cause} via @theaimuseum`
+    const birthYear = item.years.split(/[–-]/)[0].trim()
+    const deathYear = item.years.split(/[–-]/)[1]?.trim() || "present"
+    const twitterText = `RIP ${item.name} (${birthYear}–${deathYear}) — via @theaimuseum`
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(twitterText)}&url=${encodeURIComponent("https://v0-theaimuseum.vercel.app/graveyard")}`
     window.open(twitterUrl, "_blank", "noopener,noreferrer")
-  }
-
-  const handleShareReddit = (e: React.MouseEvent) => {
-    e.stopPropagation() // Prevent card toggle
-    const redditTitle = `RIP ${item.name} (${item.years})`
-    const redditUrl = `https://reddit.com/r/technology/submit?title=${encodeURIComponent(redditTitle)}&url=${encodeURIComponent("https://v0-theaimuseum.vercel.app/graveyard")}`
-    window.open(redditUrl, "_blank", "noopener,noreferrer")
   }
 
   return (
@@ -138,25 +133,31 @@ function CrashCard({ item, index, expanded, onToggle }: {
             </div>
           </div>
 
-          {/* Share + Expand hint */}
+          {/* Expand hint + Share button */}
           <div className="mt-3 flex items-center justify-between gap-3">
-            <div className="flex gap-2">
-              <button
-                onClick={handleShareRIP}
-                className="border border-border/50 px-3 py-1.5 font-mono text-[10px] text-muted-foreground/70 transition-colors hover:border-red-500/40 hover:text-red-400"
-              >
-                {'>'} Share RIP
-              </button>
-              <button
-                onClick={handleShareReddit}
-                className="border border-border/50 px-3 py-1.5 font-mono text-[10px] text-muted-foreground/70 transition-colors hover:border-orange-500/40 hover:text-orange-400"
-              >
-                {'>'} Reddit
-              </button>
-            </div>
             <div className="font-mono text-[10px] text-muted-foreground/40">
               {expanded ? "> COLLAPSE [-]" : "> EXPAND [+]"}
             </div>
+            <button
+              onClick={handleShareRIP}
+              className="opacity-40 hover:opacity-100 transition-opacity"
+              title="Share RIP"
+            >
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              >
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+              </svg>
+            </button>
           </div>
         </div>
 

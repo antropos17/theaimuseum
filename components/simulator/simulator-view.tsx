@@ -145,7 +145,7 @@ export function SimulatorView() {
   const handleShare = async () => {
     const aiName = era.label.split(" // ")[0]
     const year = era.era
-    const text = `I just talked to ${aiName} from ${year} at The AI Museum 🤖 Try it →`
+    const text = `I just chatted with ${aiName} from ${year} at The AI Museum`
     const url = "https://v0-theaimuseum.vercel.app/simulator"
     
     if (navigator.share) {
@@ -401,34 +401,62 @@ export function SimulatorView() {
 
         {/* Floating share prompt (after 5+ messages) */}
         {showSharePrompt && (
-          <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 animate-[terminalFadeIn_0.5s_ease-out]">
-            <div className="border border-dashed border-primary/40 bg-[#0a0a0f]/95 px-5 py-4 backdrop-blur-sm">
-              <div className="flex items-start gap-4">
-                <div className="flex-1">
-                  <p className="font-mono text-[11px] text-primary">
-                    [SHARE] 🤖 You just talked to AI from {era.era}. Challenge a friend →
-                  </p>
+          <div className="fixed bottom-6 left-1/2 z-50 w-full max-w-2xl -translate-x-1/2 px-4">
+            <div className="border-t border-dashed border-border/30 bg-[#0a0a0f]/95 backdrop-blur-sm">
+              <div className="flex items-center justify-between px-3 py-2">
+                <div className="flex items-center gap-2">
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    className="text-[#00ff88]"
+                  >
+                    <polyline points="4 17 10 11 4 5"></polyline>
+                    <line x1="12" y1="19" x2="20" y2="19"></line>
+                  </svg>
+                  <span className="font-mono text-[10px] text-muted-foreground">
+                    You just talked to AI from {era.era}
+                  </span>
                 </div>
-                <button
-                  onClick={() => setShowSharePrompt(false)}
-                  className="text-muted-foreground/50 hover:text-foreground transition-colors"
-                >
-                  <span className="font-mono text-[10px]">✕</span>
-                </button>
-              </div>
-              <div className="mt-3 flex gap-2">
-                <button
-                  onClick={handleShare}
-                  className="glass-btn-primary px-4 py-2 font-mono text-[11px] text-foreground"
-                >
-                  {'>'} Share
-                </button>
-                <button
-                  onClick={handleCopyConversation}
-                  className="border border-border px-4 py-2 font-mono text-[11px] text-muted-foreground transition-colors hover:border-primary hover:text-primary"
-                >
-                  📋 Copy conversation
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={handleShare}
+                    className="flex items-center gap-1.5 border border-border/50 px-3 py-1.5 font-mono text-[10px] text-muted-foreground transition-colors hover:border-[#00ff88]/50 hover:text-[#00ff88]"
+                  >
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                    >
+                      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                    </svg>
+                    Challenge a friend
+                  </button>
+                  <button
+                    onClick={handleCopyConversation}
+                    className="flex items-center gap-1.5 border border-border/50 px-3 py-1.5 font-mono text-[10px] text-muted-foreground transition-colors hover:border-[#00ff88]/50 hover:text-[#00ff88]"
+                  >
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                    >
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    Copy chat
+                  </button>
+                </div>
               </div>
             </div>
           </div>
