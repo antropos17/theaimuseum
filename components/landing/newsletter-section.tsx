@@ -44,10 +44,10 @@ export function NewsletterSection() {
           <div className="mt-4 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h3 className="text-lg font-light tracking-tight text-foreground">
-                AI history is being written now.
+                Get the AI History Brief
               </h3>
               <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">
-                Every breakthrough, every scandal &mdash; delivered to your inbox.
+                One email per week. 75 years of AI breakthroughs, decoded for humans.
               </p>
             </div>
 
