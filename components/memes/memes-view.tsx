@@ -1,41 +1,98 @@
 "use client"
 
+import { useRef, useState, useEffect } from "react"
 import { memes } from "@/data/models"
 
+/* Deterministic tilt values from index to avoid hydration mismatch */
+const tilts = [-2.5, 1.8, -1.2, 2.4, -3, 1.5, -2, 2.8]
+
 export function MemesView() {
+  const gridRef = useRef<HTMLDivElement>(null)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const el = gridRef.current
+    if (!el) return
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.unobserve(el) } },
+      { threshold: 0.1 }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
   return (
     <div className="min-h-screen pt-16">
-      <div className="mx-auto max-w-3xl px-4 pb-24 pt-10">
+      <div className="mx-auto max-w-4xl px-4 pb-24 pt-10">
         <span className="data-label">[Hall of Fame]</span>
-        <h1 className="mt-3 text-2xl font-light tracking-tight text-foreground sm:text-3xl">AI Meme Timeline</h1>
+        <h1 className="mt-3 text-2xl font-light tracking-tight text-foreground sm:text-3xl">
+          AI Meme Timeline
+        </h1>
         <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">
-          The funniest and most iconic moments in AI history.
+          The funniest, most iconic, and most unhinged moments in AI history.
         </p>
 
-        <div className="relative mt-8">
-          {/* Timeline spine */}
-          <div className="absolute left-[3px] top-0 hidden h-full w-px bg-border md:block" />
+        {/* Card grid */}
+        <div
+          ref={gridRef}
+          className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          {memes.map((meme, i) => {
+            const baseTilt = tilts[i % tilts.length]
+            return (
+              <div
+                key={i}
+                className="group terminal-card-solid relative flex flex-col items-center p-6 text-center transition-all duration-300"
+                style={{
+                  opacity: visible ? 1 : 0,
+                  transform: visible
+                    ? `translateY(0) rotate(${baseTilt}deg)`
+                    : `translateY(24px) rotate(0deg)`,
+                  transitionDelay: `${i * 70}ms`,
+                  transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+                }}
+              >
+                {/* Hover tilt override */}
+                <style>{`
+                  .meme-card-${i}:hover {
+                    transform: translateY(-4px) rotate(0deg) scale(1.03) !important;
+                    box-shadow: 0 0 20px rgba(0, 255, 136, 0.08);
+                  }
+                `}</style>
+                <div className={`meme-card-${i} contents`}>
+                  {/* Large emoji */}
+                  <span className="text-5xl leading-none transition-transform duration-300 group-hover:scale-110">
+                    {meme.emoji}
+                  </span>
 
-          <div className="space-y-2">
-            {memes.map((meme, i) => (
-              <div key={i} className="relative md:pl-8">
-                <div className="absolute left-0 top-4 hidden h-[7px] w-[7px] rounded-full border border-primary bg-primary/20 md:block" />
-                <div className="terminal-card-solid p-5">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="font-mono text-sm tabular-nums text-primary text-glow-subtle">{meme.year}</span>
-                    <span className="font-mono text-[10px] text-muted-foreground">#{meme.tag}</span>
-                  </div>
-                  <p className="mt-2 text-[14px] leading-relaxed text-foreground">{meme.text}</p>
+                  {/* Year tag */}
+                  <span className="mt-4 inline-block font-mono text-[10px] tabular-nums text-primary text-glow-subtle">
+                    [{meme.year}]
+                  </span>
+
+                  {/* Text */}
+                  <p className="mt-2 text-[13px] leading-relaxed text-foreground/90">
+                    {meme.text}
+                  </p>
+
+                  {/* Hashtag */}
+                  <span className="mt-3 inline-block font-mono text-[11px] text-muted-foreground transition-colors group-hover:text-primary">
+                    #{meme.tag}
+                  </span>
                 </div>
               </div>
-            ))}
-          </div>
+            )
+          })}
         </div>
 
-        <div className="mt-12 text-center">
+        {/* Footer quote */}
+        <div className="mt-14 text-center">
           <div className="mx-auto h-px w-12 bg-border" />
-          <p className="mt-5 text-sm italic text-muted-foreground">
+          <p className="mt-5 font-mono text-[12px] italic text-muted-foreground">
             {'"Any sufficiently advanced bug is indistinguishable from a feature."'}
+          </p>
+          <p className="mt-1 font-mono text-[10px] text-muted-foreground/60">
+            -- Anonymous AI Engineer
           </p>
         </div>
       </div>
