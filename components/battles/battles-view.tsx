@@ -5,6 +5,7 @@ import Link from "next/link"
 import { companies, models } from "@/data/models"
 import { cn } from "@/lib/utils"
 import { CopyableTerminalCard } from "@/components/ui/copyable-terminal-card"
+import { ArrowLeft } from "lucide-react"
 
 /* ── Animated Valuation Counter ─────────────────────────────────── */
 function ValuationCounter({ target }: { target: number }) {
@@ -122,10 +123,7 @@ export function BattlesView() {
     <div className="min-h-screen pt-16">
       <div className="mx-auto max-w-4xl px-4 pb-24 pt-10">
         <Link href="/" className="flex items-center gap-1.5 mb-4 text-xs font-mono text-muted-foreground hover:text-primary transition-colors">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <path d="m12 19-7-7 7-7" />
-            <path d="M19 12H5" />
-          </svg>
+          <ArrowLeft size={14} strokeWidth={1.5} />
           Back to Museum
         </Link>
         <span className="data-label">[Competition]</span>
