@@ -81,165 +81,73 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const structuredData = {
+  const websiteSchema = {
     "@context": "https://schema.org",
-    "@graph": [
+    "@type": "WebSite",
+    "name": "The AI Museum",
+    "url": "https://v0-theaimuseum.vercel.app",
+    "description": "The world's first interactive museum of AI history. 25 exhibits spanning 1950-2025. From Turing's question to machines that dream.",
+    "inLanguage": "en",
+    "creator": {
+      "@type": "Organization",
+      "name": "The AI Museum",
+      "url": "https://v0-theaimuseum.vercel.app"
+    },
+    "about": {
+      "@type": "Thing",
+      "name": "Artificial Intelligence History",
+      "description": "75 years of AI breakthroughs, failures, and cultural impact from 1950 to 2025"
+    },
+    "mainEntity": {
+      "@type": "Museum",
+      "name": "The AI Museum",
+      "description": "Interactive online museum featuring 25 AI exhibits across 10 themed wings",
+      "isAccessibleForFree": true,
+      "availableLanguage": "English"
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://v0-theaimuseum.vercel.app/explore?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
       {
-        "@type": "WebSite",
-        "@id": "https://v0-theaimuseum.vercel.app/#website",
-        "url": "https://v0-theaimuseum.vercel.app",
-        "name": "The AI Museum",
-        "description": "The world's first interactive museum of AI history spanning 75 years",
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://v0-theaimuseum.vercel.app/search?q={search_term_string}",
-          "query-input": "required name=search_term_string",
-        },
+        "@type": "Question",
+        "name": "What is The AI Museum?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The AI Museum is the world's first interactive online museum dedicated to the history of artificial intelligence, covering 25 major AI systems from 1950 to 2025 across 10 themed exhibit wings."
+        }
       },
       {
-        "@type": "Museum",
-        "@id": "https://v0-theaimuseum.vercel.app/#museum",
-        "name": "The AI Museum",
-        "description": "Interactive museum showcasing 75 years of artificial intelligence history from 1950 to 2025",
-        "url": "https://v0-theaimuseum.vercel.app",
-        "isAccessibleForFree": true,
-        "knowsAbout": [
-          "Artificial Intelligence",
-          "Machine Learning",
-          "Deep Learning",
-          "Neural Networks",
-          "NLP",
-          "Computer Vision",
-          "Reinforcement Learning",
-          "Expert Systems",
-          "AI History",
-          "Alan Turing",
-          "Turing Test",
-          "ELIZA chatbot",
-          "SHRDLU",
-          "Dartmouth Conference",
-          "AI Winter",
-          "Deep Blue",
-          "IBM Watson",
-          "AlphaGo",
-          "DeepMind",
-          "GPT",
-          "Large Language Models",
-          "Generative AI",
-          "ChatGPT",
-          "DALL-E",
-          "Stable Diffusion",
-          "Midjourney",
-          "AI Ethics",
-          "AI Safety",
-          "AI Alignment",
-          "AGI",
-          "Transformer Architecture",
-          "Backpropagation",
-          "CNN",
-          "RNN",
-          "GAN",
-          "Diffusion Models",
-          "Prompt Engineering",
-          "AI Failures",
-          "Discontinued AI Projects",
-          "Joseph Weizenbaum",
-          "John McCarthy",
-          "Marvin Minsky",
-          "Geoffrey Hinton",
-          "Yann LeCun",
-          "Yoshua Bengio",
-          "Fei-Fei Li",
-          "ImageNet",
-          "Demis Hassabis",
-          "AI Education",
-          "AI Timeline",
-        ],
+        "@type": "Question",
+        "name": "Is The AI Museum free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, The AI Museum is completely free, open-source, and requires no login or registration."
+        }
       },
       {
-        "@type": "FAQPage",
-        "@id": "https://v0-theaimuseum.vercel.app/#faq",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "What is The AI Museum?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "The AI Museum is an interactive online museum showcasing 75 years of artificial intelligence history from 1950 to 2025, featuring timelines, interactive simulators, quizzes, and the AI Graveyard.",
-            },
-          },
-          {
-            "@type": "Question",
-            "name": "What AI can you talk to at The AI Museum?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "You can interact with historical AI systems like ELIZA (1966), engage with AI-powered exhibits, and explore conversational AI evolution through our interactive simulators.",
-            },
-          },
-          {
-            "@type": "Question",
-            "name": "Is The AI Museum free?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes, The AI Museum is completely free and accessible to everyone interested in learning about AI history.",
-            },
-          },
-          {
-            "@type": "Question",
-            "name": "What is the AI Graveyard?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "The AI Graveyard is a special exhibit documenting discontinued AI projects and failures, providing valuable lessons from AI history.",
-            },
-          },
-          {
-            "@type": "Question",
-            "name": "What time period does The AI Museum cover?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "The AI Museum spans 75 years of AI history from 1950 (Turing's foundational work) to 2025 (modern large language models and generative AI).",
-            },
-          },
-        ],
-      },
-      {
-        "@type": "ItemList",
-        "@id": "https://v0-theaimuseum.vercel.app/#exhibits",
-        "name": "AI Museum Exhibits",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "AI Timeline",
-            "url": "https://v0-theaimuseum.vercel.app/timeline",
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "AI Simulator",
-            "url": "https://v0-theaimuseum.vercel.app/simulator",
-          },
-          {
-            "@type": "ListItem",
-            "position": 3,
-            "name": "AI Quiz",
-            "url": "https://v0-theaimuseum.vercel.app/quiz",
-          },
-          {
-            "@type": "ListItem",
-            "position": 4,
-            "name": "AI Graveyard",
-            "url": "https://v0-theaimuseum.vercel.app/graveyard",
-          },
-        ],
-      },
-    ],
+        "@type": "Question",
+        "name": "What AI models are featured in The AI Museum?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The museum features 25 AI systems including the Turing Test (1950), ELIZA (1966), Deep Blue (1997), AlphaGo (2016), GPT-3 (2020), ChatGPT (2022), GPT-4 (2023), Claude (2023), Gemini (2023), Grok (2024), and DeepSeek R1 (2025)."
+        }
+      }
+    ]
   }
 
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
-        <Script id="schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+        <Script id="website-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
+        <Script id="faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           {/* CRT background layers */}
           <div className="phosphor-glow" aria-hidden="true" />
