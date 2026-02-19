@@ -30,13 +30,16 @@ export function MuseumNav() {
     const onScroll = () => {
       const scrollY = window.scrollY
       setScrolled(scrollY > 20)
-      // Increase opacity from 0.65 to 0.95 as user scrolls from 0 to 300px
       const opacity = Math.min(0.65 + (scrollY / 300) * 0.3, 0.95)
       setScrollOpacity(opacity)
     }
-    onScroll() // Initial call
+    // Defer initial check to avoid state update before mount completes
+    const raf = requestAnimationFrame(() => onScroll())
     window.addEventListener("scroll", onScroll, { passive: true })
-    return () => window.removeEventListener("scroll", onScroll)
+    return () => {
+      cancelAnimationFrame(raf)
+      window.removeEventListener("scroll", onScroll)
+    }
   }, [])
 
   useEffect(() => {

@@ -28,13 +28,14 @@ export function EvolutionView() {
     const years = Array.from(new Set(sorted.map((m) => m.year))).sort()
     const minYear = years[0]
     const maxYear = years[years.length - 1]
-    return sorted.map((m, i) => {
+    return sorted.map((m) => {
       const xPct = maxYear === minYear ? 50 : ((m.year - minYear) / (maxYear - minYear)) * 80 + 10
       const catIdx = Math.max(0, categoryOrder.indexOf(m.category))
       const yPct = ((catIdx + 0.5) / categoryOrder.length) * 80 + 10
       const radius = Math.max(8, Math.min(28, m.capability / 4 + 6))
-      const offset = (i % 5) * 1.2 - 2.4
-      return { ...m, xPct, yPct: yPct + offset, radius }
+      // Deterministic spread based on capability value (stable across server/client)
+      const spread = ((m.capability % 7) - 3) * 0.8
+      return { ...m, xPct, yPct: yPct + spread, radius }
     })
   }, [])
 
