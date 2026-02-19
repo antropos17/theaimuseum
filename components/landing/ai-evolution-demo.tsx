@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef, useCallback } from "react"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
+import { toast } from "sonner"
 
 /* ═══════════════════════════════════════════════════
    DATA
@@ -40,9 +41,24 @@ const responses = [
 ]
 
 const stats = [
-  { value: 25, label: "MODELS", suffix: "" },
-  { value: 75, label: "YEARS", suffix: "" },
-  { value: 8, label: "CATEGORIES", suffix: "" },
+  { 
+    value: 25, 
+    label: "MODELS", 
+    suffix: "",
+    shareText: "The AI Museum documents 25+ AI models across 75 years of history 🤖 https://theaimuseum.vercel.app"
+  },
+  { 
+    value: 75, 
+    label: "YEARS", 
+    suffix: "",
+    shareText: "75 years of AI: from Turing's 1950 paper to GPT-4. Explore the full timeline 🧠 https://theaimuseum.vercel.app"
+  },
+  { 
+    value: 8, 
+    label: "CATEGORIES", 
+    suffix: "",
+    shareText: "8 fields of AI research: NLP, Computer Vision, Robotics, Expert Systems, Neural Networks, RL, Generative AI, AGI 🤖 https://theaimuseum.vercel.app"
+  },
 ]
 
 /* ═══════════════════════════════════════════════════
@@ -53,7 +69,7 @@ function easeOutCubic(t: number): number {
   return 1 - Math.pow(1 - t, 3)
 }
 
-function AnimatedCounter({ target, active }: { target: number; active: boolean }) {
+function AnimatedCounter({ target, active, onComplete }: { target: number; active: boolean; onComplete?: () => void }) {
   const [display, setDisplay] = useState(0)
   const rafRef = useRef<number | null>(null)
   const hasRun = useRef(false)
@@ -68,10 +84,12 @@ function AnimatedCounter({ target, active }: { target: number; active: boolean }
       setDisplay(Math.round(easeOutCubic(progress) * target))
       if (progress < 1) {
         rafRef.current = requestAnimationFrame(tick)
+      } else {
+        onComplete?.()
       }
     }
     rafRef.current = requestAnimationFrame(tick)
-  }, [target])
+  }, [target, onComplete])
 
   useEffect(() => {
     if (active) animate()
@@ -554,10 +572,51 @@ export function AIEvolutionDemo() {
   const statsRef = useRef<HTMLDivElement>(null)
   const [finishedCount, setFinishedCount] = useState(0)
   const allDone = finishedCount >= 3
+  const [countersComplete, setCountersComplete] = useState(0)
+  const allCountersComplete = countersComplete >= 3
 
   const handleWindowFinished = useCallback(() => {
     setFinishedCount((c) => c + 1)
   }, [])
+
+  const handleCounterComplete = useCallback(() => {
+    setCountersComplete((c) => c + 1)
+  }, [])
+
+  const handleStatClick = async (shareText: string) => {
+    try {
+      await navigator.clipboard.writeText(shareText)
+      toast("Fact copied! Share it →", {
+        duration: 2000,
+      })
+    } catch (err) {
+      console.error("[v0] Failed to copy:", err)
+      toast.error("Failed to copy")
+    }
+  }
+
+  const handleShareAll = async () => {
+    const allStatsText = "The AI Museum: 25+ models, 75 years, 8 categories of AI history. Free interactive museum 🤖🧠 https://theaimuseum.vercel.app"
+    
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "The AI Museum Stats",
+          text: allStatsText,
+          url: "https://theaimuseum.vercel.app",
+        })
+      } catch (err) {
+        if ((err as Error).name !== "AbortError") {
+          console.error("[v0] Share failed:", err)
+          await navigator.clipboard.writeText(allStatsText)
+          toast("Stats copied! Share it →", { duration: 2000 })
+        }
+      }
+    } else {
+      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(allStatsText)}`
+      window.open(twitterUrl, "_blank", "noopener,noreferrer")
+    }
+  }
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -601,18 +660,52 @@ export function AIEvolutionDemo() {
         </div>
 
         {/* ── Animated stat counters ── */}
-        <div ref={statsRef} className="mx-auto mb-14 flex flex-wrap items-center justify-center gap-10 sm:gap-16 md:mb-16">
-          {stats.map((stat) => (
-            <div key={stat.label} className="flex flex-col items-center gap-1.5">
-              <span className="font-mono text-3xl font-light tabular-nums text-foreground text-glow-subtle sm:text-4xl">
-                <AnimatedCounter target={stat.value} active={statsVisible} />
-                {stat.suffix}
-              </span>
-              <span className="font-mono text-[10px] uppercase tracking-widest text-primary/70">
-                [{stat.label}]
-              </span>
-            </div>
-          ))}
+        <div ref={statsRef} className="mx-auto mb-4 flex flex-col items-center gap-6 md:mb-6">
+          <div className="flex flex-wrap items-center justify-center gap-10 sm:gap-16">
+            {stats.map((stat, index) => (
+              <button
+                key={stat.label}
+                onClick={() => allCountersComplete && handleStatClick(stat.shareText)}
+                disabled={!allCountersComplete}
+                className={`group flex flex-col items-center gap-1.5 transition-all duration-200 ${
+                  allCountersComplete 
+                    ? "cursor-pointer hover:scale-105" 
+                    : "cursor-default"
+                }`}
+                title={allCountersComplete ? "Click to copy fact" : ""}
+              >
+                <span className="font-mono text-3xl font-light tabular-nums text-foreground text-glow-subtle sm:text-4xl">
+                  <AnimatedCounter 
+                    target={stat.value} 
+                    active={statsVisible}
+                    onComplete={index === 0 ? handleCounterComplete : index === 1 ? handleCounterComplete : handleCounterComplete}
+                  />
+                  {stat.suffix}
+                </span>
+                <span className={`font-mono text-[10px] uppercase tracking-widest transition-all duration-200 ${
+                  allCountersComplete 
+                    ? "text-primary/70 group-hover:text-primary group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-2" 
+                    : "text-primary/70"
+                }`}>
+                  [{stat.label}]
+                </span>
+              </button>
+            ))}
+          </div>
+          
+          {/* Share all stats button */}
+          <button
+            onClick={handleShareAll}
+            disabled={!allCountersComplete}
+            className={`inline-flex items-center gap-1.5 border border-border/30 px-3 py-1.5 font-mono text-[10px] text-muted-foreground transition-all duration-200 ${
+              allCountersComplete
+                ? "opacity-100 hover:border-primary/50 hover:text-foreground hover:shadow-[0_0_20px_rgba(0,255,136,0.15)]"
+                : "opacity-0 pointer-events-none"
+            }`}
+            title="Share all stats"
+          >
+            <span>📊</span> Share all stats
+          </button>
         </div>
 
         {/* ── Chat windows grid with neural merge ── */}
