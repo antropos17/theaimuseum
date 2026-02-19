@@ -191,6 +191,7 @@ export function MuseumNav() {
                 { label: "Victims", href: "/victims" },
                 { label: "Predictions", href: "/predictions" },
                 { label: "Leaderboard", href: "/leaderboard" },
+                { label: "Passport", href: "/passport" },
               ].map((item) => (
                 <Link
                   key={item.href}

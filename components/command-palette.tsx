@@ -14,6 +14,7 @@ import {
   TrendingUp,
   HelpCircle,
   Home,
+  Fingerprint,
 } from "lucide-react"
 import {
   CommandDialog,
@@ -37,6 +38,7 @@ const pages = [
   { label: "Simulator", href: "/simulator", icon: Terminal },
   { label: "Predictions", href: "/predictions", icon: TrendingUp },
   { label: "Quiz", href: "/quiz", icon: HelpCircle },
+  { label: "Passport", href: "/passport", icon: Fingerprint },
 ]
 
 interface CommandPaletteProps {
