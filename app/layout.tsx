@@ -5,7 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "sonner"
 import { MuseumNav } from "@/components/museum-nav"
 import { MuseumFooter } from "@/components/museum-footer"
-import "@/app/globals.css"
+import "./globals.css"
 
 const inter = Inter({
   subsets: ["latin"],
