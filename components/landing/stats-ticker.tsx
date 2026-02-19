@@ -3,10 +3,10 @@
 import { useEffect, useState, useRef, useCallback } from "react"
 
 const stats = [
-  { value: 25, label: "Models" },
-  { value: 75, label: "Years" },
-  { value: 8, label: "Categories" },
-  { value: 5, label: "Eras" },
+  { value: 25, label: "MODELS" },
+  { value: 75, label: "YEARS" },
+  { value: 8, label: "CATEGORIES" },
+  { value: 5, label: "ERAS" },
 ]
 
 const DURATION = 1500
@@ -77,12 +77,12 @@ export function StatsTicker() {
 
       <div className="flex flex-wrap items-center justify-center gap-12 sm:gap-20">
         {stats.map((stat) => (
-          <div key={stat.label} className="flex flex-col items-center gap-1.5">
-            <span className="font-mono text-3xl font-light tabular-nums text-primary text-glow-subtle sm:text-4xl">
-              <AnimatedCounter target={stat.value} active={visible} />
+          <div key={stat.label} className="flex flex-col items-center gap-2">
+            <span className="font-mono text-sm text-primary bracket-label">
+              [{stat.label}]
             </span>
-            <span className="data-label">
-              {stat.label}
+            <span className="font-mono text-3xl font-light tabular-nums text-foreground text-glow-subtle sm:text-4xl">
+              <AnimatedCounter target={stat.value} active={visible} />
             </span>
           </div>
         ))}
