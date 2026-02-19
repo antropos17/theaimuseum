@@ -26,37 +26,43 @@ export function HeroSection() {
   useEffect(() => {
     mounted.current = true
     
+    // Set initial visitor count immediately on mount
+    const initialCount = 247 + Math.floor(Math.random() * 337)
+    setExplorers(initialCount)
+    
     // Boot sequence
     const bootTimers: NodeJS.Timeout[] = []
     BOOT_LINES.forEach((_, i) => {
       bootTimers.push(setTimeout(() => {
-        setBootLineIndex(i)
+        if (mounted.current) setBootLineIndex(i)
       }, i * 400))
     })
     
     // Complete boot after last line + delay
     const completeTimer = setTimeout(() => {
-      setBootComplete(true)
+      if (mounted.current) setBootComplete(true)
     }, BOOT_LINES.length * 400 + 600)
     
     // Stage reveal timers after boot
     const stageTimers = [
-      setTimeout(() => setStage(1), BOOT_LINES.length * 400 + 800),
-      setTimeout(() => setStage(2), BOOT_LINES.length * 400 + 1100),
-      setTimeout(() => setStage(3), BOOT_LINES.length * 400 + 1500),
-      setTimeout(() => setStage(4), BOOT_LINES.length * 400 + 1900),
+      setTimeout(() => { if (mounted.current) setStage(1) }, BOOT_LINES.length * 400 + 800),
+      setTimeout(() => { if (mounted.current) setStage(2) }, BOOT_LINES.length * 400 + 1100),
+      setTimeout(() => { if (mounted.current) setStage(3) }, BOOT_LINES.length * 400 + 1500),
+      setTimeout(() => { if (mounted.current) setStage(4) }, BOOT_LINES.length * 400 + 1900),
     ]
 
-    // Visitor counter
-    setExplorers(247 + Math.floor(Math.random() * 337))
+    // Visitor counter updates
     const interval = setInterval(() => {
-      setExplorers((prev) => {
-        const delta = Math.floor(Math.random() * 7) - 3
-        return Math.max(247, Math.min(583, prev + delta))
-      })
+      if (mounted.current) {
+        setExplorers((prev) => {
+          const delta = Math.floor(Math.random() * 7) - 3
+          return Math.max(247, Math.min(583, prev + delta))
+        })
+      }
     }, 3000)
 
     return () => {
+      mounted.current = false
       bootTimers.forEach(clearTimeout)
       clearTimeout(completeTimer)
       stageTimers.forEach(clearTimeout)
