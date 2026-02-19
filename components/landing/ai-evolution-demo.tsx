@@ -606,15 +606,31 @@ export function AIEvolutionDemo() {
           url: "https://theaimuseum.vercel.app",
         })
       } catch (err) {
-        if ((err as Error).name !== "AbortError") {
-          console.error("[v0] Share failed:", err)
+        const errorName = (err as Error).name
+        // User cancelled the share dialog - ignore this error
+        if (errorName === "AbortError") {
+          return
+        }
+        // NotAllowedError or other errors - fallback to copy
+        console.log("[v0] Share failed:", errorName)
+        try {
           await navigator.clipboard.writeText(allStatsText)
-          toast("Stats copied! Share it →", { duration: 2000 })
+          toast("Stats copied to clipboard!", { duration: 2000 })
+        } catch {
+          // If clipboard also fails, open Twitter
+          const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(allStatsText)}`
+          window.open(twitterUrl, "_blank", "noopener,noreferrer")
         }
       }
     } else {
-      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(allStatsText)}`
-      window.open(twitterUrl, "_blank", "noopener,noreferrer")
+      // Fallback for browsers without share API
+      try {
+        await navigator.clipboard.writeText(allStatsText)
+        toast("Stats copied to clipboard!", { duration: 2000 })
+      } catch {
+        const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(allStatsText)}`
+        window.open(twitterUrl, "_blank", "noopener,noreferrer")
+      }
     }
   }
 
