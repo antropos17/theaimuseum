@@ -33,6 +33,10 @@ export function CopyableTerminalCard({ children, className, as = "div", ...props
     }
   }
 
+  /* When the outer wrapper is a <button>, use a <span> for the copy
+     trigger to avoid invalid nested <button> HTML (causes hydration errors). */
+  const CopyTrigger = as === "button" ? "span" : "button"
+
   return createElement(
     as,
     {
@@ -41,13 +45,15 @@ export function CopyableTerminalCard({ children, className, as = "div", ...props
       ...props
     },
     <>
-      <button
+      <CopyTrigger
         onClick={handleCopy}
-        className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-primary/10 border border-border hover:border-primary/50"
+        className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-primary/10 border border-border hover:border-primary/50 cursor-pointer"
         aria-label="Copy card text"
+        role="button"
+        tabIndex={0}
       >
         <Copy className="h-4 w-4 text-muted-foreground hover:text-primary" />
-      </button>
+      </CopyTrigger>
       {children}
     </>
   )
