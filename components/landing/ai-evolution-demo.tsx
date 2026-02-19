@@ -69,32 +69,32 @@ function easeOutCubic(t: number): number {
   return 1 - Math.pow(1 - t, 3)
 }
 
+const COUNTER_DURATION = 2000
+
 function AnimatedCounter({ target, active, onComplete }: { target: number; active: boolean; onComplete?: () => void }) {
   const [display, setDisplay] = useState(0)
   const rafRef = useRef<number | null>(null)
   const hasRun = useRef(false)
+  const onCompleteRef = useRef(onComplete)
+  onCompleteRef.current = onComplete
 
-  const animate = useCallback(() => {
-    if (hasRun.current) return
+  useEffect(() => {
+    if (!active || hasRun.current) return
     hasRun.current = true
     const start = performance.now()
     function tick(now: number) {
       const elapsed = now - start
-      const progress = Math.min(elapsed / 1500, 1)
+      const progress = Math.min(elapsed / COUNTER_DURATION, 1)
       setDisplay(Math.round(easeOutCubic(progress) * target))
       if (progress < 1) {
         rafRef.current = requestAnimationFrame(tick)
       } else {
-        onComplete?.()
+        onCompleteRef.current?.()
       }
     }
     rafRef.current = requestAnimationFrame(tick)
-  }, [target, onComplete])
-
-  useEffect(() => {
-    if (active) animate()
     return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current) }
-  }, [active, animate])
+  }, [active, target])
 
   return <>{display}</>
 }
@@ -628,6 +628,8 @@ export function AIEvolutionDemo() {
   }, [])
 
   useEffect(() => {
+    const el = statsRef.current
+    if (!el) return
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -635,9 +637,9 @@ export function AIEvolutionDemo() {
           observer.disconnect()
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.1 }
     )
-    if (statsRef.current) observer.observe(statsRef.current)
+    observer.observe(el)
     return () => observer.disconnect()
   }, [])
 
