@@ -45,7 +45,12 @@ function ValuationCounter({ target }: { target: number }) {
 /* ── Compare Tool ───────────────────────────────────────────────── */
 function CompareTool() {
   const [slots, setSlots] = useState<(string | "")[]>(["", "", ""])
-  const selected = slots.map((s) => models.find((m) => m.id === s)).filter(Boolean)
+  const selected = slots
+    .map((s, i) => {
+      const m = models.find((m) => m.id === s)
+      return m ? { ...m, _slotIdx: i } : null
+    })
+    .filter(Boolean) as (typeof models[number] & { _slotIdx: number })[]
 
   return (
     <div className="terminal-card-solid p-6">
@@ -79,7 +84,7 @@ function CompareTool() {
               <tr className="border-b border-dashed border-border">
                 <th className="px-3 py-2 text-left text-muted-foreground">FIELD</th>
                 {selected.map((m) => (
-                  <th key={m!.id} className="px-3 py-2 text-left text-foreground">{m!.name}</th>
+                  <th key={m._slotIdx} className="px-3 py-2 text-left text-foreground">{m.name}</th>
                 ))}
               </tr>
             </thead>
@@ -88,8 +93,8 @@ function CompareTool() {
                 <tr key={field} className="border-b border-dashed border-border/40">
                   <td className="px-3 py-2 uppercase text-primary/70">{field}</td>
                   {selected.map((m) => (
-                    <td key={m!.id} className="px-3 py-2 tabular-nums text-foreground">
-                      {typeof m![field] === "number" && field !== "year" ? `${m![field]}%` : String(m![field])}
+                    <td key={m._slotIdx} className="px-3 py-2 tabular-nums text-foreground">
+                      {typeof m[field] === "number" && field !== "year" ? `${m[field]}%` : String(m[field])}
                     </td>
                   ))}
                 </tr>
