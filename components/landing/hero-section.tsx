@@ -149,8 +149,7 @@ export function HeroSection() {
         <p
           className={`max-w-md text-[15px] leading-relaxed text-muted-foreground transition-all duration-700 ${stage >= 3 ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
         >
-          75 years of artificial intelligence. From Turing{"'"}s question
-          to machines that dream<span className={stage >= 3 ? "cursor-blink" : ""}></span>
+          The world{"'"}s first interactive museum of AI. 25 exhibits. 75 years. From Turing{"'"}s test to reasoning machines<span className={stage >= 3 ? "cursor-blink" : ""}></span>
         </p>
 
         {/* CTA buttons - terminal style */}

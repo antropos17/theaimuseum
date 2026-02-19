@@ -1,8 +1,10 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import Link from "next/link"
 import { graveyard } from "@/data/models"
 import { cn } from "@/lib/utils"
+import { ArrowLeft } from "lucide-react"
 
 const SEVERITY_MAP: Record<number, { label: string; color: string; bg: string }> = {
   0: { label: "CATASTROPHIC", color: "text-red-400", bg: "bg-red-500/10 border-red-500/20" },
@@ -221,6 +223,10 @@ export function GraveyardView() {
           "transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]",
           entered ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
         )}>
+          <Link href="/" className="flex items-center gap-1.5 mb-4 text-xs font-mono text-muted-foreground hover:text-primary transition-colors">
+            <ArrowLeft size={14} strokeWidth={1.5} />
+            Back to Museum
+          </Link>
           {/* System error banner */}
           <div className="mb-6 flex items-center gap-2 border border-dashed border-red-500/20 bg-red-500/5 px-4 py-2.5">
             <div className="h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse" />

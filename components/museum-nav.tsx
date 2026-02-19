@@ -14,6 +14,7 @@ const navItems = [
   { label: "Battles", href: "/battles" },
   { label: "Simulator", href: "/simulator" },
   { label: "Quiz", href: "/quiz" },
+  { label: "Passport", href: "/passport" },
 ]
 
 export function MuseumNav() {

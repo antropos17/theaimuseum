@@ -1,10 +1,12 @@
 "use client"
 
 import { useState, useEffect, useCallback, useRef } from "react"
+import Link from "next/link"
 import { quizQuestions } from "@/data/models"
 import { cn } from "@/lib/utils"
 import { CopyableTerminalCard } from "@/components/ui/copyable-terminal-card"
 import confetti from "canvas-confetti"
+import { ArrowLeft } from "lucide-react"
 
 const RANKS = [
   { min: 90, label: "SUPREME NEURAL ARCHITECT", msg: "You don't just know AI history -- you ARE AI history. Your neural pathways are indistinguishable from a transformer model." },
@@ -424,6 +426,10 @@ export function QuizView() {
   return (
     <div className="min-h-screen pt-16">
       <div className="mx-auto max-w-xl px-4 pb-24 pt-10">
+        <Link href="/" className="flex items-center gap-1.5 mb-4 text-xs font-mono text-muted-foreground hover:text-primary transition-colors">
+          <ArrowLeft size={14} strokeWidth={1.5} />
+          Back to Museum
+        </Link>
 
         {/* Top HUD */}
         <div className="flex items-center justify-between">
