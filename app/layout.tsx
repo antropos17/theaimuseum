@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next"
 import { Inter, JetBrains_Mono } from "next/font/google"
+import Script from "next/script"
 import { ThemeProvider } from "@/components/theme-provider"
 import { MuseumNav } from "@/components/museum-nav"
 import { MuseumFooter } from "@/components/museum-footer"
@@ -18,24 +19,49 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: {
-    default: "The AI Museum - 75 Years of Artificial Intelligence",
-    template: "%s | The AI Museum",
-  },
+  title: "The AI Museum — 75 Years of Artificial Intelligence History",
   description:
-    "The world's first interactive museum of AI history. 25 exhibits spanning 1950-2025. From Turing's question to machines that dream.",
+    "Explore 75 years of AI history through interactive exhibits spanning 1950-2025. From Turing's foundational work to modern large language models like GPT and ChatGPT. Learn about machine learning, neural networks, deep learning, computer vision, NLP, and the evolution of artificial intelligence through engaging timelines, simulators, quizzes, and the AI Graveyard of discontinued projects.",
+  keywords: [
+    "Artificial Intelligence",
+    "Machine Learning",
+    "Deep Learning",
+    "Neural Networks",
+    "AI History",
+    "Alan Turing",
+    "GPT",
+    "ChatGPT",
+    "Large Language Models",
+    "AI Museum",
+    "AI Education",
+    "Computer Vision",
+    "NLP",
+    "AI Ethics",
+    "AI Timeline",
+    "ELIZA",
+    "AlphaGo",
+    "Generative AI",
+  ],
   openGraph: {
     type: "website",
     siteName: "The AI Museum",
-    title: "The AI Museum - 75 Years of Artificial Intelligence",
-    description: "The world's first interactive museum of AI history. 25 exhibits spanning 1950-2025.",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "The AI Museum" }],
+    title: "The AI Museum — 75 Years of Artificial Intelligence History",
+    description: "Explore 75 years of AI history through interactive exhibits spanning 1950-2025.",
+    images: [{ url: "/api/og", width: 1200, height: 630, alt: "The AI Museum" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "The AI Museum",
-    description: "The world's first interactive museum of AI history. 25 exhibits spanning 1950-2025.",
-    images: ["/og-image.png"],
+    site: "@theaimuseum",
+    title: "The AI Museum — 75 Years of Artificial Intelligence History",
+    description: "Explore 75 years of AI history through interactive exhibits spanning 1950-2025.",
+    images: ["/api/og"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: "https://v0-theaimuseum.vercel.app",
   },
 }
 
