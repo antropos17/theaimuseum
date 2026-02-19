@@ -117,14 +117,18 @@ export function SimulatorView() {
               {messages.map((msg, i) => (
                 <div
                   key={i}
-                  className={cn("flex", msg.role === "user" ? "justify-end" : "justify-start")}
+                  className={cn(
+                    "flex animate-fade-in-up",
+                    msg.role === "user" ? "justify-end" : "justify-start"
+                  )}
+                  style={{ animationDelay: "0ms" }}
                 >
                   <div
                     className={cn(
-                      "max-w-[80%] rounded-lg px-4 py-3",
+                      "max-w-[80%] rounded-lg px-4 py-3 transition-shadow duration-300",
                       msg.role === "user"
                         ? "bg-primary/10 text-foreground"
-                        : "border border-border bg-surface-1 text-foreground"
+                        : "border border-border bg-surface-1 text-foreground hover:shadow-sm"
                     )}
                   >
                     <p className="font-mono text-xs leading-relaxed whitespace-pre-wrap">

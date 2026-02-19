@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import type { AIModel } from "@/data/models"
 import { stickerTypes } from "@/data/models"
@@ -52,6 +52,12 @@ export function ModelExhibit({ model, category, prevModel, nextModel }: ModelExh
   const [dislikes, setDislikes] = useState(0)
   const [rating, setRating] = useState(0)
   const [stickerCounts, setStickerCounts] = useState<Record<string, number>>({})
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 100)
+    return () => clearTimeout(t)
+  }, [])
 
   const handleSticker = (id: string) => {
     setStickerCounts((prev) => ({ ...prev, [id]: (prev[id] || 0) + 1 }))
@@ -61,7 +67,7 @@ export function ModelExhibit({ model, category, prevModel, nextModel }: ModelExh
     <div className="min-h-screen pt-12">
       <div className="mx-auto max-w-4xl px-4 pb-24 pt-10 lg:px-6">
         {/* Breadcrumb */}
-        <nav className="mb-8 flex items-center gap-2 text-xs text-muted-foreground">
+        <nav className={`mb-8 flex items-center gap-2 text-xs text-muted-foreground transition-all duration-500 ${mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}>
           <Link href="/explore" className="transition-colors hover:text-foreground">
             Explore
           </Link>
@@ -73,8 +79,8 @@ export function ModelExhibit({ model, category, prevModel, nextModel }: ModelExh
 
         {/* Header area with colored top accent */}
         <div
-          className="rounded-xl border border-border bg-card p-6 sm:p-8"
-          style={{ borderTopWidth: "3px", borderTopColor: model.color }}
+          className={`rounded-xl border border-border bg-card p-6 sm:p-8 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
+          style={{ borderTopWidth: "3px", borderTopColor: model.color, transitionDelay: "100ms" }}
         >
           <h1 className="font-serif text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             {model.name}
@@ -142,8 +148,8 @@ export function ModelExhibit({ model, category, prevModel, nextModel }: ModelExh
           ))}
         </div>
 
-        {/* Tab content */}
-        <div className="mt-8">
+        {/* Tab content — animate on tab switch */}
+        <div className="mt-8 animate-fade-in-up" key={activeTab}>
           {/* OVERVIEW */}
           {activeTab === "overview" && (
             <div className="flex flex-col gap-8 lg:flex-row">
@@ -163,14 +169,18 @@ export function ModelExhibit({ model, category, prevModel, nextModel }: ModelExh
                 )}
               </div>
 
-              {/* Right: Metric cards */}
+              {/* Right: Metric cards — animated bar fills */}
               <div className="w-full shrink-0 space-y-4 lg:w-64">
                 {[
                   { label: "Capability", value: model.capability },
                   { label: "Hype", value: model.hype },
                   { label: "Safety", value: model.safety },
-                ].map((bar) => (
-                  <div key={bar.label} className="rounded-lg border border-border bg-card p-4">
+                ].map((bar, barIdx) => (
+                  <div
+                    key={bar.label}
+                    className={`rounded-lg border border-border bg-card p-4 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${mounted ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
+                    style={{ transitionDelay: `${400 + barIdx * 120}ms` }}
+                  >
                     <div className="flex items-center justify-between">
                       <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                         {bar.label}
@@ -181,10 +191,12 @@ export function ModelExhibit({ model, category, prevModel, nextModel }: ModelExh
                     </div>
                     <div className="mt-2.5 h-1.5 w-full overflow-hidden rounded-full bg-muted">
                       <div
-                        className="h-full rounded-full transition-all duration-1000"
+                        className="h-full rounded-full"
                         style={{
-                          width: `${bar.value}%`,
+                          width: mounted ? `${bar.value}%` : "0%",
                           backgroundColor: model.color,
+                          transition: "width 1.2s cubic-bezier(0.16, 1, 0.3, 1)",
+                          transitionDelay: `${600 + barIdx * 150}ms`,
                         }}
                       />
                     </div>

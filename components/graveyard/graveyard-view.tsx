@@ -1,29 +1,39 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { ChevronRight, Skull } from "lucide-react"
 import { graveyard } from "@/data/models"
 import { cn } from "@/lib/utils"
+import { useInView } from "@/hooks/use-in-view"
 
 export function GraveyardView() {
   const [expanded, setExpanded] = useState<number | null>(null)
+  const [entered, setEntered] = useState(false)
+  const { ref: listRef, isInView: listVisible } = useInView()
+
+  useEffect(() => {
+    const t = setTimeout(() => setEntered(true), 100)
+    return () => clearTimeout(t)
+  }, [])
 
   return (
     <div className="min-h-screen pt-12">
       <div className="mx-auto max-w-4xl px-4 pb-24 pt-10 lg:px-6">
-        {/* Header */}
-        <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-          Memorial
-        </p>
-        <h1 className="font-serif text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-          AI Graveyard
-        </h1>
-        <p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
-          Where AI projects go to die. Rest in peace.
-        </p>
+        {/* Header — animated on enter */}
+        <div className={`transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${entered ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}>
+          <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+            Memorial
+          </p>
+          <h1 className="font-serif text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+            AI Graveyard
+          </h1>
+          <p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
+            Where AI projects go to die. Rest in peace.
+          </p>
+        </div>
 
-        {/* Tombstones */}
-        <div className="mt-10 space-y-3">
+        {/* Tombstones — staggered reveal */}
+        <div ref={listRef} className={`mt-10 space-y-3 stagger ${listVisible ? "visible" : ""}`}>
           {graveyard.map((item, i) => {
             const isOpen = expanded === i
             return (

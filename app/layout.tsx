@@ -1,56 +1,30 @@
 import type { Metadata, Viewport } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
-import { Playfair_Display } from "next/font/google"
+import { Press_Start_2P } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import { MuseumNav } from "@/components/museum-nav"
 import { MuseumFooter } from "@/components/museum-footer"
 import "./globals.css"
 
-const geistSans = Geist({
+const pixelFont = Press_Start_2P({
+  weight: "400",
   subsets: ["latin"],
-  variable: "--font-sans",
-  display: "swap",
-})
-
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-  display: "swap",
-})
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-serif",
+  variable: "--font-pixel",
   display: "swap",
 })
 
 export const metadata: Metadata = {
   title: {
-    default: "The AI Museum -- 75 Years of Artificial Intelligence",
-    template: "%s | The AI Museum",
+    default: "THE AI MUSEUM // 75 YEARS OF AI",
+    template: "%s // THE AI MUSEUM",
   },
   description:
-    "The world's first interactive museum of AI history (1950--2025). From Turing's question to machines that dream.",
-  keywords: [
-    "AI history",
-    "artificial intelligence",
-    "machine learning",
-    "deep learning",
-    "AI timeline",
-    "interactive museum",
-  ],
-  openGraph: {
-    title: "The AI Museum",
-    description:
-      "75 years of artificial intelligence. From Turing's question to machines that dream.",
-    type: "website",
-  },
+    "The world's first interactive 8-bit museum of AI history (1950-2025). From Turing's question to machines that dream.",
 }
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
-    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
+    { media: "(prefers-color-scheme: light)", color: "#e8e0d4" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a12" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -64,13 +38,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} font-sans antialiased`}
-      >
+      <body className={`${pixelFont.variable} font-sans`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          <div className="grain" />
+          <div className="starfield" aria-hidden="true" />
+          <div className="vignette" aria-hidden="true" />
           <MuseumNav />
-          <main className="min-h-screen">{children}</main>
+          <main className="relative z-10 min-h-screen">{children}</main>
           <MuseumFooter />
         </ThemeProvider>
       </body>

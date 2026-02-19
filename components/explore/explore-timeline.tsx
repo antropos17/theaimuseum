@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import { Search } from "lucide-react"
 import { models, categories } from "@/data/models"
 import { TimelineCard } from "./timeline-card"
@@ -23,6 +23,12 @@ const categoryFilters: { key: CategoryKey; label: string }[] = [
 export function ExploreTimeline() {
   const [activeCategory, setActiveCategory] = useState<CategoryKey>("all")
   const [search, setSearch] = useState("")
+  const [entered, setEntered] = useState(false)
+
+  useEffect(() => {
+    const t = setTimeout(() => setEntered(true), 100)
+    return () => clearTimeout(t)
+  }, [])
 
   const filteredModels = useMemo(() => {
     let filtered = activeCategory === "all"
@@ -61,8 +67,8 @@ export function ExploreTimeline() {
 
   return (
     <div className="min-h-screen pt-12">
-      {/* Header */}
-      <div className="mx-auto max-w-5xl px-4 pt-12 pb-6 lg:px-6">
+      {/* Header — animated on enter */}
+      <div className={`mx-auto max-w-5xl px-4 pt-12 pb-6 lg:px-6 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${entered ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}>
         <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
           Timeline
         </p>
@@ -147,9 +153,9 @@ export function ExploreTimeline() {
               <div key={year} id={`year-${year}`} className="relative mb-12 last:mb-0">
                 {/* Year heading */}
                 <div className="relative mb-6 flex items-center gap-4 md:pl-10">
-                  {/* Timeline dot */}
+                  {/* Timeline dot — pulsing */}
                   <div
-                    className="absolute left-[9px] hidden h-2 w-2 rounded-full bg-primary md:block"
+                    className="absolute left-[9px] hidden h-2 w-2 rounded-full bg-primary glow-pulse md:block"
                     aria-hidden="true"
                   />
                   <h2 className="font-serif text-2xl font-bold text-foreground md:text-3xl">
@@ -162,8 +168,8 @@ export function ExploreTimeline() {
 
                 {/* Cards */}
                 <div className="flex flex-col gap-3 md:pl-10">
-                  {yearModels.map((model) => (
-                    <TimelineCard key={model.id} model={model} />
+                  {yearModels.map((model, idx) => (
+                    <TimelineCard key={model.id} model={model} index={idx} />
                   ))}
                 </div>
               </div>
