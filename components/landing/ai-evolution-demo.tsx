@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef, useCallback } from "react"
 import Link from "next/link"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, Users } from "lucide-react"
 import { toast } from "sonner"
 
 /* ═══════════════════════════════════════════════════
@@ -724,6 +724,22 @@ export function AIEvolutionDemo() {
           >
             <span>📊</span> Share all stats
           </button>
+
+          {/* Explorer Avatars */}
+          <div className="flex items-center justify-center mt-4">
+            <div className="flex items-center">
+              <div className="h-8 w-8 rounded-full border-2 border-background bg-gradient-to-br from-emerald-500 to-cyan-500" />
+              <div className="-ml-2 h-8 w-8 rounded-full border-2 border-background bg-gradient-to-br from-violet-500 to-fuchsia-500" />
+              <div className="-ml-2 h-8 w-8 rounded-full border-2 border-background bg-gradient-to-br from-amber-500 to-orange-500" />
+              <div className="-ml-2 h-8 w-8 rounded-full border-2 border-background bg-gradient-to-br from-cyan-500 to-blue-500" />
+              <div className="-ml-2 h-8 w-8 rounded-full border-2 border-background bg-gradient-to-br from-rose-500 to-pink-500" />
+              <div className="-ml-2 h-8 w-8 rounded-full border-2 border-background bg-gradient-to-br from-sky-500 to-indigo-500" />
+            </div>
+            <div className="ml-3 flex items-center gap-1.5">
+              <Users size={12} strokeWidth={1.5} className="text-muted-foreground" />
+              <span className="font-mono text-[11px] text-muted-foreground">+2.4k explorers</span>
+            </div>
+          </div>
         </div>
 
         {/* ── Chat windows grid with neural merge ── */}

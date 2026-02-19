@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { Star } from "lucide-react"
 import { useInView } from "@/hooks/use-in-view"
 
 const links = [
@@ -103,7 +104,7 @@ export function MuseumFooter() {
               [Info]
             </p>
             <div className="flex flex-col gap-2 text-[13px] text-muted-foreground">
-              <span>Open Source</span>
+              <span className="inline-flex items-center gap-1.5">Open Source <Star size={12} strokeWidth={1.5} className="text-muted-foreground" /> <span className="font-mono text-xs text-muted-foreground">127</span></span>
               <span>Built with Next.js</span>
               <span>Free Forever</span>
             </div>

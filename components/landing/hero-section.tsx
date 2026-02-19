@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react"
 import Link from "next/link"
 import { ChevronDown } from "lucide-react"
 import { HeroShareBar } from "./share-components"
+import { LiveVisitors } from "./live-visitors"
 
 const BOOT_LINES = [
   "INITIATING SYSTEM...",
@@ -181,6 +182,7 @@ export function HeroSection() {
       >
         <span className="font-mono text-[10px] tracking-widest text-muted-foreground">SCROLL</span>
         <ChevronDown className="bounce-chevron h-4 w-4 text-muted-foreground" />
+        <LiveVisitors />
       </div>
     </section>
   )
