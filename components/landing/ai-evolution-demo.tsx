@@ -237,9 +237,9 @@ function ChatWindow({
   }
 
   return (
-    <div className={`relative flex flex-col overflow-hidden transition-all duration-300 ${wrapperClass[data.style]} ${data.style === "modern" ? "md:scale-105 md:shadow-xl md:shadow-primary/5 md:border-primary/20" : ""}`}>
+    <div className={`relative flex h-[580px] flex-col overflow-hidden transition-all duration-300 ${wrapperClass[data.style]} ${data.style === "modern" ? "md:scale-105 md:shadow-xl md:shadow-primary/5 md:border-primary/20" : ""}`}>
       {/* Header */}
-      <div className={`flex items-center justify-between border-b px-4 py-2.5 ${headerClass[data.style]}`}>
+      <div className={`flex shrink-0 items-center justify-between border-b px-4 py-2.5 ${headerClass[data.style]}`}>
         <div className="flex items-center gap-2.5">
           <div className="flex gap-1.5">
             {dotColors[data.style].map((c, i) => (
@@ -254,7 +254,7 @@ function ChatWindow({
       </div>
 
       {/* Chat */}
-      <div className="flex-1 space-y-4 p-5 min-h-[420px] md:min-h-[400px]">
+      <div className="flex-1 space-y-4 overflow-y-auto p-5">
         {/* User question */}
         <div className="flex justify-end">
           <div className={`max-w-[85%] rounded px-4 py-2.5 ${bubbleClass[data.style]}`}>
