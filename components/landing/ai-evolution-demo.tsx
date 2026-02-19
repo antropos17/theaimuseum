@@ -54,10 +54,10 @@ const stats = [
     shareText: "75 years of AI: from Turing's 1950 paper to GPT-4. Explore the full timeline 🧠 https://theaimuseum.vercel.app"
   },
   { 
-    value: 8, 
+    value: 10, 
     label: "CATEGORIES", 
     suffix: "",
-    shareText: "8 fields of AI research: NLP, Computer Vision, Robotics, Expert Systems, Neural Networks, RL, Generative AI, AGI 🤖 https://theaimuseum.vercel.app"
+    shareText: "10 fields of AI research: NLP, Computer Vision, Robotics, Expert Systems, Neural Networks, RL, Generative AI, AGI 🤖 https://theaimuseum.vercel.app"
   },
 ]
 
