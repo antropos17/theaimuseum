@@ -1,7 +1,7 @@
 "use client"
 
+import { useRef, useState, useEffect } from "react"
 import Link from "next/link"
-import { useInView } from "@/hooks/use-in-view"
 import {
   Compass,
   Terminal,
@@ -12,74 +12,124 @@ import {
   Users,
   TrendingUp,
   Trophy,
+  BrainCircuit,
 } from "lucide-react"
 
 const wings = [
-  { icon: Compass, name: "Timeline", desc: "All 25 AI models chronologically", tag: "25", href: "/explore" },
-  { icon: Terminal, name: "Simulator", desc: "Chat with AI across 5 eras", tag: "5", href: "/simulator" },
-  { icon: GitBranch, name: "Evolution", desc: "AI family tree visualization", tag: "graph", href: "/evolution" },
-  { icon: Skull, name: "Graveyard", desc: "Dead AI projects and why", tag: "6", href: "/graveyard" },
-  { icon: Swords, name: "AI Wars", desc: "The trillion-dollar race", tag: "5", href: "/battles" },
-  { icon: SmilePlus, name: "Memes", desc: "Iconic AI moments", tag: "8", href: "/memes" },
-  { icon: Users, name: "Victims", desc: "Professions disrupted by AI", tag: "5", href: "/victims" },
-  { icon: TrendingUp, name: "Predictions", desc: "Expert forecasts vs reality", tag: "5", href: "/predictions" },
-  { icon: Trophy, name: "Leaderboard", desc: "Top ranked AI models", tag: "rank", href: "/leaderboard" },
+  { icon: Compass,      name: "Timeline",     desc: "All 25 AI models mapped chronologically across 75 years of history",                tag: "25 models",   href: "/explore",      featured: true },
+  { icon: Terminal,      name: "Simulator",    desc: "Chat with artificial intelligence across 5 distinct eras, from ELIZA to GPT-5",     tag: "5 eras",      href: "/simulator",    featured: true },
+  { icon: GitBranch,     name: "Evolution",    desc: "AI family tree and lineage graph",            tag: "graph",  href: "/evolution",    featured: false },
+  { icon: Skull,         name: "Graveyard",    desc: "Dead AI projects and why they failed",        tag: "6 tombs", href: "/graveyard",    featured: false },
+  { icon: Swords,        name: "AI Wars",      desc: "The trillion-dollar corporate arms race",     tag: "5 wars",  href: "/battles",      featured: false },
+  { icon: SmilePlus,     name: "Memes",        desc: "Iconic and infamous AI moments",              tag: "8 memes", href: "/memes",        featured: false },
+  { icon: Users,         name: "Victims",      desc: "Professions disrupted and displaced by AI",   tag: "5 jobs",  href: "/victims",      featured: false },
+  { icon: TrendingUp,    name: "Predictions",  desc: "Expert forecasts vs brutal reality",          tag: "5 takes", href: "/predictions",  featured: false },
+  { icon: Trophy,        name: "Leaderboard",  desc: "Top ranked AI models by capability",          tag: "rank",    href: "/leaderboard",  featured: false },
+  { icon: BrainCircuit,  name: "Quiz",         desc: "Test your AI IQ with 10 questions",           tag: "10 q",   href: "/quiz",         featured: false },
 ]
 
-export function HallsGrid() {
-  const { ref: headerRef, isInView: headerVisible } = useInView()
-  const { ref: gridRef, isInView: gridVisible } = useInView()
+function WingCard({ wing, index, visible }: { wing: typeof wings[0]; index: number; visible: boolean }) {
+  const Icon = wing.icon
 
   return (
-    <section className="relative z-10 mx-auto max-w-5xl px-4 py-20">
-      {/* Section header */}
+    <Link
+      href={wing.href}
+      className={`
+        group relative flex flex-col overflow-hidden border border-border bg-card
+        transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]
+        hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_0_30px_rgba(0,255,136,0.06)]
+        ${wing.featured ? "sm:col-span-2 sm:row-span-1" : ""}
+      `}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : "translateY(16px)",
+        transitionDelay: `${index * 70}ms`,
+      }}
+    >
+      {/* Terminal window chrome bar */}
+      <div className="flex items-center gap-1.5 border-b border-border bg-surface-2 px-3 py-1.5">
+        <span className="h-2 w-2 rounded-full bg-destructive/60" />
+        <span className="h-2 w-2 rounded-full bg-warning/60" />
+        <span className="h-2 w-2 rounded-full bg-success/60" />
+        <span className="ml-2 font-mono text-[9px] uppercase tracking-widest text-muted-foreground">
+          {wing.name}.exe
+        </span>
+        <span className="ml-auto font-mono text-[9px] text-muted-foreground/50">
+          [{wing.tag}]
+        </span>
+      </div>
+
+      {/* Card body */}
+      <div className={`flex flex-1 flex-col gap-3 p-5 ${wing.featured ? "sm:p-6" : ""}`}>
+        <div className="flex items-start justify-between">
+          <div className="flex h-9 w-9 items-center justify-center border border-dashed border-border transition-colors duration-300 group-hover:border-primary/40">
+            <Icon className="h-4 w-4 text-muted-foreground transition-colors duration-300 group-hover:text-primary" />
+          </div>
+        </div>
+
+        <div className="flex-1">
+          <h3 className={`font-medium tracking-tight text-foreground ${wing.featured ? "text-base" : "text-sm"}`}>
+            {wing.name}
+          </h3>
+          <p className={`mt-1.5 leading-relaxed text-muted-foreground ${wing.featured ? "text-[13px]" : "text-[12px] line-clamp-2"}`}>
+            {wing.desc}
+          </p>
+        </div>
+
+        <div className="flex items-center justify-between border-t border-dashed border-border pt-3">
+          <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+            wing/{wing.name.toLowerCase().replace(/\s/g, "-")}
+          </span>
+          <span className="font-mono text-[10px] text-primary opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            {">"} enter_
+          </span>
+        </div>
+      </div>
+    </Link>
+  )
+}
+
+export function HallsGrid() {
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const el = sectionRef.current
+    if (!el) return
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.unobserve(el) } },
+      { threshold: 0.1 }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
+  return (
+    <section ref={sectionRef} className="relative z-10 mx-auto max-w-5xl px-4 py-20">
+      {/* Section header — terminal command style */}
       <div
-        ref={headerRef}
-        className={`mb-12 fade-in-up ${headerVisible ? "visible" : ""}`}
+        className="mb-10 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
+        style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(12px)" }}
       >
-        <span className="data-label">[Exhibits]</span>
+        <div className="flex items-center gap-2 text-primary">
+          <span className="font-mono text-[11px] tracking-widest text-glow-subtle">
+            {">"} SELECT_WING
+          </span>
+          <span className="cursor-blink font-mono text-[11px]" />
+        </div>
         <h2 className="mt-3 text-2xl font-light tracking-tight text-foreground sm:text-3xl">
-          Explore the Collection
+          Museum Wings
         </h2>
-        <p className="mt-3 max-w-lg text-[15px] leading-relaxed text-muted-foreground">
-          Navigate through curated exhibits spanning 75 years of artificial intelligence history.
+        <p className="mt-2 max-w-lg text-[14px] leading-relaxed text-muted-foreground">
+          10 curated exhibits spanning 75 years of artificial intelligence history. Choose your path.
         </p>
       </div>
 
-      {/* Grid */}
-      <div
-        ref={gridRef}
-        className={`grid grid-cols-1 gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-3 fade-in-up ${gridVisible ? "visible" : ""}`}
-        style={{ transitionDelay: "100ms" }}
-      >
-        {wings.map((wing) => {
-          const Icon = wing.icon
-          return (
-            <Link
-              key={wing.name}
-              href={wing.href}
-              className="group flex flex-col gap-4 bg-card p-6 transition-all duration-300 hover:bg-surface-2"
-            >
-              <div className="flex items-center justify-between">
-                <Icon className="h-5 w-5 text-muted-foreground transition-colors duration-300 group-hover:text-primary" />
-                <span className="font-mono text-[10px] text-muted-foreground">
-                  [{wing.tag}]
-                </span>
-              </div>
-
-              <div>
-                <h3 className="text-sm font-medium text-foreground">{wing.name}</h3>
-                <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">
-                  {wing.desc}
-                </p>
-              </div>
-
-              <span className="mt-auto font-mono text-[11px] text-primary opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                enter &rarr;
-              </span>
-            </Link>
-          )
-        })}
+      {/* Bento grid — 3 cols desktop, 2 tablet, 1 mobile */}
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {wings.map((wing, i) => (
+          <WingCard key={wing.name} wing={wing} index={i} visible={visible} />
+        ))}
       </div>
     </section>
   )
