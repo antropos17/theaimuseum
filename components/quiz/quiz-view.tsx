@@ -140,6 +140,29 @@ export function QuizView() {
   if (phase === "results") {
     const pct = Math.round((score / total) * 100)
     const rank = getRank(pct)
+    
+    const challengeText = `I scored ${score}/10 on The AI Museum Quiz 🧠 Beat me?`
+    const challengeUrl = "https://theaimuseum.dev/quiz"
+    
+    const handleChallengeFriend = async () => {
+      // Try Web Share API first
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            text: challengeText,
+            url: challengeUrl,
+          })
+        } catch (err) {
+          // User cancelled or error occurred
+          console.log("[v0] Share cancelled or failed:", err)
+        }
+      } else {
+        // Fallback to Twitter
+        const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(challengeText)}&url=${encodeURIComponent(challengeUrl)}`
+        window.open(twitterUrl, "_blank", "noopener,noreferrer")
+      }
+    }
+    
     const shareTextX = encodeURIComponent(
       `My AI IQ: ${pct}% -- Rank: ${rank.label}\n\nScored ${score}/${total} on The AI Museum diagnostic exam in ${formatTime(elapsed)}.\n\nCan you beat me?`
     )
@@ -202,6 +225,16 @@ export function QuizView() {
                   {rank.msg}
                 </p>
               </div>
+            </div>
+
+            {/* Challenge a Friend */}
+            <div className="mt-6 border-t border-dashed border-border pt-4">
+              <button
+                onClick={handleChallengeFriend}
+                className="glass-btn-primary w-full px-5 py-2.5 font-mono text-xs text-foreground"
+              >
+                {'>'} Challenge a Friend
+              </button>
             </div>
 
             {/* Share my AI IQ */}
