@@ -678,7 +678,7 @@ export function AIEvolutionDemo() {
                   <AnimatedCounter 
                     target={stat.value} 
                     active={statsVisible}
-                    onComplete={index === 0 ? handleCounterComplete : index === 1 ? handleCounterComplete : handleCounterComplete}
+                    onComplete={handleCounterComplete}
                   />
                   {stat.suffix}
                 </span>
