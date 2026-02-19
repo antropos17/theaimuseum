@@ -129,23 +129,56 @@ export function SimulatorView() {
 
   const isTyping = phase === "typing-user" || phase === "typing-ai"
   const remainingPrompts = era.prompts.slice(promptIdx)
+  const [messageCount, setMessageCount] = useState(0)
+  const [showSharePrompt, setShowSharePrompt] = useState(false)
+
+  // Track message count and show share prompt after 5+ messages
+  useEffect(() => {
+    const completedMessages = lines.filter(line => line.type === "ai").length
+    setMessageCount(completedMessages)
+    if (completedMessages >= 5 && !showSharePrompt && phase === "idle") {
+      setShowSharePrompt(true)
+    }
+  }, [lines, phase, showSharePrompt])
 
   // Challenge friend share handler
   const handleShare = async () => {
-    const text = "I just talked to ELIZA from 1966 🤖 Try it → https://v0-theaimuseum.vercel.app/simulator"
+    const aiName = era.label.split(" // ")[0]
+    const year = era.era
+    const text = `I just talked to ${aiName} from ${year} at The AI Museum 🤖 Try it →`
     const url = "https://v0-theaimuseum.vercel.app/simulator"
     
     if (navigator.share) {
       try {
         await navigator.share({ text, url })
+        setShowSharePrompt(false)
       } catch (err) {
-        // User cancelled or error occurred
-        console.log('Share cancelled or failed:', err)
+        console.log("[v0] Share cancelled or failed:", err)
       }
     } else {
       // Fallback to Twitter intent
-      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`
-      window.open(twitterUrl, '_blank', 'noopener,noreferrer')
+      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`
+      window.open(twitterUrl, "_blank", "noopener,noreferrer")
+    }
+  }
+
+  // Copy conversation to clipboard
+  const handleCopyConversation = async () => {
+    const transcript = lines
+      .filter(line => line.type === "user" || line.type === "ai")
+      .map(line => {
+        if (line.type === "user") return `> ${line.text}`
+        return line.text
+      })
+      .join("\n\n")
+    
+    const fullText = `Conversation with ${era.label}\n${"=".repeat(50)}\n\n${transcript}\n\n${"-".repeat(50)}\nThe AI Museum - https://v0-theaimuseum.vercel.app/simulator`
+    
+    try {
+      await navigator.clipboard.writeText(fullText)
+      // You could add a toast here if you want
+    } catch (err) {
+      console.log("[v0] Copy failed:", err)
     }
   }
 
@@ -366,15 +399,40 @@ export function SimulatorView() {
           </p>
         </div>
 
-        {/* Challenge a Friend */}
-        <div className="mt-6 flex justify-center">
-          <button
-            onClick={handleShare}
-            className="glass-btn-primary px-6 py-3 text-foreground"
-          >
-            <span className="text-primary">{'> '}</span>CHALLENGE A FRIEND
-          </button>
-        </div>
+        {/* Floating share prompt (after 5+ messages) */}
+        {showSharePrompt && (
+          <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 animate-[terminalFadeIn_0.5s_ease-out]">
+            <div className="border border-dashed border-primary/40 bg-[#0a0a0f]/95 px-5 py-4 backdrop-blur-sm">
+              <div className="flex items-start gap-4">
+                <div className="flex-1">
+                  <p className="font-mono text-[11px] text-primary">
+                    [SHARE] 🤖 You just talked to AI from {era.era}. Challenge a friend →
+                  </p>
+                </div>
+                <button
+                  onClick={() => setShowSharePrompt(false)}
+                  className="text-muted-foreground/50 hover:text-foreground transition-colors"
+                >
+                  <span className="font-mono text-[10px]">✕</span>
+                </button>
+              </div>
+              <div className="mt-3 flex gap-2">
+                <button
+                  onClick={handleShare}
+                  className="glass-btn-primary px-4 py-2 font-mono text-[11px] text-foreground"
+                >
+                  {'>'} Share
+                </button>
+                <button
+                  onClick={handleCopyConversation}
+                  className="border border-border px-4 py-2 font-mono text-[11px] text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+                >
+                  📋 Copy conversation
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

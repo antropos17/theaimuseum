@@ -142,19 +142,29 @@ export function QuizView() {
     const pct = Math.round((score / total) * 100)
     const rank = getRank(pct)
     
-    const challengeText = `I scored ${score}/10 on The AI Museum Quiz 🧠 Beat me?`
-    const challengeUrl = "https://theaimuseum.dev/quiz"
+    // Dynamic challenge text based on score
+    let challengeText = ""
+    if (score === 10) {
+      challengeText = "I'm an AI Curator! Perfect score on The AI Museum Quiz 🧠🏆"
+    } else if (score >= 7) {
+      challengeText = `I scored ${score}/10 on the AI History Quiz. Can you beat me? 🧠`
+    } else if (score >= 4) {
+      challengeText = `I scored ${score}/10 — AI history is harder than I thought! 🤖`
+    } else {
+      challengeText = `Only ${score}/10... AI history humbled me 😅 Try it →`
+    }
+    
+    const challengeUrl = "https://v0-theaimuseum.vercel.app/quiz"
     
     const handleChallengeFriend = async () => {
       // Try Web Share API first
       if (navigator.share) {
         try {
           await navigator.share({
-            text: challengeText,
+            text: `${challengeText} ${challengeUrl}`,
             url: challengeUrl,
           })
         } catch (err) {
-          // User cancelled or error occurred
           console.log("[v0] Share cancelled or failed:", err)
         }
       } else {
@@ -164,12 +174,24 @@ export function QuizView() {
       }
     }
     
-    const shareTextX = encodeURIComponent(
-      `My AI IQ: ${pct}% -- Rank: ${rank.label}\n\nScored ${score}/${total} on The AI Museum diagnostic exam in ${formatTime(elapsed)}.\n\nCan you beat me?`
-    )
-    const shareTextTg = encodeURIComponent(
-      `I scored ${score}/${total} (${pct}%) on The AI Museum diagnostic exam!\nRank: ${rank.label}\nTime: ${formatTime(elapsed)}\n\nTest your AI knowledge:`
-    )
+    const handleShareTwitter = () => {
+      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(challengeText)}&url=${encodeURIComponent(challengeUrl)}`
+      window.open(twitterUrl, "_blank", "noopener,noreferrer")
+    }
+    
+    const handleShareWhatsApp = () => {
+      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(`${challengeText} ${challengeUrl}`)}`
+      window.open(whatsappUrl, "_blank", "noopener,noreferrer")
+    }
+    
+    const handleCopyLink = async () => {
+      try {
+        await navigator.clipboard.writeText(challengeUrl)
+        // Success - you could add a toast here if desired
+      } catch (err) {
+        console.log("[v0] Copy failed:", err)
+      }
+    }
     return (
       <div className="min-h-screen pt-16">
         <div className="mx-auto max-w-xl px-4 pb-24 pt-10">
@@ -228,36 +250,41 @@ export function QuizView() {
               </div>
             </div>
 
-            {/* Challenge a Friend */}
-            <div className="mt-6 border-t border-dashed border-border pt-4">
+            {/* Challenge a Friend - Large Primary Button */}
+            <div className="mt-6 border-t border-dashed border-border pt-6">
               <button
                 onClick={handleChallengeFriend}
-                className="glass-btn-primary w-full px-5 py-2.5 font-mono text-xs text-foreground"
+                className="glass-btn-primary w-full px-6 py-3.5 font-mono text-sm text-foreground"
               >
                 {'>'} Challenge a Friend
               </button>
+              <p className="mt-2 text-center font-mono text-[10px] text-muted-foreground/50">
+                2,400+ people already took the quiz
+              </p>
             </div>
 
-            {/* Share my AI IQ */}
-            <div className="mt-6 space-y-3">
-              <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">[Share my AI IQ]</p>
-              <div className="flex flex-wrap gap-2">
-                <a
-                  href={`https://twitter.com/intent/tweet?text=${shareTextX}&url=${encodeURIComponent("https://theaimuseum.dev/quiz")}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="glass-btn-primary flex items-center gap-2 px-5 py-2.5 font-mono text-xs text-foreground"
+            {/* Share Platforms */}
+            <div className="mt-4 space-y-2">
+              <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">[SHARE VIA]</p>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  onClick={handleShareTwitter}
+                  className="border border-border px-4 py-2.5 font-mono text-[11px] text-muted-foreground transition-colors hover:border-primary hover:text-primary"
                 >
-                  {'>'} Share on X
-                </a>
-                <a
-                  href={`https://t.me/share/url?url=${encodeURIComponent("https://theaimuseum.dev/quiz")}&text=${shareTextTg}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="border border-border px-5 py-2.5 font-mono text-xs text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+                  {'>'} Twitter
+                </button>
+                <button
+                  onClick={handleShareWhatsApp}
+                  className="border border-border px-4 py-2.5 font-mono text-[11px] text-muted-foreground transition-colors hover:border-primary hover:text-primary"
                 >
-                  {'>'} Share on Telegram
-                </a>
+                  {'>'} WhatsApp
+                </button>
+                <button
+                  onClick={handleCopyLink}
+                  className="col-span-2 border border-border px-4 py-2.5 font-mono text-[11px] text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+                >
+                  {'>'} Copy Link
+                </button>
               </div>
             </div>
 
