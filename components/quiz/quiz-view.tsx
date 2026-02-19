@@ -63,6 +63,20 @@ export function QuizView() {
     return () => clearInterval(interval)
   }, [timerActive])
 
+  // Fire confetti once on score reveal
+  useEffect(() => {
+    if (phase === "results" && !confettiFired.current) {
+      confettiFired.current = true
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+        gravity: 0.8,
+        colors: ["#00ff88", "#00d4ff", "#ffb800", "#ffffff"],
+      })
+    }
+  }, [phase])
+
   const handleAnswer = useCallback((optIdx: number) => {
     if (answered) return
     setSelected(optIdx)
@@ -144,20 +158,6 @@ export function QuizView() {
   if (phase === "results") {
     const pct = Math.round((score / total) * 100)
     const rank = getRank(pct)
-    
-    // Fire confetti once on score reveal
-    useEffect(() => {
-      if (!confettiFired.current) {
-        confettiFired.current = true
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 },
-          gravity: 0.8,
-          colors: ["#00ff88", "#00d4ff", "#ffb800", "#ffffff"],
-        })
-      }
-    }, [])
     
     // Dynamic challenge text based on score
     let challengeText = ""
