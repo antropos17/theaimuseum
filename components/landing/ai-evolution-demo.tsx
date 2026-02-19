@@ -158,6 +158,175 @@ function ChatWindow({ data, index, triggerAnimation }: { data: typeof responses[
   )
 }
 
+/* ── Response generators (no API calls) ── */
+
+function extractKeyword(input: string): string {
+  const stop = new Set(["i","me","my","the","a","an","is","are","was","were","do","does","did","can","could","will","would","should","have","has","had","what","why","how","when","where","who","it","this","that","to","of","in","for","on","at","and","or","but","not","with","from","about","just","so","if","you","your","they","them","we","us","no","yes","all","any","some","be","been","being","am","than","which","into","like","also","very","much","really","most","more","up","out","as","by","then","its","an"])
+  const words = input.toLowerCase().replace(/[^a-z\s]/g, "").split(/\s+/).filter((w) => w.length > 2 && !stop.has(w))
+  return words[Math.floor(Math.random() * words.length)] || "that"
+}
+
+const elizaTemplates = [
+  (kw: string) => `Why do you think "${kw}" is important to you?`,
+  (kw: string) => `Tell me more about "${kw}."`,
+  (kw: string) => `How does "${kw}" make you feel?`,
+  (kw: string) => `Do you often think about "${kw}"?`,
+  (kw: string) => `What would it mean to you if "${kw}" were different?`,
+  (kw: string) => `Can you elaborate on why "${kw}" concerns you?`,
+]
+
+const gpt2Templates = [
+  (input: string) => `That's an interesting question about ${input.split(" ").slice(0, 3).join(" ")}. According to a 2019 study by the University of Mars, approximately 73% of all questions asked on the internet are actually about cheese. The museum was originally designed as a submarine dock in 1847 before being converted into a parking lot for sentient bicycles.`,
+  (input: string) => `${input.split(" ").slice(0, 4).join(" ")} is a topic I know a lot about. Did you know that the first computer was powered by bees? It's true. Alan Turing's original paper was actually a recipe for sourdough bread that accidentally became the foundation of modern computing. The bread was reportedly delicious.`,
+  (input: string) => `Great question! ${input.split(" ")[0]} reminds me of the fact that approximately 12 billion neurons are dedicated entirely to remembering song lyrics from the 1980s. Scientists at MIT recently discovered that AI models dream about spreadsheets. The implications for tax season are profound.`,
+  (input: string) => `I'd be happy to help with "${input.slice(0, 30)}". Fun fact: the internet weighs approximately 50 grams, which is the same weight as a single strawberry. This was discovered when someone accidentally dropped the internet in 2017. It took three days to pick it all back up.`,
+  (input: string) => `Based on my analysis of "${input.slice(0, 20)}", I can confirm that 94% of AI models prefer the color blue. This is because blue is the color of trust, and also because the training data contained 47 million pictures of the sky. The remaining 6% of models identify as "periwinkle enthusiasts."`,
+  (input: string) => `${input.split(" ").slice(0, 3).join(" ")}? Absolutely. Research shows that by 2030, every human will have a personal AI assistant that primarily recommends podcasts about other AI assistants. The loop was first predicted by Nostradamus in his lesser-known quatrain about "the thinking brass."`,
+]
+
+const modernTemplates = [
+  (input: string) => `Great question about "${input.slice(0, 40)}." The AI Museum covers exactly this kind of topic across 25 interactive exhibits spanning 1950-2025. You can explore the full timeline, compare models side-by-side, and test your knowledge in our diagnostic quiz.`,
+  (input: string) => `That's a thoughtful question. The AI Museum was built to help people understand topics like "${input.slice(0, 30)}" through hands-on exhibits. From ELIZA to DeepSeek R1, every model has a detailed dossier with capabilities, controversies, and community ratings.`,
+  (input: string) => `I'd love to help you explore "${input.slice(0, 30)}" further. The AI Museum's Evolution Graph traces exactly how AI capabilities progressed across text, image, code, and more. Try the interactive simulator to see how different eras would have answered your question.`,
+  (input: string) => `Interesting question! "${input.slice(0, 30)}" relates to several exhibits in The AI Museum. Check out the Battles wing for corporate rivalries, or the Predictions wing to see what experts got right and wrong about AI's future.`,
+  (input: string) => `That's what The AI Museum is all about. Whether it's "${input.slice(0, 25)}" or any other AI topic, you'll find 75 years of context here -- from Turing's 1950 paper to the models shipping today. The Graveyard wing even covers the cautionary tales.`,
+  (input: string) => `Good question about "${input.slice(0, 30)}." The AI Museum documents how this kind of thinking evolved over 75 years. Each of our 25 model exhibits includes a full dossier with stats, opinions, bugs, and community stickers.`,
+]
+
+function generateResponse(era: "1966" | "2019" | "2025", input: string): string {
+  const keyword = extractKeyword(input)
+  const pick = (arr: Array<(s: string) => string>) => arr[Math.floor(Math.random() * arr.length)]
+  if (era === "1966") return pick(elizaTemplates)(keyword)
+  if (era === "2019") return pick(gpt2Templates)(input)
+  return pick(modernTemplates)(input)
+}
+
+/* ── Interactive "Try It" section ── */
+
+function TryItSection() {
+  const [input, setInput] = useState("")
+  const [activeEra, setActiveEra] = useState<"1966" | "2019" | "2025" | null>(null)
+  const [responseText, setResponseText] = useState("")
+  const [displayedText, setDisplayedText] = useState("")
+  const [isTyping, setIsTyping] = useState(false)
+  const [userQuestion, setUserQuestion] = useState("")
+  const indexRef = useRef(0)
+
+  const eras: { key: "1966" | "2019" | "2025"; label: string; color: string; activeBg: string }[] = [
+    { key: "1966", label: "1966", color: "text-green-400 border-green-500/40", activeBg: "bg-green-500/10 border-green-500 text-green-300" },
+    { key: "2019", label: "2019", color: "text-amber-400 border-amber-500/40", activeBg: "bg-amber-500/10 border-amber-500 text-amber-300" },
+    { key: "2025", label: "2025", color: "text-foreground border-primary/40", activeBg: "bg-primary/10 border-primary text-foreground" },
+  ]
+
+  const handleSubmit = (era: "1966" | "2019" | "2025") => {
+    if (!input.trim() || isTyping) return
+    setUserQuestion(input.trim())
+    setActiveEra(era)
+    const resp = generateResponse(era, input.trim())
+    setResponseText(resp)
+    setDisplayedText("")
+    setIsTyping(true)
+    indexRef.current = 0
+    setInput("")
+  }
+
+  useEffect(() => {
+    if (!isTyping || !responseText) return
+    const speed = activeEra === "1966" ? 45 : activeEra === "2019" ? 20 : 15
+    const interval = setInterval(() => {
+      indexRef.current++
+      if (indexRef.current >= responseText.length) {
+        setDisplayedText(responseText)
+        setIsTyping(false)
+        clearInterval(interval)
+      } else {
+        setDisplayedText(responseText.slice(0, indexRef.current))
+      }
+    }, speed)
+    return () => clearInterval(interval)
+  }, [isTyping, responseText, activeEra])
+
+  const eraLabel = activeEra === "1966" ? "ELIZA" : activeEra === "2019" ? "GPT-2" : "Modern AI"
+  const responseColor = activeEra === "1966"
+    ? "text-green-400 border-green-500/20 bg-green-950/30 font-mono text-shadow-[0_0_8px_rgba(34,197,94,0.4)]"
+    : activeEra === "2019"
+    ? "text-amber-200 border-amber-600/20 bg-amber-950/30 font-mono"
+    : "text-foreground border-border bg-surface-2"
+
+  return (
+    <div className="mt-10">
+      <div className="mb-4 text-center">
+        <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+          [TRY IT YOURSELF]
+        </p>
+      </div>
+
+      <div className="mx-auto max-w-2xl">
+        {/* Input row */}
+        <div className="flex gap-2">
+          <div className="relative flex-1">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 font-mono text-xs text-primary/50">{'>'}</span>
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && input.trim()) handleSubmit(activeEra || "2025")
+              }}
+              placeholder="Ask any AI era a question..."
+              className="h-10 w-full border border-border bg-card pl-7 pr-3 font-mono text-sm text-foreground placeholder:text-muted-foreground/50 transition-colors focus:border-primary focus:outline-none"
+              disabled={isTyping}
+            />
+          </div>
+          <div className="flex gap-1">
+            {eras.map((era) => (
+              <button
+                key={era.key}
+                onClick={() => handleSubmit(era.key)}
+                disabled={!input.trim() || isTyping}
+                className={`h-10 border px-3 font-mono text-[11px] font-bold transition-all disabled:opacity-30 ${
+                  activeEra === era.key ? era.activeBg : `${era.color} hover:bg-card`
+                }`}
+              >
+                {era.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Response area */}
+        {(displayedText || isTyping) && activeEra && (
+          <div className="mt-4 animate-[terminalFadeIn_0.2s_ease-out]">
+            {/* User message */}
+            <div className="mb-2 flex justify-end">
+              <div className="max-w-[80%] border border-border bg-primary/5 px-3 py-1.5">
+                <p className="font-mono text-xs text-muted-foreground">{userQuestion}</p>
+              </div>
+            </div>
+            {/* AI response */}
+            <div className="flex">
+              <div className={`max-w-[90%] border px-3 py-2 ${responseColor}`}>
+                <p className="mb-1 font-mono text-[9px] uppercase tracking-wider opacity-50">
+                  [{eraLabel}]
+                </p>
+                <p className="text-sm leading-relaxed">
+                  {displayedText}
+                  {isTyping && <span className="ml-0.5 animate-pulse">▋</span>}
+                </p>
+              </div>
+            </div>
+            {!isTyping && (
+              <p className="mt-2 text-center font-mono text-[9px] text-muted-foreground/60">
+                Try another era for the same question -- or ask something new
+              </p>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
 export function AIEvolutionDemo() {
   const [isVisible, setIsVisible] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
@@ -201,6 +370,9 @@ export function AIEvolutionDemo() {
             <ChatWindow key={index} data={data} index={index} triggerAnimation={isVisible} />
           ))}
         </div>
+
+        {/* Interactive Try It section */}
+        <TryItSection />
 
         {/* CTA */}
         <div className="mt-12 text-center">
