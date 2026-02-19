@@ -1,8 +1,12 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef, useCallback } from "react"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
+
+/* ═══════════════════════════════════════════════════
+   DATA
+   ═══════════════════════════════════════════════════ */
 
 const QUESTION = "What is The AI Museum?"
 
@@ -25,130 +29,169 @@ const responses = [
     era: "2025",
     name: "Modern AI",
     label: "2025",
-    response: "The AI Museum is the world's first interactive museum dedicated to the history of artificial intelligence. It covers 75 years — from Turing's 1950 paper to DeepSeek R1 in 2025. You can explore 25 models, compare their evolution, visit the AI Graveyard, test your knowledge in the Quiz, and rate models with community stickers. It's free, open-source, and designed to make AI history accessible to everyone.",
+    response: "The AI Museum is the world's first interactive museum dedicated to the history of artificial intelligence. It covers 75 years -- from Turing's 1950 paper to DeepSeek R1 in 2025. You can explore 25 models, compare their evolution, visit the AI Graveyard, test your knowledge in the Quiz, and rate models with community stickers. It's free, open-source, and designed to make AI history accessible to everyone.",
     style: "modern" as const,
   },
 ]
 
+const stats = [
+  { value: 25, label: "MODELS", suffix: "" },
+  { value: 75, label: "YEARS", suffix: "" },
+  { value: 8, label: "CATEGORIES", suffix: "" },
+]
+
+/* ═══════════════════════════════════════════════════
+   ANIMATED COUNTER (scroll-triggered)
+   ═══════════════════════════════════════════════════ */
+
+function easeOutCubic(t: number): number {
+  return 1 - Math.pow(1 - t, 3)
+}
+
+function AnimatedCounter({ target, active }: { target: number; active: boolean }) {
+  const [display, setDisplay] = useState(0)
+  const rafRef = useRef<number | null>(null)
+  const hasRun = useRef(false)
+
+  const animate = useCallback(() => {
+    if (hasRun.current) return
+    hasRun.current = true
+    const start = performance.now()
+    function tick(now: number) {
+      const elapsed = now - start
+      const progress = Math.min(elapsed / 1500, 1)
+      setDisplay(Math.round(easeOutCubic(progress) * target))
+      if (progress < 1) {
+        rafRef.current = requestAnimationFrame(tick)
+      }
+    }
+    rafRef.current = requestAnimationFrame(tick)
+  }, [target])
+
+  useEffect(() => {
+    if (active) animate()
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current) }
+  }, [active, animate])
+
+  return <>{display}</>
+}
+
+/* ═══════════════════════════════════════════════════
+   TYPEWRITER
+   ═══════════════════════════════════════════════════ */
+
 function TypewriterText({ text, active, speed = 30 }: { text: string; active: boolean; speed?: number }) {
-  const [displayedText, setDisplayedText] = useState("")
-  const [showCursor, setShowCursor] = useState(true)
+  const [displayed, setDisplayed] = useState("")
+  const [cursor, setCursor] = useState(true)
 
   useEffect(() => {
     if (!active) return
-    let index = 0
-    setDisplayedText("")
-    
+    let i = 0
+    setDisplayed("")
     const interval = setInterval(() => {
-      if (index < text.length) {
-        setDisplayedText(text.slice(0, index + 1))
-        index++
+      if (i < text.length) {
+        setDisplayed(text.slice(0, i + 1))
+        i++
       } else {
         clearInterval(interval)
-        setShowCursor(false)
+        setCursor(false)
       }
     }, speed)
-
     return () => clearInterval(interval)
   }, [text, active, speed])
 
-  // Blinking cursor effect
   useEffect(() => {
-    if (!showCursor) return
-    const cursor = setInterval(() => {
-      setShowCursor((prev) => !prev)
-    }, 500)
-    return () => clearInterval(cursor)
-  }, [showCursor])
+    if (!cursor) return
+    const id = setInterval(() => setCursor((p) => !p), 500)
+    return () => clearInterval(id)
+  }, [cursor])
 
   return (
     <span>
-      {displayedText}
-      {active && displayedText.length < text.length && showCursor && (
-        <span className="animate-pulse">▋</span>
+      {displayed}
+      {active && displayed.length < text.length && cursor && (
+        <span className="animate-pulse">&#9611;</span>
       )}
     </span>
   )
 }
+
+/* ═══════════════════════════════════════════════════
+   CHAT WINDOW
+   ═══════════════════════════════════════════════════ */
 
 function ChatWindow({ data, index, triggerAnimation }: { data: typeof responses[0]; index: number; triggerAnimation: boolean }) {
   const [startTyping, setStartTyping] = useState(false)
 
   useEffect(() => {
     if (!triggerAnimation) return
-    const timer = setTimeout(() => {
-      setStartTyping(true)
-    }, index * 2000) // Stagger by 2 seconds
-
+    const timer = setTimeout(() => setStartTyping(true), index * 2000)
     return () => clearTimeout(timer)
   }, [triggerAnimation, index])
 
-  const styleClasses = {
+  const wrapperClass = {
     eliza: "bg-black border-2 border-green-500/30",
     gpt2: "bg-zinc-900 border border-amber-600/30",
     modern: "glass-btn bg-card/50 border border-border",
   }
-
-  const textClasses = {
+  const headerClass = {
+    eliza: "border-green-500/30 bg-green-950/20",
+    gpt2: "border-amber-600/30 bg-amber-950/20",
+    modern: "border-border bg-surface-2",
+  }
+  const labelColor = {
+    eliza: "text-green-400",
+    gpt2: "text-amber-400",
+    modern: "text-muted-foreground",
+  }
+  const textClass = {
     eliza: "text-green-500 font-mono text-shadow-[0_0_8px_rgba(34,197,94,0.5)]",
     gpt2: "text-amber-100 font-mono",
     modern: "text-foreground",
   }
+  const bubbleClass = {
+    eliza: "bg-green-900/30 text-green-300",
+    gpt2: "bg-amber-900/30 text-amber-200",
+    modern: "bg-primary/10 text-foreground",
+  }
+  const replyBorderClass = {
+    eliza: "bg-green-950/50 border border-green-500/20",
+    gpt2: "bg-amber-950/50 border border-amber-600/20",
+    modern: "bg-surface-2 border border-border",
+  }
+  const dotColors = {
+    eliza: ["bg-green-500", "bg-green-500/50", "bg-green-500/30"],
+    gpt2: ["bg-amber-500", "bg-amber-500/50", "bg-amber-500/30"],
+    modern: ["bg-red-500", "bg-amber-500", "bg-primary"],
+  }
 
   return (
-    <div className={`relative flex flex-col overflow-hidden ${styleClasses[data.style]} transition-all duration-300`}>
-      {/* Header bar */}
-      <div className={`flex items-center justify-between border-b px-3 py-2 ${
-        data.style === "eliza" ? "border-green-500/30 bg-green-950/20" :
-        data.style === "gpt2" ? "border-amber-600/30 bg-amber-950/20" :
-        "border-border bg-surface-2"
-      }`}>
+    <div className={`relative flex flex-col overflow-hidden transition-all duration-300 ${wrapperClass[data.style]}`}>
+      {/* Header */}
+      <div className={`flex items-center justify-between border-b px-3 py-2 ${headerClass[data.style]}`}>
         <div className="flex items-center gap-2">
-          <div className={`flex gap-1 ${data.style === "modern" ? "" : "opacity-50"}`}>
-            <div className={`h-2 w-2 rounded-full ${data.style === "modern" ? "bg-red-500" : "bg-green-500"}`} />
-            <div className={`h-2 w-2 rounded-full ${data.style === "modern" ? "bg-amber-500" : "bg-green-500/50"}`} />
-            <div className={`h-2 w-2 rounded-full ${data.style === "modern" ? "bg-primary" : "bg-green-500/30"}`} />
+          <div className="flex gap-1">
+            {dotColors[data.style].map((c, i) => (
+              <div key={i} className={`h-2 w-2 rounded-full ${c}`} />
+            ))}
           </div>
-          <span className={`font-mono text-[10px] uppercase tracking-wider ${
-            data.style === "eliza" ? "text-green-400" :
-            data.style === "gpt2" ? "text-amber-400" :
-            "text-muted-foreground"
-          }`}>
-            {data.name} · {data.era}
+          <span className={`font-mono text-[10px] uppercase tracking-wider ${labelColor[data.style]}`}>
+            {data.name} &middot; {data.era}
           </span>
         </div>
-        <span className={`font-mono text-[9px] ${
-          data.style === "eliza" ? "text-green-500/60" :
-          data.style === "gpt2" ? "text-amber-500/60" :
-          "text-muted-foreground"
-        }`}>
-          [{data.label}]
-        </span>
+        <span className={`font-mono text-[9px] ${labelColor[data.style]} opacity-60`}>[{data.label}]</span>
       </div>
 
-      {/* Chat content */}
+      {/* Chat */}
       <div className="flex-1 space-y-3 p-4">
-        {/* User message */}
         <div className="flex justify-end">
-          <div className={`max-w-[85%] rounded px-3 py-2 ${
-            data.style === "eliza" ? "bg-green-900/30 text-green-300" :
-            data.style === "gpt2" ? "bg-amber-900/30 text-amber-200" :
-            "bg-primary/10 text-foreground"
-          }`}>
-            <p className={`text-sm ${data.style === "modern" ? "" : "font-mono"}`}>
-              {QUESTION}
-            </p>
+          <div className={`max-w-[85%] rounded px-3 py-2 ${bubbleClass[data.style]}`}>
+            <p className={`text-sm ${data.style === "modern" ? "" : "font-mono"}`}>{QUESTION}</p>
           </div>
         </div>
-
-        {/* AI response */}
         <div className="flex">
-          <div className={`max-w-[90%] rounded px-3 py-2 ${
-            data.style === "eliza" ? "bg-green-950/50 border border-green-500/20" :
-            data.style === "gpt2" ? "bg-amber-950/50 border border-amber-600/20" :
-            "bg-surface-2 border border-border"
-          }`}>
-            <p className={`text-sm leading-relaxed ${textClasses[data.style]}`}>
+          <div className={`max-w-[90%] rounded px-3 py-2 ${replyBorderClass[data.style]}`}>
+            <p className={`text-sm leading-relaxed ${textClass[data.style]}`}>
               <TypewriterText text={data.response} active={startTyping} speed={data.style === "eliza" ? 50 : 25} />
             </p>
           </div>
@@ -158,7 +201,9 @@ function ChatWindow({ data, index, triggerAnimation }: { data: typeof responses[
   )
 }
 
-/* ── Response generators (no API calls) ── */
+/* ═══════════════════════════════════════════════════
+   RESPONSE GENERATORS (no API calls)
+   ═══════════════════════════════════════════════════ */
 
 function extractKeyword(input: string): string {
   const stop = new Set(["i","me","my","the","a","an","is","are","was","were","do","does","did","can","could","will","would","should","have","has","had","what","why","how","when","where","who","it","this","that","to","of","in","for","on","at","and","or","but","not","with","from","about","just","so","if","you","your","they","them","we","us","no","yes","all","any","some","be","been","being","am","than","which","into","like","also","very","much","really","most","more","up","out","as","by","then","its","an"])
@@ -201,7 +246,9 @@ function generateResponse(era: "1966" | "2019" | "2025", input: string): string 
   return pick(modernTemplates)(input)
 }
 
-/* ── Interactive "Try It" section ── */
+/* ═══════════════════════════════════════════════════
+   INTERACTIVE "TRY IT" INPUT
+   ═══════════════════════════════════════════════════ */
 
 function TryItSection() {
   const [input, setInput] = useState("")
@@ -254,12 +301,16 @@ function TryItSection() {
     : "text-foreground border-border bg-surface-2"
 
   return (
-    <div className="mt-10">
-      <div className="mb-4 text-center">
-        <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-          [TRY IT YOURSELF]
-        </p>
+    <div className="mt-12 md:mt-16">
+      {/* Divider */}
+      <div className="mx-auto mb-6 flex items-center justify-center gap-4">
+        <div className="h-px flex-1 max-w-16 bg-border" />
+        <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">[Try it yourself]</span>
+        <div className="h-px flex-1 max-w-16 bg-border" />
       </div>
+      <p className="mb-6 text-center text-sm text-muted-foreground">
+        Type any question, pick an era, and see how AI handles it.
+      </p>
 
       <div className="mx-auto max-w-2xl">
         {/* Input row */}
@@ -274,7 +325,7 @@ function TryItSection() {
                 if (e.key === "Enter" && input.trim()) handleSubmit(activeEra || "2025")
               }}
               placeholder="Ask any AI era a question..."
-              className="h-10 w-full border border-border bg-card pl-7 pr-3 font-mono text-sm text-foreground placeholder:text-muted-foreground/50 transition-colors focus:border-primary focus:outline-none"
+              className="h-11 w-full border border-border bg-card pl-7 pr-3 font-mono text-sm text-foreground placeholder:text-muted-foreground/50 transition-colors focus:border-primary focus:outline-none"
               disabled={isTyping}
             />
           </div>
@@ -284,7 +335,7 @@ function TryItSection() {
                 key={era.key}
                 onClick={() => handleSubmit(era.key)}
                 disabled={!input.trim() || isTyping}
-                className={`h-10 border px-3 font-mono text-[11px] font-bold transition-all disabled:opacity-30 ${
+                className={`h-11 border px-3 font-mono text-[11px] font-bold transition-all disabled:opacity-30 ${
                   activeEra === era.key ? era.activeBg : `${era.color} hover:bg-card`
                 }`}
               >
@@ -296,14 +347,12 @@ function TryItSection() {
 
         {/* Response area */}
         {(displayedText || isTyping) && activeEra && (
-          <div className="mt-4 animate-[terminalFadeIn_0.2s_ease-out]">
-            {/* User message */}
+          <div className="mt-5 animate-[terminalFadeIn_0.2s_ease-out]">
             <div className="mb-2 flex justify-end">
               <div className="max-w-[80%] border border-border bg-primary/5 px-3 py-1.5">
                 <p className="font-mono text-xs text-muted-foreground">{userQuestion}</p>
               </div>
             </div>
-            {/* AI response */}
             <div className="flex">
               <div className={`max-w-[90%] border px-3 py-2 ${responseColor}`}>
                 <p className="mb-1 font-mono text-[9px] uppercase tracking-wider opacity-50">
@@ -311,12 +360,12 @@ function TryItSection() {
                 </p>
                 <p className="text-sm leading-relaxed">
                   {displayedText}
-                  {isTyping && <span className="ml-0.5 animate-pulse">▋</span>}
+                  {isTyping && <span className="ml-0.5 animate-pulse">&#9611;</span>}
                 </p>
               </div>
             </div>
             {!isTyping && (
-              <p className="mt-2 text-center font-mono text-[9px] text-muted-foreground/60">
+              <p className="mt-2.5 text-center font-mono text-[9px] text-muted-foreground/60">
                 Try another era for the same question -- or ask something new
               </p>
             )}
@@ -327,60 +376,89 @@ function TryItSection() {
   )
 }
 
+/* ═══════════════════════════════════════════════════
+   MAIN EXPORT: "See How AI Evolved" Section
+   ═══════════════════════════════════════════════════ */
+
 export function AIEvolutionDemo() {
   const [isVisible, setIsVisible] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
+  const [statsVisible, setStatsVisible] = useState(false)
+  const statsRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setIsVisible(true) },
+      { threshold: 0.15 }
+    )
+    if (sectionRef.current) observer.observe(sectionRef.current)
+    return () => observer.disconnect()
+  }, [])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsVisible(true)
+          setStatsVisible(true)
+          observer.disconnect()
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.3 }
     )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
+    if (statsRef.current) observer.observe(statsRef.current)
     return () => observer.disconnect()
   }, [])
 
   return (
-    <section ref={sectionRef} className="relative border-y border-border bg-surface py-16 md:py-24">
+    <section ref={sectionRef} className="relative border-y border-border bg-surface py-20 md:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        {/* Section header */}
-        <div className="mb-12 text-center">
+
+        {/* ── Section heading ── */}
+        <div className="mb-6 text-center">
           <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">
             {'>'} AI_EVOLUTION_DEMO
           </p>
-          <h2 className="mb-4 text-2xl font-bold tracking-tight text-foreground md:text-3xl">
-            The Same Question. Three Eras.
+          <h2 className="mb-5 text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl">
+            See How AI Evolved
           </h2>
-          <p className="mx-auto max-w-2xl text-sm text-muted-foreground md:text-base">
-            Watch how artificial intelligence evolved from deflecting questions to understanding context to generating comprehensive answers.
+          <p className="mx-auto max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
+            We asked three eras of artificial intelligence the same question.
+            Watch how responses evolved from deflecting to hallucinating to genuinely understanding.
           </p>
         </div>
 
-        {/* Chat windows grid */}
+        {/* ── Animated stat counters ── */}
+        <div ref={statsRef} className="mx-auto mb-14 flex flex-wrap items-center justify-center gap-10 sm:gap-16 md:mb-16">
+          {stats.map((stat) => (
+            <div key={stat.label} className="flex flex-col items-center gap-1.5">
+              <span className="font-mono text-3xl font-light tabular-nums text-foreground text-glow-subtle sm:text-4xl">
+                <AnimatedCounter target={stat.value} active={statsVisible} />
+                {stat.suffix}
+              </span>
+              <span className="font-mono text-[10px] uppercase tracking-widest text-primary/70">
+                [{stat.label}]
+              </span>
+            </div>
+          ))}
+        </div>
+
+        {/* ── Chat windows grid ── */}
         <div className="grid gap-6 md:grid-cols-3">
           {responses.map((data, index) => (
             <ChatWindow key={index} data={data} index={index} triggerAnimation={isVisible} />
           ))}
         </div>
 
-        {/* Interactive Try It section */}
+        {/* ── Interactive input ── */}
         <TryItSection />
 
-        {/* CTA */}
-        <div className="mt-12 text-center">
+        {/* ── CTA ── */}
+        <div className="mt-14 text-center md:mt-16">
           <Link
             href="/explore"
-            className="group inline-flex items-center gap-2 font-mono text-sm text-muted-foreground transition-colors hover:text-primary"
+            className="glass-btn-primary group inline-flex items-center gap-2.5 px-6 py-3 font-mono text-sm text-foreground transition-all"
           >
-            AI evolved. Now explore how.
+            {'>'} Explore the full timeline
             <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
