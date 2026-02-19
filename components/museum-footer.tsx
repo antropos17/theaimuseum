@@ -14,10 +14,10 @@ const links = [
 ]
 
 const socials = [
-  { label: "GitHub", href: "https://github.com", icon: "GH" },
-  { label: "X / Twitter", href: "https://twitter.com", icon: "X" },
-  { label: "Telegram", href: "https://t.me", icon: "TG" },
-  { label: "Reddit", href: "https://reddit.com", icon: "RD" },
+  { label: "GitHub", href: "https://github.com/theaimuseum", icon: "GH" },
+  { label: "X / Twitter", href: "https://x.com/theaimuseum", icon: "X" },
+  { label: "Telegram", href: "https://t.me/theaimuseum", icon: "TG" },
+  { label: "Reddit", href: "https://reddit.com/r/theaimuseum", icon: "RD" },
 ]
 
 export function MuseumFooter() {
