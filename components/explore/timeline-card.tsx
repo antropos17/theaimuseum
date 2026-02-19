@@ -1,64 +1,87 @@
 "use client"
 
 import Link from "next/link"
+import { ArrowUpRight } from "lucide-react"
 import type { AIModel } from "@/data/models"
 import { categories } from "@/data/models"
 
 export function TimelineCard({ model }: { model: AIModel }) {
   const cat = categories[model.category]
-  const statusClass =
-    model.status === "active"
-      ? "status-dot-active"
-      : model.status === "declining"
-        ? "status-dot-declining"
-        : "status-dot-historic"
 
   return (
     <Link
       href={`/model/${model.slug}`}
-      className="glass glass-hover group block rounded-xl p-5 transition-all duration-300 hover:-translate-y-0.5"
-      style={{ borderLeft: `3px solid ${model.color}` }}
+      className="group flex flex-col gap-3 rounded-xl border border-border bg-card p-5 transition-all duration-200 hover:-translate-y-px hover:border-primary/20 hover:shadow-lg hover:shadow-glow"
+      style={{ borderLeftWidth: "3px", borderLeftColor: model.color }}
     >
-      {/* Row 1: Category + Name + Year + Status */}
-      <div className="flex items-center gap-2">
-        <span className="text-sm">{cat.icon}</span>
-        <span className="font-sans text-base font-bold text-foreground">
-          {model.name}
-        </span>
-        <span className="rounded bg-muted px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">
-          {model.year}
-        </span>
-        <span className={`status-dot ml-auto ${statusClass}`} />
+      {/* Top row */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2.5">
+          <div
+            className="flex h-7 w-7 items-center justify-center rounded-md"
+            style={{ backgroundColor: `${cat.color}15` }}
+          >
+            <div
+              className="h-2 w-2 rounded-full"
+              style={{ backgroundColor: cat.color }}
+            />
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold text-foreground">
+              {model.name}
+            </h3>
+            <p className="font-mono text-[11px] text-muted-foreground">
+              {model.creator} &middot; {model.year}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span
+            className={`rounded-full px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider ${
+              model.open
+                ? "border border-chart-3/20 text-chart-3"
+                : "border border-border text-muted-foreground"
+            }`}
+          >
+            {model.open ? "Open" : "Closed"}
+          </span>
+          <span
+            className={`rounded-full px-2 py-0.5 font-mono text-[9px] capitalize ${
+              model.status === "active"
+                ? "border border-chart-3/20 text-chart-3"
+                : model.status === "declining"
+                  ? "border border-chart-5/20 text-chart-5"
+                  : "border border-border text-muted-foreground"
+            }`}
+          >
+            {model.status}
+          </span>
+        </div>
       </div>
 
-      {/* Row 2: Creator + Open/Closed */}
-      <div className="mt-1.5 flex items-center gap-2">
-        <span className="font-sans text-xs text-muted-foreground">{model.creator}</span>
-        <span
-          className={`rounded-full px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider ${
-            model.open
-              ? "bg-[#22c55e]/10 text-[#22c55e]"
-              : "bg-muted text-muted-foreground"
-          }`}
-        >
-          {model.open ? "Open" : "Closed"}
-        </span>
-      </div>
-
-      {/* Row 3: Description */}
-      <p className="mt-3 line-clamp-2 font-sans text-[13px] leading-relaxed text-muted-foreground">
+      {/* Description */}
+      <p className="line-clamp-2 text-[13px] leading-relaxed text-muted-foreground">
         {model.description}
       </p>
 
-      {/* Row 4: Capability bar */}
-      <div className="mt-3 h-[3px] w-full overflow-hidden rounded-full bg-muted">
-        <div
-          className="h-full rounded-full transition-all duration-1000"
-          style={{
-            width: `${model.capability}%`,
-            backgroundColor: model.color,
-          }}
-        />
+      {/* Bottom row: capability bar + link hint */}
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex flex-1 items-center gap-2">
+          <div className="h-1 flex-1 overflow-hidden rounded-full bg-muted">
+            <div
+              className="h-full rounded-full transition-all duration-700"
+              style={{
+                width: `${model.capability}%`,
+                backgroundColor: model.color,
+              }}
+            />
+          </div>
+          <span className="font-mono text-[10px] tabular-nums text-muted-foreground">
+            {model.capability}%
+          </span>
+        </div>
+        <ArrowUpRight className="h-3.5 w-3.5 text-muted-foreground/0 transition-all group-hover:text-primary" />
       </div>
     </Link>
   )

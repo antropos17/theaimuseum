@@ -1,62 +1,55 @@
 "use client"
 
+import { Hash } from "lucide-react"
 import { memes } from "@/data/models"
 
 export function MemesView() {
   return (
-    <div className="min-h-screen pt-20">
-      <div className="mx-auto max-w-4xl px-4 pb-24">
-        <h1 className="font-serif text-3xl font-bold text-foreground md:text-4xl">
-          AI Meme Hall of Fame
+    <div className="min-h-screen pt-12">
+      <div className="mx-auto max-w-4xl px-4 pb-24 pt-10 lg:px-6">
+        {/* Header */}
+        <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+          Hall of Fame
+        </p>
+        <h1 className="font-serif text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+          AI Meme Timeline
         </h1>
-        <p className="mt-2 font-sans text-sm text-muted-foreground">
+        <p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
           The funniest, most embarrassing, and most iconic moments in AI history.
         </p>
 
+        {/* Timeline */}
         <div className="relative mt-10">
-          {/* Vertical timeline line */}
-          <div className="absolute left-6 top-0 h-full w-px bg-border md:left-1/2" />
+          {/* Spine */}
+          <div className="absolute left-3 top-0 hidden h-full w-px bg-border md:left-5 md:block" aria-hidden="true" />
 
-          <div className="space-y-8">
-            {memes.map((meme, i) => {
-              const isLeft = i % 2 === 0
-              return (
-                <div
-                  key={i}
-                  className={`relative flex items-start gap-4 ${
-                    isLeft ? "md:flex-row" : "md:flex-row-reverse"
-                  }`}
-                >
-                  {/* Timeline dot */}
-                  <div className="absolute left-6 z-10 flex h-6 w-6 -translate-x-1/2 items-center justify-center rounded-full bg-card border border-border md:left-1/2">
-                    <span className="text-xs">{meme.emoji}</span>
-                  </div>
+          <div className="space-y-4">
+            {memes.map((meme, i) => (
+              <div key={i} className="relative flex items-start gap-4 md:pl-14">
+                {/* Dot on spine */}
+                <div className="absolute left-[9px] top-5 hidden h-2 w-2 rounded-full bg-primary md:left-[17px] md:block" aria-hidden="true" />
 
-                  {/* Card */}
-                  <div
-                    className={`ml-12 w-full glass rounded-xl p-5 md:ml-0 md:w-[calc(50%-2rem)] ${
-                      isLeft ? "md:mr-auto md:pr-8" : "md:ml-auto md:pl-8"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="font-mono text-xs text-primary">{meme.year}</span>
-                      <span className="rounded-md bg-primary/8 px-2 py-0.5 font-mono text-[10px] text-primary">
-                        #{meme.tag}
-                      </span>
-                    </div>
-                    <p className="mt-2 font-sans text-sm leading-relaxed text-foreground">
-                      {meme.text}
-                    </p>
+                <div className="w-full rounded-xl border border-border bg-card p-5 transition-colors hover:border-primary/20">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-mono text-xs tabular-nums text-primary">{meme.year}</span>
+                    <span className="flex items-center gap-1 rounded-full border border-border px-2 py-0.5 font-mono text-[10px] text-muted-foreground">
+                      <Hash className="h-2.5 w-2.5" />
+                      {meme.tag}
+                    </span>
                   </div>
+                  <p className="mt-2.5 text-[13px] leading-relaxed text-foreground">
+                    {meme.text}
+                  </p>
                 </div>
-              )
-            })}
+              </div>
+            ))}
           </div>
         </div>
 
         {/* Bottom quote */}
-        <div className="mt-16 text-center">
-          <p className="font-serif text-lg italic text-muted-foreground">
+        <div className="mt-16 flex flex-col items-center text-center">
+          <div className="h-px w-12 bg-border" />
+          <p className="mt-6 font-serif text-base italic text-muted-foreground">
             {"\"Any sufficiently advanced bug is indistinguishable from a feature.\""}
           </p>
         </div>

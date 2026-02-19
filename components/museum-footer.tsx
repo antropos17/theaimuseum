@@ -1,52 +1,78 @@
 import Link from "next/link"
 
-const socialLinks = [
-  { label: "GitHub", href: "#" },
-  { label: "Twitter", href: "#" },
-  { label: "Telegram", href: "#" },
-  { label: "Reddit", href: "#" },
+const navLinks = [
+  { label: "Explore", href: "/explore" },
+  { label: "Evolution", href: "/evolution" },
+  { label: "Graveyard", href: "/graveyard" },
+  { label: "AI Wars", href: "/battles" },
+  { label: "Simulator", href: "/simulator" },
+  { label: "Quiz", href: "/quiz" },
+  { label: "Leaderboard", href: "/leaderboard" },
 ]
 
 export function MuseumFooter() {
   return (
-    <footer className="border-t border-border py-12">
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-4">
-        <div className="flex items-center gap-2">
-          <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-primary/10">
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              className="text-primary"
-            >
-              <circle cx="12" cy="12" r="3" fill="currentColor" />
-              <circle cx="12" cy="4" r="2" fill="currentColor" opacity="0.5" />
-              <circle cx="12" cy="20" r="2" fill="currentColor" opacity="0.5" />
-              <circle cx="4" cy="12" r="2" fill="currentColor" opacity="0.5" />
-              <circle cx="20" cy="12" r="2" fill="currentColor" opacity="0.5" />
-            </svg>
+    <footer className="border-t border-border">
+      <div className="mx-auto max-w-6xl px-4 py-12 lg:px-6">
+        <div className="flex flex-col gap-10 sm:flex-row sm:justify-between">
+          {/* Brand */}
+          <div className="max-w-xs">
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary">
+                <span className="font-serif text-[10px] font-bold text-primary-foreground">
+                  AI
+                </span>
+              </div>
+              <span className="font-serif text-sm font-semibold text-foreground">
+                The AI Museum
+              </span>
+            </div>
+            <p className="mt-3 text-[13px] leading-relaxed text-muted-foreground">
+              The world{"'"}s first interactive museum of AI history. 75 years of breakthroughs,
+              failures, and everything in between.
+            </p>
           </div>
-          <span className="font-sans text-sm text-muted-foreground">
-            The AI Museum &middot; 2025 &middot; Open Source
-          </span>
+
+          {/* Navigation */}
+          <div>
+            <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+              Navigation
+            </p>
+            <div className="flex flex-col gap-2">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-[13px] text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Meta */}
+          <div>
+            <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+              Project
+            </p>
+            <div className="flex flex-col gap-2">
+              <span className="text-[13px] text-muted-foreground">Open Source</span>
+              <span className="text-[13px] text-muted-foreground">Built with Next.js</span>
+              <span className="text-[13px] text-muted-foreground">Free Forever</span>
+            </div>
+          </div>
         </div>
 
-        <div className="flex items-center gap-4">
-          {socialLinks.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              className="font-sans text-xs text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {link.label}
-            </Link>
-          ))}
+        {/* Bottom bar */}
+        <div className="mt-10 flex flex-col items-center justify-between gap-2 border-t border-border pt-6 sm:flex-row">
+          <p className="font-mono text-[11px] text-muted-foreground">
+            &copy; 2025 The AI Museum. All rights reserved.
+          </p>
+          <p className="font-mono text-[11px] text-muted-foreground">
+            Est. 1950 &middot; 25 Models &middot; 1950--2025
+          </p>
         </div>
-
-        <p className="font-sans text-xs text-muted-foreground">
-          Built with care and neural connections
-        </p>
       </div>
     </footer>
   )

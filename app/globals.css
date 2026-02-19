@@ -3,109 +3,130 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ═══════════════════════════════════════════════════
+   THE AI MUSEUM — Design System
+   Inspired by: Vercel Geist, Apple HIG, Godly.website
+   ═══════════════════════════════════════════════════ */
+
 :root {
+  /* Core surfaces — zinc-based, clean and readable */
   --background: #fafafa;
-  --foreground: #1a1a2e;
+  --foreground: #09090b;
   --card: #ffffff;
-  --card-foreground: #1a1a2e;
+  --card-foreground: #09090b;
   --popover: #ffffff;
-  --popover-foreground: #1a1a2e;
-  --primary: #a855f7;
+  --popover-foreground: #09090b;
+
+  /* Accent palette — restrained, purposeful */
+  --primary: #7c3aed;
   --primary-foreground: #ffffff;
-  --secondary: #22d3ee;
-  --secondary-foreground: #1a1a2e;
-  --muted: #f0f0f5;
-  --muted-foreground: #7a7a9a;
-  --accent: #22d3ee;
-  --accent-foreground: #1a1a2e;
-  --destructive: #ef4444;
+  --secondary: #f4f4f5;
+  --secondary-foreground: #18181b;
+  --accent: #f4f4f5;
+  --accent-foreground: #18181b;
+
+  /* UI chrome */
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+  --ring: #7c3aed;
+  --radius: 0.625rem;
+
+  /* Status */
+  --destructive: #dc2626;
   --destructive-foreground: #ffffff;
-  --border: rgba(168, 85, 247, 0.12);
-  --input: rgba(168, 85, 247, 0.08);
-  --ring: #a855f7;
-  --radius: 0.75rem;
+  --success: #16a34a;
+  --warning: #d97706;
+  --info: #0ea5e9;
 
-  --museum-bg: #fafafa;
-  --museum-surface: #ffffff;
-  --museum-glass: rgba(255, 255, 255, 0.85);
-  --museum-glass-border: rgba(168, 85, 247, 0.12);
-  --museum-purple: #a855f7;
-  --museum-cyan: #22d3ee;
-  --museum-success: #22c55e;
-  --museum-danger: #ef4444;
-  --museum-warning: #f59e0b;
-  --museum-text: #1a1a2e;
-  --museum-text-muted: #7a7a9a;
+  /* Charts */
+  --chart-1: #7c3aed;
+  --chart-2: #06b6d4;
+  --chart-3: #16a34a;
+  --chart-4: #d97706;
+  --chart-5: #dc2626;
 
+  /* Museum-specific surfaces */
+  --surface-1: #ffffff;
+  --surface-2: #f9fafb;
+  --surface-3: #f4f4f5;
+  --glow: rgba(124, 58, 237, 0.08);
+
+  /* Sidebar */
   --sidebar: #ffffff;
-  --sidebar-foreground: #1a1a2e;
-  --sidebar-primary: #a855f7;
+  --sidebar-foreground: #09090b;
+  --sidebar-primary: #7c3aed;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f0f0f5;
-  --sidebar-accent-foreground: #1a1a2e;
-  --sidebar-border: rgba(168, 85, 247, 0.08);
-  --sidebar-ring: #a855f7;
-
-  --chart-1: #a855f7;
-  --chart-2: #22d3ee;
-  --chart-3: #22c55e;
-  --chart-4: #f59e0b;
-  --chart-5: #ef4444;
+  --sidebar-accent: #f4f4f5;
+  --sidebar-accent-foreground: #18181b;
+  --sidebar-border: #e4e4e7;
+  --sidebar-ring: #7c3aed;
 }
 
 .dark {
-  --background: #030408;
-  --foreground: #f0f6fc;
-  --card: #0a0c18;
-  --card-foreground: #f0f6fc;
-  --popover: #0a0c18;
-  --popover-foreground: #f0f6fc;
-  --primary: #a855f7;
-  --primary-foreground: #ffffff;
-  --secondary: #22d3ee;
-  --secondary-foreground: #030408;
-  --muted: #13152a;
-  --muted-foreground: #7a7a9a;
-  --accent: #22d3ee;
-  --accent-foreground: #030408;
+  /* Core surfaces — deep, layered blacks */
+  --background: #09090b;
+  --foreground: #fafafa;
+  --card: #18181b;
+  --card-foreground: #fafafa;
+  --popover: #18181b;
+  --popover-foreground: #fafafa;
+
+  /* Accent palette */
+  --primary: #a78bfa;
+  --primary-foreground: #09090b;
+  --secondary: #27272a;
+  --secondary-foreground: #fafafa;
+  --accent: #27272a;
+  --accent-foreground: #fafafa;
+
+  /* UI chrome */
+  --muted: #27272a;
+  --muted-foreground: #a1a1aa;
+  --border: #27272a;
+  --input: #27272a;
+  --ring: #a78bfa;
+
+  /* Status */
   --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --border: rgba(168, 85, 247, 0.08);
-  --input: rgba(168, 85, 247, 0.06);
-  --ring: #a855f7;
+  --destructive-foreground: #fafafa;
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --info: #22d3ee;
 
-  --museum-bg: #030408;
-  --museum-surface: #0a0c18;
-  --museum-glass: rgba(10, 12, 24, 0.8);
-  --museum-glass-border: rgba(168, 85, 247, 0.08);
-  --museum-purple: #a855f7;
-  --museum-cyan: #22d3ee;
-  --museum-success: #22c55e;
-  --museum-danger: #ef4444;
-  --museum-warning: #f59e0b;
-  --museum-text: #f0f6fc;
-  --museum-text-muted: #7a7a9a;
-
-  --sidebar: #0a0c18;
-  --sidebar-foreground: #f0f6fc;
-  --sidebar-primary: #a855f7;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #13152a;
-  --sidebar-accent-foreground: #f0f6fc;
-  --sidebar-border: rgba(168, 85, 247, 0.08);
-  --sidebar-ring: #a855f7;
-
-  --chart-1: #a855f7;
+  /* Charts */
+  --chart-1: #a78bfa;
   --chart-2: #22d3ee;
   --chart-3: #22c55e;
   --chart-4: #f59e0b;
   --chart-5: #ef4444;
+
+  /* Museum-specific surfaces */
+  --surface-1: #18181b;
+  --surface-2: #1f1f23;
+  --surface-3: #27272a;
+  --glow: rgba(167, 139, 250, 0.06);
+
+  /* Sidebar */
+  --sidebar: #18181b;
+  --sidebar-foreground: #fafafa;
+  --sidebar-primary: #a78bfa;
+  --sidebar-primary-foreground: #09090b;
+  --sidebar-accent: #27272a;
+  --sidebar-accent-foreground: #fafafa;
+  --sidebar-border: #27272a;
+  --sidebar-ring: #a78bfa;
 }
 
+/* ═══════════════════════════════════════════════════
+   Theme tokens → Tailwind
+   ═══════════════════════════════════════════════════ */
 @theme inline {
-  --font-sans: 'DM Sans', 'DM Sans Fallback', system-ui, sans-serif;
+  --font-sans: 'Geist', 'Geist Fallback', system-ui, -apple-system, sans-serif;
   --font-serif: 'Playfair Display', 'Playfair Display Fallback', Georgia, serif;
-  --font-mono: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
+  --font-mono: 'Geist Mono', 'Geist Mono Fallback', ui-monospace, monospace;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -130,10 +151,17 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-glow: var(--glow);
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -144,120 +172,147 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* ═══════════════════════════════════════════════════
+   Base layer
+   ═══════════════════════════════════════════════════ */
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+  }
+  h1, h2, h3, h4 {
+    @apply tracking-tight text-balance;
   }
 }
 
-/* Museum-specific utilities */
+/* ═══════════════════════════════════════════════════
+   Museum utility classes
+   ═══════════════════════════════════════════════════ */
 @layer utilities {
-  .glass {
-    background: var(--museum-glass);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid var(--museum-glass-border);
+  /* Grain texture overlay */
+  .grain::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    opacity: 0.015;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
   }
 
-  .glass-hover:hover {
-    box-shadow: 0 0 20px rgba(168, 85, 247, 0.15);
+  /* Dot grid pattern background */
+  .dot-grid {
+    background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
+    background-size: 24px 24px;
   }
 
+  /* Gradient text fill */
   .gradient-text {
-    background: linear-gradient(135deg, var(--museum-purple), var(--museum-cyan));
+    background: linear-gradient(to right, var(--primary), var(--info));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  .gradient-border {
-    border: 1px solid transparent;
-    background-image: linear-gradient(var(--museum-surface), var(--museum-surface)),
-                      linear-gradient(135deg, var(--museum-purple), var(--museum-cyan));
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
+  /* Purple glow spotlight */
+  .glow-spot {
+    background: radial-gradient(
+      600px circle at var(--mouse-x, 50%) var(--mouse-y, 30%),
+      var(--glow),
+      transparent 60%
+    );
   }
 
-  .noise-overlay {
-    position: relative;
-  }
-  .noise-overlay::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    opacity: 0.02;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .pulse-glow {
-    animation: pulseGlow 2s ease-in-out infinite;
-  }
-
-  .status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-  }
-  .status-dot-active {
-    background-color: var(--museum-success);
-    animation: pulseGlow 2s ease-in-out infinite;
-    box-shadow: 0 0 8px rgba(34, 197, 94, 0.5);
-  }
-  .status-dot-historic {
-    background-color: #6b7280;
-  }
-  .status-dot-declining {
-    background-color: var(--museum-danger);
-  }
-}
-
-@keyframes pulseGlow {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-@keyframes fadeInUp {
-  from {
+  /* Fade-in on scroll (used with IntersectionObserver) */
+  .fade-in-up {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(16px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
   }
-  to {
+  .fade-in-up.visible {
     opacity: 1;
     transform: translateY(0);
   }
+
+  /* Stagger children */
+  .stagger > * {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .stagger.visible > *:nth-child(1) { transition-delay: 0ms; opacity: 1; transform: translateY(0); }
+  .stagger.visible > *:nth-child(2) { transition-delay: 60ms; opacity: 1; transform: translateY(0); }
+  .stagger.visible > *:nth-child(3) { transition-delay: 120ms; opacity: 1; transform: translateY(0); }
+  .stagger.visible > *:nth-child(4) { transition-delay: 180ms; opacity: 1; transform: translateY(0); }
+  .stagger.visible > *:nth-child(5) { transition-delay: 240ms; opacity: 1; transform: translateY(0); }
+  .stagger.visible > *:nth-child(6) { transition-delay: 300ms; opacity: 1; transform: translateY(0); }
+  .stagger.visible > *:nth-child(7) { transition-delay: 360ms; opacity: 1; transform: translateY(0); }
+  .stagger.visible > *:nth-child(8) { transition-delay: 420ms; opacity: 1; transform: translateY(0); }
+  .stagger.visible > *:nth-child(9) { transition-delay: 480ms; opacity: 1; transform: translateY(0); }
+
+  /* Shimmer skeleton */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      var(--surface-1) 25%,
+      var(--surface-2) 50%,
+      var(--surface-1) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
 }
 
-.animate-float {
-  animation: float 6s ease-in-out infinite;
+/* ═══════════════════════════════════════════════════
+   Keyframes
+   ═══════════════════════════════════════════════════ */
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
 .animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out forwards;
-  opacity: 0;
+  animation: fadeInUp 0.6s ease-out both;
 }
 
-/* Stagger delays */
-.delay-100 { animation-delay: 0.1s; }
-.delay-200 { animation-delay: 0.2s; }
-.delay-300 { animation-delay: 0.3s; }
-.delay-400 { animation-delay: 0.4s; }
-.delay-500 { animation-delay: 0.5s; }
-.delay-600 { animation-delay: 0.6s; }
-.delay-700 { animation-delay: 0.7s; }
-.delay-800 { animation-delay: 0.8s; }
-.delay-1000 { animation-delay: 1s; }
+.animate-slide-down {
+  animation: slideDown 0.3s ease-out both;
+}
 
-/* Scrollbar styling */
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* ═══════════════════════════════════════════════════
+   Custom scrollbar
+   ═══════════════════════════════════════════════════ */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -266,9 +321,17 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(168, 85, 247, 0.2);
+  background: var(--border);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(168, 85, 247, 0.4);
+  background: var(--muted-foreground);
+}
+
+/* ═══════════════════════════════════════════════════
+   Selection highlight
+   ═══════════════════════════════════════════════════ */
+::selection {
+  background: var(--primary);
+  color: var(--primary-foreground);
 }

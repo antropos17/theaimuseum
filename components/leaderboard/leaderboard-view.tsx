@@ -22,26 +22,30 @@ export function LeaderboardView() {
   )
 
   return (
-    <div className="min-h-screen pt-20">
-      <div className="mx-auto max-w-4xl px-4 pb-24">
-        <h1 className="font-serif text-3xl font-bold text-foreground md:text-4xl">
+    <div className="min-h-screen pt-12">
+      <div className="mx-auto max-w-4xl px-4 pb-24 pt-10 lg:px-6">
+        {/* Header */}
+        <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+          Rankings
+        </p>
+        <h1 className="font-serif text-3xl font-bold tracking-tight text-foreground md:text-4xl">
           Leaderboard
         </h1>
-        <p className="mt-2 font-sans text-sm text-muted-foreground">
-          All 25 models, ranked. Choose your metric.
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          All {models.length} models, ranked. Choose your metric.
         </p>
 
         {/* Sort tabs */}
-        <div className="mt-6 flex items-center gap-2">
+        <div className="mt-6 flex items-center gap-0 border-b border-border">
           {sortOptions.map((opt) => (
             <button
               key={opt.key}
               onClick={() => setSortKey(opt.key)}
               className={cn(
-                "rounded-lg px-4 py-2 font-sans text-xs font-medium transition-all",
+                "border-b-2 px-4 py-2.5 text-[13px] font-medium transition-colors",
                 sortKey === opt.key
-                  ? "bg-primary/12 text-primary"
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "border-primary text-foreground"
+                  : "border-transparent text-muted-foreground hover:text-foreground"
               )}
             >
               {opt.label}
@@ -50,28 +54,28 @@ export function LeaderboardView() {
         </div>
 
         {/* Table */}
-        <div className="mt-6 glass rounded-xl overflow-hidden">
+        <div className="mt-6 overflow-hidden rounded-xl border border-border bg-card">
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="border-b border-border">
-                  <th className="px-4 py-3 font-mono text-[10px] uppercase tracking-wide text-muted-foreground">
+                <tr className="border-b border-border bg-surface-1">
+                  <th className="px-4 py-3 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                     #
                   </th>
-                  <th className="px-4 py-3 font-mono text-[10px] uppercase tracking-wide text-muted-foreground">
+                  <th className="px-4 py-3 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                     Model
                   </th>
-                  <th className="hidden px-4 py-3 font-mono text-[10px] uppercase tracking-wide text-muted-foreground sm:table-cell">
+                  <th className="hidden px-4 py-3 font-mono text-[10px] uppercase tracking-widest text-muted-foreground sm:table-cell">
                     Category
                   </th>
-                  <th className="hidden px-4 py-3 font-mono text-[10px] uppercase tracking-wide text-muted-foreground md:table-cell">
+                  <th className="hidden px-4 py-3 font-mono text-[10px] uppercase tracking-widest text-muted-foreground md:table-cell">
                     Year
                   </th>
-                  <th className="px-4 py-3 font-mono text-[10px] uppercase tracking-wide text-muted-foreground">
-                    {sortKey}
+                  <th className="px-4 py-3 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                    Score
                   </th>
-                  <th className="px-4 py-3 font-mono text-[10px] uppercase tracking-wide text-muted-foreground">
-                    Bar
+                  <th className="px-4 py-3 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                    &nbsp;
                   </th>
                 </tr>
               </thead>
@@ -82,51 +86,54 @@ export function LeaderboardView() {
                   return (
                     <tr
                       key={model.id}
-                      className="border-b border-border/50 transition-colors hover:bg-primary/3"
+                      className="border-b border-border/50 transition-colors hover:bg-surface-1/50"
                     >
                       <td className="px-4 py-3">
                         <span
                           className={cn(
-                            "font-mono text-xs font-bold",
-                            i === 0 && "text-[var(--museum-warning)]",
+                            "font-mono text-xs font-semibold tabular-nums",
+                            i === 0 && "text-chart-4",
                             i === 1 && "text-muted-foreground",
-                            i === 2 && "text-[#CD7F32]",
-                            i > 2 && "text-muted-foreground"
+                            i === 2 && "text-chart-4/60",
+                            i > 2 && "text-muted-foreground/60"
                           )}
                         >
                           {i + 1}
                         </span>
                       </td>
                       <td className="px-4 py-3">
-                        <Link href={`/model/${model.slug}`} className="group flex items-center gap-2">
+                        <Link
+                          href={`/model/${model.slug}`}
+                          className="group flex items-center gap-2"
+                        >
                           <div
                             className="h-2.5 w-2.5 rounded-full"
                             style={{ backgroundColor: model.color }}
                           />
-                          <span className="font-sans text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
+                          <span className="text-sm font-semibold text-foreground transition-colors group-hover:text-primary">
                             {model.name}
                           </span>
                         </Link>
                       </td>
                       <td className="hidden px-4 py-3 sm:table-cell">
-                        <span className="rounded-md bg-primary/6 px-2 py-0.5 font-mono text-[10px]" style={{ color: cat.color }}>
+                        <span
+                          className="rounded-full border px-2 py-0.5 font-mono text-[10px]"
+                          style={{ borderColor: `${cat.color}30`, color: cat.color }}
+                        >
                           {cat.label}
                         </span>
                       </td>
-                      <td className="hidden px-4 py-3 font-mono text-xs text-muted-foreground md:table-cell">
+                      <td className="hidden px-4 py-3 font-mono text-xs tabular-nums text-muted-foreground md:table-cell">
                         {model.year}
                       </td>
-                      <td className="px-4 py-3 font-mono text-sm font-bold text-foreground">
+                      <td className="px-4 py-3 font-mono text-sm font-semibold tabular-nums text-foreground">
                         {val}
                       </td>
                       <td className="px-4 py-3">
-                        <div className="h-1.5 w-24 overflow-hidden rounded-full bg-muted">
+                        <div className="h-1 w-20 overflow-hidden rounded-full bg-muted">
                           <div
                             className="h-full rounded-full transition-all duration-500"
-                            style={{
-                              width: `${val}%`,
-                              backgroundColor: model.color,
-                            }}
+                            style={{ width: `${val}%`, backgroundColor: model.color }}
                           />
                         </div>
                       </td>
