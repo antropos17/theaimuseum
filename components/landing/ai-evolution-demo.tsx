@@ -299,18 +299,24 @@ function ChatWindow({
    ═══════════════════════════════════════════════════ */
 
 /* Deterministic pseudo-random using seed — avoids hydration mismatch from Math.random() */
-const seededOffset = (i: number) => ((i * 7 + 3) % 11) / 11 * 8 - 4 // range ~[-4, 4]
-const seededDuration = (i: number) => 2.2 + ((i * 13 + 5) % 9) / 9 * 0.8 // range [2.2, 3.0]
+const seededOffset = (i: number) => Math.round(((i * 7 + 3) % 11) / 11 * 8 - 4) // integer range ~[-4, 4]
+const seededDuration = (i: number) => (2.2 + ((i * 13 + 5) % 9) / 9 * 0.8).toFixed(1) // "2.2" - "3.0"
 
 function NeuralParticle({ direction, delay, color, size, index }: { direction: "left" | "right"; delay: number; color: string; size: number; index: number }) {
+  const mt = -size / 2 + seededOffset(index)
+  const dur = seededDuration(index)
   return (
     <span
       className={`absolute top-1/2 rounded-full ${color}`}
       style={{
-        width: size,
-        height: size,
-        marginTop: -size / 2 + seededOffset(index),
-        animation: `neuralFlow${direction === "left" ? "Left" : "Right"} ${seededDuration(index)}s ease-in-out ${delay}s infinite`,
+        width: `${size}px`,
+        height: `${size}px`,
+        marginTop: `${mt}px`,
+        animationName: direction === "left" ? "neuralFlowLeft" : "neuralFlowRight",
+        animationDuration: `${dur}s`,
+        animationTimingFunction: "ease-in-out",
+        animationDelay: `${delay}s`,
+        animationIterationCount: "infinite",
       }}
     />
   )
