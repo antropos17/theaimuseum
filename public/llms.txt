@@ -1,0 +1,42 @@
+# The AI Museum
+
+> Free interactive web museum covering 75 years of AI history (1950-2025). Features timeline, ELIZA/SHRDLU/PARRY simulators, quiz, AI graveyard. Next.js, open source, no login.
+
+## Key Facts
+
+- **75 years** of AI history coverage
+- **25+ models** featured
+- **8 categories** of content
+- **Free** and open access
+
+## Main Pages
+
+- **/** — Home page with interactive timeline and featured exhibits
+- **/simulator** — Run classic AI simulators (ELIZA, SHRDLU, PARRY)
+- **/quiz** — Test your knowledge of AI history
+- **/graveyard** — Explore discontinued AI projects and models
+
+## Topics Covered
+
+- Alan Turing and the Turing Test
+- Dartmouth Conference (1956)
+- ELIZA and early chatbots
+- Expert systems era
+- AI winters and recovery
+- Deep Blue vs Kasparov
+- ImageNet and deep learning revolution
+- AlphaGo breakthrough
+- GPT and large language models
+- ChatGPT phenomenon
+- DALL-E and generative AI
+- AI ethics and societal impact
+- AGI speculation and future
+
+## Technical
+
+- **Framework:** Next.js 14
+- **Language:** React with TypeScript
+- **Styling:** Tailwind CSS
+- **Components:** shadcn/ui
+- **Deployment:** Vercel
+- **License:** Open source
