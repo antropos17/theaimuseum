@@ -1,24 +1,42 @@
 "use client"
 
 import { useState } from "react"
-import { toast } from "sonner"
+import { Check, Download } from "lucide-react"
 import { useInView } from "@/hooks/use-in-view"
 import { CopyableTerminalCard } from "@/components/ui/copyable-terminal-card"
 
 export function NewsletterSection() {
   const [email, setEmail] = useState("")
-  const [submitted, setSubmitted] = useState(false)
+  const [subscribed, setSubscribed] = useState(false)
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
   const { ref, isInView } = useInView()
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (email) {
-      setSubmitted(true)
-      toast.success("Subscribed! Welcome to the archive.")
-      setTimeout(() => {
-        setEmail("")
-        setSubmitted(false)
-      }, 3000)
+    setError("")
+    setLoading(true)
+
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) {
+        setError(data.message || "Invalid email")
+        setLoading(false)
+        return
+      }
+
+      setSubscribed(true)
+    } catch {
+      setError("Invalid email")
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -51,26 +69,52 @@ export function NewsletterSection() {
               </p>
             </div>
 
-            <form onSubmit={handleSubscribe} className="flex shrink-0">
-              <div className="flex items-center border border-dashed border-border bg-background transition-colors focus-within:border-primary">
-                <span className="px-3 font-mono text-[11px] text-primary">{'>'}</span>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="your@email.com"
-                  className="w-full min-w-0 bg-transparent py-2.5 pr-2 font-mono text-xs text-foreground placeholder:text-muted-foreground/40 focus:outline-none sm:w-48"
-                  required
-                />
+            {subscribed ? (
+              <div className="shrink-0">
+                <div className="flex items-center gap-1.5 font-mono text-xs text-foreground">
+                  <Check size={14} strokeWidth={1.5} className="text-primary" />
+                  {"You're in! Welcome to the museum."}
+                </div>
+                <a
+                  href="/ai-timeline.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 flex items-center gap-1.5 font-mono text-xs text-primary decoration-dashed hover:underline"
+                >
+                  <Download size={14} strokeWidth={1.5} />
+                  Download: 75 Key Moments in AI History (PDF)
+                </a>
               </div>
-              <button
-                type="submit"
-                disabled={submitted}
-                className="border border-l-0 border-primary bg-primary/10 px-4 py-2.5 font-mono text-[11px] text-primary transition-colors hover:bg-primary/20 disabled:opacity-50"
-              >
-                {submitted ? "[OK]" : "[SEND]"}
-              </button>
-            </form>
+            ) : (
+              <div className="shrink-0">
+                <form onSubmit={handleSubscribe} className="flex">
+                  <div className="flex items-center border border-dashed border-border bg-background transition-colors focus-within:border-primary">
+                    <span className="px-3 font-mono text-[11px] text-primary">{'>'}</span>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => {
+                        setEmail(e.target.value)
+                        setError("")
+                      }}
+                      placeholder="your@email.com"
+                      className="w-full min-w-0 bg-transparent py-2.5 pr-2 font-mono text-xs text-foreground placeholder:text-muted-foreground/40 focus:outline-none sm:w-48"
+                      required
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="border border-l-0 border-primary bg-primary/10 px-4 py-2.5 font-mono text-[11px] text-primary transition-colors hover:bg-primary/20 disabled:opacity-50"
+                  >
+                    {loading ? "[...]" : "[SEND]"}
+                  </button>
+                </form>
+                {error && (
+                  <p className="mt-2 text-xs text-destructive">{error}</p>
+                )}
+              </div>
+            )}
           </div>
 
           <p className="mt-4 font-mono text-[10px] text-muted-foreground/50">

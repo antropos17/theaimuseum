@@ -2,7 +2,7 @@
 
 import { useRef, createElement } from "react"
 import { Copy } from "lucide-react"
-import { toast } from "@/hooks/use-toast"
+import { toast } from "sonner"
 import { cn } from "@/lib/utils"
 
 interface CopyableTerminalCardProps {
@@ -23,10 +23,7 @@ export function CopyableTerminalCard({ children, className, as = "div", ...props
       const text = cardRef.current.innerText
       try {
         await navigator.clipboard.writeText(text)
-        toast({
-          description: "Copied!",
-          duration: 2000,
-        })
+        toast.success("Copied!", { duration: 2000 })
       } catch (err) {
         console.log("[v0] Failed to copy:", err)
       }
