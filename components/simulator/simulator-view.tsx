@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { Send, Terminal } from "lucide-react"
 import { simulatorEras } from "@/data/models"
 import { cn } from "@/lib/utils"
 
@@ -28,19 +27,15 @@ export function SimulatorView() {
   }, [eraIdx])
 
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight
-    }
+    if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight
   }, [messages, typedText])
 
   function sendNext() {
     if (typing || promptIdx >= era.prompts.length) return
-
     const prompt = era.prompts[promptIdx]
     setMessages((prev) => [...prev, { role: "user", text: prompt.prompt }])
     setTyping(true)
     setTypedText("")
-
     const response = prompt.response
     let charIdx = 0
     const interval = setInterval(() => {
@@ -57,30 +52,23 @@ export function SimulatorView() {
   }
 
   return (
-    <div className="min-h-screen pt-12">
-      <div className="mx-auto max-w-3xl px-4 pb-24 pt-10 lg:px-6">
-        {/* Header */}
-        <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-          Interactive
-        </p>
-        <h1 className="font-serif text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-          AI Simulator
-        </h1>
-        <p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
+    <div className="min-h-screen pt-16">
+      <div className="mx-auto max-w-2xl px-4 pb-24 pt-10">
+        <p className="mb-2 text-[8px] uppercase tracking-[0.3em] text-muted-foreground">{'>'} Interactive</p>
+        <h1 className="text-lg text-primary sm:text-xl">AI SIMULATOR</h1>
+        <p className="mt-2 text-[8px] leading-relaxed text-muted-foreground">
           Experience how AI responses evolved from 1966 to 2025.
         </p>
 
         {/* Era tabs */}
-        <div className="mt-6 flex flex-wrap items-center gap-1">
+        <div className="mt-6 flex flex-wrap gap-1">
           {simulatorEras.map((e, i) => (
             <button
               key={e.era}
               onClick={() => setEraIdx(i)}
               className={cn(
-                "rounded-full px-3 py-1 text-xs font-medium transition-all",
-                eraIdx === i
-                  ? "border border-primary/30 bg-primary/10 text-primary"
-                  : "border border-transparent text-muted-foreground hover:text-foreground"
+                "pixel-border px-2 py-1 text-[6px] transition-colors",
+                eraIdx === i ? "bg-primary text-primary-foreground" : "bg-card text-muted-foreground hover:text-foreground"
               )}
             >
               {e.era}
@@ -88,116 +76,74 @@ export function SimulatorView() {
           ))}
         </div>
 
-        {/* Chat window */}
-        <div className="mt-6 overflow-hidden rounded-xl border border-border bg-card">
-          {/* Header */}
-          <div className="flex items-center justify-between border-b border-border px-5 py-3">
-            <div className="flex items-center gap-2.5">
-              <Terminal className="h-3.5 w-3.5 text-primary" />
-              <span className="text-sm font-semibold text-foreground">
-                {era.label}
-              </span>
-            </div>
-            <span className="font-mono text-[11px] text-muted-foreground">
-              {era.era}
-            </span>
+        {/* Terminal */}
+        <div className="mt-4 pixel-border overflow-hidden bg-card">
+          <div className="flex items-center justify-between border-b-2 border-border px-4 py-2">
+            <span className="text-[8px] text-primary">{'>'} {era.label}</span>
+            <span className="text-[6px] text-muted-foreground">{era.era}</span>
           </div>
 
-          {/* Messages */}
-          <div ref={scrollRef} className="h-80 overflow-y-auto p-5">
-            <div className="space-y-4">
-              {messages.length === 0 && !typing && (
-                <div className="flex h-full min-h-[200px] items-center justify-center">
-                  <p className="text-center text-sm text-muted-foreground">
-                    Click &quot;Send prompt&quot; to begin the conversation with {era.label}
-                  </p>
+          <div ref={scrollRef} className="h-64 overflow-y-auto p-4">
+            {messages.length === 0 && !typing && (
+              <div className="flex h-full items-center justify-center">
+                <p className="text-[7px] text-muted-foreground text-center">
+                  CLICK [SEND] TO BEGIN...
+                </p>
+              </div>
+            )}
+            {messages.map((msg, i) => (
+              <div key={i} className={cn("mb-3", msg.role === "user" ? "text-right" : "text-left")}>
+                <span className="text-[6px] text-muted-foreground">{msg.role === "user" ? "YOU" : "AI"}</span>
+                <div className={cn(
+                  "mt-0.5 inline-block pixel-border px-3 py-2 text-[7px] leading-[2]",
+                  msg.role === "user" ? "bg-primary/10 text-foreground" : "bg-background text-foreground"
+                )}>
+                  {msg.text}
                 </div>
-              )}
-
-              {messages.map((msg, i) => (
-                <div
-                  key={i}
-                  className={cn(
-                    "flex animate-fade-in-up",
-                    msg.role === "user" ? "justify-end" : "justify-start"
-                  )}
-                  style={{ animationDelay: "0ms" }}
-                >
-                  <div
-                    className={cn(
-                      "max-w-[80%] rounded-lg px-4 py-3 transition-shadow duration-300",
-                      msg.role === "user"
-                        ? "bg-primary/10 text-foreground"
-                        : "border border-border bg-surface-1 text-foreground hover:shadow-sm"
-                    )}
-                  >
-                    <p className="font-mono text-xs leading-relaxed whitespace-pre-wrap">
-                      {msg.text}
-                    </p>
-                  </div>
+              </div>
+            ))}
+            {typing && typedText && (
+              <div className="text-left">
+                <span className="text-[6px] text-muted-foreground">AI</span>
+                <div className="mt-0.5 pixel-border bg-background px-3 py-2 text-[7px] leading-[2] text-foreground inline-block">
+                  {typedText}<span className="animate-pulse text-primary">_</span>
                 </div>
-              ))}
-
-              {typing && typedText && (
-                <div className="flex justify-start">
-                  <div className="max-w-[80%] rounded-lg border border-border bg-surface-1 px-4 py-3">
-                    <p className="font-mono text-xs leading-relaxed whitespace-pre-wrap text-foreground">
-                      {typedText}
-                      <span className="animate-pulse text-primary">|</span>
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
 
-          {/* Controls */}
-          <div className="flex items-center justify-between border-t border-border px-5 py-3">
-            <span className="font-mono text-[11px] text-muted-foreground">
-              {promptIdx < era.prompts.length
-                ? `Prompt ${promptIdx + 1} of ${era.prompts.length}`
-                : "All prompts sent"}
+          <div className="flex items-center justify-between border-t-2 border-border px-4 py-2">
+            <span className="text-[6px] text-muted-foreground">
+              {promptIdx < era.prompts.length ? `${promptIdx + 1}/${era.prompts.length}` : "DONE"}
             </span>
             <button
               onClick={sendNext}
               disabled={typing || promptIdx >= era.prompts.length}
               className={cn(
-                "flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-medium transition-all",
+                "pixel-border px-3 py-1 text-[7px] transition-colors",
                 typing || promptIdx >= era.prompts.length
-                  ? "cursor-not-allowed border border-border text-muted-foreground"
+                  ? "text-muted-foreground"
                   : "bg-primary text-primary-foreground hover:brightness-110"
               )}
             >
-              {typing ? (
-                "Typing..."
-              ) : promptIdx >= era.prompts.length ? (
-                "Complete"
-              ) : (
-                <>
-                  Send <Send className="h-3 w-3" />
-                </>
-              )}
+              {typing ? "TYPING..." : promptIdx >= era.prompts.length ? "COMPLETE" : "[SEND]"}
             </button>
           </div>
         </div>
 
-        {/* Quality bar */}
+        {/* Quality */}
         {messages.length > 0 && (
-          <div className="mt-6 rounded-xl border border-border bg-card p-5">
+          <div className="mt-4 pixel-border bg-card p-3">
             <div className="flex items-center justify-between">
-              <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                Response Quality
-              </span>
-              <span className="font-mono text-xs tabular-nums text-foreground">
+              <span className="text-[7px] text-muted-foreground">QUALITY</span>
+              <span className="text-[7px] tabular-nums text-foreground">
                 {era.prompts[Math.min(promptIdx, era.prompts.length) - 1]?.quality ?? 0}/100
               </span>
             </div>
-            <div className="mt-2.5 h-1.5 w-full overflow-hidden rounded-full bg-muted">
+            <div className="mt-2 h-[6px] w-full bg-muted">
               <div
-                className="h-full rounded-full bg-primary transition-all duration-700"
-                style={{
-                  width: `${era.prompts[Math.min(promptIdx, era.prompts.length) - 1]?.quality ?? 0}%`,
-                }}
+                className="h-full bg-primary transition-all duration-500"
+                style={{ width: `${era.prompts[Math.min(promptIdx, era.prompts.length) - 1]?.quality ?? 0}%` }}
               />
             </div>
           </div>

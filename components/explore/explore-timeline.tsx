@@ -1,7 +1,6 @@
 "use client"
 
-import { useState, useMemo, useEffect } from "react"
-import { Search } from "lucide-react"
+import { useState, useMemo } from "react"
 import { models, categories } from "@/data/models"
 import { TimelineCard } from "./timeline-card"
 import { cn } from "@/lib/utils"
@@ -9,42 +8,29 @@ import { cn } from "@/lib/utils"
 type CategoryKey = keyof typeof categories | "all"
 
 const categoryFilters: { key: CategoryKey; label: string }[] = [
-  { key: "all", label: "All" },
-  { key: "chatbot", label: "Chatbots" },
-  { key: "image", label: "Image" },
-  { key: "video", label: "Video" },
-  { key: "music", label: "Music" },
-  { key: "code", label: "Code" },
-  { key: "game", label: "Games" },
-  { key: "concept", label: "Concepts" },
-  { key: "science", label: "Science" },
+  { key: "all", label: "[ALL]" },
+  { key: "chatbot", label: "[CHAT]" },
+  { key: "image", label: "[IMG]" },
+  { key: "video", label: "[VID]" },
+  { key: "music", label: "[MUS]" },
+  { key: "code", label: "[CODE]" },
+  { key: "game", label: "[GAME]" },
+  { key: "concept", label: "[IDEA]" },
+  { key: "science", label: "[SCI]" },
 ]
 
 export function ExploreTimeline() {
   const [activeCategory, setActiveCategory] = useState<CategoryKey>("all")
   const [search, setSearch] = useState("")
-  const [entered, setEntered] = useState(false)
-
-  useEffect(() => {
-    const t = setTimeout(() => setEntered(true), 100)
-    return () => clearTimeout(t)
-  }, [])
 
   const filteredModels = useMemo(() => {
-    let filtered = activeCategory === "all"
-      ? models
-      : models.filter((m) => m.category === activeCategory)
-
+    let filtered = activeCategory === "all" ? models : models.filter((m) => m.category === activeCategory)
     if (search.trim()) {
       const q = search.toLowerCase()
       filtered = filtered.filter(
-        (m) =>
-          m.name.toLowerCase().includes(q) ||
-          m.creator.toLowerCase().includes(q) ||
-          m.description.toLowerCase().includes(q)
+        (m) => m.name.toLowerCase().includes(q) || m.creator.toLowerCase().includes(q)
       )
     }
-
     return filtered.sort((a, b) => a.year - b.year)
   }, [activeCategory, search])
 
@@ -58,129 +44,75 @@ export function ExploreTimeline() {
     return Array.from(map.entries()).sort((a, b) => a[0] - b[0])
   }, [filteredModels])
 
-  const years = grouped.map(([y]) => y)
-
-  const scrollToYear = (year: number) => {
-    const el = document.getElementById(`year-${year}`)
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" })
-  }
-
   return (
-    <div className="min-h-screen pt-12">
-      {/* Header — animated on enter */}
-      <div className={`mx-auto max-w-5xl px-4 pt-12 pb-6 lg:px-6 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${entered ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}>
-        <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-          Timeline
+    <div className="min-h-screen pt-16">
+      <div className="mx-auto max-w-4xl px-4 pb-24 pt-10">
+        {/* Header */}
+        <p className="mb-2 text-[8px] uppercase tracking-[0.3em] text-muted-foreground">
+          {'>'} Timeline
         </p>
-        <h1 className="font-serif text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-          Explore the Collection
-        </h1>
-        <p className="mt-2 max-w-lg text-sm leading-relaxed text-muted-foreground">
-          Every AI model that shaped history, from Turing{"'"}s 1950 paper to the latest frontier models.
+        <h1 className="text-lg text-primary sm:text-xl">EXPLORE THE COLLECTION</h1>
+        <p className="mt-2 text-[8px] leading-relaxed text-muted-foreground">
+          Every AI model from 1950 to 2025.
         </p>
-      </div>
 
-      {/* Filter bar */}
-      <div className="sticky top-12 z-40 border-b border-border bg-background/80 backdrop-blur-xl">
-        <div className="mx-auto max-w-5xl px-4 py-3 lg:px-6">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            {/* Search + category row */}
-            <div className="flex items-center gap-3 overflow-x-auto">
-              {/* Search input */}
-              <div className="relative shrink-0">
-                <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
-                <input
-                  type="text"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Search..."
-                  className="h-8 w-40 rounded-lg border border-border bg-background pl-8 pr-3 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40"
-                />
+        {/* Search */}
+        <div className="mt-6 pixel-border bg-card p-3">
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="> SEARCH MODELS..."
+            className="w-full bg-transparent text-[8px] text-foreground outline-none placeholder:text-muted-foreground"
+          />
+        </div>
+
+        {/* Category pills */}
+        <div className="mt-4 flex flex-wrap gap-1">
+          {categoryFilters.map((cat) => (
+            <button
+              key={cat.key}
+              onClick={() => setActiveCategory(cat.key)}
+              className={cn(
+                "pixel-border px-2 py-1 text-[7px] transition-colors",
+                activeCategory === cat.key
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-card text-muted-foreground hover:text-foreground"
+              )}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Timeline */}
+        <div className="relative mt-8">
+          {/* Pixel spine */}
+          <div className="absolute left-1 top-0 hidden h-full w-[2px] bg-border md:block" />
+
+          {grouped.map(([year, yearModels]) => (
+            <div key={year} id={`year-${year}`} className="relative mb-8 last:mb-0">
+              {/* Year */}
+              <div className="relative mb-4 flex items-center gap-3 md:pl-8">
+                <div className="absolute left-0 top-1/2 hidden h-[6px] w-[6px] -translate-y-1/2 bg-primary md:block" />
+                <h2 className="text-sm text-primary">{year}</h2>
+                <span className="pixel-border bg-card px-2 py-0.5 text-[7px] text-muted-foreground">
+                  {yearModels[0].era}
+                </span>
               </div>
 
-              {/* Category pills */}
-              <div className="flex items-center gap-1 overflow-x-auto">
-                {categoryFilters.map((cat) => (
-                  <button
-                    key={cat.key}
-                    onClick={() => setActiveCategory(cat.key)}
-                    className={cn(
-                      "shrink-0 rounded-full px-3 py-1 text-xs font-medium transition-all",
-                      activeCategory === cat.key
-                        ? "border border-primary/30 bg-primary/10 text-primary"
-                        : "border border-transparent text-muted-foreground hover:text-foreground"
-                    )}
-                  >
-                    {cat.label}
-                  </button>
+              {/* Cards */}
+              <div className="flex flex-col gap-2 md:pl-8">
+                {yearModels.map((model, idx) => (
+                  <TimelineCard key={model.id} model={model} index={idx} />
                 ))}
               </div>
             </div>
-
-            {/* Year jump chips */}
-            <div className="hidden items-center gap-1 sm:flex">
-              {years.slice(0, 6).map((year) => (
-                <button
-                  key={year}
-                  onClick={() => scrollToYear(year)}
-                  className="rounded px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                >
-                  {year}
-                </button>
-              ))}
-              {years.length > 6 && (
-                <span className="font-mono text-[10px] text-muted-foreground">
-                  +{years.length - 6}
-                </span>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Timeline content */}
-      <div className="mx-auto max-w-5xl px-4 py-12 lg:px-6">
-        <div className="relative">
-          {/* Thin left spine */}
-          <div
-            className="absolute left-3 top-0 hidden h-full w-px bg-border md:block"
-            aria-hidden="true"
-          />
-
-          {grouped.map(([year, yearModels]) => {
-            const era = yearModels[0].era
-            return (
-              <div key={year} id={`year-${year}`} className="relative mb-12 last:mb-0">
-                {/* Year heading */}
-                <div className="relative mb-6 flex items-center gap-4 md:pl-10">
-                  {/* Timeline dot — pulsing */}
-                  <div
-                    className="absolute left-[9px] hidden h-2 w-2 rounded-full bg-primary glow-pulse md:block"
-                    aria-hidden="true"
-                  />
-                  <h2 className="font-serif text-2xl font-bold text-foreground md:text-3xl">
-                    {year}
-                  </h2>
-                  <span className="rounded-full border border-border px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-                    {era}
-                  </span>
-                </div>
-
-                {/* Cards */}
-                <div className="flex flex-col gap-3 md:pl-10">
-                  {yearModels.map((model, idx) => (
-                    <TimelineCard key={model.id} model={model} index={idx} />
-                  ))}
-                </div>
-              </div>
-            )
-          })}
+          ))}
 
           {filteredModels.length === 0 && (
-            <div className="py-24 text-center">
-              <p className="text-sm text-muted-foreground">
-                No models found. Try a different search or category.
-              </p>
+            <div className="pixel-border bg-card p-8 text-center">
+              <p className="text-[8px] text-muted-foreground">NO MODELS FOUND. TRY DIFFERENT SEARCH.</p>
             </div>
           )}
         </div>

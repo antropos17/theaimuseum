@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { ChevronRight, Swords } from "lucide-react"
 import { companies } from "@/data/models"
 import { cn } from "@/lib/utils"
 
@@ -11,95 +10,56 @@ export function BattlesView() {
   const totalVal = companies.reduce((acc, c) => acc + c.valuation, 0)
 
   return (
-    <div className="min-h-screen pt-12">
-      <div className="mx-auto max-w-5xl px-4 pb-24 pt-10 lg:px-6">
-        {/* Header */}
-        <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-          Competition
-        </p>
-        <h1 className="font-serif text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-          The AI Wars
-        </h1>
-        <p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
-          Five companies. Trillions at stake. Unlimited drama.
+    <div className="min-h-screen pt-16">
+      <div className="mx-auto max-w-4xl px-4 pb-24 pt-10">
+        <p className="mb-2 text-[8px] uppercase tracking-[0.3em] text-muted-foreground">{'>'} Competition</p>
+        <h1 className="text-lg text-primary sm:text-xl">THE AI WARS</h1>
+        <p className="mt-2 text-[8px] leading-relaxed text-muted-foreground">
+          Five companies. Trillions at stake.
         </p>
 
-        {/* Company cards */}
-        <div className="mt-10 space-y-3">
+        <div className="mt-8 space-y-2">
           {companies.map((company, i) => {
             const isOpen = selected === i
             const barWidth = Math.max(4, (company.valuation / maxVal) * 100)
-
             return (
               <button
                 key={company.name}
                 onClick={() => setSelected(isOpen ? null : i)}
-                className="w-full text-left rounded-xl border border-border bg-card p-5 transition-all duration-200 hover:border-primary/20"
+                className="pixel-border w-full bg-card p-4 text-left transition-colors hover:border-primary"
               >
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-3">
-                    <div
-                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
-                      style={{ backgroundColor: `${company.color}15` }}
-                    >
-                      <Swords className="h-4 w-4" style={{ color: company.color }} />
-                    </div>
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2">
+                    <div className="h-2 w-2" style={{ backgroundColor: company.color }} />
                     <div>
-                      <h3 className="text-sm font-semibold text-foreground">
-                        {company.name}
-                      </h3>
-                      <p className="font-mono text-[11px] text-muted-foreground">
-                        CEO: {company.ceo}
-                      </p>
+                      <p className="text-[9px] text-foreground">{company.name}</p>
+                      <p className="text-[7px] text-muted-foreground">CEO: {company.ceo}</p>
                     </div>
                   </div>
-                  <span className="font-mono text-lg font-semibold tabular-nums text-foreground">
-                    ${company.valuation}B
-                  </span>
+                  <span className="text-[10px] tabular-nums text-foreground">${company.valuation}B</span>
                 </div>
-
-                {/* Valuation bar */}
-                <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-muted">
-                  <div
-                    className="h-full rounded-full transition-all duration-700"
-                    style={{ width: `${barWidth}%`, backgroundColor: company.color }}
-                  />
+                <div className="mt-3 h-[6px] w-full bg-muted">
+                  <div className="h-full transition-all duration-500" style={{ width: `${barWidth}%`, backgroundColor: company.color }} />
                 </div>
-
-                {/* Expanded drama */}
-                <div
-                  className={cn(
-                    "overflow-hidden transition-all duration-300",
-                    isOpen ? "mt-4 max-h-32 opacity-100" : "max-h-0 opacity-0"
-                  )}
-                >
-                  <div className="border-t border-border pt-4">
-                    <p className="text-[13px] leading-relaxed text-foreground/80">
-                      <span className="font-medium text-chart-5">Drama:</span>{" "}
-                      {company.drama}
-                    </p>
+                <div className={cn("overflow-hidden transition-all duration-200", isOpen ? "mt-3 max-h-32 opacity-100" : "max-h-0 opacity-0")}>
+                  <div className="border-t-2 border-dashed border-border pt-3">
+                    <p className="text-[7px] text-chart-5">DRAMA:</p>
+                    <p className="mt-1 text-[7px] leading-[2] text-foreground/80">{company.drama}</p>
                   </div>
                 </div>
-
-                <div className="mt-3 flex items-center gap-1.5 font-mono text-[10px] text-muted-foreground">
-                  <ChevronRight className={cn("h-3 w-3 transition-transform", isOpen && "rotate-90")} />
-                  <span>{isOpen ? "Hide details" : "View details"}</span>
-                </div>
+                <p className="mt-2 text-[6px] text-muted-foreground">
+                  {isOpen ? "[-] HIDE" : "[+] DETAILS"}
+                </p>
               </button>
             )
           })}
         </div>
 
-        {/* Summary card */}
-        <div className="mt-12 rounded-xl border border-border bg-card p-6 text-center">
-          <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
-            Total Market Value
-          </p>
-          <p className="mt-2 font-serif text-3xl font-bold tracking-tight text-foreground">
-            ${new Intl.NumberFormat("en-US").format(totalVal)}B
-          </p>
-          <p className="mt-2 text-xs text-muted-foreground">
-            All fighting for the same prize: artificial general intelligence.
+        <div className="mt-10 pixel-border bg-card p-6 text-center">
+          <p className="text-[7px] text-muted-foreground">TOTAL MARKET VALUE</p>
+          <p className="mt-2 text-xl text-primary">${new Intl.NumberFormat("en-US").format(totalVal)}B</p>
+          <p className="mt-2 text-[7px] text-muted-foreground">
+            All fighting for AGI.
           </p>
         </div>
       </div>
