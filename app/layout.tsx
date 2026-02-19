@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next"
 import { Inter, JetBrains_Mono } from "next/font/google"
 import Script from "next/script"
 import { ThemeProvider } from "@/components/theme-provider"
+import { Toaster } from "sonner"
 import { MuseumNav } from "@/components/museum-nav"
 import { MuseumFooter } from "@/components/museum-footer"
 import "./globals.css"
@@ -248,6 +249,7 @@ export default function RootLayout({
           <MuseumNav />
           <main className="relative z-10 min-h-screen">{children}</main>
           <MuseumFooter />
+          <Toaster position="bottom-right" />
         </ThemeProvider>
       </body>
     </html>

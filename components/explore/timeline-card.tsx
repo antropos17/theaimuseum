@@ -6,7 +6,8 @@ import type { AIModel } from "@/data/models"
 import { categories } from "@/data/models"
 import { cn } from "@/lib/utils"
 import { CopyableTerminalCard } from "@/components/ui/copyable-terminal-card"
-import { toast } from "@/hooks/use-toast"
+import { Share2, Clipboard, Check } from "lucide-react"
+import { toast } from "sonner"
 
 const statusColors: Record<string, string> = {
   active: "#00ff88",
@@ -135,6 +136,14 @@ export function TimelineCard({
 /* ─────────────────────────────────────────────────────
    Card content (shared between left/right/mobile)
    ───────────────────────────────────────────────────── */
+function XIcon({ size = 12 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  )
+}
+
 function CardContent({
   model,
   cat,
@@ -151,7 +160,14 @@ function CardContent({
   align: "left" | "right"
 }) {
   const [showShareMenu, setShowShareMenu] = useState(false)
+  const [copied, setCopied] = useState(false)
+  const [canWebShare, setCanWebShare] = useState(false)
   const shareRef = useRef<HTMLDivElement>(null)
+
+  // Detect navigator.share support
+  useEffect(() => {
+    setCanWebShare(typeof navigator !== "undefined" && !!navigator.share)
+  }, [])
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -166,52 +182,44 @@ function CardContent({
     }
   }, [showShareMenu])
 
-  const generateTweet = () => {
-    const fact = `${model.name} (${model.year}) — ${model.description}`
-    const tweet = `Did you know? ${fact} 🤖 via @theaimuseum`
-    return tweet.length > 280 ? tweet.substring(0, 277) + "..." : tweet
-  }
-
   const handleTwitterShare = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    const tweetText = encodeURIComponent(generateTweet())
-    window.open(`https://twitter.com/intent/tweet?text=${tweetText}`, "_blank", "width=550,height=420")
+    const text = `${model.name} (${model.year}) — via @theaimuseum`
+    const url = `${window.location.origin}/model/${model.slug}`
+    const full = `${text} ${url}`
+    const tweetText = full.length > 280 ? full.substring(0, 277) + "..." : full
+    window.open(
+      `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`,
+      "_blank",
+      "width=550,height=420"
+    )
     setShowShareMenu(false)
   }
 
   const handleCopyFact = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    const fact = `${model.name} (${model.year}) — ${model.description}`
+    const firstSentence = model.description.split(/[.!?]/)[0]
+    const fact = `${model.name} (${model.year}) — ${firstSentence}.`
     navigator.clipboard.writeText(fact)
-    toast({
-      description: "Copied!",
-      duration: 2000,
-    })
+    setCopied(true)
+    toast("Copied!")
+    setTimeout(() => setCopied(false), 2000)
     setShowShareMenu(false)
   }
 
   const handleWebShare = async (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: `${model.name} (${model.year})`,
-          text: model.description,
-          url: `${window.location.origin}/model/${model.slug}`,
-        })
-      } catch (err) {
-        // User cancelled or error occurred
-      }
-    } else {
-      // Fallback to copy URL
-      navigator.clipboard.writeText(`${window.location.origin}/model/${model.slug}`)
-      toast({
-        description: "Link copied!",
-        duration: 2000,
+    try {
+      await navigator.share({
+        title: `${model.name} (${model.year})`,
+        text: model.description,
+        url: `${window.location.origin}/model/${model.slug}`,
       })
+    } catch {
+      // User cancelled
     }
     setShowShareMenu(false)
   }
@@ -301,33 +309,44 @@ function CardContent({
       <div ref={shareRef} className="absolute right-3 top-3 z-10">
         <button
           onClick={toggleShareMenu}
-          className="flex h-5 w-5 items-center justify-center border border-border bg-card font-mono text-[14px] text-muted-foreground transition-all duration-200 hover:border-primary hover:text-primary hover:shadow-[0_0_20px_rgba(0,255,136,0.25)]"
           aria-label="Share"
         >
-          ↗
+          <Share2
+            size={12}
+            strokeWidth={1.5}
+            className="opacity-40 hover:opacity-100 hover:text-[#00ff88] transition-all duration-200 cursor-pointer"
+          />
         </button>
 
         {/* Share dropdown menu */}
         {showShareMenu && (
-          <div className="absolute right-0 top-full mt-1 w-28 border border-border/50 bg-card shadow-lg">
+          <div className="absolute right-0 top-full mt-1 min-w-[120px] rounded-md border border-border/50 bg-card p-1 font-mono text-[10px] shadow-lg z-50">
             <button
               onClick={handleTwitterShare}
-              className="w-full border-b border-border/30 px-3 py-2 text-left font-mono text-[10px] text-foreground transition-colors hover:bg-primary/10 hover:text-primary"
+              className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-foreground transition-colors hover:bg-[#00ff88]/10 cursor-pointer"
             >
-              Tweet this
+              <XIcon size={12} />
+              <span>Tweet this</span>
             </button>
             <button
               onClick={handleCopyFact}
-              className="w-full border-b border-border/30 px-3 py-2 text-left font-mono text-[10px] text-foreground transition-colors hover:bg-primary/10 hover:text-primary"
+              className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-foreground transition-colors hover:bg-[#00ff88]/10 cursor-pointer"
             >
-              Copy fact
+              {copied
+                ? <Check size={12} strokeWidth={1.5} />
+                : <Clipboard size={12} strokeWidth={1.5} />
+              }
+              <span>Copy fact</span>
             </button>
-            <button
-              onClick={handleWebShare}
-              className="w-full px-3 py-2 text-left font-mono text-[10px] text-foreground transition-colors hover:bg-primary/10 hover:text-primary"
-            >
-              Share
-            </button>
+            {canWebShare && (
+              <button
+                onClick={handleWebShare}
+                className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-foreground transition-colors hover:bg-[#00ff88]/10 cursor-pointer"
+              >
+                <Share2 size={12} strokeWidth={1.5} />
+                <span>Share</span>
+              </button>
+            )}
           </div>
         )}
       </div>
