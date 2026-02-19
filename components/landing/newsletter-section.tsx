@@ -44,10 +44,10 @@ export function NewsletterSection() {
           <div className="mt-4 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h3 className="text-lg font-light tracking-tight text-foreground">
-                AI history is being written now.
+                Get the AI History Brief
               </h3>
               <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">
-                Every breakthrough, every scandal &mdash; delivered to your inbox.
+                One email per week. 75 years of AI breakthroughs, decoded for humans.
               </p>
             </div>
 
@@ -76,6 +76,29 @@ export function NewsletterSection() {
           <p className="mt-4 font-mono text-[10px] text-muted-foreground/50">
             No spam. Unsubscribe anytime. Free forever.
           </p>
+
+          <div className="mt-8 border-t border-border/20 pt-6">
+            <p className="mb-2 text-center font-mono text-[10px] uppercase tracking-widest text-muted-foreground/50">
+              As seen on
+            </p>
+            <div className="flex items-center justify-center gap-6">
+              <span className="font-mono text-[11px] text-muted-foreground/30 transition-colors hover:text-primary/50">
+                Product Hunt
+              </span>
+              <span className="font-mono text-[11px] text-muted-foreground/30 transition-colors hover:text-primary/50">
+                Hacker News
+              </span>
+              <span className="font-mono text-[11px] text-muted-foreground/30 transition-colors hover:text-primary/50">
+                Reddit
+              </span>
+              <span className="font-mono text-[11px] text-muted-foreground/30 transition-colors hover:text-primary/50">
+                dev.to
+              </span>
+              <span className="font-mono text-[11px] text-muted-foreground/30 transition-colors hover:text-primary/50">
+                GitHub
+              </span>
+            </div>
+          </div>
         </div>
       </CopyableTerminalCard>
     </section>
