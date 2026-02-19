@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
-import { Heart, ThumbsDown, Star, Share2, Bookmark, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react"
+import { Heart, ThumbsDown, Star, Share2, Bookmark, ChevronLeft, ChevronRight, ExternalLink, Copy, Check } from "lucide-react"
 import type { AIModel } from "@/data/models"
 import { stickerTypes, models } from "@/data/models"
 import { cn } from "@/lib/utils"
@@ -46,7 +46,10 @@ export function ModelExhibit({ model, category, prevModel, nextModel }: ModelExh
   const [favorited, setFavorited] = useState(false)
   const [mounted, setMounted] = useState(false)
   const [barWidths, setBarWidths] = useState<Record<string, number>>({})
+  const [shareOpen, setShareOpen] = useState(false)
+  const [copied, setCopied] = useState(false)
   const contentRef = useRef<HTMLDivElement>(null)
+  const shareRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const raf = requestAnimationFrame(() => {
@@ -60,16 +63,31 @@ export function ModelExhibit({ model, category, prevModel, nextModel }: ModelExh
     return () => cancelAnimationFrame(raf)
   }, [model.capability, model.hype, model.safety])
 
+  // Close share dropdown on outside click
+  useEffect(() => {
+    if (!shareOpen) return
+    const handler = (e: MouseEvent) => {
+      if (shareRef.current && !shareRef.current.contains(e.target as Node)) setShareOpen(false)
+    }
+    document.addEventListener("mousedown", handler)
+    return () => document.removeEventListener("mousedown", handler)
+  }, [shareOpen])
+
   const handleSticker = (id: string) => {
     setStickerCounts((prev) => ({ ...prev, [id]: (prev[id] || 0) + 1 }))
   }
 
-  const handleShare = () => {
-    if (typeof navigator !== "undefined" && navigator.share) {
-      navigator.share({ title: model.name, url: window.location.href })
-    } else if (typeof navigator !== "undefined") {
-      navigator.clipboard.writeText(window.location.href)
-    }
+  // Share helpers
+  const pageUrl = typeof window !== "undefined" ? window.location.href : `https://theaimuseum.dev/model/${model.slug}`
+  const shockingFact = model.bugs.length > 0 ? model.bugs[0].text.slice(0, 80) : `was created in ${model.year} by ${model.creator}`
+  const twitterText = encodeURIComponent(`Did you know ${model.name} ${shockingFact}? Explore at The AI Museum`)
+  const telegramText = encodeURIComponent(`${model.name} (${model.year}) by ${model.creator} -- ${model.description.slice(0, 100)}... Check it out at The AI Museum`)
+
+  const copyLink = async () => {
+    await navigator.clipboard.writeText(pageUrl)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+    setShareOpen(false)
   }
 
   const modelIndex = models.findIndex((m) => m.id === model.id)
@@ -119,9 +137,40 @@ export function ModelExhibit({ model, category, prevModel, nextModel }: ModelExh
                 </span>
               </div>
               <div className="flex items-center gap-1">
-                <button onClick={handleShare} className="flex h-7 w-7 items-center justify-center border border-dashed border-border text-muted-foreground transition-colors hover:border-primary hover:text-primary" title="Share">
-                  <Share2 size={13} />
-                </button>
+                <div ref={shareRef} className="relative">
+                  <button onClick={() => setShareOpen(!shareOpen)} className="flex h-7 w-7 items-center justify-center border border-dashed border-border text-muted-foreground transition-colors hover:border-primary hover:text-primary" title="Share">
+                    <Share2 size={13} />
+                  </button>
+                  {shareOpen && (
+                    <div className="absolute right-0 top-full z-50 mt-1.5 min-w-[180px] border border-border bg-card shadow-lg animate-[terminalFadeIn_0.15s_ease-out]">
+                      <a
+                        href={`https://twitter.com/intent/tweet?text=${twitterText}&url=${encodeURIComponent(pageUrl)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-3 py-2 font-mono text-[11px] text-muted-foreground transition-colors hover:bg-primary/5 hover:text-foreground"
+                        onClick={() => setShareOpen(false)}
+                      >
+                        <span className="text-primary">{'>'}X</span> Share on X
+                      </a>
+                      <a
+                        href={`https://t.me/share/url?url=${encodeURIComponent(pageUrl)}&text=${telegramText}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-3 py-2 font-mono text-[11px] text-muted-foreground transition-colors hover:bg-primary/5 hover:text-foreground"
+                        onClick={() => setShareOpen(false)}
+                      >
+                        <span className="text-primary">{'>'}TG</span> Share on Telegram
+                      </a>
+                      <button
+                        onClick={copyLink}
+                        className="flex w-full items-center gap-2 px-3 py-2 font-mono text-[11px] text-muted-foreground transition-colors hover:bg-primary/5 hover:text-foreground"
+                      >
+                        {copied ? <Check size={11} className="text-primary" /> : <Copy size={11} className="text-primary" />}
+                        {copied ? "Copied!" : "Copy Link"}
+                      </button>
+                    </div>
+                  )}
+                </div>
                 <button onClick={() => setFavorited(!favorited)} className={cn("flex h-7 w-7 items-center justify-center border border-dashed transition-colors", favorited ? "border-primary text-primary" : "border-border text-muted-foreground hover:border-primary hover:text-primary")} title="Favorite">
                   <Bookmark size={13} fill={favorited ? "currentColor" : "none"} />
                 </button>

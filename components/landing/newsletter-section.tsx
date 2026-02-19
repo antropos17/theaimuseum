@@ -26,37 +26,56 @@ export function NewsletterSection() {
       ref={ref}
       className={`relative z-10 mx-auto max-w-5xl px-4 py-16 fade-in-up ${isInView ? "visible" : ""}`}
     >
-      <div className="terminal-card-solid p-8 sm:p-10">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h3 className="text-lg font-light tracking-tight text-foreground">
-              AI history is being written now.
-            </h3>
-            <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">
-              Every breakthrough, every scandal &mdash; delivered to your inbox.
-            </p>
+      <div className="terminal-card-solid overflow-hidden">
+        {/* Terminal chrome */}
+        <div className="flex items-center gap-2 border-b border-border px-4 py-2">
+          <div className="flex gap-1.5">
+            <div className="h-2 w-2 rounded-full bg-chart-5/60" />
+            <div className="h-2 w-2 rounded-full bg-chart-2/60" />
+            <div className="h-2 w-2 rounded-full bg-chart-3/60" />
+          </div>
+          <span className="font-mono text-[10px] text-muted-foreground">newsletter.exe</span>
+        </div>
+
+        <div className="p-8 sm:p-10">
+          <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">[Subscribe]</p>
+
+          <div className="mt-4 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h3 className="text-lg font-light tracking-tight text-foreground">
+                AI history is being written now.
+              </h3>
+              <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">
+                Every breakthrough, every scandal &mdash; delivered to your inbox.
+              </p>
+            </div>
+
+            <form onSubmit={handleSubscribe} className="flex shrink-0">
+              <div className="flex items-center border border-dashed border-border bg-background transition-colors focus-within:border-primary">
+                <span className="px-3 font-mono text-[11px] text-primary">{'>'}</span>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="your@email.com"
+                  className="w-full min-w-0 bg-transparent py-2.5 pr-2 font-mono text-xs text-foreground placeholder:text-muted-foreground/40 focus:outline-none sm:w-48"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={submitted}
+                className="border border-l-0 border-primary bg-primary/10 px-4 py-2.5 font-mono text-[11px] text-primary transition-colors hover:bg-primary/20 disabled:opacity-50"
+              >
+                {submitted ? "[OK]" : "[SEND]"}
+              </button>
+            </form>
           </div>
 
-          <form onSubmit={handleSubscribe} className="flex gap-2">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="your@email.com"
-              className="w-full min-w-0 border border-border bg-background px-4 py-2.5 font-mono text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none sm:w-56"
-              required
-            />
-            <button
-              type="submit"
-              className="glass-btn-primary shrink-0 px-5 py-2.5 text-foreground"
-            >
-              {submitted ? "Done" : "Subscribe"}
-            </button>
-          </form>
+          <p className="mt-4 font-mono text-[10px] text-muted-foreground/50">
+            No spam. Unsubscribe anytime. Free forever.
+          </p>
         </div>
-        <p className="mt-4 font-mono text-[10px] text-muted-foreground">
-          No spam. Unsubscribe anytime. Free forever.
-        </p>
       </div>
     </section>
   )

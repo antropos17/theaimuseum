@@ -13,11 +13,38 @@ const links = [
   { label: "Leaderboard", href: "/leaderboard" },
 ]
 
+const socials = [
+  { label: "GitHub", href: "https://github.com", icon: "GH" },
+  { label: "X / Twitter", href: "https://twitter.com", icon: "X" },
+  { label: "Telegram", href: "https://t.me", icon: "TG" },
+  { label: "Reddit", href: "https://reddit.com", icon: "RD" },
+]
+
 export function MuseumFooter() {
   const { ref, isInView } = useInView(0.05)
 
   return (
     <footer ref={ref} className="relative z-10 border-t border-border">
+
+      {/* Donation Section */}
+      <div className="border-b border-dashed border-border">
+        <div className={`mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 py-12 text-center sm:flex-row sm:justify-between sm:text-left fade-in-up ${isInView ? "visible" : ""}`}>
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">[Support]</p>
+            <p className="mt-1.5 text-sm text-foreground">Help keep the exhibits running.</p>
+            <p className="mt-1 text-[13px] text-muted-foreground">This museum is free, open source, and powered by caffeine.</p>
+          </div>
+          <a
+            href="https://buymeacoffee.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="glass-btn-primary shrink-0 px-6 py-3 font-mono text-xs text-foreground transition-all hover:scale-[1.02]"
+          >
+            {'>'} Buy us a coffee
+          </a>
+        </div>
+      </div>
+
       <div className="mx-auto max-w-6xl px-4 py-16">
         <div className={`flex flex-col gap-10 sm:flex-row sm:justify-between fade-in-up ${isInView ? "visible" : ""}`}>
           {/* Brand */}
@@ -34,6 +61,22 @@ export function MuseumFooter() {
               The world{"'"}s first interactive museum of AI history.
               75 years of breakthroughs, failures, and everything in between.
             </p>
+
+            {/* Social icons */}
+            <div className="mt-5 flex items-center gap-2">
+              {socials.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={s.label}
+                  className="flex h-8 w-8 items-center justify-center border border-dashed border-border font-mono text-[9px] text-muted-foreground transition-all hover:border-primary hover:text-primary"
+                >
+                  {s.icon}
+                </a>
+              ))}
+            </div>
           </div>
 
           {/* Nav links */}

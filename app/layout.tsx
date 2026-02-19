@@ -24,6 +24,19 @@ export const metadata: Metadata = {
   },
   description:
     "The world's first interactive museum of AI history. 25 exhibits spanning 1950-2025. From Turing's question to machines that dream.",
+  openGraph: {
+    type: "website",
+    siteName: "The AI Museum",
+    title: "The AI Museum - 75 Years of Artificial Intelligence",
+    description: "The world's first interactive museum of AI history. 25 exhibits spanning 1950-2025.",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "The AI Museum" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "The AI Museum",
+    description: "The world's first interactive museum of AI history. 25 exhibits spanning 1950-2025.",
+    images: ["/og-image.png"],
+  },
 }
 
 export const viewport: Viewport = {

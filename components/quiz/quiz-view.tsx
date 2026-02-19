@@ -140,8 +140,11 @@ export function QuizView() {
   if (phase === "results") {
     const pct = Math.round((score / total) * 100)
     const rank = getRank(pct)
-    const shareText = encodeURIComponent(
-      `I scored ${score}/${total} (${pct}%) on The AI Museum diagnostic exam. Rank: ${rank.label}. Can you beat my score? theaimuseum.dev/quiz`
+    const shareTextX = encodeURIComponent(
+      `My AI IQ: ${pct}% -- Rank: ${rank.label}\n\nScored ${score}/${total} on The AI Museum diagnostic exam in ${formatTime(elapsed)}.\n\nCan you beat me?`
+    )
+    const shareTextTg = encodeURIComponent(
+      `I scored ${score}/${total} (${pct}%) on The AI Museum diagnostic exam!\nRank: ${rank.label}\nTime: ${formatTime(elapsed)}\n\nTest your AI knowledge:`
     )
     return (
       <div className="min-h-screen pt-16">
@@ -201,32 +204,37 @@ export function QuizView() {
               </div>
             </div>
 
-            {/* Share + Retry */}
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            {/* Share my AI IQ */}
+            <div className="mt-6 space-y-3">
+              <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">[Share my AI IQ]</p>
+              <div className="flex flex-wrap gap-2">
+                <a
+                  href={`https://twitter.com/intent/tweet?text=${shareTextX}&url=${encodeURIComponent("https://theaimuseum.dev/quiz")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="glass-btn-primary flex items-center gap-2 px-5 py-2.5 font-mono text-xs text-foreground"
+                >
+                  {'>'} Share on X
+                </a>
+                <a
+                  href={`https://t.me/share/url?url=${encodeURIComponent("https://theaimuseum.dev/quiz")}&text=${shareTextTg}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="border border-border px-5 py-2.5 font-mono text-xs text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+                >
+                  {'>'} Share on Telegram
+                </a>
+              </div>
+            </div>
+
+            {/* Retry */}
+            <div className="mt-4 border-t border-dashed border-border pt-4">
               <button
                 onClick={restart}
                 className="border border-border px-5 py-2.5 font-mono text-xs text-muted-foreground transition-colors hover:border-primary hover:text-primary"
               >
                 {">"} RESTART_DIAGNOSTIC
               </button>
-              <div className="flex gap-2">
-                <a
-                  href={`https://twitter.com/intent/tweet?text=${shareText}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="border border-border px-4 py-2.5 font-mono text-[10px] text-muted-foreground transition-colors hover:border-primary hover:text-primary"
-                >
-                  [SHARE: X]
-                </a>
-                <a
-                  href={`https://t.me/share/url?url=theaimuseum.dev/quiz&text=${shareText}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="border border-border px-4 py-2.5 font-mono text-[10px] text-muted-foreground transition-colors hover:border-primary hover:text-primary"
-                >
-                  [SHARE: TG]
-                </a>
-              </div>
             </div>
           </div>
         </div>

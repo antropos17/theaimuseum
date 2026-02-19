@@ -15,9 +15,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const model = models.find((m) => m.slug === slug)
   if (!model) return {}
+  const desc = model.description.slice(0, 160)
   return {
     title: `${model.name} (${model.year})`,
-    description: model.description.slice(0, 160),
+    description: desc,
+    openGraph: {
+      title: `${model.name} (${model.year}) | The AI Museum`,
+      description: desc,
+      type: "article",
+      images: [{ url: "/og-image.png", width: 1200, height: 630, alt: model.name }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${model.name} (${model.year})`,
+      description: desc,
+    },
   }
 }
 
