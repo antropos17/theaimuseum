@@ -96,7 +96,7 @@ export function BattlesView() {
             Total Market Value
           </p>
           <p className="mt-2 font-serif text-3xl font-bold tracking-tight text-foreground">
-            ${totalVal.toLocaleString()}B
+            ${new Intl.NumberFormat("en-US").format(totalVal)}B
           </p>
           <p className="mt-2 text-xs text-muted-foreground">
             All fighting for the same prize: artificial general intelligence.

@@ -34,7 +34,9 @@ export function EvolutionView() {
       const catIdx = categoryOrder.indexOf(m.category)
       const yPct = ((catIdx + 0.5) / categoryOrder.length) * 80 + 10
       const radius = Math.max(8, Math.min(28, m.capability / 4 + 6))
-      return { ...m, xPct, yPct: yPct + (Math.random() * 6 - 3), radius }
+      const seed = (m.year * 7 + catIdx * 13) % 100
+      const jitter = (seed / 100) * 6 - 3
+      return { ...m, xPct, yPct: yPct + jitter, radius }
     })
   }, [])
 
