@@ -42,7 +42,7 @@ export function DonationSection() {
 
           {/* Button */}
           <a
-            href="https://buymeacoffee.com"
+            href="https://buymeacoffee.com/theaimuseum"
             target="_blank"
             rel="noopener noreferrer"
             className="glass-btn-primary shrink-0 px-8 py-3.5 font-mono text-xs text-foreground transition-all hover:scale-[1.02]"

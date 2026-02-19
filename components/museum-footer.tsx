@@ -35,7 +35,7 @@ export function MuseumFooter() {
             <p className="mt-1 text-[13px] text-muted-foreground">This museum is free, open source, and powered by caffeine.</p>
           </div>
           <a
-            href="https://buymeacoffee.com"
+            href="https://buymeacoffee.com/theaimuseum"
             target="_blank"
             rel="noopener noreferrer"
             className="glass-btn-primary shrink-0 px-6 py-3 font-mono text-xs text-foreground transition-all hover:scale-[1.02]"
