@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next"
-import { Press_Start_2P } from "next/font/google"
+import { Press_Start_2P, Playfair_Display } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import { MuseumNav } from "@/components/museum-nav"
 import { MuseumFooter } from "@/components/museum-footer"
@@ -9,6 +9,12 @@ const pixelFont = Press_Start_2P({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-pixel",
+  display: "swap",
+})
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
   display: "swap",
 })
 
@@ -38,7 +44,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${pixelFont.variable} font-sans`}>
+      <body className={`${pixelFont.variable} ${playfair.variable} font-sans`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <div className="starfield" aria-hidden="true" />
           <div className="vignette" aria-hidden="true" />
