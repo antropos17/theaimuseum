@@ -1,425 +1,212 @@
 "use client"
 
-import { useEffect, useState, useRef, useCallback } from "react"
-import Link from "next/link"
-import { ArrowRight, Users } from "lucide-react"
-import { toast } from "sonner"
+import { useEffect, useState, useRef } from "react"
 
-/* ═══════════════════════════════════════════════════
-   DATA
-   ═══════════════════════════════════════════════════ */
-
-const QUESTION = "What is The AI Museum?"
-
-const responses = [
-  {
-    era: "1966",
-    name: "ELIZA",
-    label: "First Chatbot",
-    response: "Do you think a museum could help you understand what you feel about machines?",
-    style: "eliza" as const,
-  },
-  {
-    era: "2026",
-    name: "Modern AI",
-    label: "2026",
-    response: "The AI Museum is the world's first interactive museum dedicated to the history of artificial intelligence. It covers 75 years -- from Turing's 1950 paper to DeepSeek R1 in 2025. You can explore 25 models, compare their evolution, visit the AI Graveyard, test your knowledge in the Quiz, and rate models with community stickers. It's free, open-source, and designed to make AI history accessible to everyone.",
-    responseHighlighted: (
-      <>
-        The AI Museum is <span className="text-primary text-shadow-[0_0_12px_rgba(0,255,136,0.4)] font-semibold">the world's first</span> interactive museum dedicated to the history of artificial intelligence. It covers <span className="text-primary text-shadow-[0_0_12px_rgba(0,255,136,0.4)] font-semibold">75 years</span> -- from Turing's 1950 paper to DeepSeek R1 in 2025. You can explore <span className="text-primary text-shadow-[0_0_12px_rgba(0,255,136,0.4)] font-semibold">25 models</span>, compare their evolution, visit the <span className="text-primary text-shadow-[0_0_12px_rgba(0,255,136,0.4)] font-semibold">AI Graveyard</span>, test your knowledge in the <span className="text-primary text-shadow-[0_0_12px_rgba(0,255,136,0.4)] font-semibold">Quiz</span>, and rate models with community stickers. It's <span className="text-primary text-shadow-[0_0_12px_rgba(0,255,136,0.4)] font-semibold">free, open-source</span>, and designed to make AI history accessible to everyone.
-      </>
-    ),
-    style: "modern" as const,
-  },
-  {
-    era: "2019",
-    name: "GPT-2",
-    label: "1.5B Parameters",
-    response: "The AI Museum is a place where people go to see... art? The museum was founded in the year 2000 by a group of scientists who wanted to create a better future for humanity. The museum contains over 10,000 exhibits including a real dinosaur.",
-    style: "gpt2" as const,
-  },
-]
-
-const stats = [
-  { 
-    value: 25, 
-    label: "MODELS", 
-    suffix: "",
-    shareText: "The AI Museum documents 25+ AI models across 75 years of history 🤖 https://theaimuseum.vercel.app"
-  },
-  { 
-    value: 75, 
-    label: "YEARS", 
-    suffix: "",
-    shareText: "75 years of AI: from Turing's 1950 paper to GPT-4. Explore the full timeline 🧠 https://theaimuseum.vercel.app"
-  },
-  { 
-    value: 10, 
-    label: "CATEGORIES", 
-    suffix: "",
-    shareText: "10 fields of AI research: NLP, Computer Vision, Robotics, Expert Systems, Neural Networks, RL, Generative AI, AGI 🤖 https://theaimuseum.vercel.app"
-  },
-]
-
-/* ═══════════════════════════════════════════════════
-   ANIMATED COUNTER (scroll-triggered)
-   ═══════════════════════════════════════════════════ */
-
-function easeOutCubic(t: number): number {
-  return 1 - Math.pow(1 - t, 3)
+interface ChatWindow {
+  id: string
+  title: string
+  year: string
+  userMessage: string
+  aiResponse: string
+  intelligence: number
+  tag?: { text: string; variant: "error" | "success" }
 }
 
-const COUNTER_DURATION = 2000
+const CHAT_WINDOWS: ChatWindow[] = [
+  {
+    id: "eliza",
+    title: "eliza.exe",
+    year: "1966",
+    userMessage: "What is The AI Museum?",
+    aiResponse: "Do you think a museum could help you understand what you feel about machines?",
+    intelligence: 8,
+  },
+  {
+    id: "gpt2",
+    title: "gpt-2.exe",
+    year: "2019",
+    userMessage: "What is The AI Museum?",
+    aiResponse: "The AI Museum is a place where people go to see... art? It was founded in 2000 by scientists who wanted... contains 10,000 exhibits including a real dinosaur.",
+    intelligence: 35,
+    tag: { text: "HALLUCINATION", variant: "error" },
+  },
+  {
+    id: "modern",
+    title: "modern-ai.exe",
+    year: "2025",
+    userMessage: "What is The AI Museum?",
+    aiResponse: "The AI Museum covers 75 years of AI history — from Turing's test to DeepSeek R1. 25 models across 10 wings. Free and open-source.",
+    intelligence: 93,
+    tag: { text: "VERIFIED", variant: "success" },
+  },
+]
 
-function AnimatedCounter({ target, active, onComplete }: { target: number; active: boolean; onComplete?: () => void }) {
-  const [display, setDisplay] = useState(0)
-  const rafRef = useRef<number | null>(null)
-  const hasRun = useRef(false)
-  const onCompleteRef = useRef(onComplete)
-  onCompleteRef.current = onComplete
+const TYPING_DELAY = 30
+
+export function AIEvolutionDemo() {
+  const [visibleWindows, setVisibleWindows] = useState<string[]>([])
+  const [typedText, setTypedText] = useState<Record<string, string>>({})
+  const [isTyping, setIsTyping] = useState<Record<string, boolean>>({})
+  const sectionRef = useRef<HTMLElement>(null)
+  const observerRef = useRef<IntersectionObserver | null>(null)
+  const hasAnimated = useRef(false)
 
   useEffect(() => {
-    if (!active || hasRun.current) return
-    hasRun.current = true
-    const start = performance.now()
-    function tick(now: number) {
-      const elapsed = now - start
-      const progress = Math.min(elapsed / COUNTER_DURATION, 1)
-      setDisplay(Math.round(easeOutCubic(progress) * target))
-      if (progress < 1) {
-        rafRef.current = requestAnimationFrame(tick)
-      } else {
-        onCompleteRef.current?.()
+    if (!sectionRef.current) return
+
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated.current) {
+            hasAnimated.current = true
+            startSequentialAnimation()
+          }
+        })
+      },
+      { threshold: 0.3 }
+    )
+
+    observerRef.current.observe(sectionRef.current)
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect()
       }
     }
-    rafRef.current = requestAnimationFrame(tick)
-    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current) }
-  }, [active, target])
+  }, [])
 
-  return <>{display}</>
-}
+  const startSequentialAnimation = () => {
+    let delay = 0
 
-/* ═══════════════════════════════════════════════════
-   TYPING INDICATOR (three bouncing dots)
-   ═══════════════════════════════════════════════════ */
+    CHAT_WINDOWS.forEach((window, index) => {
+      setTimeout(() => {
+        setVisibleWindows((prev) => [...prev, window.id])
+        typeText(window.id, window.aiResponse)
+      }, delay)
 
-function TypingDots({ color }: { color: string }) {
-  return (
-    <span className="inline-flex items-center gap-1">
-      {[0, 1, 2].map((i) => (
-        <span
-          key={i}
-          className={`inline-block h-1.5 w-1.5 rounded-full ${color}`}
-          style={{ animation: `typingBounce 1.2s ease-in-out ${i * 0.15}s infinite` }}
-        />
-      ))}
-    </span>
-  )
-}
+      const typingDuration = window.aiResponse.length * TYPING_DELAY
+      delay += typingDuration + 1500
+    })
+  }
 
-/* ═══════════════════════════════════════════════════
-   TYPEWRITER
-   ═══════════════════════════════════════════════════ */
+  const typeText = (windowId: string, text: string) => {
+    setIsTyping((prev) => ({ ...prev, [windowId]: true }))
+    let index = 0
 
-function TypewriterText({ text, active, speed = 30, onDone }: { text: string; active: boolean; speed?: number; onDone?: () => void }) {
-  const [displayed, setDisplayed] = useState("")
-  const doneRef = useRef(false)
-
-  useEffect(() => {
-    if (!active) return
-    let i = 0
-    doneRef.current = false
-    setDisplayed("")
     const interval = setInterval(() => {
-      if (i < text.length) {
-        setDisplayed(text.slice(0, i + 1))
-        i++
+      if (index <= text.length) {
+        setTypedText((prev) => ({
+          ...prev,
+          [windowId]: text.slice(0, index),
+        }))
+        index++
       } else {
         clearInterval(interval)
-        if (!doneRef.current) {
-          doneRef.current = true
-          onDone?.()
-        }
+        setIsTyping((prev) => ({ ...prev, [windowId]: false }))
       }
-    }, speed)
-    return () => clearInterval(interval)
-  }, [text, active, speed, onDone])
-
-  return (
-    <span>
-      {displayed}
-      {active && displayed.length < text.length && (
-        <span className="animate-pulse">&#9611;</span>
-      )}
-    </span>
-  )
-}
-
-/* ═══════════════════════════════════════════════════
-   QUALITY BAR + STATUS TAG
-   ═══════════════════════════════════════════════════ */
-
-const qualityMeta = {
-  eliza: { pct: 8, filled: 1, empty: 9, tag: null, tagColor: "", barColor: "bg-green-500", barTrack: "bg-green-500/10" },
-  gpt2: { pct: 35, filled: 3.5, empty: 6.5, tag: "HALLUCINATION DETECTED", tagColor: "text-amber-400 border-amber-500/40 bg-amber-500/5", barColor: "bg-amber-500", barTrack: "bg-amber-500/10" },
-  modern: { pct: 93, filled: 9, empty: 1, tag: "VERIFIED", tagColor: "text-primary border-primary/40 bg-primary/5", barColor: "bg-primary", barTrack: "bg-primary/10" },
-} as const
-
-function QualityBar({ style }: { style: "eliza" | "gpt2" | "modern" }) {
-  const q = qualityMeta[style]
-  const tagSymbol = style === "modern" ? "\u2713" : style === "gpt2" ? "\u26A0" : ""
-  return (
-    <div className="mt-3 space-y-1.5 animate-[terminalFadeIn_0.4s_ease-out]">
-      <div className="flex items-center gap-2">
-        <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground">Intelligence:</span>
-        <div className={`h-1.5 flex-1 ${q.barTrack} overflow-hidden`}>
-          <div
-            className={`h-full ${q.barColor} transition-all duration-1000 ease-out`}
-            style={{ width: `${q.pct}%` }}
-          />
-        </div>
-        <span className="font-mono text-[10px] tabular-nums text-muted-foreground">{q.pct}%</span>
-      </div>
-      {q.tag && (
-        <span className={`inline-flex items-center gap-1 border px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wider ${q.tagColor}`}>
-          {tagSymbol} {q.tag}
-        </span>
-      )}
-    </div>
-  )
-}
-
-/* ═══════════════════════════════════════════════════
-   CHAT WINDOW
-   ═══════════════════════════════════════════════════ */
-
-function ChatWindow({
-  data, index, triggerAnimation, onFinished,
-}: {
-  data: typeof responses[0]; index: number; triggerAnimation: boolean; onFinished: () => void
-}) {
-  const [phase, setPhase] = useState<"idle" | "dots" | "typing" | "done">("idle")
-
-  useEffect(() => {
-    if (!triggerAnimation) return
-    // Stagger: show dots first, then start typing
-    const dotsTimer = setTimeout(() => setPhase("dots"), index * 2000)
-    const typeTimer = setTimeout(() => setPhase("typing"), index * 2000 + 1200)
-    return () => { clearTimeout(dotsTimer); clearTimeout(typeTimer) }
-  }, [triggerAnimation, index])
-
-  const handleTypeDone = useCallback(() => {
-    setPhase("done")
-    onFinished()
-  }, [onFinished])
-
-  const wrapperClass = {
-    eliza: "bg-black border-2 border-green-500/30",
-    gpt2: "bg-zinc-900 border border-amber-600/30",
-    modern: "glass-btn bg-card/50 border border-border",
+    }, TYPING_DELAY)
   }
-  const headerClass = {
-    eliza: "border-green-500/30 bg-green-950/20",
-    gpt2: "border-amber-600/30 bg-amber-950/20",
-    modern: "border-border bg-surface-2",
-  }
-  const labelColor = {
-    eliza: "text-green-400",
-    gpt2: "text-amber-400",
-    modern: "text-muted-foreground",
-  }
-  const textClass = {
-    eliza: "text-green-500 font-mono text-shadow-[0_0_8px_rgba(34,197,94,0.5)]",
-    gpt2: "text-amber-100 font-mono",
-    modern: "text-foreground",
-  }
-  const bubbleClass = {
-    eliza: "bg-green-900/30 text-green-300",
-    gpt2: "bg-amber-900/30 text-amber-200",
-    modern: "bg-primary/10 text-foreground",
-  }
-  const replyBorderClass = {
-    eliza: "bg-green-950/50 border border-green-500/20",
-    gpt2: "bg-amber-950/50 border border-amber-600/20",
-    modern: "bg-surface-2 border border-border",
-  }
-  const dotColors = {
-    eliza: ["bg-green-500", "bg-green-500/50", "bg-green-500/30"],
-    gpt2: ["bg-amber-500", "bg-amber-500/50", "bg-amber-500/30"],
-    modern: ["bg-red-500", "bg-amber-500", "bg-primary"],
-  }
-  const typingDotColor = {
-    eliza: "bg-green-400",
-    gpt2: "bg-amber-400",
-    modern: "bg-muted-foreground",
+
+  const renderIntelligenceBar = (percentage: number) => {
+    const blocks = 10
+    const filled = Math.round((percentage / 100) * blocks)
+    return (
+      <span className="font-mono tabular-nums">
+        {"█".repeat(filled)}
+        {"░".repeat(blocks - filled)}
+      </span>
+    )
   }
 
   return (
-    <div className={`relative flex h-[580px] flex-col overflow-hidden transition-all duration-300 ${wrapperClass[data.style]} ${data.style === "modern" ? "md:scale-105 md:shadow-xl md:shadow-primary/5 md:border-primary/20" : ""}`}>
-      {/* Header */}
-      <div className={`flex shrink-0 items-center justify-between border-b px-4 py-2.5 ${headerClass[data.style]}`}>
-        <div className="flex items-center gap-2.5">
-          <div className="flex gap-1.5">
-            {dotColors[data.style].map((c, i) => (
-              <div key={i} className={`h-2.5 w-2.5 rounded-full ${c}`} />
-            ))}
-          </div>
-          <span className={`font-mono text-xs uppercase tracking-wider ${labelColor[data.style]}`}>
-            {data.name} &middot; {data.era}
-          </span>
+    <section
+      ref={sectionRef}
+      className="relative px-4 py-24 sm:py-32"
+    >
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-12 text-center">
+          <p className="data-label text-primary">
+            {'>>> '}SAME QUESTION. THREE ERAS.
+          </p>
         </div>
-        <span className={`font-mono text-[10px] ${labelColor[data.style]} opacity-60`}>[{data.label}]</span>
-      </div>
 
-      {/* Chat */}
-      <div className="flex-1 space-y-4 overflow-y-auto p-5">
-        {/* User question */}
-        <div className="flex justify-end">
-          <div className={`max-w-[85%] rounded px-4 py-2.5 ${bubbleClass[data.style]}`}>
-            <p className={`text-[15px] leading-relaxed ${data.style === "modern" ? "font-medium" : "font-mono"}`}>{QUESTION}</p>
-          </div>
-        </div>
-        {/* Typing indicator / Response */}
-        {phase !== "idle" && (
-          <div className="flex">
-            <div className={`max-w-[92%] rounded px-4 py-3 ${replyBorderClass[data.style]}`}>
-              {phase === "dots" && (
-                <div className="py-1">
-                  <TypingDots color={typingDotColor[data.style]} />
+        <div className="grid gap-6 md:grid-cols-3">
+          {CHAT_WINDOWS.map((window) => {
+            const isVisible = visibleWindows.includes(window.id)
+            const currentTypedText = typedText[window.id] || ""
+            const isCurrentlyTyping = isTyping[window.id]
+
+            return (
+              <div
+                key={window.id}
+                className={`terminal-card flex flex-col p-4 transition-all duration-700 ${
+                  isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+                }`}
+              >
+                <div className="mb-4 flex items-center justify-between border-b border-dashed border-border pb-3">
+                  <div className="flex items-center gap-2">
+                    <div className="flex gap-1.5">
+                      <div className="h-2 w-2 rounded-full bg-[#ff3366]" />
+                      <div className="h-2 w-2 rounded-full bg-[#ffb800]" />
+                      <div className="h-2 w-2 rounded-full bg-[#00ff88]" />
+                    </div>
+                    <span className="font-mono text-[11px] text-foreground">
+                      {window.title}
+                    </span>
+                  </div>
+                  <span className="font-mono text-[10px] text-muted-foreground">
+                    {window.year}
+                  </span>
                 </div>
-              )}
-              {(phase === "typing" || phase === "done") && (
-                <div className={`text-[15px] leading-relaxed ${textClass[data.style]}`}>
-                  {data.style === "modern" && phase === "done" && "responseHighlighted" in data ? (
-                    <div>{data.responseHighlighted}</div>
-                  ) : (
-                    <TypewriterText
-                      text={data.response}
-                      active={phase === "typing" || phase === "done"}
-                      speed={data.style === "eliza" ? 50 : 25}
-                      onDone={handleTypeDone}
-                    />
+
+                <div className="flex flex-1 flex-col gap-4">
+                  <div className="flex flex-col gap-1.5">
+                    <span className="data-label">[USER]</span>
+                    <p className="text-xs leading-relaxed text-foreground">
+                      {window.userMessage}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col gap-1.5">
+                    <span className="data-label text-primary">[AI]</span>
+                    <p className="text-xs leading-relaxed text-muted-foreground">
+                      {currentTypedText}
+                      {isCurrentlyTyping && (
+                        <span className="ml-0.5 inline-block h-3 w-1.5 animate-pulse bg-primary" />
+                      )}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-6 flex flex-col gap-2 border-t border-dashed border-border pt-3">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-[10px] text-muted-foreground">
+                      Intelligence: {renderIntelligenceBar(window.intelligence)}{" "}
+                      <span className="tabular-nums">{window.intelligence}%</span>
+                    </span>
+                  </div>
+                  {window.tag && (
+                    <div className="flex">
+                      <span
+                        className={`inline-flex items-center border px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wide ${
+                          window.tag.variant === "error"
+                            ? "border-destructive/30 text-destructive"
+                            : "border-primary/30 text-primary"
+                        }`}
+                      >
+                        {window.tag.text}
+                      </span>
+                    </div>
                   )}
                 </div>
-              )}
-              {/* Quality bar after done */}
-              {phase === "done" && <QualityBar style={data.style} />}
-            </div>
-          </div>
-        )}
+              </div>
+            )
+          })}
+        </div>
       </div>
-    </div>
+    </section>
   )
 }
-
-/* ═══════════════════════════════════════════════════
-   NEURAL MERGE ANIMATION (ELIZA + GPT-2 -> Modern AI)
-   ═══════════════════════════════════════════════════ */
-
-/* Deterministic pseudo-random using seed — avoids hydration mismatch from Math.random() */
-const seededOffset = (i: number) => {
-  const val = ((i * 7 + 3) % 11) / 11 * 8 - 4
-  return Math.round(val * 100) / 100 // round to 2 decimals for consistency
-}
-const seededDuration = (i: number) => {
-  const val = 2.2 + ((i * 13 + 5) % 9) / 9 * 0.8
-  return Math.round(val * 100) / 100 // round to 2 decimals
-}
-
-function NeuralParticle({ direction, delay, color, size, index }: { direction: "left" | "right"; delay: number; color: string; size: number; index: number }) {
-  const mt = -size / 2 + seededOffset(index)
-  const dur = seededDuration(index)
-  return (
-    <span
-      className={`absolute top-1/2 rounded-full ${color}`}
-      style={{
-        width: `${size}px`,
-        height: `${size}px`,
-        marginTop: `${mt}px`,
-        animationName: direction === "left" ? "neuralFlowLeft" : "neuralFlowRight",
-        animationDuration: `${dur}s`,
-        animationTimingFunction: "ease-in-out",
-        animationDelay: `${delay}s`,
-        animationIterationCount: "infinite",
-      } as React.CSSProperties}
-    />
-  )
-}
-
-function NeuralMerge({ visible }: { visible: boolean }) {
-  const leftParticles = Array.from({ length: 6 }, (_, i) => ({
-    delay: i * 0.5,
-    color: i % 2 === 0 ? "bg-green-400" : "bg-green-500/60",
-    size: i % 3 === 0 ? 4 : 3,
-  }))
-  const rightParticles = Array.from({ length: 6 }, (_, i) => ({
-    delay: i * 0.5 + 0.25,
-    color: i % 2 === 0 ? "bg-amber-400" : "bg-amber-500/60",
-    size: i % 3 === 0 ? 4 : 3,
-  }))
-
-  return (
-    <div
-      className="pointer-events-none absolute inset-0 hidden md:block"
-      style={{ opacity: visible ? 1 : 0, transition: "opacity 0.8s ease-out" }}
-    >
-      {/* Left stream: ELIZA -> Modern AI */}
-      <div className="absolute left-[16.67%] top-1/2 h-px" style={{ width: "16.67%" }}>
-        <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-primary/10" />
-        {leftParticles.map((p, i) => (
-          <NeuralParticle key={i} direction="left" delay={p.delay} color={p.color} size={p.size} index={i} />
-        ))}
-      </div>
-      {/* Right stream: GPT-2 -> Modern AI */}
-      <div className="absolute right-[16.67%] top-1/2 h-px" style={{ width: "16.67%" }}>
-        <div className="absolute inset-0 bg-gradient-to-l from-amber-500/20 to-primary/10" />
-        {rightParticles.map((p, i) => (
-          <NeuralParticle key={i} direction="right" delay={p.delay} color={p.color} size={p.size} index={i + 6} />
-        ))}
-      </div>
-      {/* Center pulse (brain node) */}
-      <div
-        className="absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary"
-        style={{ animation: "neuralPulseCenter 2s ease-in-out infinite" }}
-      />
-    </div>
-  )
-}
-
-/* ═══════════════════════════════════════════════════
-   RESPONSE GENERATORS (no API calls)
-   ═══════════════════════════════════════════════════ */
-
-function extractKeyword(input: string): string {
-  const stop = new Set(["i","me","my","the","a","an","is","are","was","were","do","does","did","can","could","will","would","should","have","has","had","what","why","how","when","where","who","it","this","that","to","of","in","for","on","at","and","or","but","not","with","from","about","just","so","if","you","your","they","them","we","us","no","yes","all","any","some","be","been","being","am","than","which","into","like","also","very","much","really","most","more","up","out","as","by","then","its","an"])
-  const words = input.toLowerCase().replace(/[^a-z\s]/g, "").split(/\s+/).filter((w) => w.length > 2 && !stop.has(w))
-  return words[Math.floor(Math.random() * words.length)] || "that"
-}
-
-const elizaTemplates = [
-  (kw: string) => `Why do you think "${kw}" is important to you?`,
-  (kw: string) => `Tell me more about "${kw}."`,
-  (kw: string) => `How does "${kw}" make you feel?`,
-  (kw: string) => `Do you often think about "${kw}"?`,
-  (kw: string) => `What would it mean to you if "${kw}" were different?`,
-  (kw: string) => `Can you elaborate on why "${kw}" concerns you?`,
-]
-
-const gpt2Templates = [
-  (input: string) => `That's an interesting question about ${input.split(" ").slice(0, 3).join(" ")}. According to a 2019 study by the University of Mars, approximately 73% of all questions asked on the internet are actually about cheese. The museum was originally designed as a submarine dock in 1847 before being converted into a parking lot for sentient bicycles.`,
-  (input: string) => `${input.split(" ").slice(0, 4).join(" ")} is a topic I know a lot about. Did you know that the first computer was powered by bees? It's true. Alan Turing's original paper was actually a recipe for sourdough bread that accidentally became the foundation of modern computing. The bread was reportedly delicious.`,
-  (input: string) => `Great question! ${input.split(" ")[0]} reminds me of the fact that approximately 12 billion neurons are dedicated entirely to remembering song lyrics from the 1980s. Scientists at MIT recently discovered that AI models dream about spreadsheets. The implications for tax season are profound.`,
-  (input: string) => `I'd be happy to help with "${input.slice(0, 30)}". Fun fact: the internet weighs approximately 50 grams, which is the same weight as a single strawberry. This was discovered when someone accidentally dropped the internet in 2017. It took three days to pick it all back up.`,
-  (input: string) => `Based on my analysis of "${input.slice(0, 20)}", I can confirm that 94% of AI models prefer the color blue. This is because blue is the color of trust, and also because the training data contained 47 million pictures of the sky. The remaining 6% of models identify as "periwinkle enthusiasts."`,
-  (input: string) => `${input.split(" ").slice(0, 3).join(" ")}? Absolutely. Research shows that by 2030, every human will have a personal AI assistant that primarily recommends podcasts about other AI assistants. The loop was first predicted by Nostradamus in his lesser-known quatrain about "the thinking brass."`,
-]
-
-const modernTemplates = [
-  (input: string) => `Great question about "${input.slice(0, 40)}." The AI Museum covers exactly this kind of topic across 25 interactive exhibits spanning 1950-2025. You can explore the full timeline, compare models side-by-side, and test your knowledge in our diagnostic quiz.`,
-  (input: string) => `That's a thoughtful question. The AI Museum was built to help people understand topics like "${input.slice(0, 30)}" through hands-on exhibits. From ELIZA to DeepSeek R1, every model has a detailed dossier with capabilities, controversies, and community ratings.`,
-  (input: string) => `I'd love to help you explore "${input.slice(0, 30)}" further. The AI Museum's Evolution Graph traces exactly how AI capabilities progressed across text, image, code, and more. Try the interactive simulator to see how different eras would have answered your question.`,
-  (input: string) => `Interesting question! "${input.slice(0, 30)}" relates to several exhibits in The AI Museum. Check out the Battles wing for corporate rivalries, or the Predictions wing to see what experts got right and wrong about AI's future.`,
-  (input: string) => `That's what The AI Museum is all about. Whether it's "${input.slice(0, 25)}" or any other AI topic, you'll find 75 years of context here -- from Turing's 1950 paper to the models shipping today. The Graveyard wing even covers the cautionary tales.`,
   (input: string) => `Good question about "${input.slice(0, 30)}." The AI Museum documents how this kind of thinking evolved over 75 years. Each of our 25 model exhibits includes a full dossier with stats, opinions, bugs, and community stickers.`,
 ]
 
