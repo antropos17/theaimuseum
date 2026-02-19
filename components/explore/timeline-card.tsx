@@ -295,6 +295,42 @@ function CardContent({
           {model.open ? "OPEN" : "CLOSED"}
         </span>
       </div>
-    </Link>
+      </Link>
+
+      {/* Share button - positioned absolutely in top-right corner */}
+      <div ref={shareRef} className="absolute right-3 top-3 z-10">
+        <button
+          onClick={toggleShareMenu}
+          className="flex h-5 w-5 items-center justify-center border border-border bg-card font-mono text-[14px] text-muted-foreground transition-all duration-200 hover:border-primary hover:text-primary hover:shadow-[0_0_20px_rgba(0,255,136,0.25)]"
+          aria-label="Share"
+        >
+          ↗
+        </button>
+
+        {/* Share dropdown menu */}
+        {showShareMenu && (
+          <div className="absolute right-0 top-full mt-1 w-28 border border-border/50 bg-card shadow-lg">
+            <button
+              onClick={handleTwitterShare}
+              className="w-full border-b border-border/30 px-3 py-2 text-left font-mono text-[10px] text-foreground transition-colors hover:bg-primary/10 hover:text-primary"
+            >
+              Tweet this
+            </button>
+            <button
+              onClick={handleCopyFact}
+              className="w-full border-b border-border/30 px-3 py-2 text-left font-mono text-[10px] text-foreground transition-colors hover:bg-primary/10 hover:text-primary"
+            >
+              Copy fact
+            </button>
+            <button
+              onClick={handleWebShare}
+              className="w-full px-3 py-2 text-left font-mono text-[10px] text-foreground transition-colors hover:bg-primary/10 hover:text-primary"
+            >
+              Share
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
   )
 }
