@@ -4,6 +4,7 @@ import { useState, useMemo, useRef, useEffect } from "react"
 import Link from "next/link"
 import { models, categories } from "@/data/models"
 import { cn } from "@/lib/utils"
+import { ArrowLeft } from "lucide-react"
 
 /* ─── Types ─── */
 type Tab = "graph" | "charts"
@@ -105,6 +106,10 @@ export function EvolutionView() {
       <div className="mx-auto max-w-6xl px-4 pb-24 pt-10">
         {/* Header */}
         <div className={`transition-all duration-700 ${mounted ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}>
+          <Link href="/" className="flex items-center gap-1.5 mb-4 text-xs font-mono text-muted-foreground hover:text-primary transition-colors">
+            <ArrowLeft size={14} strokeWidth={1.5} />
+            Back to Museum
+          </Link>
           <span className="data-label">[SYS.EVOLUTION]</span>
           <h1 className="mt-3 text-2xl font-light tracking-tight text-foreground sm:text-3xl">
             Evolution of AI

@@ -1,8 +1,10 @@
 "use client"
 
 import { useRef, useState, useEffect } from "react"
+import Link from "next/link"
 import { memes } from "@/data/models"
 import { CopyableTerminalCard } from "@/components/ui/copyable-terminal-card"
+import { ArrowLeft } from "lucide-react"
 
 /* Deterministic tilt values from index to avoid hydration mismatch */
 const tilts = [-2.5, 1.8, -1.2, 2.4, -3, 1.5, -2, 2.8]
@@ -25,6 +27,10 @@ export function MemesView() {
   return (
     <div className="min-h-screen pt-16">
       <div className="mx-auto max-w-4xl px-4 pb-24 pt-10">
+        <Link href="/" className="flex items-center gap-1.5 mb-4 text-xs font-mono text-muted-foreground hover:text-primary transition-colors">
+          <ArrowLeft size={14} strokeWidth={1.5} />
+          Back to Museum
+        </Link>
         <span className="data-label">[Hall of Fame]</span>
         <h1 className="mt-3 text-2xl font-light tracking-tight text-foreground sm:text-3xl">
           AI Meme Timeline

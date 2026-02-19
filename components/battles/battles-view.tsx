@@ -121,6 +121,13 @@ export function BattlesView() {
   return (
     <div className="min-h-screen pt-16">
       <div className="mx-auto max-w-4xl px-4 pb-24 pt-10">
+        <Link href="/" className="flex items-center gap-1.5 mb-4 text-xs font-mono text-muted-foreground hover:text-primary transition-colors">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="m12 19-7-7 7-7" />
+            <path d="M19 12H5" />
+          </svg>
+          Back to Museum
+        </Link>
         <span className="data-label">[Competition]</span>
         <h1 className="mt-3 text-2xl font-light tracking-tight text-foreground sm:text-3xl">
           The AI Wars
