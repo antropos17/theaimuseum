@@ -29,14 +29,14 @@ export function EvolutionView() {
     const minYear = years[0]
     const maxYear = years[years.length - 1]
 
-    return sorted.map((m) => {
+    return sorted.map((m, i) => {
       const xPct = maxYear === minYear ? 50 : ((m.year - minYear) / (maxYear - minYear)) * 80 + 10
-      const catIdx = categoryOrder.indexOf(m.category)
+      const catIdx = Math.max(0, categoryOrder.indexOf(m.category))
       const yPct = ((catIdx + 0.5) / categoryOrder.length) * 80 + 10
       const radius = Math.max(8, Math.min(28, m.capability / 4 + 6))
-      const seed = (m.year * 7 + catIdx * 13) % 100
-      const jitter = (seed / 100) * 6 - 3
-      return { ...m, xPct, yPct: yPct + jitter, radius }
+      // Deterministic per-index offset to spread overlapping nodes
+      const offset = (i % 5) * 1.2 - 2.4
+      return { ...m, xPct, yPct: yPct + offset, radius }
     })
   }, [])
 
