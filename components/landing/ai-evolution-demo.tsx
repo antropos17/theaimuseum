@@ -249,7 +249,7 @@ function ChatWindow({
       </div>
 
       {/* Chat */}
-      <div className="flex-1 space-y-3 p-4">
+      <div className="flex-1 space-y-3 p-4 min-h-[380px] md:min-h-[360px]">
         {/* User question */}
         <div className="flex justify-end">
           <div className={`max-w-[85%] rounded px-3 py-2 ${bubbleClass[data.style]}`}>
