@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { companies, models } from "@/data/models"
 import { cn } from "@/lib/utils"
+import { CopyableTerminalCard } from "@/components/ui/copyable-terminal-card"
 
 /* ── Animated Valuation Counter ─────────────────────────────────── */
 function ValuationCounter({ target }: { target: number }) {
@@ -53,7 +54,7 @@ function CompareTool() {
     .filter(Boolean) as (typeof models[number] & { _slotIdx: number })[]
 
   return (
-    <div className="terminal-card-solid p-6">
+    <CopyableTerminalCard className="p-6">
       <p className="data-label mb-4">[Compare Models]</p>
       <div className="grid gap-3 sm:grid-cols-3">
         {slots.map((slot, i) => (
@@ -108,7 +109,7 @@ function CompareTool() {
           Select at least 2 models to compare.
         </p>
       )}
-    </div>
+    </CopyableTerminalCard>
   )
 }
 
@@ -134,10 +135,11 @@ export function BattlesView() {
             const isOpen = selected === i
             const barWidth = Math.max(4, (company.valuation / maxVal) * 100)
             return (
-              <button
+              <CopyableTerminalCard
                 key={company.name}
                 onClick={() => setSelected(isOpen ? null : i)}
-                className="terminal-card-solid group w-full p-5 text-left transition-all duration-300 hover:-translate-y-px"
+                className="group w-full p-5 text-left transition-all duration-300 hover:-translate-y-px cursor-pointer"
+                as="button"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex items-center gap-3">
@@ -172,7 +174,7 @@ export function BattlesView() {
                 <p className="mt-3 font-mono text-[10px] text-muted-foreground">
                   {isOpen ? "[-] Collapse" : "[+] Expand drama"}
                 </p>
-              </button>
+              </CopyableTerminalCard>
             )
           })}
         </div>

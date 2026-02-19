@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { predictions } from "@/data/models"
 import { cn } from "@/lib/utils"
+import { CopyableTerminalCard } from "@/components/ui/copyable-terminal-card"
 
 const statusConfig: Record<string, { label: string; color: string; glow: string; spin?: boolean }> = {
   loading: { label: "LIVE", color: "text-emerald-400", glow: "bg-emerald-400", spin: true },
@@ -40,10 +41,11 @@ export function PredictionsView() {
             const cfg = statusConfig[pred.status] ?? statusConfig.loading
 
             return (
-              <button
+              <CopyableTerminalCard
                 key={i}
                 onClick={() => setExpanded(isOpen ? null : i)}
-                className="terminal-card-solid group w-full p-5 text-left transition-all duration-300 hover:-translate-y-px"
+                className="group w-full p-5 text-left transition-all duration-300 hover:-translate-y-px cursor-pointer"
+                as="button"
               >
                 {/* Header with status */}
                 <div className="flex items-start justify-between gap-4">
@@ -117,7 +119,7 @@ export function PredictionsView() {
                 <p className="mt-3 font-mono text-[10px] text-muted-foreground">
                   {isOpen ? "[-] Hide" : "[+] Reality check"}
                 </p>
-              </button>
+              </CopyableTerminalCard>
             )
           })}
         </div>

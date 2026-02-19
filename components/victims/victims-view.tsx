@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { victims } from "@/data/models"
 import { cn } from "@/lib/utils"
+import { CopyableTerminalCard } from "@/components/ui/copyable-terminal-card"
 
 /* ── Countdown counter: counts DOWN from 100 to remaining % ───── */
 function PowerDown({ target, color }: { target: number; color: string }) {
@@ -70,10 +71,11 @@ export function VictimsView() {
             const sevColor = severity === "CRITICAL" ? "text-chart-5" : severity === "WARNING" ? "text-chart-4" : "text-primary"
 
             return (
-              <button
+              <CopyableTerminalCard
                 key={victim.profession}
                 onClick={() => setExpanded(isOpen ? null : i)}
-                className="terminal-card-solid group w-full p-5 text-left transition-all duration-300 hover:-translate-y-px"
+                className="group w-full p-5 text-left transition-all duration-300 hover:-translate-y-px cursor-pointer"
+                as="button"
               >
                 {/* Header row */}
                 <div className="flex items-start justify-between gap-4">
@@ -130,20 +132,20 @@ export function VictimsView() {
                 <p className="mt-3 font-mono text-[10px] text-muted-foreground">
                   {isOpen ? "[-] Collapse" : "[+] Read diagnostics"}
                 </p>
-              </button>
+              </CopyableTerminalCard>
             )
           })}
         </div>
 
         {/* Disclaimer */}
-        <div className="mt-10 terminal-card p-5 text-center">
+        <CopyableTerminalCard className="mt-10 p-5 text-center">
           <p className="font-mono text-[11px] text-muted-foreground">
             DISCLAIMER: Illustrative estimates. Real impact varies by sector and geography.
           </p>
           <p className="mt-1 font-mono text-[10px] text-muted-foreground/50">
             Data sources: McKinsey, Goldman Sachs AI Impact Reports 2024
           </p>
-        </div>
+        </CopyableTerminalCard>
       </div>
     </div>
   )

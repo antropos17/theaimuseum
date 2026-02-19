@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { toast } from "sonner"
 import { useInView } from "@/hooks/use-in-view"
+import { CopyableTerminalCard } from "@/components/ui/copyable-terminal-card"
 
 export function NewsletterSection() {
   const [email, setEmail] = useState("")
@@ -26,7 +27,7 @@ export function NewsletterSection() {
       ref={ref}
       className={`relative z-10 mx-auto max-w-5xl px-4 py-16 fade-in-up ${isInView ? "visible" : ""}`}
     >
-      <div className="terminal-card-solid overflow-hidden">
+      <CopyableTerminalCard className="overflow-hidden">
         {/* Terminal chrome */}
         <div className="flex items-center gap-2 border-b border-border px-4 py-2">
           <div className="flex gap-1.5">
@@ -76,7 +77,7 @@ export function NewsletterSection() {
             No spam. Unsubscribe anytime. Free forever.
           </p>
         </div>
-      </div>
+      </CopyableTerminalCard>
     </section>
   )
 }

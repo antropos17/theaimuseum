@@ -2,6 +2,7 @@
 
 import { useInView } from "@/hooks/use-in-view"
 import { Heart } from "lucide-react"
+import { CopyableTerminalCard } from "@/components/ui/copyable-terminal-card"
 
 export function DonationSection() {
   const { ref, isInView } = useInView(0.2)
@@ -11,7 +12,7 @@ export function DonationSection() {
       ref={ref}
       className={`relative z-10 mx-auto max-w-5xl px-4 pb-16 pt-4 fade-in-up ${isInView ? "visible" : ""}`}
     >
-      <div className="terminal-card-solid overflow-hidden">
+      <CopyableTerminalCard className="overflow-hidden">
         {/* Terminal chrome */}
         <div className="flex items-center gap-2 border-b border-border px-4 py-2">
           <div className="flex gap-1.5">
@@ -50,7 +51,7 @@ export function DonationSection() {
             {'>'} Buy us a coffee
           </a>
         </div>
-      </div>
+      </CopyableTerminalCard>
     </section>
   )
 }

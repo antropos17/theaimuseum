@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react"
 import { quizQuestions } from "@/data/models"
 import { cn } from "@/lib/utils"
+import { CopyableTerminalCard } from "@/components/ui/copyable-terminal-card"
 
 const RANKS = [
   { min: 90, label: "SUPREME NEURAL ARCHITECT", msg: "You don't just know AI history -- you ARE AI history. Your neural pathways are indistinguishable from a transformer model." },
@@ -109,7 +110,7 @@ export function QuizView() {
     return (
       <div className="min-h-screen pt-16 cursor-pointer" onClick={skipBoot}>
         <div className="mx-auto max-w-xl px-4 pb-24 pt-20">
-          <div className="terminal-card-solid p-8">
+          <CopyableTerminalCard className="p-8">
             <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
               sys://diagnostic/ai-history
             </p>
@@ -130,7 +131,7 @@ export function QuizView() {
             <p className="mt-8 font-mono text-[10px] text-muted-foreground/50 animate-pulse">
               Click anywhere to skip
             </p>
-          </div>
+          </CopyableTerminalCard>
         </div>
       </div>
     )
@@ -172,7 +173,7 @@ export function QuizView() {
     return (
       <div className="min-h-screen pt-16">
         <div className="mx-auto max-w-xl px-4 pb-24 pt-10">
-          <div className="terminal-card-solid p-8">
+          <CopyableTerminalCard className="p-8">
             {/* Header */}
             <div className="flex items-center justify-between">
               <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
@@ -269,7 +270,7 @@ export function QuizView() {
                 {">"} RESTART_DIAGNOSTIC
               </button>
             </div>
-          </div>
+          </CopyableTerminalCard>
         </div>
       </div>
     )

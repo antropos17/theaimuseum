@@ -4,6 +4,7 @@ import { useState, useMemo } from "react"
 import Link from "next/link"
 import { models, categories } from "@/data/models"
 import { cn } from "@/lib/utils"
+import { CopyableTerminalCard } from "@/components/ui/copyable-terminal-card"
 
 type SortKey = "capability" | "hype" | "safety"
 
@@ -44,7 +45,7 @@ export function LeaderboardView() {
         </div>
 
         {/* Table */}
-        <div className="mt-4 terminal-card-solid overflow-hidden">
+        <CopyableTerminalCard className="mt-4 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
@@ -92,7 +93,7 @@ export function LeaderboardView() {
               </tbody>
             </table>
           </div>
-        </div>
+        </CopyableTerminalCard>
       </div>
     </div>
   )

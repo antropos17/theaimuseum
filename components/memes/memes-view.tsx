@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect } from "react"
 import { memes } from "@/data/models"
+import { CopyableTerminalCard } from "@/components/ui/copyable-terminal-card"
 
 /* Deterministic tilt values from index to avoid hydration mismatch */
 const tilts = [-2.5, 1.8, -1.2, 2.4, -3, 1.5, -2, 2.8]
@@ -40,9 +41,9 @@ export function MemesView() {
           {memes.map((meme, i) => {
             const baseTilt = tilts[i % tilts.length]
             return (
-              <div
+              <CopyableTerminalCard
                 key={i}
-                className="group terminal-card-solid relative flex flex-col items-center p-6 text-center transition-all duration-300"
+                className="group relative flex flex-col items-center p-6 text-center transition-all duration-300"
                 style={{
                   opacity: visible ? 1 : 0,
                   transform: visible
@@ -80,7 +81,7 @@ export function MemesView() {
                     #{meme.tag}
                   </span>
                 </div>
-              </div>
+              </CopyableTerminalCard>
             )
           })}
         </div>
