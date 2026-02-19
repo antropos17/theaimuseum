@@ -6,13 +6,14 @@ import { usePathname } from "next/navigation"
 import { useTheme } from "next-themes"
 import { cn } from "@/lib/utils"
 import { CommandPalette } from "@/components/command-palette"
+import { Search, Sun, Moon, Menu, X } from "lucide-react"
 
 const navItems = [
-  { label: "EXPLORE", href: "/explore" },
-  { label: "EVOLUTION", href: "/evolution" },
-  { label: "BATTLES", href: "/battles" },
-  { label: "SIMULATOR", href: "/simulator" },
-  { label: "QUIZ", href: "/quiz" },
+  { label: "Explore", href: "/explore" },
+  { label: "Evolution", href: "/evolution" },
+  { label: "Battles", href: "/battles" },
+  { label: "Simulator", href: "/simulator" },
+  { label: "Quiz", href: "/quiz" },
 ]
 
 export function MuseumNav() {
@@ -49,20 +50,20 @@ export function MuseumNav() {
     <>
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-100",
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
           scrolled
-            ? "bg-background/95 border-b-4 border-border"
-            : "bg-background/80"
+            ? "bg-background/90 backdrop-blur-xl border-b border-border"
+            : "bg-transparent"
         )}
       >
         <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3">
-            <div className="pixel-border-gold flex h-8 w-8 items-center justify-center bg-primary">
-              <span className="text-[6px] text-primary-foreground">AI</span>
+          <Link href="/" className="flex items-center gap-2.5">
+            <div className="flex h-7 w-7 items-center justify-center border border-primary/30 bg-primary/10">
+              <span className="font-mono text-[10px] font-bold text-primary text-glow-subtle">AI</span>
             </div>
-            <span className="hidden text-[8px] text-primary sm:block">
-              THE AI MUSEUM
+            <span className="hidden text-sm font-medium text-foreground sm:block">
+              The AI Museum
             </span>
           </Link>
 
@@ -73,9 +74,9 @@ export function MuseumNav() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "px-3 py-2 text-[7px] transition-colors",
+                  "px-3 py-1.5 font-mono text-xs tracking-wide transition-colors duration-200",
                   pathname === item.href
-                    ? "text-primary"
+                    ? "text-primary text-glow-subtle"
                     : "text-muted-foreground hover:text-foreground"
                 )}
               >
@@ -84,59 +85,74 @@ export function MuseumNav() {
             ))}
           </nav>
 
-          {/* Right side */}
-          <div className="flex items-center gap-2">
+          {/* Right actions */}
+          <div className="flex items-center gap-1.5">
             <button
               onClick={() => setCmdOpen(true)}
-              className="pixel-btn flex h-8 items-center gap-2 bg-card px-3 text-[6px] text-muted-foreground"
+              className="flex h-8 items-center gap-2 border border-border bg-card/50 px-3 font-mono text-[10px] text-muted-foreground transition-colors hover:border-primary/30 hover:text-foreground"
               aria-label="Search"
             >
-              [/] SEARCH
+              <Search className="h-3 w-3" />
+              <span className="hidden sm:inline">Search</span>
+              <kbd className="hidden rounded bg-muted px-1 py-0.5 text-[9px] sm:inline">
+                {"K"}
+              </kbd>
             </button>
 
             {mounted && (
               <button
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="pixel-btn flex h-8 w-8 items-center justify-center bg-card text-[8px] text-muted-foreground"
+                className="flex h-8 w-8 items-center justify-center border border-border bg-card/50 text-muted-foreground transition-colors hover:border-primary/30 hover:text-foreground"
                 aria-label="Toggle theme"
               >
-                {theme === "dark" ? "O" : "*"}
+                {theme === "dark" ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
               </button>
             )}
 
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="pixel-btn flex h-8 w-8 items-center justify-center bg-card text-[8px] text-muted-foreground md:hidden"
+              className="flex h-8 w-8 items-center justify-center border border-border bg-card/50 text-muted-foreground md:hidden"
               aria-label="Toggle menu"
             >
-              {mobileOpen ? "X" : "="}
+              {mobileOpen ? <X className="h-3.5 w-3.5" /> : <Menu className="h-3.5 w-3.5" />}
             </button>
           </div>
         </div>
 
         {/* Mobile menu */}
         {mobileOpen && (
-          <div className="pixel-slide-down border-t-4 border-border bg-background p-4 md:hidden">
-            <div className="flex flex-col gap-1">
+          <div className="border-t border-border bg-background/95 backdrop-blur-xl p-4 md:hidden">
+            <div className="flex flex-col gap-0.5">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "px-3 py-3 text-[7px]",
+                    "px-3 py-2.5 font-mono text-xs transition-colors",
                     pathname === item.href
-                      ? "bg-primary/10 text-primary"
+                      ? "text-primary"
                       : "text-muted-foreground hover:text-foreground"
                   )}
                 >
-                  {">"} {item.label}
+                  {item.label}
                 </Link>
               ))}
-              <Link href="/graveyard" className="px-3 py-3 text-[7px] text-muted-foreground hover:text-foreground">{">"} GRAVEYARD</Link>
-              <Link href="/memes" className="px-3 py-3 text-[7px] text-muted-foreground hover:text-foreground">{">"} MEMES</Link>
-              <Link href="/victims" className="px-3 py-3 text-[7px] text-muted-foreground hover:text-foreground">{">"} VICTIMS</Link>
-              <Link href="/predictions" className="px-3 py-3 text-[7px] text-muted-foreground hover:text-foreground">{">"} PREDICTIONS</Link>
-              <Link href="/leaderboard" className="px-3 py-3 text-[7px] text-muted-foreground hover:text-foreground">{">"} LEADERBOARD</Link>
+              <div className="my-2 h-px bg-border" />
+              {[
+                { label: "Graveyard", href: "/graveyard" },
+                { label: "Memes", href: "/memes" },
+                { label: "Victims", href: "/victims" },
+                { label: "Predictions", href: "/predictions" },
+                { label: "Leaderboard", href: "/leaderboard" },
+              ].map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="px-3 py-2.5 font-mono text-xs text-muted-foreground hover:text-foreground"
+                >
+                  {item.label}
+                </Link>
+              ))}
             </div>
           </div>
         )}

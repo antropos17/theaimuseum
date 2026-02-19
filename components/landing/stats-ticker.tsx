@@ -3,11 +3,10 @@
 import { useEffect, useState, useRef, useCallback } from "react"
 
 const stats = [
-  { value: 25, label: "MODELS" },
-  { value: 75, label: "YEARS" },
-  { value: 8, label: "CATEGORIES" },
-  { value: 5, label: "ERAS" },
-  { value: 12, label: "EXHIBITS" },
+  { value: 25, label: "Models" },
+  { value: 75, label: "Years" },
+  { value: 8, label: "Categories" },
+  { value: 5, label: "Eras" },
 ]
 
 const DURATION = 1500
@@ -25,18 +24,15 @@ function AnimatedCounter({ target, active }: { target: number; active: boolean }
     if (hasRun.current) return
     hasRun.current = true
     const start = performance.now()
-
     function tick(now: number) {
       const elapsed = now - start
       const progress = Math.min(elapsed / DURATION, 1)
       const eased = easeOutCubic(progress)
       setDisplay(Math.round(eased * target))
-
       if (progress < 1) {
         rafRef.current = requestAnimationFrame(tick)
       }
     }
-
     rafRef.current = requestAnimationFrame(tick)
   }, [target])
 
@@ -57,7 +53,6 @@ export function StatsTicker() {
   useEffect(() => {
     const el = containerRef.current
     if (!el) return
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -67,31 +62,26 @@ export function StatsTicker() {
       },
       { threshold: 0.3 }
     )
-
     observer.observe(el)
     return () => observer.disconnect()
   }, [])
 
   return (
-    <div ref={containerRef} className="relative z-10 mx-auto max-w-5xl px-4 py-12">
-      {/* Pixel divider */}
-      <div className="mx-auto mb-10 flex justify-center">
-        <div className="flex items-center gap-1">
-          <div className="h-1 w-1 bg-primary" />
-          <div className="h-1 w-4 bg-primary" />
-          <div className="h-1 w-8 bg-border" />
-          <div className="h-1 w-4 bg-primary" />
-          <div className="h-1 w-1 bg-primary" />
-        </div>
+    <div ref={containerRef} className="relative z-10 mx-auto max-w-4xl px-4 py-16">
+      {/* Divider */}
+      <div className="mx-auto mb-12 flex items-center justify-center gap-4">
+        <div className="h-px flex-1 max-w-24 bg-border" />
+        <span className="font-mono text-[10px] tracking-widest text-muted-foreground">[ARCHIVE]</span>
+        <div className="h-px flex-1 max-w-24 bg-border" />
       </div>
 
-      <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-14">
+      <div className="flex flex-wrap items-center justify-center gap-12 sm:gap-20">
         {stats.map((stat) => (
-          <div key={stat.label} className="flex flex-col items-center gap-2">
-            <span className="text-[18px] tabular-nums text-primary sm:text-[24px]">
+          <div key={stat.label} className="flex flex-col items-center gap-1.5">
+            <span className="font-mono text-3xl font-light tabular-nums text-primary text-glow-subtle sm:text-4xl">
               <AnimatedCounter target={stat.value} active={visible} />
             </span>
-            <span className="text-[6px] text-muted-foreground">
+            <span className="data-label">
               {stat.label}
             </span>
           </div>

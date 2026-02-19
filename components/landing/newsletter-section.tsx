@@ -13,7 +13,7 @@ export function NewsletterSection() {
     e.preventDefault()
     if (email) {
       setSubmitted(true)
-      toast.success("SUBSCRIBED! WELCOME PLAYER.")
+      toast.success("Subscribed! Welcome to the archive.")
       setTimeout(() => {
         setEmail("")
         setSubmitted(false)
@@ -24,41 +24,38 @@ export function NewsletterSection() {
   return (
     <section
       ref={ref}
-      className={`relative z-10 mx-auto max-w-5xl px-4 py-16 transition-opacity duration-200 ${isInView ? "opacity-100" : "opacity-0"}`}
-      style={{ transitionTimingFunction: "steps(4)" }}
+      className={`relative z-10 mx-auto max-w-5xl px-4 py-16 fade-in-up ${isInView ? "visible" : ""}`}
     >
-      <div className="pixel-border bg-card p-8">
+      <div className="terminal-card-solid p-8 sm:p-10">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-          {/* Left */}
           <div>
-            <h3 className="text-[10px] text-foreground">
-              AI HISTORY IS BEING WRITTEN NOW.
+            <h3 className="text-lg font-light tracking-tight text-foreground">
+              AI history is being written now.
             </h3>
-            <p className="mt-3 text-[7px] leading-[2] text-muted-foreground">
-              EVERY BREAKTHROUGH, EVERY SCANDAL -- DELIVERED TO YOUR INBOX.
+            <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">
+              Every breakthrough, every scandal &mdash; delivered to your inbox.
             </p>
           </div>
 
-          {/* Right form */}
           <form onSubmit={handleSubscribe} className="flex gap-2">
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="YOUR@EMAIL.COM"
-              className="w-full min-w-0 border-2 border-border bg-background px-3 py-2.5 text-[7px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none sm:w-56"
+              placeholder="your@email.com"
+              className="w-full min-w-0 border border-border bg-background px-4 py-2.5 font-mono text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none sm:w-56"
               required
             />
             <button
               type="submit"
-              className="pixel-btn-gold shrink-0 bg-primary px-4 py-2.5 text-[7px] text-primary-foreground"
+              className="glass-btn-primary shrink-0 px-5 py-2.5 text-foreground"
             >
-              {submitted ? "OK!" : "> GO"}
+              {submitted ? "Done" : "Subscribe"}
             </button>
           </form>
         </div>
-        <p className="mt-4 text-[6px] text-muted-foreground">
-          NO SPAM. UNSUBSCRIBE ANYTIME. FREE FOREVER.
+        <p className="mt-4 font-mono text-[10px] text-muted-foreground">
+          No spam. Unsubscribe anytime. Free forever.
         </p>
       </div>
     </section>

@@ -54,9 +54,9 @@ export function SimulatorView() {
   return (
     <div className="min-h-screen pt-16">
       <div className="mx-auto max-w-2xl px-4 pb-24 pt-10">
-        <p className="mb-2 text-[8px] uppercase tracking-[0.3em] text-muted-foreground">{'>'} Interactive</p>
-        <h1 className="text-lg text-primary sm:text-xl">AI SIMULATOR</h1>
-        <p className="mt-2 text-[8px] leading-relaxed text-muted-foreground">
+        <span className="data-label">[Interactive]</span>
+        <h1 className="mt-3 text-2xl font-light tracking-tight text-foreground sm:text-3xl">AI Simulator</h1>
+        <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">
           Experience how AI responses evolved from 1966 to 2025.
         </p>
 
@@ -67,8 +67,8 @@ export function SimulatorView() {
               key={e.era}
               onClick={() => setEraIdx(i)}
               className={cn(
-                "pixel-border px-2 py-1 text-[6px] transition-colors",
-                eraIdx === i ? "bg-primary text-primary-foreground" : "bg-card text-muted-foreground hover:text-foreground"
+                "border px-3 py-1.5 font-mono text-[11px] transition-all duration-200",
+                eraIdx === i ? "border-primary bg-primary/10 text-primary" : "border-border bg-card text-muted-foreground hover:text-foreground"
               )}
             >
               {e.era}
@@ -77,26 +77,28 @@ export function SimulatorView() {
         </div>
 
         {/* Terminal */}
-        <div className="mt-4 pixel-border overflow-hidden bg-card">
-          <div className="flex items-center justify-between border-b-2 border-border px-4 py-2">
-            <span className="text-[8px] text-primary">{'>'} {era.label}</span>
-            <span className="text-[6px] text-muted-foreground">{era.era}</span>
+        <div className="mt-4 terminal-card-solid overflow-hidden">
+          <div className="flex items-center justify-between border-b border-border px-4 py-2.5 bg-surface-2">
+            <span className="font-mono text-xs text-primary text-glow-subtle">{era.label}</span>
+            <span className="font-mono text-[10px] text-muted-foreground">{era.era}</span>
           </div>
 
-          <div ref={scrollRef} className="h-64 overflow-y-auto p-4">
+          <div ref={scrollRef} className="h-72 overflow-y-auto p-4">
             {messages.length === 0 && !typing && (
               <div className="flex h-full items-center justify-center">
-                <p className="text-[7px] text-muted-foreground text-center">
-                  CLICK [SEND] TO BEGIN...
+                <p className="font-mono text-xs text-muted-foreground text-center">
+                  Click [Send] to begin the conversation<span className="cursor-blink" />
                 </p>
               </div>
             )}
             {messages.map((msg, i) => (
               <div key={i} className={cn("mb-3", msg.role === "user" ? "text-right" : "text-left")}>
-                <span className="text-[6px] text-muted-foreground">{msg.role === "user" ? "YOU" : "AI"}</span>
+                <span className="data-label">{msg.role === "user" ? "You" : "AI"}</span>
                 <div className={cn(
-                  "mt-0.5 inline-block pixel-border px-3 py-2 text-[7px] leading-[2]",
-                  msg.role === "user" ? "bg-primary/10 text-foreground" : "bg-background text-foreground"
+                  "mt-1 inline-block border px-4 py-2.5 text-[13px] leading-relaxed",
+                  msg.role === "user"
+                    ? "border-primary/20 bg-primary/5 text-foreground"
+                    : "border-border bg-surface-2 text-foreground"
                 )}>
                   {msg.text}
                 </div>
@@ -104,45 +106,45 @@ export function SimulatorView() {
             ))}
             {typing && typedText && (
               <div className="text-left">
-                <span className="text-[6px] text-muted-foreground">AI</span>
-                <div className="mt-0.5 pixel-border bg-background px-3 py-2 text-[7px] leading-[2] text-foreground inline-block">
-                  {typedText}<span className="animate-pulse text-primary">_</span>
+                <span className="data-label">AI</span>
+                <div className="mt-1 inline-block border border-border bg-surface-2 px-4 py-2.5 text-[13px] leading-relaxed text-foreground">
+                  {typedText}<span className="cursor-blink" />
                 </div>
               </div>
             )}
           </div>
 
-          <div className="flex items-center justify-between border-t-2 border-border px-4 py-2">
-            <span className="text-[6px] text-muted-foreground">
-              {promptIdx < era.prompts.length ? `${promptIdx + 1}/${era.prompts.length}` : "DONE"}
+          <div className="flex items-center justify-between border-t border-border px-4 py-2.5 bg-surface-2">
+            <span className="font-mono text-[10px] text-muted-foreground">
+              {promptIdx < era.prompts.length ? `${promptIdx + 1}/${era.prompts.length}` : "Complete"}
             </span>
             <button
               onClick={sendNext}
               disabled={typing || promptIdx >= era.prompts.length}
               className={cn(
-                "pixel-border px-3 py-1 text-[7px] transition-colors",
+                "border px-4 py-1.5 font-mono text-xs transition-all duration-200",
                 typing || promptIdx >= era.prompts.length
-                  ? "text-muted-foreground"
-                  : "bg-primary text-primary-foreground hover:brightness-110"
+                  ? "border-border text-muted-foreground"
+                  : "border-primary bg-primary/10 text-primary hover:bg-primary/20"
               )}
             >
-              {typing ? "TYPING..." : promptIdx >= era.prompts.length ? "COMPLETE" : "[SEND]"}
+              {typing ? "Typing..." : promptIdx >= era.prompts.length ? "Done" : "[Send]"}
             </button>
           </div>
         </div>
 
-        {/* Quality */}
+        {/* Quality indicator */}
         {messages.length > 0 && (
-          <div className="mt-4 pixel-border bg-card p-3">
+          <div className="mt-4 terminal-card-solid p-4">
             <div className="flex items-center justify-between">
-              <span className="text-[7px] text-muted-foreground">QUALITY</span>
-              <span className="text-[7px] tabular-nums text-foreground">
+              <span className="data-label">Response Quality</span>
+              <span className="font-mono text-xs tabular-nums text-foreground">
                 {era.prompts[Math.min(promptIdx, era.prompts.length) - 1]?.quality ?? 0}/100
               </span>
             </div>
-            <div className="mt-2 h-[6px] w-full bg-muted">
+            <div className="mt-2 metric-bar">
               <div
-                className="h-full bg-primary transition-all duration-500"
+                className="metric-bar-fill bg-primary"
                 style={{ width: `${era.prompts[Math.min(promptIdx, era.prompts.length) - 1]?.quality ?? 0}%` }}
               />
             </div>

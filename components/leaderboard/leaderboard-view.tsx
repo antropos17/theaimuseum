@@ -8,9 +8,9 @@ import { cn } from "@/lib/utils"
 type SortKey = "capability" | "hype" | "safety"
 
 const sortOptions: { key: SortKey; label: string }[] = [
-  { key: "capability", label: "[CAP]" },
-  { key: "hype", label: "[HYPE]" },
-  { key: "safety", label: "[SAFE]" },
+  { key: "capability", label: "Capability" },
+  { key: "hype", label: "Hype" },
+  { key: "safety", label: "Safety" },
 ]
 
 export function LeaderboardView() {
@@ -21,10 +21,10 @@ export function LeaderboardView() {
   return (
     <div className="min-h-screen pt-16">
       <div className="mx-auto max-w-4xl px-4 pb-24 pt-10">
-        <p className="mb-2 text-[8px] uppercase tracking-[0.3em] text-muted-foreground">{'>'} Rankings</p>
-        <h1 className="text-lg text-primary sm:text-xl">LEADERBOARD</h1>
-        <p className="mt-2 text-[8px] text-muted-foreground">
-          All {models.length} models, ranked.
+        <span className="data-label">[Rankings]</span>
+        <h1 className="mt-3 text-2xl font-light tracking-tight text-foreground sm:text-3xl">Leaderboard</h1>
+        <p className="mt-2 text-[14px] text-muted-foreground">
+          All {models.length} models, ranked by performance metrics.
         </p>
 
         {/* Sort */}
@@ -34,8 +34,8 @@ export function LeaderboardView() {
               key={opt.key}
               onClick={() => setSortKey(opt.key)}
               className={cn(
-                "pixel-border px-3 py-1 text-[7px] transition-colors",
-                sortKey === opt.key ? "bg-primary text-primary-foreground" : "bg-card text-muted-foreground hover:text-foreground"
+                "border px-4 py-2 font-mono text-xs transition-all duration-200",
+                sortKey === opt.key ? "border-primary bg-primary/10 text-primary" : "border-border bg-card text-muted-foreground hover:text-foreground"
               )}
             >
               {opt.label}
@@ -44,17 +44,17 @@ export function LeaderboardView() {
         </div>
 
         {/* Table */}
-        <div className="mt-4 pixel-border overflow-hidden bg-card">
+        <div className="mt-4 terminal-card-solid overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="border-b-2 border-border bg-background">
-                  <th className="px-3 py-2 text-[6px] text-muted-foreground">#</th>
-                  <th className="px-3 py-2 text-[6px] text-muted-foreground">MODEL</th>
-                  <th className="hidden px-3 py-2 text-[6px] text-muted-foreground sm:table-cell">CAT</th>
-                  <th className="hidden px-3 py-2 text-[6px] text-muted-foreground md:table-cell">YEAR</th>
-                  <th className="px-3 py-2 text-[6px] text-muted-foreground">SCORE</th>
-                  <th className="px-3 py-2 text-[6px] text-muted-foreground">BAR</th>
+                <tr className="border-b border-border bg-surface-2">
+                  <th className="px-4 py-3 data-label">#</th>
+                  <th className="px-4 py-3 data-label">Model</th>
+                  <th className="hidden px-4 py-3 data-label sm:table-cell">Category</th>
+                  <th className="hidden px-4 py-3 data-label md:table-cell">Year</th>
+                  <th className="px-4 py-3 data-label">Score</th>
+                  <th className="px-4 py-3 data-label">Bar</th>
                 </tr>
               </thead>
               <tbody>
@@ -62,28 +62,28 @@ export function LeaderboardView() {
                   const cat = categories[model.category]
                   const val = model[sortKey]
                   return (
-                    <tr key={model.id} className="border-b border-border/50 transition-colors hover:bg-background/50">
-                      <td className="px-3 py-2">
-                        <span className={cn("text-[7px] tabular-nums", i === 0 && "text-chart-4", i > 0 && "text-muted-foreground")}>
+                    <tr key={model.id} className="border-b border-border/50 transition-colors hover:bg-surface-2">
+                      <td className="px-4 py-3">
+                        <span className={cn("font-mono text-xs tabular-nums", i === 0 ? "text-chart-4" : i < 3 ? "text-foreground" : "text-muted-foreground")}>
                           {i + 1}
                         </span>
                       </td>
-                      <td className="px-3 py-2">
-                        <Link href={`/model/${model.slug}`} className="group flex items-center gap-1.5">
-                          <div className="h-[5px] w-[5px]" style={{ backgroundColor: model.color }} />
-                          <span className="text-[7px] text-foreground group-hover:text-primary">{model.name}</span>
+                      <td className="px-4 py-3">
+                        <Link href={`/model/${model.slug}`} className="group flex items-center gap-2">
+                          <div className="h-2 w-2 rounded-full" style={{ backgroundColor: model.color }} />
+                          <span className="text-sm text-foreground transition-colors group-hover:text-primary">{model.name}</span>
                         </Link>
                       </td>
-                      <td className="hidden px-3 py-2 sm:table-cell">
-                        <span className="text-[6px]" style={{ color: cat.color }}>{cat.label}</span>
+                      <td className="hidden px-4 py-3 sm:table-cell">
+                        <span className="font-mono text-[11px]" style={{ color: cat.color }}>{cat.label}</span>
                       </td>
-                      <td className="hidden px-3 py-2 text-[7px] tabular-nums text-muted-foreground md:table-cell">
+                      <td className="hidden px-4 py-3 font-mono text-xs tabular-nums text-muted-foreground md:table-cell">
                         {model.year}
                       </td>
-                      <td className="px-3 py-2 text-[8px] tabular-nums text-foreground">{val}</td>
-                      <td className="px-3 py-2">
-                        <div className="h-[4px] w-16 bg-muted">
-                          <div className="h-full" style={{ width: `${val}%`, backgroundColor: model.color }} />
+                      <td className="px-4 py-3 font-mono text-sm tabular-nums text-foreground">{val}</td>
+                      <td className="px-4 py-3">
+                        <div className="metric-bar w-20">
+                          <div className="metric-bar-fill" style={{ width: `${val}%`, backgroundColor: model.color }} />
                         </div>
                       </td>
                     </tr>

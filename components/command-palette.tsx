@@ -54,9 +54,11 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
 
   return (
     <CommandDialog open={open} onOpenChange={onOpenChange}>
-      <CommandInput placeholder="Search models, pages..." />
+      <CommandInput placeholder="Search models, pages..." className="font-mono text-sm" />
       <CommandList>
-        <CommandEmpty>No results found.</CommandEmpty>
+        <CommandEmpty className="py-6 text-center font-mono text-sm text-muted-foreground">
+          No results found.
+        </CommandEmpty>
 
         <CommandGroup heading="Pages">
           {pages.map((page) => {
@@ -93,7 +95,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                   aria-hidden="true"
                 />
                 <div className="flex flex-col gap-0.5">
-                  <span className="text-sm font-medium">{model.name}</span>
+                  <span className="text-sm">{model.name}</span>
                   <span className="font-mono text-[11px] text-muted-foreground">
                     {model.creator} &middot; {model.year}
                   </span>

@@ -41,22 +41,21 @@ export function QuizView() {
 
   if (finished) {
     const pct = Math.round((score / questions.length) * 100)
-    const grade = pct >= 80 ? "AI HISTORIAN" : pct >= 60 ? "AI ENTHUSIAST" : pct >= 40 ? "AI TOURIST" : "AI NEWBIE"
+    const grade = pct >= 80 ? "AI Historian" : pct >= 60 ? "AI Enthusiast" : pct >= 40 ? "AI Tourist" : "AI Newbie"
     return (
       <div className="min-h-screen pt-16">
         <div className="mx-auto max-w-md px-4 pb-24 pt-10 text-center">
-          <p className="mb-2 text-[8px] uppercase tracking-[0.3em] text-muted-foreground">{'>'} Results</p>
-          <h1 className="text-lg text-primary">QUIZ COMPLETE</h1>
-          <div className="mt-8 pixel-border bg-card p-8">
-            <p className="text-[10px] text-chart-4">* * *</p>
-            <p className="mt-3 text-3xl tabular-nums text-primary">{score}/{questions.length}</p>
-            <p className="mt-1 text-[8px] text-muted-foreground">{pct}% correct</p>
-            <p className="mt-4 text-[10px] text-foreground">{grade}</p>
-            <div className="mt-4 h-[6px] w-full bg-muted">
-              <div className="h-full bg-primary transition-all duration-700" style={{ width: `${pct}%` }} />
+          <span className="data-label">[Results]</span>
+          <h1 className="mt-3 text-2xl font-light tracking-tight text-foreground">Quiz Complete</h1>
+          <div className="mt-8 terminal-card-solid p-8">
+            <p className="font-mono text-4xl font-light tabular-nums text-primary text-glow-subtle">{score}/{questions.length}</p>
+            <p className="mt-1 font-mono text-xs text-muted-foreground">{pct}% correct</p>
+            <p className="mt-4 text-lg font-light text-foreground">{grade}</p>
+            <div className="mt-4 metric-bar">
+              <div className="metric-bar-fill bg-primary" style={{ width: `${pct}%` }} />
             </div>
-            <button onClick={restart} className="mt-6 pixel-border bg-primary px-4 py-2 text-[8px] text-primary-foreground hover:brightness-110">
-              [RETRY]
+            <button onClick={restart} className="mt-6 border border-primary bg-primary/10 px-5 py-2.5 font-mono text-xs text-primary transition-colors hover:bg-primary/20">
+              [Retry]
             </button>
           </div>
         </div>
@@ -67,25 +66,25 @@ export function QuizView() {
   return (
     <div className="min-h-screen pt-16">
       <div className="mx-auto max-w-md px-4 pb-24 pt-10">
-        <p className="mb-2 text-[8px] uppercase tracking-[0.3em] text-muted-foreground">{'>'} Challenge</p>
-        <h1 className="text-lg text-primary sm:text-xl">AI HISTORY QUIZ</h1>
-        <p className="mt-2 text-[8px] text-muted-foreground">
+        <span className="data-label">[Challenge]</span>
+        <h1 className="mt-3 text-2xl font-light tracking-tight text-foreground sm:text-3xl">AI History Quiz</h1>
+        <p className="mt-2 text-[14px] text-muted-foreground">
           {questions.length} questions. No cheating.
         </p>
 
         {/* Progress */}
-        <div className="mt-4 flex items-center gap-2">
-          <span className="text-[7px] tabular-nums text-muted-foreground">{currentQ + 1}/{questions.length}</span>
-          <div className="h-[4px] flex-1 bg-muted">
-            <div className="h-full bg-primary transition-all duration-300" style={{ width: `${((currentQ + 1) / questions.length) * 100}%` }} />
+        <div className="mt-6 flex items-center gap-3">
+          <span className="font-mono text-xs tabular-nums text-muted-foreground">{currentQ + 1}/{questions.length}</span>
+          <div className="metric-bar flex-1">
+            <div className="metric-bar-fill bg-primary" style={{ width: `${((currentQ + 1) / questions.length) * 100}%` }} />
           </div>
-          <span className="text-[7px] tabular-nums text-primary">{score}pts</span>
+          <span className="font-mono text-xs tabular-nums text-primary text-glow-subtle">{score}pts</span>
         </div>
 
         {/* Question */}
-        <div className="mt-6 pixel-border bg-card p-5">
-          <p className="text-[9px] leading-[2] text-foreground">{question.q}</p>
-          <div className="mt-4 space-y-1.5">
+        <div className="mt-6 terminal-card-solid p-6">
+          <p className="text-[15px] leading-relaxed text-foreground">{question.q}</p>
+          <div className="mt-5 space-y-2">
             {question.options.map((opt, i) => {
               const isCorrect = i === question.answer
               const isSelected = i === selected
@@ -95,14 +94,14 @@ export function QuizView() {
                   onClick={() => handleAnswer(i)}
                   disabled={answered}
                   className={cn(
-                    "pixel-border flex w-full items-center gap-2 px-3 py-2 text-left text-[7px] transition-colors",
-                    !answered && "hover:border-primary hover:text-foreground",
-                    answered && isCorrect && "border-chart-3 bg-chart-3/10 text-foreground",
-                    answered && isSelected && !isCorrect && "border-chart-5 bg-chart-5/10 text-foreground",
+                    "flex w-full items-center gap-3 border px-4 py-3 text-left text-[13px] transition-all duration-200",
+                    !answered && "border-border hover:border-primary/30 hover:text-foreground",
+                    answered && isCorrect && "border-chart-3 bg-chart-3/5 text-foreground",
+                    answered && isSelected && !isCorrect && "border-chart-5 bg-chart-5/5 text-foreground",
                     answered && !isSelected && !isCorrect && "opacity-30"
                   )}
                 >
-                  <span className="text-muted-foreground">{String.fromCharCode(65 + i)}.</span>
+                  <span className="font-mono text-xs text-muted-foreground">{String.fromCharCode(65 + i)}.</span>
                   {opt}
                 </button>
               )
@@ -110,9 +109,9 @@ export function QuizView() {
           </div>
 
           {answered && (
-            <div className="mt-4 flex justify-end">
-              <button onClick={nextQuestion} className="pixel-border bg-primary px-4 py-1.5 text-[7px] text-primary-foreground hover:brightness-110">
-                {currentQ + 1 >= questions.length ? "[RESULTS]" : "[NEXT]"}
+            <div className="mt-5 flex justify-end">
+              <button onClick={nextQuestion} className="border border-primary bg-primary/10 px-5 py-2 font-mono text-xs text-primary transition-colors hover:bg-primary/20">
+                {currentQ + 1 >= questions.length ? "[Results]" : "[Next]"}
               </button>
             </div>
           )}

@@ -14,11 +14,11 @@ interface ModelExhibitProps {
 }
 
 const tabItems = [
-  { id: "overview", label: "[INFO]" },
-  { id: "stats", label: "[STATS]" },
-  { id: "opinions", label: "[SAY]" },
-  { id: "bugs", label: "[BUGS]" },
-  { id: "media", label: "[MEDIA]" },
+  { id: "overview", label: "Overview" },
+  { id: "stats", label: "Stats" },
+  { id: "opinions", label: "Opinions" },
+  { id: "bugs", label: "Incidents" },
+  { id: "media", label: "Media" },
 ]
 
 const severityColors: Record<string, string> = {
@@ -51,18 +51,18 @@ export function ModelExhibit({ model, category, prevModel, nextModel }: ModelExh
     <div className="min-h-screen pt-16">
       <div className="mx-auto max-w-3xl px-4 pb-24 pt-10">
         {/* Breadcrumb */}
-        <nav className="mb-6 flex items-center gap-1 text-[7px] text-muted-foreground">
-          <Link href="/explore" className="hover:text-foreground">{'>'} EXPLORE</Link>
-          <span>/</span>
-          <span>{category.label.toUpperCase()}</span>
-          <span>/</span>
-          <span className="text-foreground">{model.name.toUpperCase()}</span>
+        <nav className="mb-6 flex items-center gap-1.5 font-mono text-[11px] text-muted-foreground">
+          <Link href="/explore" className="transition-colors hover:text-foreground">Explore</Link>
+          <span className="text-border">/</span>
+          <span>{category.label}</span>
+          <span className="text-border">/</span>
+          <span className="text-foreground">{model.name}</span>
         </nav>
 
         {/* Header card */}
-        <div className="pixel-border bg-card p-6" style={{ borderLeftWidth: "4px", borderLeftColor: model.color }}>
-          <h1 className="text-lg text-primary sm:text-xl">{model.name}</h1>
-          <div className="mt-2 flex flex-wrap items-center gap-2 text-[7px] text-muted-foreground">
+        <div className="terminal-card-solid p-6" style={{ borderLeftWidth: "2px", borderLeftColor: model.color }}>
+          <h1 className="text-2xl font-light tracking-tight text-foreground">{model.name}</h1>
+          <div className="mt-2 flex flex-wrap items-center gap-3 font-mono text-xs text-muted-foreground">
             <span>{model.creator}</span>
             <span className="text-border">|</span>
             <span>{model.year}</span>
@@ -71,15 +71,15 @@ export function ModelExhibit({ model, category, prevModel, nextModel }: ModelExh
             <span className="text-border">|</span>
             <span>{model.cost}</span>
           </div>
-          <div className="mt-3 flex flex-wrap gap-1">
-            <span className="pixel-border px-2 py-0.5 text-[6px]" style={{ color: category.color }}>
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            <span className="border border-current/20 px-2 py-0.5 font-mono text-[10px]" style={{ color: category.color }}>
               {category.label}
             </span>
-            <span className={`pixel-border px-2 py-0.5 text-[6px] ${model.status === "active" ? "text-chart-3" : model.status === "declining" ? "text-chart-5" : "text-muted-foreground"}`}>
+            <span className={`border px-2 py-0.5 font-mono text-[10px] ${model.status === "active" ? "border-primary/20 text-primary" : model.status === "declining" ? "border-chart-5/20 text-chart-5" : "border-border text-muted-foreground"}`}>
               {model.status.toUpperCase()}
             </span>
-            <span className={`pixel-border px-2 py-0.5 text-[6px] ${model.open ? "text-chart-3" : "text-muted-foreground"}`}>
-              {model.open ? "OPEN SRC" : "CLOSED"}
+            <span className={`border px-2 py-0.5 font-mono text-[10px] ${model.open ? "border-chart-3/20 text-chart-3" : "border-border text-muted-foreground"}`}>
+              {model.open ? "OPEN SOURCE" : "CLOSED"}
             </span>
           </div>
         </div>
@@ -91,10 +91,10 @@ export function ModelExhibit({ model, category, prevModel, nextModel }: ModelExh
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={cn(
-                "pixel-border px-3 py-1.5 text-[7px] transition-colors",
+                "border px-4 py-2 font-mono text-xs transition-all duration-200",
                 activeTab === tab.id
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-card text-muted-foreground hover:text-foreground"
+                  ? "border-primary bg-primary/10 text-primary"
+                  : "border-border bg-card text-muted-foreground hover:text-foreground"
               )}
             >
               {tab.label}
@@ -103,38 +103,36 @@ export function ModelExhibit({ model, category, prevModel, nextModel }: ModelExh
         </div>
 
         {/* Tab content */}
-        <div className="mt-6 animate-pixel-fade-in" key={activeTab}>
-          {/* OVERVIEW */}
+        <div className="mt-6" key={activeTab}>
           {activeTab === "overview" && (
             <div className="space-y-4">
-              <div className="pixel-border bg-card p-5">
-                <p className="text-[8px] leading-[2] text-foreground/85 whitespace-pre-line">
+              <div className="terminal-card-solid p-5">
+                <p className="text-[14px] leading-relaxed text-foreground/85 whitespace-pre-line">
                   {model.description}
                 </p>
                 {model.example && (
-                  <div className="mt-4 border-t-2 border-dashed border-border pt-4">
-                    <p className="text-[7px] text-primary">{'>'} EXAMPLE:</p>
-                    <p className="mt-1 text-[7px] leading-[2] text-foreground/80 whitespace-pre-line">
+                  <div className="mt-4 border-t border-dashed border-border pt-4">
+                    <p className="font-mono text-xs text-primary">Example:</p>
+                    <p className="mt-1 text-[13px] leading-relaxed text-foreground/80 whitespace-pre-line">
                       {model.example}
                     </p>
                   </div>
                 )}
               </div>
 
-              {/* Metric bars */}
               {[
-                { label: "CAPABILITY", value: model.capability },
-                { label: "HYPE", value: model.hype },
-                { label: "SAFETY", value: model.safety },
+                { label: "Capability", value: model.capability },
+                { label: "Hype", value: model.hype },
+                { label: "Safety", value: model.safety },
               ].map((bar) => (
-                <div key={bar.label} className="pixel-border bg-card p-3">
+                <div key={bar.label} className="terminal-card-solid p-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-[7px] text-muted-foreground">{bar.label}</span>
-                    <span className="text-[7px] tabular-nums text-foreground">{bar.value}/100</span>
+                    <span className="data-label">{bar.label}</span>
+                    <span className="font-mono text-xs tabular-nums text-foreground">{bar.value}/100</span>
                   </div>
-                  <div className="mt-2 h-[6px] w-full bg-muted">
+                  <div className="mt-2 metric-bar">
                     <div
-                      className="h-full pixel-bar"
+                      className="metric-bar-fill"
                       style={{ width: `${bar.value}%`, backgroundColor: model.color }}
                     />
                   </div>
@@ -143,75 +141,71 @@ export function ModelExhibit({ model, category, prevModel, nextModel }: ModelExh
             </div>
           )}
 
-          {/* STATS */}
           {activeTab === "stats" && (
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
               {[
-                { label: "PARAMS", value: model.params },
-                { label: "COST", value: model.cost },
-                { label: "CAP", value: `${model.capability}/100` },
-                { label: "HYPE", value: `${model.hype}/100` },
-                { label: "SAFE", value: `${model.safety}/100` },
-                { label: "YEAR", value: String(model.year) },
+                { label: "Params", value: model.params },
+                { label: "Cost", value: model.cost },
+                { label: "Capability", value: `${model.capability}/100` },
+                { label: "Hype", value: `${model.hype}/100` },
+                { label: "Safety", value: `${model.safety}/100` },
+                { label: "Year", value: String(model.year) },
               ].map((stat) => (
-                <div key={stat.label} className="pixel-border bg-card p-3">
-                  <p className="text-[6px] text-muted-foreground">{stat.label}</p>
-                  <p className="mt-1 text-[9px] tabular-nums text-foreground">{stat.value}</p>
+                <div key={stat.label} className="terminal-card-solid p-4">
+                  <p className="data-label">{stat.label}</p>
+                  <p className="mt-1.5 font-mono text-lg tabular-nums text-foreground">{stat.value}</p>
                 </div>
               ))}
             </div>
           )}
 
-          {/* OPINIONS */}
           {activeTab === "opinions" && (
             <div className="space-y-2">
               {model.opinions.length === 0 ? (
-                <div className="pixel-border bg-card p-6 text-center">
-                  <p className="text-[8px] text-muted-foreground">NO OPINIONS YET.</p>
+                <div className="terminal-card p-8 text-center">
+                  <p className="font-mono text-sm text-muted-foreground">No opinions recorded yet.</p>
                 </div>
               ) : (
                 model.opinions.map((op, i) => (
-                  <div key={i} className="pixel-border bg-card p-4" style={{ borderLeftWidth: "3px", borderLeftColor: op.sentiment === "+" ? "var(--chart-3)" : "var(--chart-5)" }}>
-                    <p className="text-[8px] leading-[2] text-foreground">{op.text}</p>
-                    <p className="mt-2 text-[7px] text-muted-foreground">-- {op.source}</p>
+                  <div key={i} className="terminal-card-solid p-4" style={{ borderLeftWidth: "2px", borderLeftColor: op.sentiment === "+" ? "var(--chart-3)" : "var(--chart-5)" }}>
+                    <p className="text-[14px] leading-relaxed text-foreground">{op.text}</p>
+                    <p className="mt-2 font-mono text-xs text-muted-foreground">&mdash; {op.source}</p>
                   </div>
                 ))
               )}
             </div>
           )}
 
-          {/* BUGS */}
           {activeTab === "bugs" && (
             <div className="space-y-2">
               {model.bugs.length === 0 ? (
-                <div className="pixel-border bg-card p-6 text-center">
-                  <p className="text-[8px] text-muted-foreground">CLEAN RECORD. NO BUGS.</p>
+                <div className="terminal-card p-8 text-center">
+                  <p className="font-mono text-sm text-muted-foreground">Clean record. No incidents.</p>
                 </div>
               ) : (
                 model.bugs.map((bug, i) => (
-                  <div key={i} className="pixel-border bg-card p-4">
-                    <span className={cn("text-[7px] uppercase", severityColors[bug.severity] || "text-muted-foreground")}>
+                  <div key={i} className="terminal-card-solid p-4">
+                    <span className={cn("font-mono text-[11px] uppercase", severityColors[bug.severity] || "text-muted-foreground")}>
                       [{bug.severity}]
                     </span>
-                    <p className="mt-1 text-[8px] leading-[2] text-foreground">{bug.text}</p>
+                    <p className="mt-1.5 text-[14px] leading-relaxed text-foreground">{bug.text}</p>
                   </div>
                 ))
               )}
             </div>
           )}
 
-          {/* MEDIA */}
           {activeTab === "media" && (
             <div className="space-y-2">
               {model.media.length === 0 ? (
-                <div className="pixel-border bg-card p-6 text-center">
-                  <p className="text-[8px] text-muted-foreground">NO MEDIA AVAILABLE.</p>
+                <div className="terminal-card p-8 text-center">
+                  <p className="font-mono text-sm text-muted-foreground">No media available.</p>
                 </div>
               ) : (
                 model.media.map((m, i) => (
-                  <a key={i} href={m.url} target="_blank" rel="noopener noreferrer" className="pixel-border block bg-card p-3 transition-colors hover:border-primary">
-                    <span className="text-[7px] text-primary">[{m.type.toUpperCase()}]</span>
-                    <span className="ml-2 text-[8px] text-foreground">{m.title}</span>
+                  <a key={i} href={m.url} target="_blank" rel="noopener noreferrer" className="terminal-card-solid block p-4 transition-all duration-200 hover:border-primary">
+                    <span className="font-mono text-[11px] text-primary">[{m.type.toUpperCase()}]</span>
+                    <span className="ml-2 text-sm text-foreground">{m.title}</span>
                   </a>
                 ))
               )}
@@ -220,30 +214,30 @@ export function ModelExhibit({ model, category, prevModel, nextModel }: ModelExh
         </div>
 
         {/* Community */}
-        <div className="mt-8 pixel-border bg-card p-6">
-          <h3 className="text-[9px] text-primary">{'>'} COMMUNITY</h3>
+        <div className="mt-8 terminal-card-solid p-6">
+          <h3 className="data-label">[Community]</h3>
           <div className="mt-4 flex items-center gap-2">
-            <button onClick={() => setLikes((l) => l + 1)} className="pixel-border px-3 py-1 text-[7px] text-chart-3 hover:bg-chart-3/10">
-              [+] {likes}
+            <button onClick={() => setLikes((l) => l + 1)} className="border border-border px-3 py-1.5 font-mono text-xs text-chart-3 transition-colors hover:bg-chart-3/5">
+              + {likes}
             </button>
-            <button onClick={() => setDislikes((d) => d + 1)} className="pixel-border px-3 py-1 text-[7px] text-chart-5 hover:bg-chart-5/10">
-              [-] {dislikes}
+            <button onClick={() => setDislikes((d) => d + 1)} className="border border-border px-3 py-1.5 font-mono text-xs text-chart-5 transition-colors hover:bg-chart-5/5">
+              - {dislikes}
             </button>
           </div>
           <div className="mt-3 flex items-center gap-1">
             {[1, 2, 3, 4, 5].map((s) => (
-              <button key={s} onClick={() => setRating(s)} className={cn("text-[10px]", s <= rating ? "text-chart-4" : "text-muted-foreground/30")}>
+              <button key={s} onClick={() => setRating(s)} className={cn("text-base transition-colors", s <= rating ? "text-chart-4" : "text-muted-foreground/20")}>
                 *
               </button>
             ))}
-            {rating > 0 && <span className="ml-1 text-[7px] text-muted-foreground">{rating}/5</span>}
+            {rating > 0 && <span className="ml-2 font-mono text-xs text-muted-foreground">{rating}/5</span>}
           </div>
           <div className="mt-4 flex flex-wrap gap-1">
             {stickerTypes.map((sticker) => (
               <button
                 key={sticker.id}
                 onClick={() => handleSticker(sticker.id)}
-                className="pixel-border px-2 py-1 text-[6px] text-muted-foreground hover:text-foreground active:scale-95"
+                className="border border-border px-2 py-1 font-mono text-[10px] text-muted-foreground transition-colors hover:text-foreground active:scale-95"
               >
                 {sticker.label}
                 {(stickerCounts[sticker.id] || 0) > 0 && (
@@ -257,16 +251,16 @@ export function ModelExhibit({ model, category, prevModel, nextModel }: ModelExh
         {/* Prev/Next */}
         <div className="mt-6 flex items-center justify-between">
           {prevModel ? (
-            <Link href={`/model/${prevModel.slug}`} className="pixel-border bg-card px-3 py-2 text-[7px] text-muted-foreground hover:text-foreground">
-              {'<'} {prevModel.name}
+            <Link href={`/model/${prevModel.slug}`} className="terminal-card-solid px-4 py-2.5 font-mono text-xs text-muted-foreground transition-colors hover:text-foreground">
+              &larr; {prevModel.name}
             </Link>
           ) : <div />}
-          <Link href="/explore" className="text-[7px] text-muted-foreground hover:text-foreground">
-            [ALL MODELS]
+          <Link href="/explore" className="font-mono text-xs text-muted-foreground transition-colors hover:text-foreground">
+            [All Models]
           </Link>
           {nextModel ? (
-            <Link href={`/model/${nextModel.slug}`} className="pixel-border bg-card px-3 py-2 text-[7px] text-muted-foreground hover:text-foreground">
-              {nextModel.name} {'>'}
+            <Link href={`/model/${nextModel.slug}`} className="terminal-card-solid px-4 py-2.5 font-mono text-xs text-muted-foreground transition-colors hover:text-foreground">
+              {nextModel.name} &rarr;
             </Link>
           ) : <div />}
         </div>

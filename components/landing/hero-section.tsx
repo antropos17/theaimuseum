@@ -11,14 +11,12 @@ export function HeroSection() {
 
   useEffect(() => {
     mounted.current = true
-    // Staggered reveal
     const timers = [
       setTimeout(() => setStage(1), 200),
       setTimeout(() => setStage(2), 500),
       setTimeout(() => setStage(3), 900),
       setTimeout(() => setStage(4), 1300),
     ]
-    // Live counter — only set client-side to avoid hydration mismatch
     setExplorers(247 + Math.floor(Math.random() * 337))
     const interval = setInterval(() => {
       setExplorers((prev) => {
@@ -34,97 +32,83 @@ export function HeroSection() {
 
   return (
     <section className="relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden px-4">
-      {/* Layer 1: Gradient mesh — morphing purple & cyan blobs */}
-      <div className="gradient-mesh" aria-hidden="true" />
-
-      {/* Layer 2: Dot grid overlay at 2% opacity */}
-      <div className="dot-grid absolute inset-0" aria-hidden="true" />
-
-      {/* Layer 3: Pixel grid */}
-      <div className="pixel-grid absolute inset-0" aria-hidden="true" />
+      {/* Dot grid background */}
+      <div className="dot-grid-pattern absolute inset-0 opacity-30" aria-hidden="true" />
 
       {/* Content */}
-      <div className="relative z-10 flex max-w-3xl flex-col items-center text-center">
-        {/* Live counter — replaces "SYSTEM ONLINE" */}
+      <div className="relative z-10 flex max-w-2xl flex-col items-center text-center">
+        {/* Live counter */}
         <div
-          className={`mb-6 flex items-center gap-2 transition-all duration-500 ${stage >= 1 ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}
-          style={{ transitionTimingFunction: "steps(4)" }}
+          className={`mb-8 flex items-center gap-2.5 transition-all duration-700 ${stage >= 1 ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}
         >
           <span
-            className="pulse-dot inline-block h-2 w-2 bg-[#22c55e]"
+            className="pulse-dot inline-block h-1.5 w-1.5 rounded-full bg-primary"
             aria-hidden="true"
           />
-          <p className="text-[7px] text-muted-foreground">
+          <span className="font-mono text-[11px] tracking-wider text-muted-foreground">
             {explorers > 0 ? (
-              <>{new Intl.NumberFormat("en-US").format(explorers)} EXPLORERS ONLINE</>
+              <>{new Intl.NumberFormat("en-US").format(explorers)} explorers online</>
             ) : (
-              <>CONNECTING...</>
+              <>connecting...</>
             )}
+          </span>
+        </div>
+
+        {/* Title */}
+        <div
+          className={`transition-all duration-1000 ${stage >= 2 ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
+          style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
+        >
+          <h1 className="text-4xl font-light tracking-tight text-foreground sm:text-5xl md:text-6xl">
+            The AI Museum
+          </h1>
+          <p className="mt-1 font-mono text-sm tracking-wider text-primary text-glow-subtle">
+            est. 1950
           </p>
         </div>
 
-        {/* Title — Playfair Display, 72px, gradient text with glow */}
+        {/* Divider */}
         <div
-          className={`transition-all duration-700 ${stage >= 2 ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
-          style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
+          className={`my-8 flex items-center gap-3 transition-all duration-700 ${stage >= 2 ? "opacity-100" : "opacity-0"}`}
         >
-          <h1
-            className="gradient-heading text-[40px] font-bold leading-[1.1] tracking-tight sm:text-[56px] md:text-[72px]"
-            style={{
-              fontFamily: "var(--font-playfair), Georgia, serif",
-              textShadow: "0 0 40px rgba(168, 85, 247, 0.2), 0 0 80px rgba(34, 211, 238, 0.1)",
-            }}
-          >
-            THE AI
-            <br />
-            MUSEUM
-          </h1>
-        </div>
-
-        {/* Pixel divider */}
-        <div
-          className={`my-6 flex items-center gap-2 transition-all duration-500 ${stage >= 2 ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0"}`}
-          style={{ transitionTimingFunction: "steps(6)" }}
-        >
-          <div className="h-[3px] w-10 bg-[#a855f7]" />
-          <div className="h-[3px] w-3 bg-[#a855f7]/50" />
-          <div className="h-[3px] w-1.5 bg-[#22d3ee]/50" />
+          <div className="h-px w-12 bg-border" />
+          <span className="font-mono text-[10px] text-muted-foreground">//</span>
+          <div className="h-px w-12 bg-border" />
         </div>
 
         {/* Subtitle */}
         <p
-          className={`max-w-lg text-[8px] leading-[2.4] text-muted-foreground transition-all duration-600 ${stage >= 3 ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}
-          style={{ transitionTimingFunction: "steps(4)" }}
+          className={`max-w-md text-[15px] leading-relaxed text-muted-foreground transition-all duration-700 ${stage >= 3 ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
         >
-          75 YEARS OF ARTIFICIAL INTELLIGENCE. FROM TURING{"'"}S QUESTION TO MACHINES THAT DREAM.
-          25 EXHIBITS. 8 CATEGORIES. 5 ERAS.
+          75 years of artificial intelligence. From Turing{"'"}s question
+          to machines that dream. 25 exhibits. 8 categories. 5 eras.
         </p>
 
-        {/* CTA buttons — glassmorphism */}
+        {/* CTA buttons */}
         <div
-          className={`mt-10 flex flex-col items-center gap-4 sm:flex-row transition-all duration-700 ${stage >= 4 ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
+          className={`mt-10 flex flex-col items-center gap-3 sm:flex-row transition-all duration-700 ${stage >= 4 ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
           style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
         >
           <Link
             href="/explore"
-            className="glass-btn-primary px-8 py-3.5 text-[8px] font-bold text-foreground"
+            className="glass-btn-primary px-7 py-3 text-foreground"
           >
-            {">"} BEGIN JOURNEY
+            Begin Journey
           </Link>
           <Link
             href="/simulator"
-            className="glass-btn px-8 py-3.5 text-[8px] text-muted-foreground"
+            className="glass-btn px-7 py-3 text-muted-foreground"
           >
-            {">"} SIMULATOR
+            AI Simulator
           </Link>
         </div>
       </div>
 
-      {/* Scroll-down indicator — bouncing chevron */}
+      {/* Scroll indicator */}
       <div
-        className={`absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-1 transition-all duration-500 ${stage >= 4 ? "opacity-60" : "opacity-0"}`}
+        className={`absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-1.5 transition-all duration-500 ${stage >= 4 ? "opacity-60" : "opacity-0"}`}
       >
-        <p className="text-[6px] text-muted-foreground">SCROLL</p>
+        <span className="font-mono text-[10px] tracking-widest text-muted-foreground">SCROLL</span>
         <ChevronDown className="bounce-chevron h-4 w-4 text-muted-foreground" />
       </div>
     </section>

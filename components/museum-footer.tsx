@@ -23,10 +23,10 @@ export function MuseumFooter() {
           {/* Brand */}
           <div className="max-w-xs">
             <div className="flex items-center gap-2.5">
-              <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary">
-                <span className="font-serif text-[10px] font-bold text-primary-foreground">AI</span>
+              <div className="flex h-7 w-7 items-center justify-center border border-primary/30 bg-primary/10">
+                <span className="font-mono text-[10px] font-bold text-primary">AI</span>
               </div>
-              <span className="font-serif text-sm font-semibold text-foreground">
+              <span className="text-sm font-medium text-foreground">
                 The AI Museum
               </span>
             </div>
@@ -38,8 +38,8 @@ export function MuseumFooter() {
 
           {/* Nav links */}
           <div>
-            <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-              Navigation
+            <p className="data-label mb-3">
+              [Navigation]
             </p>
             <div className="flex flex-col gap-2">
               {links.map((link) => (
@@ -56,8 +56,8 @@ export function MuseumFooter() {
 
           {/* Info */}
           <div>
-            <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-              Info
+            <p className="data-label mb-3">
+              [Info]
             </p>
             <div className="flex flex-col gap-2 text-[13px] text-muted-foreground">
               <span>Open Source</span>
@@ -67,7 +67,7 @@ export function MuseumFooter() {
           </div>
         </div>
 
-        {/* Animated separator line */}
+        {/* Separator */}
         <div className="my-10 overflow-hidden">
           <div className={`h-px w-full bg-border line-grow ${isInView ? "visible" : ""}`} style={{ transitionDelay: "300ms" }} />
         </div>
@@ -77,7 +77,7 @@ export function MuseumFooter() {
             2025 The AI Museum. All rights reserved.
           </p>
           <p className="font-mono text-[10px] text-muted-foreground">
-            Est. 1950 &middot; 25 Models &middot; 1950 - 2025
+            est. 1950 &middot; 25 Models &middot; 1950&ndash;2025
           </p>
         </div>
       </div>

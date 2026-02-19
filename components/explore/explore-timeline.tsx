@@ -4,19 +4,20 @@ import { useState, useMemo } from "react"
 import { models, categories } from "@/data/models"
 import { TimelineCard } from "./timeline-card"
 import { cn } from "@/lib/utils"
+import { Search } from "lucide-react"
 
 type CategoryKey = keyof typeof categories | "all"
 
 const categoryFilters: { key: CategoryKey; label: string }[] = [
-  { key: "all", label: "[ALL]" },
-  { key: "chatbot", label: "[CHAT]" },
-  { key: "image", label: "[IMG]" },
-  { key: "video", label: "[VID]" },
-  { key: "music", label: "[MUS]" },
-  { key: "code", label: "[CODE]" },
-  { key: "game", label: "[GAME]" },
-  { key: "concept", label: "[IDEA]" },
-  { key: "science", label: "[SCI]" },
+  { key: "all", label: "All" },
+  { key: "chatbot", label: "Chat" },
+  { key: "image", label: "Image" },
+  { key: "video", label: "Video" },
+  { key: "music", label: "Music" },
+  { key: "code", label: "Code" },
+  { key: "game", label: "Game" },
+  { key: "concept", label: "Concept" },
+  { key: "science", label: "Science" },
 ]
 
 export function ExploreTimeline() {
@@ -48,36 +49,37 @@ export function ExploreTimeline() {
     <div className="min-h-screen pt-16">
       <div className="mx-auto max-w-4xl px-4 pb-24 pt-10">
         {/* Header */}
-        <p className="mb-2 text-[8px] uppercase tracking-[0.3em] text-muted-foreground">
-          {'>'} Timeline
-        </p>
-        <h1 className="text-lg text-primary sm:text-xl">EXPLORE THE COLLECTION</h1>
-        <p className="mt-2 text-[8px] leading-relaxed text-muted-foreground">
-          Every AI model from 1950 to 2025.
+        <span className="data-label">[Timeline]</span>
+        <h1 className="mt-3 text-2xl font-light tracking-tight text-foreground sm:text-3xl">
+          Explore the Collection
+        </h1>
+        <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">
+          Every AI model from 1950 to 2025, mapped chronologically.
         </p>
 
         {/* Search */}
-        <div className="mt-6 pixel-border bg-card p-3">
+        <div className="mt-6 flex items-center gap-2 border border-border bg-card px-3 py-2.5 transition-colors focus-within:border-primary">
+          <Search className="h-3.5 w-3.5 text-muted-foreground" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="> SEARCH MODELS..."
-            className="w-full bg-transparent text-[8px] text-foreground outline-none placeholder:text-muted-foreground"
+            placeholder="Search models..."
+            className="w-full bg-transparent font-mono text-xs text-foreground outline-none placeholder:text-muted-foreground"
           />
         </div>
 
-        {/* Category pills */}
+        {/* Category filters */}
         <div className="mt-4 flex flex-wrap gap-1">
           {categoryFilters.map((cat) => (
             <button
               key={cat.key}
               onClick={() => setActiveCategory(cat.key)}
               className={cn(
-                "pixel-border px-2 py-1 text-[7px] transition-colors",
+                "border px-3 py-1.5 font-mono text-[11px] transition-all duration-200",
                 activeCategory === cat.key
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-card text-muted-foreground hover:text-foreground"
+                  ? "border-primary bg-primary/10 text-primary"
+                  : "border-border bg-card text-muted-foreground hover:border-foreground/20 hover:text-foreground"
               )}
             >
               {cat.label}
@@ -86,17 +88,19 @@ export function ExploreTimeline() {
         </div>
 
         {/* Timeline */}
-        <div className="relative mt-8">
-          {/* Pixel spine */}
-          <div className="absolute left-1 top-0 hidden h-full w-[2px] bg-border md:block" />
+        <div className="relative mt-10">
+          {/* Timeline spine */}
+          <div className="absolute left-[7px] top-0 hidden h-full w-px bg-border md:block" />
 
           {grouped.map(([year, yearModels]) => (
-            <div key={year} id={`year-${year}`} className="relative mb-8 last:mb-0">
-              {/* Year */}
+            <div key={year} id={`year-${year}`} className="relative mb-10 last:mb-0">
+              {/* Year marker */}
               <div className="relative mb-4 flex items-center gap-3 md:pl-8">
-                <div className="absolute left-0 top-1/2 hidden h-[6px] w-[6px] -translate-y-1/2 bg-primary md:block" />
-                <h2 className="text-sm text-primary">{year}</h2>
-                <span className="pixel-border bg-card px-2 py-0.5 text-[7px] text-muted-foreground">
+                <div className="absolute left-0 top-1/2 hidden h-[7px] w-[7px] -translate-y-1/2 rounded-full border border-primary bg-primary/20 md:block" />
+                <h2 className="font-mono text-lg font-light tabular-nums text-primary text-glow-subtle">
+                  {year}
+                </h2>
+                <span className="border border-border bg-card px-2 py-0.5 font-mono text-[10px] text-muted-foreground">
                   {yearModels[0].era}
                 </span>
               </div>
@@ -111,8 +115,8 @@ export function ExploreTimeline() {
           ))}
 
           {filteredModels.length === 0 && (
-            <div className="pixel-border bg-card p-8 text-center">
-              <p className="text-[8px] text-muted-foreground">NO MODELS FOUND. TRY DIFFERENT SEARCH.</p>
+            <div className="terminal-card p-10 text-center">
+              <p className="font-mono text-sm text-muted-foreground">No models found. Try a different search.</p>
             </div>
           )}
         </div>

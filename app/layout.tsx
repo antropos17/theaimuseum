@@ -1,36 +1,35 @@
 import type { Metadata, Viewport } from "next"
-import { Press_Start_2P, Playfair_Display } from "next/font/google"
+import { Inter, JetBrains_Mono } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import { MuseumNav } from "@/components/museum-nav"
 import { MuseumFooter } from "@/components/museum-footer"
 import "./globals.css"
 
-const pixelFont = Press_Start_2P({
-  weight: "400",
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-pixel",
+  variable: "--font-inter",
   display: "swap",
 })
 
-const playfair = Playfair_Display({
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  variable: "--font-jetbrains",
   display: "swap",
 })
 
 export const metadata: Metadata = {
   title: {
-    default: "THE AI MUSEUM // 75 YEARS OF AI",
-    template: "%s // THE AI MUSEUM",
+    default: "The AI Museum - 75 Years of Artificial Intelligence",
+    template: "%s | The AI Museum",
   },
   description:
-    "The world's first interactive 8-bit museum of AI history (1950-2025). From Turing's question to machines that dream.",
+    "The world's first interactive museum of AI history. 25 exhibits spanning 1950-2025. From Turing's question to machines that dream.",
 }
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#e8e0d4" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0a12" },
+    { media: "(prefers-color-scheme: light)", color: "#f5f5f0" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0f" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -44,10 +43,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${pixelFont.variable} ${playfair.variable} font-sans`}>
+      <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          <div className="starfield" aria-hidden="true" />
-          <div className="vignette" aria-hidden="true" />
+          {/* CRT background layers */}
+          <div className="phosphor-glow" aria-hidden="true" />
+          <div className="crt-overlay" aria-hidden="true" />
+          <div className="crt-vignette" aria-hidden="true" />
+
           <MuseumNav />
           <main className="relative z-10 min-h-screen">{children}</main>
           <MuseumFooter />
