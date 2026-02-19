@@ -76,6 +76,29 @@ export function NewsletterSection() {
           <p className="mt-4 font-mono text-[10px] text-muted-foreground/50">
             No spam. Unsubscribe anytime. Free forever.
           </p>
+
+          <div className="mt-8 border-t border-border/20 pt-6">
+            <p className="mb-2 text-center font-mono text-[10px] uppercase tracking-widest text-muted-foreground/50">
+              As seen on
+            </p>
+            <div className="flex items-center justify-center gap-6">
+              <span className="font-mono text-[11px] text-muted-foreground/30 transition-colors hover:text-primary/50">
+                Product Hunt
+              </span>
+              <span className="font-mono text-[11px] text-muted-foreground/30 transition-colors hover:text-primary/50">
+                Hacker News
+              </span>
+              <span className="font-mono text-[11px] text-muted-foreground/30 transition-colors hover:text-primary/50">
+                Reddit
+              </span>
+              <span className="font-mono text-[11px] text-muted-foreground/30 transition-colors hover:text-primary/50">
+                dev.to
+              </span>
+              <span className="font-mono text-[11px] text-muted-foreground/30 transition-colors hover:text-primary/50">
+                GitHub
+              </span>
+            </div>
+          </div>
         </div>
       </CopyableTerminalCard>
     </section>
