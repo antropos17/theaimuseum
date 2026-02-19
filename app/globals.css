@@ -447,6 +447,25 @@
   30% { transform: translateY(-4px); opacity: 1; }
 }
 
+@keyframes neuralFlowLeft {
+  0% { left: 0%; opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+@keyframes neuralFlowRight {
+  0% { right: 0%; opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { right: 100%; opacity: 0; }
+}
+
+@keyframes neuralPulseCenter {
+  0%, 100% { box-shadow: 0 0 8px 2px rgba(0,255,136,0.2); }
+  50% { box-shadow: 0 0 20px 6px rgba(0,255,136,0.5); }
+}
+
 /* ═══════════════════════════════════════════════════
    Scrollbar
    ═══════════════════════════════════════════════════ */

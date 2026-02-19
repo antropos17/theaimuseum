@@ -295,32 +295,59 @@ function ChatWindow({
 }
 
 /* ═══════════════════════════════════════════════════
-   EVOLUTION CONNECTION LINE (1966 -> 2019 -> 2025)
+   NEURAL MERGE ANIMATION (ELIZA + GPT-2 -> Modern AI)
    ═══════════════════════════════════════════════════ */
 
-function EvolutionLine({ visible }: { visible: boolean }) {
+function NeuralParticle({ direction, delay, color, size }: { direction: "left" | "right"; delay: number; color: string; size: number }) {
+  return (
+    <span
+      className={`absolute top-1/2 rounded-full ${color}`}
+      style={{
+        width: size,
+        height: size,
+        marginTop: -size / 2 + (Math.random() * 8 - 4),
+        animation: `neuralFlow${direction === "left" ? "Left" : "Right"} ${2.2 + Math.random() * 0.8}s ease-in-out ${delay}s infinite`,
+      }}
+    />
+  )
+}
+
+function NeuralMerge({ visible }: { visible: boolean }) {
+  const leftParticles = Array.from({ length: 6 }, (_, i) => ({
+    delay: i * 0.5,
+    color: i % 2 === 0 ? "bg-green-400" : "bg-green-500/60",
+    size: i % 3 === 0 ? 4 : 3,
+  }))
+  const rightParticles = Array.from({ length: 6 }, (_, i) => ({
+    delay: i * 0.5 + 0.25,
+    color: i % 2 === 0 ? "bg-amber-400" : "bg-amber-500/60",
+    size: i % 3 === 0 ? 4 : 3,
+  }))
+
   return (
     <div
-      className="mx-auto mt-8 hidden items-center justify-center gap-0 transition-all duration-700 md:flex"
-      style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(8px)" }}
+      className="pointer-events-none absolute inset-0 hidden md:block"
+      style={{ opacity: visible ? 1 : 0, transition: "opacity 0.8s ease-out" }}
     >
-      <span className="font-mono text-xs font-bold text-green-400">1966</span>
-      <div className="relative mx-2 h-px w-24 overflow-hidden bg-border/30 lg:w-32">
-        <div
-          className="absolute inset-y-0 left-0 bg-gradient-to-r from-green-500 to-primary transition-all duration-1000 ease-out"
-          style={{ width: visible ? "100%" : "0%" }}
-        />
+      {/* Left stream: ELIZA -> Modern AI */}
+      <div className="absolute left-[16.67%] top-1/2 h-px" style={{ width: "16.67%" }}>
+        <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-primary/10" />
+        {leftParticles.map((p, i) => (
+          <NeuralParticle key={i} direction="left" delay={p.delay} color={p.color} size={p.size} />
+        ))}
       </div>
-      <svg className="h-3.5 w-3.5 -ml-1 text-primary" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
-      <span className="mx-2 font-mono text-sm font-bold text-primary text-shadow-[0_0_12px_rgba(0,255,136,0.5)]">2026</span>
-      <div className="relative mx-2 h-px w-24 overflow-hidden bg-border/30 lg:w-32">
-        <div
-          className="absolute inset-y-0 left-0 bg-gradient-to-r from-primary to-amber-500 transition-all duration-1000 ease-out delay-500"
-          style={{ width: visible ? "100%" : "0%" }}
-        />
+      {/* Right stream: GPT-2 -> Modern AI */}
+      <div className="absolute right-[16.67%] top-1/2 h-px" style={{ width: "16.67%" }}>
+        <div className="absolute inset-0 bg-gradient-to-l from-amber-500/20 to-primary/10" />
+        {rightParticles.map((p, i) => (
+          <NeuralParticle key={i} direction="right" delay={p.delay} color={p.color} size={p.size} />
+        ))}
       </div>
-      <svg className="h-3.5 w-3.5 -ml-1 text-amber-400" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
-      <span className="mx-1 font-mono text-xs font-bold text-amber-400">2019</span>
+      {/* Center pulse (brain node) */}
+      <div
+        className="absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary"
+        style={{ animation: "neuralPulseCenter 2s ease-in-out infinite" }}
+      />
     </div>
   )
 }
@@ -572,15 +599,27 @@ export function AIEvolutionDemo() {
           ))}
         </div>
 
-        {/* ── Chat windows grid ── */}
-        <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-3 lg:gap-10">
-          {responses.map((data, index) => (
-            <ChatWindow key={index} data={data} index={index} triggerAnimation={isVisible} onFinished={handleWindowFinished} />
-          ))}
+        {/* ── Chat windows grid with neural merge ── */}
+        <div className="relative mx-auto max-w-6xl">
+          <NeuralMerge visible={allDone} />
+          <div className="grid gap-8 md:grid-cols-3 lg:gap-10">
+            {responses.map((data, index) => {
+              const yearColor = data.style === "eliza"
+                ? "text-green-400 text-shadow-[0_0_10px_rgba(34,197,94,0.5)]"
+                : data.style === "modern"
+                ? "text-primary text-shadow-[0_0_12px_rgba(0,255,136,0.5)]"
+                : "text-amber-400 text-shadow-[0_0_10px_rgba(245,158,11,0.5)]"
+              return (
+                <div key={index} className="flex flex-col items-center gap-3">
+                  <ChatWindow data={data} index={index} triggerAnimation={isVisible} onFinished={handleWindowFinished} />
+                  <span className={`font-mono text-sm font-bold tracking-wider ${yearColor}`}>
+                    {data.era}
+                  </span>
+                </div>
+              )
+            })}
+          </div>
         </div>
-
-        {/* ── Evolution connection line ── */}
-        <EvolutionLine visible={allDone} />
 
         {/* ── Interactive input ── */}
         <TryItSection />
