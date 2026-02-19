@@ -1,8 +1,10 @@
 "use client"
 
+import { useRef, useState, useEffect } from "react"
 import Link from "next/link"
 import type { AIModel } from "@/data/models"
 import { categories } from "@/data/models"
+import { cn } from "@/lib/utils"
 
 const statusColors: Record<string, string> = {
   active: "#00ff88",
@@ -10,35 +12,187 @@ const statusColors: Record<string, string> = {
   declining: "#ffaa00",
 }
 
-export function TimelineCard({ model, index = 0 }: { model: AIModel; index?: number }) {
+type EraStyle = "terminal" | "refined" | "glass"
+
+export function TimelineCard({
+  model,
+  side = "left",
+  eraStyle = "refined",
+  index = 0,
+}: {
+  model: AIModel
+  side?: "left" | "right"
+  eraStyle?: EraStyle
+  index?: number
+}) {
   const cat = categories[model.category]
+  const cardRef = useRef<HTMLDivElement>(null)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const el = cardRef.current
+    if (!el) return
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.unobserve(el) } },
+      { threshold: 0.15 }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
+  /* Card base classes depending on era style */
+  const cardBase = cn(
+    "relative block p-4 transition-all duration-300",
+    eraStyle === "terminal"
+      ? "border border-dashed border-border bg-card hover:border-primary/50 hover:shadow-[0_0_16px_rgba(0,255,136,0.06)]"
+      : eraStyle === "glass"
+        ? "border border-solid border-primary/10 bg-card/80 backdrop-blur-sm hover:border-primary/30 hover:shadow-[0_0_24px_rgba(0,255,136,0.08)]"
+        : "terminal-card-solid"
+  )
+
+  /* Chrome dots color set */
+  const chromeColors = eraStyle === "terminal"
+    ? ["bg-muted-foreground/40", "bg-muted-foreground/30", "bg-muted-foreground/20"]
+    : ["bg-destructive/60", "bg-warning/60", "bg-primary/60"]
 
   return (
-    <Link
-      href={`/model/${model.slug}`}
-      className="terminal-card group block p-4 transition-all duration-300"
-      style={{ animationDelay: `${index * 60}ms` }}
+    <div
+      ref={cardRef}
+      className={cn(
+        "grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-start gap-0 md:gap-6",
+      )}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible
+          ? "translateY(0)"
+          : `translateY(20px) translateX(${side === "left" ? "-12px" : "12px"})`,
+        transitionProperty: "opacity, transform",
+        transitionDuration: "0.7s",
+        transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+        transitionDelay: `${(index % 4) * 80}ms`,
+      }}
     >
-      {/* Row 1: Status + Name + Year + Creator */}
-      <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2.5">
+      {/* Left column (card or empty) */}
+      <div className={cn("hidden md:block", side === "right" && "md:invisible")}>
+        {side === "left" && (
+          <CardContent
+            model={model}
+            cat={cat}
+            cardBase={cardBase}
+            eraStyle={eraStyle}
+            chromeColors={chromeColors}
+            align="right"
+          />
+        )}
+      </div>
+
+      {/* Center connector line + dot */}
+      <div className="hidden flex-col items-center md:flex">
+        <div className="h-3 w-px bg-border" />
+        <div
+          className="h-2.5 w-2.5 shrink-0 rounded-full border-2"
+          style={{
+            borderColor: model.color,
+            backgroundColor: visible ? model.color + "33" : "transparent",
+            boxShadow: visible ? `0 0 8px ${model.color}44` : "none",
+            transition: "all 0.6s ease",
+          }}
+        />
+        <div className="h-full min-h-4 w-px bg-border" />
+      </div>
+
+      {/* Right column (card or empty) */}
+      <div className={cn("hidden md:block", side === "left" && "md:invisible")}>
+        {side === "right" && (
+          <CardContent
+            model={model}
+            cat={cat}
+            cardBase={cardBase}
+            eraStyle={eraStyle}
+            chromeColors={chromeColors}
+            align="left"
+          />
+        )}
+      </div>
+
+      {/* Mobile: always render the card (below the grid) */}
+      <div className="md:hidden">
+        <CardContent
+          model={model}
+          cat={cat}
+          cardBase={cardBase}
+          eraStyle={eraStyle}
+          chromeColors={chromeColors}
+          align="left"
+        />
+      </div>
+    </div>
+  )
+}
+
+/* ─────────────────────────────────────────────────────
+   Card content (shared between left/right/mobile)
+   ───────────────────────────────────────────────────── */
+function CardContent({
+  model,
+  cat,
+  cardBase,
+  eraStyle,
+  chromeColors,
+  align,
+}: {
+  model: AIModel
+  cat: { icon: string; label: string; color: string }
+  cardBase: string
+  eraStyle: EraStyle
+  chromeColors: string[]
+  align: "left" | "right"
+}) {
+  return (
+    <Link href={`/model/${model.slug}`} className={cn(cardBase, "group block")}>
+      {/* Terminal window chrome bar */}
+      <div className="mb-3 flex items-center gap-1.5">
+        <div className={cn("h-1.5 w-1.5 rounded-full", chromeColors[0])} />
+        <div className={cn("h-1.5 w-1.5 rounded-full", chromeColors[1])} />
+        <div className={cn("h-1.5 w-1.5 rounded-full", chromeColors[2])} />
+        <span className="ml-2 font-mono text-[9px] text-muted-foreground/60">
+          {model.slug}.exe
+        </span>
+        <div className="ml-auto">
           <div
-            className="h-1.5 w-1.5 shrink-0 rounded-full"
+            className="h-1.5 w-1.5 rounded-full"
             style={{ backgroundColor: statusColors[model.status] || "#6b6b78" }}
             title={model.status}
           />
-          <span className="text-sm text-foreground">{model.name}</span>
-          <span className="font-mono text-xs tabular-nums text-primary">{model.year}</span>
         </div>
-        <span className="font-mono text-[11px] text-muted-foreground">{model.creator}</span>
       </div>
 
-      {/* Row 2: Description */}
-      <p className="mt-2 line-clamp-2 text-[13px] leading-relaxed text-muted-foreground">
+      {/* Name + year + creator */}
+      <div className={cn("flex items-baseline gap-2", align === "right" && "md:justify-end")}>
+        <span className={cn(
+          "text-sm text-foreground transition-colors group-hover:text-primary",
+          eraStyle === "terminal" ? "font-mono" : "font-sans"
+        )}>
+          {model.name}
+        </span>
+        <span className="font-mono text-[11px] tabular-nums text-primary/70">{model.year}</span>
+      </div>
+      <p className={cn(
+        "mt-0.5 font-mono text-[10px] text-muted-foreground",
+        align === "right" && "md:text-right"
+      )}>
+        {model.creator}
+      </p>
+
+      {/* Description */}
+      <p className={cn(
+        "mt-2 line-clamp-2 text-[13px] leading-relaxed text-muted-foreground",
+        align === "right" && "md:text-right"
+      )}>
         {model.description}
       </p>
 
-      {/* Row 3: Capability bar */}
+      {/* Capability bar */}
       <div className="mt-3 flex items-center gap-3">
         <div className="metric-bar flex-1">
           <div
@@ -49,8 +203,8 @@ export function TimelineCard({ model, index = 0 }: { model: AIModel; index?: num
         <span className="font-mono text-[10px] tabular-nums text-muted-foreground">{model.capability}%</span>
       </div>
 
-      {/* Row 4: Tags */}
-      <div className="mt-2.5 flex items-center gap-1.5">
+      {/* Tags */}
+      <div className={cn("mt-2.5 flex items-center gap-1.5 flex-wrap", align === "right" && "md:justify-end")}>
         <span
           className="border border-current/20 px-1.5 py-0.5 font-mono text-[10px]"
           style={{ color: cat.color }}
@@ -58,9 +212,10 @@ export function TimelineCard({ model, index = 0 }: { model: AIModel; index?: num
           {cat.icon} {cat.label}
         </span>
         <span
-          className={`border px-1.5 py-0.5 font-mono text-[10px] ${
+          className={cn(
+            "border px-1.5 py-0.5 font-mono text-[10px]",
             model.open ? "border-chart-3/20 text-chart-3" : "border-border text-muted-foreground"
-          }`}
+          )}
         >
           {model.open ? "OPEN" : "CLOSED"}
         </span>
