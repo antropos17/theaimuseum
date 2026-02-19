@@ -298,15 +298,19 @@ function ChatWindow({
    NEURAL MERGE ANIMATION (ELIZA + GPT-2 -> Modern AI)
    ═══════════════════════════════════════════════════ */
 
-function NeuralParticle({ direction, delay, color, size }: { direction: "left" | "right"; delay: number; color: string; size: number }) {
+/* Deterministic pseudo-random using seed — avoids hydration mismatch from Math.random() */
+const seededOffset = (i: number) => ((i * 7 + 3) % 11) / 11 * 8 - 4 // range ~[-4, 4]
+const seededDuration = (i: number) => 2.2 + ((i * 13 + 5) % 9) / 9 * 0.8 // range [2.2, 3.0]
+
+function NeuralParticle({ direction, delay, color, size, index }: { direction: "left" | "right"; delay: number; color: string; size: number; index: number }) {
   return (
     <span
       className={`absolute top-1/2 rounded-full ${color}`}
       style={{
         width: size,
         height: size,
-        marginTop: -size / 2 + (Math.random() * 8 - 4),
-        animation: `neuralFlow${direction === "left" ? "Left" : "Right"} ${2.2 + Math.random() * 0.8}s ease-in-out ${delay}s infinite`,
+        marginTop: -size / 2 + seededOffset(index),
+        animation: `neuralFlow${direction === "left" ? "Left" : "Right"} ${seededDuration(index)}s ease-in-out ${delay}s infinite`,
       }}
     />
   )
@@ -333,14 +337,14 @@ function NeuralMerge({ visible }: { visible: boolean }) {
       <div className="absolute left-[16.67%] top-1/2 h-px" style={{ width: "16.67%" }}>
         <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-primary/10" />
         {leftParticles.map((p, i) => (
-          <NeuralParticle key={i} direction="left" delay={p.delay} color={p.color} size={p.size} />
+          <NeuralParticle key={i} direction="left" delay={p.delay} color={p.color} size={p.size} index={i} />
         ))}
       </div>
       {/* Right stream: GPT-2 -> Modern AI */}
       <div className="absolute right-[16.67%] top-1/2 h-px" style={{ width: "16.67%" }}>
         <div className="absolute inset-0 bg-gradient-to-l from-amber-500/20 to-primary/10" />
         {rightParticles.map((p, i) => (
-          <NeuralParticle key={i} direction="right" delay={p.delay} color={p.color} size={p.size} />
+          <NeuralParticle key={i} direction="right" delay={p.delay} color={p.color} size={p.size} index={i + 6} />
         ))}
       </div>
       {/* Center pulse (brain node) */}
