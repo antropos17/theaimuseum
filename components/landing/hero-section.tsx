@@ -17,10 +17,21 @@ export function HeroSection() {
   const [bootLineIndex, setBootLineIndex] = useState(0)
   const [stage, setStage] = useState(0)
   const [explorers, setExplorers] = useState(0)
+  const [copied, setCopied] = useState(false)
   const mounted = useRef(false)
   const skipBoot = () => {
     setBootComplete(true)
     setStage(4)
+  }
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText('https://v0-theaimuseum.vercel.app')
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch (err) {
+      console.error('Failed to copy:', err)
+    }
   }
 
   useEffect(() => {
@@ -168,6 +179,35 @@ export function HeroSection() {
           >
             <span className="text-primary">{'> '}</span>AI SIMULATOR
           </Link>
+        </div>
+
+        {/* Share bar */}
+        <div
+          className={`mt-6 flex items-center gap-2 transition-all duration-700 ${stage >= 4 ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
+          style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)", transitionDelay: "100ms" }}
+        >
+          <a
+            href="https://twitter.com/intent/tweet?text=I%20just%20discovered%20The%20AI%20Museum%20%E2%80%94%2075%20years%20of%20AI%20history%20%F0%9F%A4%96%20https%3A%2F%2Fv0-theaimuseum.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border border-dashed border-muted-foreground/30 px-3 py-1.5 font-mono text-xs text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
+          >
+            Share on X
+          </a>
+          <a
+            href="https://t.me/share/url?url=https://v0-theaimuseum.vercel.app&text=I%20just%20discovered%20The%20AI%20Museum%20%E2%80%94%2075%20years%20of%20AI%20history%20%F0%9F%A4%96"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border border-dashed border-muted-foreground/30 px-3 py-1.5 font-mono text-xs text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
+          >
+            Telegram
+          </a>
+          <button
+            onClick={handleCopyLink}
+            className="border border-dashed border-muted-foreground/30 px-3 py-1.5 font-mono text-xs text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
+          >
+            {copied ? 'Copied!' : 'Copy Link'}
+          </button>
         </div>
       </div>
 
