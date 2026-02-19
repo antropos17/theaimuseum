@@ -19,9 +19,9 @@ const responses = [
     style: "eliza" as const,
   },
   {
-    era: "2025",
+    era: "2026",
     name: "Modern AI",
-    label: "2025",
+    label: "2026",
     response: "The AI Museum is the world's first interactive museum dedicated to the history of artificial intelligence. It covers 75 years -- from Turing's 1950 paper to DeepSeek R1 in 2025. You can explore 25 models, compare their evolution, visit the AI Graveyard, test your knowledge in the Quiz, and rate models with community stickers. It's free, open-source, and designed to make AI history accessible to everyone.",
     responseHighlighted: (
       <>
@@ -312,7 +312,7 @@ function EvolutionLine({ visible }: { visible: boolean }) {
         />
       </div>
       <svg className="h-3.5 w-3.5 -ml-1 text-primary" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
-      <span className="mx-2 font-mono text-sm font-bold text-primary text-shadow-[0_0_12px_rgba(0,255,136,0.5)]">2025</span>
+      <span className="mx-2 font-mono text-sm font-bold text-primary text-shadow-[0_0_12px_rgba(0,255,136,0.5)]">2026</span>
       <div className="relative mx-2 h-px w-24 overflow-hidden bg-border/30 lg:w-32">
         <div
           className="absolute inset-y-0 left-0 bg-gradient-to-r from-primary to-amber-500 transition-all duration-1000 ease-out delay-500"
@@ -362,7 +362,7 @@ const modernTemplates = [
   (input: string) => `Good question about "${input.slice(0, 30)}." The AI Museum documents how this kind of thinking evolved over 75 years. Each of our 25 model exhibits includes a full dossier with stats, opinions, bugs, and community stickers.`,
 ]
 
-function generateResponse(era: "1966" | "2019" | "2025", input: string): string {
+function generateResponse(era: "1966" | "2019" | "2026", input: string): string {
   const keyword = extractKeyword(input)
   const pick = (arr: Array<(s: string) => string>) => arr[Math.floor(Math.random() * arr.length)]
   if (era === "1966") return pick(elizaTemplates)(keyword)
@@ -376,20 +376,20 @@ function generateResponse(era: "1966" | "2019" | "2025", input: string): string 
 
 function TryItSection() {
   const [input, setInput] = useState("")
-  const [activeEra, setActiveEra] = useState<"1966" | "2019" | "2025" | null>(null)
+  const [activeEra, setActiveEra] = useState<"1966" | "2019" | "2026" | null>(null)
   const [responseText, setResponseText] = useState("")
   const [displayedText, setDisplayedText] = useState("")
   const [isTyping, setIsTyping] = useState(false)
   const [userQuestion, setUserQuestion] = useState("")
   const indexRef = useRef(0)
 
-  const eras: { key: "1966" | "2019" | "2025"; label: string; color: string; activeBg: string }[] = [
+  const eras: { key: "1966" | "2019" | "2026"; label: string; color: string; activeBg: string }[] = [
     { key: "1966", label: "1966", color: "text-green-400 border-green-500/40", activeBg: "bg-green-500/10 border-green-500 text-green-300" },
     { key: "2019", label: "2019", color: "text-amber-400 border-amber-500/40", activeBg: "bg-amber-500/10 border-amber-500 text-amber-300" },
-    { key: "2025", label: "2025", color: "text-foreground border-primary/40", activeBg: "bg-primary/10 border-primary text-foreground" },
+    { key: "2026", label: "2026", color: "text-foreground border-primary/40", activeBg: "bg-primary/10 border-primary text-foreground" },
   ]
 
-  const handleSubmit = (era: "1966" | "2019" | "2025") => {
+  const handleSubmit = (era: "1966" | "2019" | "2026") => {
     if (!input.trim() || isTyping) return
     setUserQuestion(input.trim())
     setActiveEra(era)
@@ -446,7 +446,7 @@ function TryItSection() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === "Enter" && input.trim()) handleSubmit(activeEra || "2025")
+                if (e.key === "Enter" && input.trim()) handleSubmit(activeEra || "2026")
               }}
               placeholder="Ask any AI era a question..."
               className="h-11 w-full border border-border bg-card pl-7 pr-3 font-mono text-sm text-foreground placeholder:text-muted-foreground/50 transition-colors focus:border-primary focus:outline-none"
@@ -573,7 +573,7 @@ export function AIEvolutionDemo() {
         </div>
 
         {/* ── Chat windows grid ── */}
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-3 lg:gap-10">
           {responses.map((data, index) => (
             <ChatWindow key={index} data={data} index={index} triggerAnimation={isVisible} onFinished={handleWindowFinished} />
           ))}
