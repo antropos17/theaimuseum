@@ -117,7 +117,7 @@ export function MuseumFooter() {
 
         <div className={`flex flex-col items-center justify-between gap-3 sm:flex-row fade-in-up ${isInView ? "visible" : ""}`} style={{ transitionDelay: "400ms" }}>
           <p className="font-mono text-[10px] text-muted-foreground">
-            2025 The AI Museum. All rights reserved.
+            © {new Date().getFullYear()} The AI Museum. All rights reserved.
           </p>
           <p className="font-mono text-[10px] text-muted-foreground">
             est. 1950 &middot; 25 Models &middot; 1950&ndash;2025
