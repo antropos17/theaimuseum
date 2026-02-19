@@ -1,7 +1,6 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
-import { useInView } from "@/hooks/use-in-view"
+import { useEffect, useState, useRef, useCallback } from "react"
 
 const stats = [
   { value: 25, label: "MODELS" },
@@ -11,31 +10,70 @@ const stats = [
   { value: 12, label: "EXHIBITS" },
 ]
 
+const DURATION = 1500
+
+function easeOutCubic(t: number): number {
+  return 1 - Math.pow(1 - t, 3)
+}
+
 function AnimatedCounter({ target, active }: { target: number; active: boolean }) {
-  const [count, setCount] = useState(0)
-  const started = useRef(false)
+  const [display, setDisplay] = useState(0)
+  const rafRef = useRef<number | null>(null)
+  const hasRun = useRef(false)
+
+  const animate = useCallback(() => {
+    if (hasRun.current) return
+    hasRun.current = true
+    const start = performance.now()
+
+    function tick(now: number) {
+      const elapsed = now - start
+      const progress = Math.min(elapsed / DURATION, 1)
+      const eased = easeOutCubic(progress)
+      setDisplay(Math.round(eased * target))
+
+      if (progress < 1) {
+        rafRef.current = requestAnimationFrame(tick)
+      }
+    }
+
+    rafRef.current = requestAnimationFrame(tick)
+  }, [target])
 
   useEffect(() => {
-    if (!active || started.current) return
-    started.current = true
-    let current = 0
-    const step = Math.ceil(target / 15)
-    const interval = setInterval(() => {
-      current = Math.min(current + step, target)
-      setCount(current)
-      if (current >= target) clearInterval(interval)
-    }, 60)
-    return () => clearInterval(interval)
-  }, [active, target])
+    if (active) animate()
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+    }
+  }, [active, animate])
 
-  return <>{count}</>
+  return <>{display}</>
 }
 
 export function StatsTicker() {
-  const { ref, isInView } = useInView()
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true)
+          observer.unobserve(el)
+        }
+      },
+      { threshold: 0.3 }
+    )
+
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
 
   return (
-    <div ref={ref} className="relative z-10 mx-auto max-w-5xl px-4 py-12">
+    <div ref={containerRef} className="relative z-10 mx-auto max-w-5xl px-4 py-12">
       {/* Pixel divider */}
       <div className="mx-auto mb-10 flex justify-center">
         <div className="flex items-center gap-1">
@@ -51,7 +89,7 @@ export function StatsTicker() {
         {stats.map((stat) => (
           <div key={stat.label} className="flex flex-col items-center gap-2">
             <span className="text-[18px] tabular-nums text-primary sm:text-[24px]">
-              <AnimatedCounter target={stat.value} active={isInView} />
+              <AnimatedCounter target={stat.value} active={visible} />
             </span>
             <span className="text-[6px] text-muted-foreground">
               {stat.label}
