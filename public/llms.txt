@@ -1,42 +1,27 @@
 # The AI Museum
+> The world's first interactive online museum of artificial intelligence history. 25 exhibits spanning 1950-2025. Free, open-source, no login required.
 
-> Free interactive web museum covering 75 years of AI history (1950-2025). Features timeline, ELIZA/SHRDLU/PARRY simulators, quiz, AI graveyard. Next.js, open source, no login.
+## About
+The AI Museum documents 75 years of AI breakthroughs, failures, and cultural moments — from Alan Turing's 1950 question "Can machines think?" to DeepSeek R1 in 2025. Built for students, researchers, developers, journalists, and anyone curious about how machines learned to think.
+
+## Exhibits
+- [Timeline](/explore): 25 AI models mapped chronologically from 1950 to 2025, including ELIZA, Deep Blue, AlphaGo, GPT-4, and Claude
+- [AI Simulator](/simulator): Chat with AI across 5 historical eras to experience how capabilities evolved
+- [Evolution](/evolution): Interactive family tree showing how AI models influenced each other
+- [Graveyard](/graveyard): Dead AI projects — what failed and why (Google Bard, IBM Watson Health, Microsoft Tay)
+- [AI Wars](/battles): The corporate arms race between OpenAI, Google, Meta, Anthropic, and others
+- [Memes](/memes): Iconic and infamous moments in AI history
+- [Victims](/victims): Professions disrupted and displaced by artificial intelligence
+- [Predictions](/predictions): Expert forecasts vs what actually happened
+- [Quiz](/quiz): 10-question test covering AI history from Turing to transformers
+- [Leaderboard](/leaderboard): AI models ranked by capability
 
 ## Key Facts
-
-- **75 years** of AI history coverage
-- **25+ models** featured
-- **8 categories** of content
-- **Free** and open access
-
-## Main Pages
-
-- **/** — Home page with interactive timeline and featured exhibits
-- **/simulator** — Run classic AI simulators (ELIZA, SHRDLU, PARRY)
-- **/quiz** — Test your knowledge of AI history
-- **/graveyard** — Explore discontinued AI projects and models
-
-## Topics Covered
-
-- Alan Turing and the Turing Test
-- Dartmouth Conference (1956)
-- ELIZA and early chatbots
-- Expert systems era
-- AI winters and recovery
-- Deep Blue vs Kasparov
-- ImageNet and deep learning revolution
-- AlphaGo breakthrough
-- GPT and large language models
-- ChatGPT phenomenon
-- DALL-E and generative AI
-- AI ethics and societal impact
-- AGI speculation and future
+- Covers 25 AI systems: Turing Test (1950), ELIZA (1966), Deep Blue (1997), LSTM (1997), ImageNet (2009), AlexNet (2012), AlphaGo (2016), Transformer (2017), GPT-2 (2019), GPT-3 (2020), DALL-E (2021), AlphaFold (2021), ChatGPT (2022), GPT-4 (2023), Claude (2023), Gemini (2023), Llama (2023), Mistral (2023), Midjourney, Stable Diffusion, Grok (2024), Copilot, Sora (2024), DeepSeek R1 (2025)
+- Time span: 1950-2025 (75 years)
+- Companies covered: OpenAI, Anthropic, Google DeepMind, Meta AI, xAI, Microsoft, Stability AI, Mistral AI, DeepSeek
+- Categories: Natural language processing, computer vision, game-playing AI, protein folding, code generation, image generation, video generation, reasoning
+- Notable events: AI winters, transformer revolution (2017), ChatGPT viral launch (2022), open-source AI movement (2023), reasoning models (2025)
 
 ## Technical
-
-- **Framework:** Next.js 14
-- **Language:** React with TypeScript
-- **Styling:** Tailwind CSS
-- **Components:** shadcn/ui
-- **Deployment:** Vercel
-- **License:** Open source
+Built with Next.js and React. Deployed on Vercel. Open source. Free forever. Dark mode with CRT retro-computing aesthetic.
