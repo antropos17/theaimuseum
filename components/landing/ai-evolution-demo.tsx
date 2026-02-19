@@ -19,18 +19,23 @@ const responses = [
     style: "eliza" as const,
   },
   {
+    era: "2025",
+    name: "Modern AI",
+    label: "2025",
+    response: "The AI Museum is the world's first interactive museum dedicated to the history of artificial intelligence. It covers 75 years -- from Turing's 1950 paper to DeepSeek R1 in 2025. You can explore 25 models, compare their evolution, visit the AI Graveyard, test your knowledge in the Quiz, and rate models with community stickers. It's free, open-source, and designed to make AI history accessible to everyone.",
+    responseHighlighted: (
+      <>
+        The AI Museum is <span className="text-primary text-shadow-[0_0_12px_rgba(0,255,136,0.4)] font-semibold">the world's first</span> interactive museum dedicated to the history of artificial intelligence. It covers <span className="text-primary text-shadow-[0_0_12px_rgba(0,255,136,0.4)] font-semibold">75 years</span> -- from Turing's 1950 paper to DeepSeek R1 in 2025. You can explore <span className="text-primary text-shadow-[0_0_12px_rgba(0,255,136,0.4)] font-semibold">25 models</span>, compare their evolution, visit the <span className="text-primary text-shadow-[0_0_12px_rgba(0,255,136,0.4)] font-semibold">AI Graveyard</span>, test your knowledge in the <span className="text-primary text-shadow-[0_0_12px_rgba(0,255,136,0.4)] font-semibold">Quiz</span>, and rate models with community stickers. It's <span className="text-primary text-shadow-[0_0_12px_rgba(0,255,136,0.4)] font-semibold">free, open-source</span>, and designed to make AI history accessible to everyone.
+      </>
+    ),
+    style: "modern" as const,
+  },
+  {
     era: "2019",
     name: "GPT-2",
     label: "1.5B Parameters",
     response: "The AI Museum is a place where people go to see... art? The museum was founded in the year 2000 by a group of scientists who wanted to create a better future for humanity. The museum contains over 10,000 exhibits including a real dinosaur.",
     style: "gpt2" as const,
-  },
-  {
-    era: "2025",
-    name: "Modern AI",
-    label: "2025",
-    response: "The AI Museum is the world's first interactive museum dedicated to the history of artificial intelligence. It covers 75 years -- from Turing's 1950 paper to DeepSeek R1 in 2025. You can explore 25 models, compare their evolution, visit the AI Graveyard, test your knowledge in the Quiz, and rate models with community stickers. It's free, open-source, and designed to make AI history accessible to everyone.",
-    style: "modern" as const,
   },
 ]
 
@@ -232,48 +237,52 @@ function ChatWindow({
   }
 
   return (
-    <div className={`relative flex flex-col overflow-hidden transition-all duration-300 ${wrapperClass[data.style]}`}>
+    <div className={`relative flex flex-col overflow-hidden transition-all duration-300 ${wrapperClass[data.style]} ${data.style === "modern" ? "md:scale-105 md:shadow-xl md:shadow-primary/5 md:border-primary/20" : ""}`}>
       {/* Header */}
-      <div className={`flex items-center justify-between border-b px-3 py-2 ${headerClass[data.style]}`}>
-        <div className="flex items-center gap-2">
-          <div className="flex gap-1">
+      <div className={`flex items-center justify-between border-b px-4 py-2.5 ${headerClass[data.style]}`}>
+        <div className="flex items-center gap-2.5">
+          <div className="flex gap-1.5">
             {dotColors[data.style].map((c, i) => (
-              <div key={i} className={`h-2 w-2 rounded-full ${c}`} />
+              <div key={i} className={`h-2.5 w-2.5 rounded-full ${c}`} />
             ))}
           </div>
-          <span className={`font-mono text-[10px] uppercase tracking-wider ${labelColor[data.style]}`}>
+          <span className={`font-mono text-xs uppercase tracking-wider ${labelColor[data.style]}`}>
             {data.name} &middot; {data.era}
           </span>
         </div>
-        <span className={`font-mono text-[9px] ${labelColor[data.style]} opacity-60`}>[{data.label}]</span>
+        <span className={`font-mono text-[10px] ${labelColor[data.style]} opacity-60`}>[{data.label}]</span>
       </div>
 
       {/* Chat */}
-      <div className="flex-1 space-y-3 p-4 min-h-[380px] md:min-h-[360px]">
+      <div className="flex-1 space-y-4 p-5 min-h-[420px] md:min-h-[400px]">
         {/* User question */}
         <div className="flex justify-end">
-          <div className={`max-w-[85%] rounded px-3 py-2 ${bubbleClass[data.style]}`}>
-            <p className={`text-sm ${data.style === "modern" ? "" : "font-mono"}`}>{QUESTION}</p>
+          <div className={`max-w-[85%] rounded px-4 py-2.5 ${bubbleClass[data.style]}`}>
+            <p className={`text-[15px] leading-relaxed ${data.style === "modern" ? "font-medium" : "font-mono"}`}>{QUESTION}</p>
           </div>
         </div>
         {/* Typing indicator / Response */}
         {phase !== "idle" && (
           <div className="flex">
-            <div className={`max-w-[90%] rounded px-3 py-2 ${replyBorderClass[data.style]}`}>
+            <div className={`max-w-[92%] rounded px-4 py-3 ${replyBorderClass[data.style]}`}>
               {phase === "dots" && (
                 <div className="py-1">
                   <TypingDots color={typingDotColor[data.style]} />
                 </div>
               )}
               {(phase === "typing" || phase === "done") && (
-                <p className={`text-sm leading-relaxed ${textClass[data.style]}`}>
-                  <TypewriterText
-                    text={data.response}
-                    active={phase === "typing" || phase === "done"}
-                    speed={data.style === "eliza" ? 50 : 25}
-                    onDone={handleTypeDone}
-                  />
-                </p>
+                <div className={`text-[15px] leading-relaxed ${textClass[data.style]}`}>
+                  {data.style === "modern" && phase === "done" && "responseHighlighted" in data ? (
+                    <div>{data.responseHighlighted}</div>
+                  ) : (
+                    <TypewriterText
+                      text={data.response}
+                      active={phase === "typing" || phase === "done"}
+                      speed={data.style === "eliza" ? 50 : 25}
+                      onDone={handleTypeDone}
+                    />
+                  )}
+                </div>
               )}
               {/* Quality bar after done */}
               {phase === "done" && <QualityBar style={data.style} />}
@@ -292,26 +301,26 @@ function ChatWindow({
 function EvolutionLine({ visible }: { visible: boolean }) {
   return (
     <div
-      className="mx-auto mt-6 hidden items-center justify-center gap-0 transition-all duration-700 md:flex"
+      className="mx-auto mt-8 hidden items-center justify-center gap-0 transition-all duration-700 md:flex"
       style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(8px)" }}
     >
-      <span className="font-mono text-[10px] font-bold text-green-400">1966</span>
-      <div className="relative mx-2 h-px w-20 overflow-hidden bg-border/30 lg:w-28">
+      <span className="font-mono text-xs font-bold text-green-400">1966</span>
+      <div className="relative mx-2 h-px w-24 overflow-hidden bg-border/30 lg:w-32">
         <div
-          className="absolute inset-y-0 left-0 bg-gradient-to-r from-green-500 to-amber-500 transition-all duration-1000 ease-out"
+          className="absolute inset-y-0 left-0 bg-gradient-to-r from-green-500 to-primary transition-all duration-1000 ease-out"
           style={{ width: visible ? "100%" : "0%" }}
         />
       </div>
-      <svg className="h-3 w-3 -ml-1 text-amber-400" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
-      <span className="mx-1 font-mono text-[10px] font-bold text-amber-400">2019</span>
-      <div className="relative mx-2 h-px w-20 overflow-hidden bg-border/30 lg:w-28">
+      <svg className="h-3.5 w-3.5 -ml-1 text-primary" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+      <span className="mx-2 font-mono text-sm font-bold text-primary text-shadow-[0_0_12px_rgba(0,255,136,0.5)]">2025</span>
+      <div className="relative mx-2 h-px w-24 overflow-hidden bg-border/30 lg:w-32">
         <div
-          className="absolute inset-y-0 left-0 bg-gradient-to-r from-amber-500 to-emerald-400 transition-all duration-1000 ease-out delay-500"
+          className="absolute inset-y-0 left-0 bg-gradient-to-r from-primary to-amber-500 transition-all duration-1000 ease-out delay-500"
           style={{ width: visible ? "100%" : "0%" }}
         />
       </div>
-      <svg className="h-3 w-3 -ml-1 text-primary" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
-      <span className="mx-1 font-mono text-[10px] font-bold text-primary">2025</span>
+      <svg className="h-3.5 w-3.5 -ml-1 text-amber-400" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+      <span className="mx-1 font-mono text-xs font-bold text-amber-400">2019</span>
     </div>
   )
 }
