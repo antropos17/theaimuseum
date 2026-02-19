@@ -299,8 +299,14 @@ function ChatWindow({
    ═══════════════════════════════════════════════════ */
 
 /* Deterministic pseudo-random using seed — avoids hydration mismatch from Math.random() */
-const seededOffset = (i: number) => Math.round(((i * 7 + 3) % 11) / 11 * 8 - 4) // integer range ~[-4, 4]
-const seededDuration = (i: number) => (2.2 + ((i * 13 + 5) % 9) / 9 * 0.8).toFixed(1) // "2.2" - "3.0"
+const seededOffset = (i: number) => {
+  const val = ((i * 7 + 3) % 11) / 11 * 8 - 4
+  return Math.round(val * 100) / 100 // round to 2 decimals for consistency
+}
+const seededDuration = (i: number) => {
+  const val = 2.2 + ((i * 13 + 5) % 9) / 9 * 0.8
+  return Math.round(val * 100) / 100 // round to 2 decimals
+}
 
 function NeuralParticle({ direction, delay, color, size, index }: { direction: "left" | "right"; delay: number; color: string; size: number; index: number }) {
   const mt = -size / 2 + seededOffset(index)
@@ -317,7 +323,7 @@ function NeuralParticle({ direction, delay, color, size, index }: { direction: "
         animationTimingFunction: "ease-in-out",
         animationDelay: `${delay}s`,
         animationIterationCount: "infinite",
-      }}
+      } as React.CSSProperties}
     />
   )
 }
