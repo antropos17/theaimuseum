@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react"
 import Link from "next/link"
-import { ChevronDown } from "lucide-react"
+import { ChevronDown, ChevronRight } from "lucide-react"
 import { HeroShareBar } from "./share-components"
 import { LiveVisitors } from "./live-visitors"
 
@@ -174,21 +174,65 @@ export function HeroSection() {
 
         {/* CTA buttons - terminal style */}
         <div
-          className={`mt-10 flex flex-col items-center gap-3 sm:flex-row transition-all duration-700 ${stage >= 4 ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
+          className={`mt-8 flex w-full max-w-md flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-center transition-all duration-700 ${stage >= 4 ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
           style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
         >
+          {/* Primary: BEGIN JOURNEY - Mainframe console button */}
           <Link
             href="/explore"
-            className="inline-flex items-center rounded-md bg-[#00E68A] px-6 py-3 font-bold text-black transition-colors hover:bg-[#00ff88]"
+            className="group relative inline-flex items-center justify-center rounded-md bg-primary px-8 py-4 font-mono text-base font-bold uppercase tracking-wider text-background transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,255,136,0.6)] sm:flex-1 sm:text-lg animate-in fade-in slide-in-from-bottom-2"
+            style={{
+              boxShadow: "0 0 20px rgba(0,255,136,0.4), 0 0 40px rgba(0,255,136,0.2), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -2px 8px rgba(0,0,0,0.3)",
+              animation: "glow-pulse 3s ease-in-out infinite",
+              animationDelay: "1s",
+              willChange: "transform"
+            }}
           >
-            <span className="mr-1">{'> '}</span>BEGIN JOURNEY
+            {/* Scanline effect */}
+            <span className="absolute inset-0 overflow-hidden rounded-md pointer-events-none">
+              <span className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-black/20" />
+            </span>
+            
+            <span className="relative flex items-center gap-2 transition-transform duration-300 group-hover:scale-[1.02] group-active:scale-[0.98]">
+              <span className="transition-all duration-300 group-hover:tracking-[0.2em]">
+                Begin Journey
+              </span>
+              <ChevronRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+            </span>
           </Link>
+
+          {/* Secondary: AI SIMULATOR - Subordinate outline button */}
           <Link
             href="/simulator"
-            className="inline-flex items-center rounded-md bg-[#00E68A] px-6 py-3 font-bold text-black transition-colors hover:bg-[#00ff88]"
+            className="group relative inline-flex items-center justify-center rounded-md border-2 border-primary/40 bg-transparent px-5 py-3 font-mono text-sm font-medium uppercase tracking-wider text-primary/80 transition-all duration-300 hover:border-primary/60 hover:bg-primary/5 hover:text-primary sm:flex-[0.6]"
+            style={{
+              boxShadow: "0 0 10px rgba(0,255,136,0.1), inset 0 1px 0 rgba(0,255,136,0.1)",
+              willChange: "transform"
+            }}
           >
-            <span className="mr-1">{'> '}</span>AI SIMULATOR
+            <span className="relative transition-all duration-300 group-hover:tracking-[0.15em] group-hover:scale-[1.02] group-active:scale-[0.98] inline-block">
+              AI Simulator
+            </span>
           </Link>
+        </div>
+
+        {/* Mobile sticky primary CTA */}
+        <div className="fixed bottom-0 left-0 right-0 z-50 sm:hidden">
+          <div className="relative bg-gradient-to-t from-background via-background to-transparent px-4 pb-4 pt-8">
+            <Link
+              href="/explore"
+              className="group flex w-full items-center justify-center rounded-md bg-primary px-8 py-4 font-mono text-base font-bold uppercase tracking-wider text-background shadow-[0_0_30px_rgba(0,255,136,0.5)] transition-all duration-300"
+              style={{
+                boxShadow: "0 0 25px rgba(0,255,136,0.5), 0 0 50px rgba(0,255,136,0.3), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -2px 8px rgba(0,0,0,0.3)",
+                willChange: "transform"
+              }}
+            >
+              <span className="flex items-center gap-2 transition-transform duration-300 group-active:scale-[0.97]">
+                <span>Begin Journey</span>
+                <ChevronRight className="h-5 w-5 transition-transform duration-300 group-active:translate-x-1" />
+              </span>
+            </Link>
+          </div>
         </div>
 
         {/* Hero Share Bar */}
