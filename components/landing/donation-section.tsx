@@ -32,10 +32,10 @@ export function DonationSection() {
           {/* Copy */}
           <div className="flex-1">
             <p className="font-mono text-[10px] uppercase tracking-widest text-primary">[Support the Museum]</p>
-            <h3 className="mt-2 text-lg font-light tracking-tight text-foreground">
+            <h3 className="mt-2 text-lg font-light tracking-tight text-white">
               Help keep the exhibits running.
             </h3>
-            <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">
+            <p className="mt-1.5 text-[13px] leading-relaxed text-[#B0C4B8]">
               This museum is free, open-source, and powered entirely by caffeine and curiosity.
               Every contribution helps us document AI history for everyone.
             </p>
@@ -46,7 +46,7 @@ export function DonationSection() {
             href="https://buymeacoffee.com/theaimuseum"
             target="_blank"
             rel="noopener noreferrer"
-            className="glass-btn-primary shrink-0 px-8 py-3.5 font-mono text-xs text-foreground transition-all hover:scale-[1.02]"
+            className="shrink-0 bg-[#00E68A] px-8 py-3.5 font-mono text-xs font-bold text-black transition-all hover:scale-[1.02] hover:bg-[#00ff88]"
           >
             {'>'} Buy us a coffee
           </a>

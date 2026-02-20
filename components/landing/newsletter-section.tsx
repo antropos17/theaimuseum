@@ -48,7 +48,7 @@ export function NewsletterSection() {
       ref={ref}
       className={`relative z-10 mx-auto max-w-5xl px-4 py-16 fade-in-up ${isInView ? "visible" : ""}`}
     >
-      <CopyableTerminalCard className="overflow-hidden">
+      <CopyableTerminalCard className="overflow-hidden border border-primary/30">
         {/* Terminal chrome */}
         <div className="flex items-center gap-2 border-b border-border px-4 py-2">
           <div className="flex gap-1.5">
@@ -64,10 +64,10 @@ export function NewsletterSection() {
 
           <div className="mt-4 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <h3 className="text-lg font-light tracking-tight text-foreground">
+              <h3 className="text-lg font-light tracking-tight text-white">
                 Get the AI History Brief
               </h3>
-              <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">
+              <p className="mt-2 text-[14px] leading-relaxed text-[#B0C4B8]">
                 One email per week. 75 years of AI breakthroughs, decoded for humans.
               </p>
             </div>
@@ -98,7 +98,7 @@ export function NewsletterSection() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="border border-l-0 border-primary bg-primary/10 px-4 py-2.5 font-mono text-[11px] text-primary transition-colors hover:bg-primary/20 disabled:opacity-50"
+                    className="border border-l-0 border-primary bg-[#00E68A] px-4 py-2.5 font-mono text-[11px] font-bold text-black transition-colors hover:bg-[#00ff88] disabled:opacity-50"
                   >
                     {loading ? "[SENDING...]" : "[SEND]"}
                   </button>
