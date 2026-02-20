@@ -127,35 +127,50 @@ export function HeroSection() {
           </span>
         </div>
 
-        {/* Title with phosphor glow */}
+        {/* Title with phosphor glow - dominating viewport */}
         <div
           className={`transition-all duration-1000 ${stage >= 2 ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
           style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
         >
-          <h1 className="text-4xl font-semibold tracking-tight text-glow-subtle sm:text-5xl md:text-6xl" style={{ color: "#FFFFFF" }}>
+          <h1 
+            className="text-7xl font-bold tracking-tight sm:text-8xl md:text-9xl" 
+            style={{ 
+              color: "#FFFFFF",
+              textShadow: "0 0 40px rgba(0,255,136,0.5), 0 0 80px rgba(0,255,136,0.3), 0 0 120px rgba(0,255,136,0.15), 0 2px 4px rgba(0,0,0,0.8)"
+            }}
+          >
             The AI Museum
           </h1>
-          <p className="mt-1 font-mono text-sm font-semibold tracking-wider" style={{ color: "#EAFBF0" }}>
-            est. 1950
-          </p>
+          
+          {/* Museum entrance plaque - elegant and high contrast */}
+          <div className="mt-6 flex flex-col items-center gap-3">
+            <div className="h-px w-32 bg-gradient-to-r from-transparent via-primary to-transparent opacity-60" />
+            <p 
+              className="font-mono text-base font-medium tracking-[0.3em] uppercase sm:text-lg" 
+              style={{ 
+                color: "#00ff88",
+                textShadow: "0 0 20px rgba(0,255,136,0.6)"
+              }}
+            >
+              est. 1950
+            </p>
+            <p 
+              className="max-w-lg text-lg font-medium leading-relaxed sm:text-xl" 
+              style={{ 
+                color: "#E0E0E0",
+                textShadow: "0 1px 2px rgba(0,0,0,0.8)"
+              }}
+            >
+              The world{"'"}s first interactive museum of artificial intelligence
+            </p>
+            <p 
+              className="mt-2 font-mono text-sm tracking-wider opacity-70" 
+              style={{ color: "#00ff88" }}
+            >
+              75 years • 25 exhibits • From Turing to reasoning machines
+            </p>
+          </div>
         </div>
-
-        {/* Divider */}
-        <div
-          className={`my-8 flex items-center gap-3 transition-all duration-700 ${stage >= 2 ? "opacity-100" : "opacity-0"}`}
-        >
-          <div className="h-px w-12 bg-border" />
-          <span className="font-mono text-[10px] text-muted-foreground">//</span>
-          <div className="h-px w-12 bg-border" />
-        </div>
-
-        {/* Subtitle with blinking cursor */}
-        <p
-          className={`max-w-md text-[15px] font-semibold leading-relaxed transition-all duration-700 ${stage >= 3 ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
-          style={{ color: "#EAFBF0" }}
-        >
-          The world{"'"}s first interactive museum of AI. 25 exhibits. 75 years. From Turing{"'"}s test to reasoning machines<span className={stage >= 3 ? "cursor-blink" : ""}></span>
-        </p>
 
         {/* CTA buttons - terminal style */}
         <div
