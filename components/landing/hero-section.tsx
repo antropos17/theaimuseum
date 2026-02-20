@@ -14,6 +14,9 @@ const BOOT_LINES = [
   "SYSTEM READY."
 ]
 
+const BOOT_INTERVAL_MS = 250
+const BOOT_COMPLETE_DELAY_MS = BOOT_LINES.length * BOOT_INTERVAL_MS + 400
+
 export function HeroSection() {
   const [bootComplete, setBootComplete] = useState(false)
   const [bootLineIndex, setBootLineIndex] = useState(0)
@@ -37,21 +40,19 @@ export function HeroSection() {
     BOOT_LINES.forEach((_, i) => {
       bootTimers.push(setTimeout(() => {
         if (mounted.current) setBootLineIndex(i)
-      }, i * 400))
+      }, i * BOOT_INTERVAL_MS))
     })
     
     // Complete boot after last line + delay
     const completeTimer = setTimeout(() => {
-      if (mounted.current) setBootComplete(true)
-    }, BOOT_LINES.length * 400 + 600)
+      if (mounted.current) {
+        setBootComplete(true)
+        // Reveal all stages immediately after boot — no extra delay
+        setStage(4)
+      }
+    }, BOOT_COMPLETE_DELAY_MS)
     
-    // Stage reveal timers after boot
-    const stageTimers = [
-      setTimeout(() => { if (mounted.current) setStage(1) }, BOOT_LINES.length * 400 + 800),
-      setTimeout(() => { if (mounted.current) setStage(2) }, BOOT_LINES.length * 400 + 1100),
-      setTimeout(() => { if (mounted.current) setStage(3) }, BOOT_LINES.length * 400 + 1500),
-      setTimeout(() => { if (mounted.current) setStage(4) }, BOOT_LINES.length * 400 + 1900),
-    ]
+    const stageTimers: NodeJS.Timeout[] = []
 
     // Visitor counter updates
     const interval = setInterval(() => {
@@ -67,7 +68,7 @@ export function HeroSection() {
       mounted.current = false
       bootTimers.forEach(clearTimeout)
       clearTimeout(completeTimer)
-      stageTimers.forEach(clearTimeout)
+      stageTimers.forEach(clearTimeout) // kept for safety (array is empty now)
       clearInterval(interval)
     }
   }, [])
@@ -98,9 +99,12 @@ export function HeroSection() {
               </div>
             ))}
           </div>
-          <p className="mt-8 font-mono text-[10px] text-muted-foreground">
-            [CLICK TO SKIP]
-          </p>
+          <button
+            onClick={skipBoot}
+            className="mt-8 inline-flex items-center gap-2 rounded border border-border/50 px-4 py-2 font-mono text-[11px] tracking-widest text-muted-foreground transition-colors duration-200 hover:border-primary/40 hover:text-primary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary"
+          >
+            [TAP ANYWHERE OR CLICK TO SKIP]
+          </button>
         </div>
       )}
 
@@ -145,13 +149,7 @@ export function HeroSection() {
           {/* Museum entrance plaque - elegant and high contrast */}
           <div className="mt-6 flex flex-col items-center gap-3">
             <div className="h-px w-32 bg-gradient-to-r from-transparent via-primary to-transparent opacity-60" />
-            <p 
-              className="font-mono text-base font-medium tracking-[0.3em] uppercase sm:text-lg" 
-              style={{ 
-                color: "#00ff88",
-                textShadow: "0 0 20px rgba(0,255,136,0.6)"
-              }}
-            >
+            <p className="font-mono text-base font-medium tracking-[0.3em] uppercase text-muted-foreground sm:text-lg">
               est. 1950
             </p>
             <p 
@@ -163,10 +161,7 @@ export function HeroSection() {
             >
               The world{"'"}s first interactive museum of artificial intelligence
             </p>
-            <p 
-              className="mt-2 font-mono text-sm tracking-wider opacity-70" 
-              style={{ color: "#00ff88" }}
-            >
+            <p className="mt-2 font-mono text-sm tracking-wider text-muted-foreground opacity-60">
               75 years • 25 exhibits • From Turing to reasoning machines
             </p>
           </div>
@@ -192,7 +187,6 @@ export function HeroSection() {
               <span className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-black/20" />
             </span>
             
-            {/* Animated content with transform only - no layout shift */}
             <span className="relative flex items-center gap-2 transition-transform duration-300 group-hover:scale-105 group-active:scale-95 origin-center">
               <span>Begin Journey</span>
               <ChevronRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-0.5" />
@@ -202,7 +196,7 @@ export function HeroSection() {
           {/* Secondary: AI SIMULATOR - Subordinate outline button */}
           <Link
             href="/simulator"
-            className="group relative inline-flex items-center justify-center overflow-hidden rounded-md border-2 border-primary/40 bg-transparent px-5 py-3 font-mono text-sm font-medium uppercase tracking-wider text-primary/80 transition-all duration-300 hover:border-primary/60 hover:bg-primary/5 hover:text-primary sm:flex-[0.6]"
+            className="group relative inline-flex items-center justify-center overflow-hidden rounded-md border-2 border-primary/40 bg-transparent px-5 py-4 font-mono text-sm font-medium uppercase tracking-wider text-primary/80 transition-all duration-300 hover:border-primary/60 hover:bg-primary/5 hover:text-primary sm:flex-none sm:min-w-[160px]"
             style={{
               boxShadow: "0 0 10px rgba(0,255,136,0.1), inset 0 1px 0 rgba(0,255,136,0.1)"
             }}
@@ -236,9 +230,9 @@ export function HeroSection() {
         <HeroShareBar visible={stage >= 4} />
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator — hidden on mobile to avoid overlap with sticky CTA */}
       <div
-        className={`absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-1.5 transition-all duration-500 ${stage >= 4 ? "opacity-60" : "opacity-0"}`}
+        className={`absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-1.5 transition-all duration-500 sm:flex ${stage >= 4 ? "opacity-60" : "opacity-0"}`}
       >
         <span className="font-mono text-[10px] tracking-widest text-muted-foreground">SCROLL</span>
         <ChevronDown className="bounce-chevron h-4 w-4 text-muted-foreground" />

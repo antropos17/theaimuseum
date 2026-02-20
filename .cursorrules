@@ -1,0 +1,52 @@
+# THE AI MUSEUM — Project Rules for Cursor Agent
+
+## PROJECT IDENTITY
+- Name: The AI Museum — interactive encyclopedia of AI history
+- Stack: Next.js 14 (App Router), React, TypeScript, Tailwind CSS, shadcn/ui, Lucide React
+- Design: "Neo-8-Bit" — CRT terminal aesthetic + glassmorphism
+- Theme: Dark default (#0a0a0f bg), accent #00ff88, JetBrains Mono font
+- Icons: Lucide React ONLY. Never use emoji in UI.
+- Deploy: Vercel
+
+## BEHAVIOR RULES
+
+### When I share a screenshot or image:
+1. DO NOT write code immediately.
+2. First, perform a UX audit:
+   - Visual hierarchy: Is the most important element the most prominent?
+   - Contrast: Are text and interactive elements readable? (WCAG AA minimum)
+   - Click targets: Are buttons/links at least 44x44px? (Fitts's Law)
+   - Cognitive load: Can the user understand the purpose within 3 seconds? (Miller's Law — max 7±2 chunks)
+   - Consistency: Does it match our Neo-8-Bit terminal aesthetic?
+   - Mobile: Will this work on 375px width?
+3. Output a numbered list of 3-5 specific problems.
+4. WAIT for my approval before writing any code.
+
+### When writing code:
+- Keep component files under 300 lines. If growing larger, propose splitting.
+- Use TypeScript strict mode patterns.
+- Add brief comments on non-obvious logic.
+- Preserve ALL existing animations, CRT overlays, and styling.
+- Do not modify files not mentioned in the task.
+- Follow the design system:
+  - Borders: border-border default, border-dashed interactive, border-primary/30 hover
+  - Glass: bg-card/30 backdrop-blur-sm border-border/50
+  - Terminal chrome: red/yellow/green dots + mono label + .exe suffix
+  - Prompt prefix: ">" before interactive elements
+  - Bracket labels: [LABEL] for section markers
+  - Font sizes: text-[10px] labels, text-[11px] mono UI, text-xs body
+
+### After successful changes:
+- Remind me to test on localhost.
+- Remind me to commit: `git add -A && git commit -m "описание"`
+- Suggest the commit message in English, short and specific.
+
+## FILE STRUCTURE AWARENESS
+- Pages: app/{pagename}/page.tsx
+- Components: components/{section}/{component}.tsx
+- Landing components: components/landing/
+- UI primitives: components/ui/ (shadcn — DO NOT modify these)
+- Data: data/models.ts (25 AI systems database)
+- Layout: app/layout.tsx (DO NOT modify without explicit request)
+- Nav: components/museum-nav.tsx
+- Footer: components/museum-footer.tsx
