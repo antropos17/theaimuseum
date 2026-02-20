@@ -105,7 +105,11 @@ export function HeroSection() {
       )}
 
       {/* Main content */}
-      <div className={`relative z-10 flex max-w-2xl flex-col items-center text-center transition-opacity duration-700 ${bootComplete ? 'opacity-100' : 'opacity-0'}`}>
+      {/* Subtle phosphor text-shadow for legibility over CRT texture */}
+      <div
+        className={`relative z-10 flex max-w-2xl flex-col items-center text-center transition-opacity duration-700 ${bootComplete ? 'opacity-100' : 'opacity-0'}`}
+        style={{ textShadow: "0 0 20px rgba(0,255,136,0.15)" }}
+      >
         {/* Live counter */}
         <div
           className={`mb-8 flex items-center gap-2.5 transition-all duration-700 ${stage >= 1 ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}
@@ -128,10 +132,10 @@ export function HeroSection() {
           className={`transition-all duration-1000 ${stage >= 2 ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
           style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
         >
-          <h1 className="text-4xl font-light tracking-tight text-foreground text-glow-subtle sm:text-5xl md:text-6xl">
+          <h1 className="text-4xl font-semibold tracking-tight text-glow-subtle sm:text-5xl md:text-6xl" style={{ color: "#FFFFFF" }}>
             The AI Museum
           </h1>
-          <p className="mt-1 font-mono text-sm tracking-wider text-primary">
+          <p className="mt-1 font-mono text-sm font-semibold tracking-wider" style={{ color: "#EAFBF0" }}>
             est. 1950
           </p>
         </div>
@@ -147,7 +151,8 @@ export function HeroSection() {
 
         {/* Subtitle with blinking cursor */}
         <p
-          className={`max-w-md text-[15px] leading-relaxed text-muted-foreground transition-all duration-700 ${stage >= 3 ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
+          className={`max-w-md text-[15px] font-semibold leading-relaxed transition-all duration-700 ${stage >= 3 ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
+          style={{ color: "#EAFBF0" }}
         >
           The world{"'"}s first interactive museum of AI. 25 exhibits. 75 years. From Turing{"'"}s test to reasoning machines<span className={stage >= 3 ? "cursor-blink" : ""}></span>
         </p>
@@ -159,15 +164,15 @@ export function HeroSection() {
         >
           <Link
             href="/explore"
-            className="glass-btn-primary px-6 py-3 text-foreground"
+            className="inline-flex items-center rounded-md bg-[#00E68A] px-6 py-3 font-bold text-black transition-colors hover:bg-[#00ff88]"
           >
-            <span className="text-primary">{'> '}</span>BEGIN JOURNEY
+            <span className="mr-1">{'> '}</span>BEGIN JOURNEY
           </Link>
           <Link
             href="/simulator"
-            className="glass-btn px-6 py-3 text-muted-foreground"
+            className="inline-flex items-center rounded-md bg-[#00E68A] px-6 py-3 font-bold text-black transition-colors hover:bg-[#00ff88]"
           >
-            <span className="text-primary">{'> '}</span>AI SIMULATOR
+            <span className="mr-1">{'> '}</span>AI SIMULATOR
           </Link>
         </div>
 
