@@ -7,20 +7,17 @@ export async function POST(request: Request) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!email || !emailRegex.test(email)) {
       return NextResponse.json(
-        { success: false, message: "Invalid email" },
+        { success: false, error: "Invalid email" },
         { status: 400 }
       )
     }
 
-    console.log("New subscriber:", email)
+    console.log("Newsletter signup:", email)
 
-    return NextResponse.json({
-      success: true,
-      message: "Subscribed successfully",
-    })
+    return NextResponse.json({ success: true })
   } catch {
     return NextResponse.json(
-      { success: false, message: "Invalid request" },
+      { success: false, error: "Invalid email" },
       { status: 400 }
     )
   }
