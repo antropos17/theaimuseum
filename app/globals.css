@@ -476,6 +476,15 @@
   100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
 }
 
+@keyframes glow-pulse {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(0,255,136,0.4), 0 0 40px rgba(0,255,136,0.2), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -2px 8px rgba(0,0,0,0.3);
+  }
+  50% { 
+    box-shadow: 0 0 30px rgba(0,255,136,0.6), 0 0 60px rgba(0,255,136,0.3), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -2px 8px rgba(0,0,0,0.3);
+  }
+}
+
 /* ═══════════════════════════════════════════════════
    Scrollbar
    ═══════════════════════════════════════════════════ */
