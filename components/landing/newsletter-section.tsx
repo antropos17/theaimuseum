@@ -27,14 +27,17 @@ export function NewsletterSection() {
       const data = await res.json()
 
       if (!res.ok) {
-        setError(data.message || "Invalid email")
+        setError(data.error || "Invalid email")
         setLoading(false)
         return
       }
 
-      setSubscribed(true)
+      if (data.success) {
+        setSubscribed(true)
+      }
     } catch {
       setError("Invalid email")
+      setLoading(false)
     } finally {
       setLoading(false)
     }
@@ -71,19 +74,9 @@ export function NewsletterSection() {
 
             {subscribed ? (
               <div className="shrink-0">
-                <div className="flex items-center gap-1.5 font-mono text-xs text-foreground">
-                  <Check size={14} strokeWidth={1.5} className="text-primary" />
-                  {"You're in! Welcome to the museum."}
+                <div className="font-mono text-xs text-primary">
+                  {"> SUBSCRIBED! Check your inbox."}
                 </div>
-                <a
-                  href="/ai-timeline.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-3 flex items-center gap-1.5 font-mono text-xs text-primary decoration-dashed hover:underline"
-                >
-                  <Download size={14} strokeWidth={1.5} />
-                  Download: 75 Key Moments in AI History (PDF)
-                </a>
               </div>
             ) : (
               <div className="shrink-0">
@@ -107,11 +100,11 @@ export function NewsletterSection() {
                     disabled={loading}
                     className="border border-l-0 border-primary bg-primary/10 px-4 py-2.5 font-mono text-[11px] text-primary transition-colors hover:bg-primary/20 disabled:opacity-50"
                   >
-                    {loading ? "[...]" : "[SEND]"}
+                    {loading ? "[SENDING...]" : "[SEND]"}
                   </button>
                 </form>
                 {error && (
-                  <p className="mt-2 text-xs text-destructive">{error}</p>
+                  <p className="mt-2 font-mono text-xs text-chart-5">{error}</p>
                 )}
               </div>
             )}
