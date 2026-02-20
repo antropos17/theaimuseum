@@ -20,6 +20,13 @@ const responses = [
     style: "eliza" as const,
   },
   {
+    era: "2019",
+    name: "GPT-2",
+    label: "1.5B Parameters",
+    response: "The AI Museum is a place where people go to see... art? The museum was founded in the year 2000 by a group of scientists who wanted to create a better future for humanity. The museum contains over 10,000 exhibits including a real dinosaur.",
+    style: "gpt2" as const,
+  },
+  {
     era: "2026",
     name: "Modern AI",
     label: "2026",
@@ -30,13 +37,6 @@ const responses = [
       </>
     ),
     style: "modern" as const,
-  },
-  {
-    era: "2019",
-    name: "GPT-2",
-    label: "1.5B Parameters",
-    response: "The AI Museum is a place where people go to see... art? The museum was founded in the year 2000 by a group of scientists who wanted to create a better future for humanity. The museum contains over 10,000 exhibits including a real dinosaur.",
-    style: "gpt2" as const,
   },
 ]
 
@@ -255,7 +255,7 @@ function ChatWindow({
   }
 
   return (
-    <div className={`relative flex h-[580px] flex-col overflow-hidden transition-all duration-300 ${wrapperClass[data.style]} ${data.style === "modern" ? "md:scale-105 md:shadow-xl md:shadow-primary/5 md:border-primary/20" : ""}`}>
+    <div className={`relative flex h-[580px] flex-col overflow-hidden transition-all duration-300 ${wrapperClass[data.style]} ${data.style === "gpt2" ? "md:scale-105 md:shadow-xl md:shadow-amber-500/5" : ""}`}>
       {/* Header */}
       <div className={`flex shrink-0 items-center justify-between border-b px-4 py-2.5 ${headerClass[data.style]}`}>
         <div className="flex items-center gap-2.5">
