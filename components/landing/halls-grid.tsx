@@ -35,9 +35,9 @@ function WingCard({ wing, index, visible }: { wing: typeof wings[0]; index: numb
     <Link
       href={wing.href}
       className={`
-        group relative flex flex-col overflow-hidden border border-border bg-card
+        group relative flex flex-col overflow-hidden border border-border border-l-2 border-l-primary/40 bg-card
         transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]
-        hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_0_30px_rgba(0,255,136,0.06)]
+        hover:-translate-y-1 hover:bg-card/50 hover:border-primary/50 hover:shadow-[0_0_30px_rgba(0,255,136,0.06)]
         ${wing.featured ? "sm:col-span-2 sm:row-span-1" : ""}
       `}
       style={{
@@ -51,7 +51,7 @@ function WingCard({ wing, index, visible }: { wing: typeof wings[0]; index: numb
         <span className="h-2 w-2 rounded-full bg-destructive/60" />
         <span className="h-2 w-2 rounded-full bg-warning/60" />
         <span className="h-2 w-2 rounded-full bg-success/60" />
-        <span className="ml-2 font-mono text-[9px] uppercase tracking-widest text-muted-foreground">
+        <span className="ml-2 font-mono text-[9px] uppercase tracking-widest text-[#00ff88]">
           {wing.name}.exe
         </span>
         <span className="ml-auto font-mono text-[9px] text-muted-foreground/50">
@@ -68,10 +68,10 @@ function WingCard({ wing, index, visible }: { wing: typeof wings[0]; index: numb
         </div>
 
         <div className="flex-1">
-          <h3 className={`font-medium tracking-tight text-foreground ${wing.featured ? "text-base" : "text-sm"}`}>
+          <h3 className={`font-medium tracking-tight text-[#EAFBF0] ${wing.featured ? "text-base" : "text-sm"}`}>
             {wing.name}
           </h3>
-          <p className={`mt-1.5 leading-relaxed text-muted-foreground ${wing.featured ? "text-[13px]" : "text-[12px] line-clamp-2"}`}>
+          <p className={`mt-1.5 leading-relaxed text-[#B0C4B8] ${wing.featured ? "text-[13px]" : "text-[12px] line-clamp-2"}`}>
             {wing.desc}
           </p>
         </div>
