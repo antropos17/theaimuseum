@@ -15,3 +15,4 @@ export const metadata: Metadata = {
 export default function ExplorePage() {
   return <ExploreTimeline />
 }
+
