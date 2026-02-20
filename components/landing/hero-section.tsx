@@ -180,12 +180,11 @@ export function HeroSection() {
           {/* Primary: BEGIN JOURNEY - Mainframe console button */}
           <Link
             href="/explore"
-            className="group relative inline-flex items-center justify-center rounded-md bg-primary px-8 py-4 font-mono text-base font-bold uppercase tracking-wider text-background transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,255,136,0.6)] sm:flex-1 sm:text-lg animate-in fade-in slide-in-from-bottom-2"
+            className="group relative inline-flex items-center justify-center overflow-hidden rounded-md bg-primary px-8 py-4 font-mono text-base font-bold uppercase tracking-wider text-background transition-shadow duration-300 hover:shadow-[0_0_30px_rgba(0,255,136,0.6)] sm:flex-1 sm:text-lg animate-in fade-in slide-in-from-bottom-2"
             style={{
               boxShadow: "0 0 20px rgba(0,255,136,0.4), 0 0 40px rgba(0,255,136,0.2), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -2px 8px rgba(0,0,0,0.3)",
               animation: "glow-pulse 3s ease-in-out infinite",
-              animationDelay: "1s",
-              willChange: "transform"
+              animationDelay: "1s"
             }}
           >
             {/* Scanline effect */}
@@ -193,24 +192,22 @@ export function HeroSection() {
               <span className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-black/20" />
             </span>
             
-            <span className="relative flex items-center gap-2 transition-transform duration-300 group-hover:scale-[1.02] group-active:scale-[0.98]">
-              <span className="transition-all duration-300 group-hover:tracking-[0.2em]">
-                Begin Journey
-              </span>
-              <ChevronRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+            {/* Animated content with transform only - no layout shift */}
+            <span className="relative flex items-center gap-2 transition-transform duration-300 group-hover:scale-105 group-active:scale-95 origin-center">
+              <span>Begin Journey</span>
+              <ChevronRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-0.5" />
             </span>
           </Link>
 
           {/* Secondary: AI SIMULATOR - Subordinate outline button */}
           <Link
             href="/simulator"
-            className="group relative inline-flex items-center justify-center rounded-md border-2 border-primary/40 bg-transparent px-5 py-3 font-mono text-sm font-medium uppercase tracking-wider text-primary/80 transition-all duration-300 hover:border-primary/60 hover:bg-primary/5 hover:text-primary sm:flex-[0.6]"
+            className="group relative inline-flex items-center justify-center overflow-hidden rounded-md border-2 border-primary/40 bg-transparent px-5 py-3 font-mono text-sm font-medium uppercase tracking-wider text-primary/80 transition-all duration-300 hover:border-primary/60 hover:bg-primary/5 hover:text-primary sm:flex-[0.6]"
             style={{
-              boxShadow: "0 0 10px rgba(0,255,136,0.1), inset 0 1px 0 rgba(0,255,136,0.1)",
-              willChange: "transform"
+              boxShadow: "0 0 10px rgba(0,255,136,0.1), inset 0 1px 0 rgba(0,255,136,0.1)"
             }}
           >
-            <span className="relative transition-all duration-300 group-hover:tracking-[0.15em] group-hover:scale-[1.02] group-active:scale-[0.98] inline-block">
+            <span className="relative transition-transform duration-300 group-hover:scale-105 group-active:scale-95 inline-block origin-center">
               AI Simulator
             </span>
           </Link>
