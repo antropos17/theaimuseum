@@ -10,8 +10,12 @@ const links = [
   { label: "Graveyard", href: "/graveyard" },
   { label: "AI Wars", href: "/battles" },
   { label: "Simulator", href: "/simulator" },
-  { label: "Quiz", href: "/quiz" },
+  { label: "Memes", href: "/memes" },
+  { label: "Victims", href: "/victims" },
+  { label: "Predictions", href: "/predictions" },
   { label: "Leaderboard", href: "/leaderboard" },
+  { label: "Quiz", href: "/quiz" },
+  { label: "Passport", href: "/passport" },
 ]
 
 const socials = [
