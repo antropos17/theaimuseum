@@ -192,12 +192,10 @@ export function HeroSection() {
               <span className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-black/20" />
             </span>
             
-            {/* Animated content layer with all effects contained */}
-            <span className="relative flex items-center gap-2">
-              <span className="inline-block transition-all duration-300 group-hover:tracking-[0.2em]">
-                Begin Journey
-              </span>
-              <ChevronRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1 group-active:translate-x-0" />
+            {/* Animated content with transform only - no layout shift */}
+            <span className="relative flex items-center gap-2 transition-transform duration-300 group-hover:scale-105 group-active:scale-95 origin-center">
+              <span>Begin Journey</span>
+              <ChevronRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-0.5" />
             </span>
           </Link>
 
@@ -209,7 +207,7 @@ export function HeroSection() {
               boxShadow: "0 0 10px rgba(0,255,136,0.1), inset 0 1px 0 rgba(0,255,136,0.1)"
             }}
           >
-            <span className="relative inline-block transition-all duration-300 group-hover:tracking-[0.12em]">
+            <span className="relative transition-transform duration-300 group-hover:scale-105 group-active:scale-95 inline-block origin-center">
               AI Simulator
             </span>
           </Link>
