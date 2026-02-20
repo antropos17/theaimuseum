@@ -22,7 +22,7 @@
   --accent: #e8e8e0;
   --accent-foreground: #1a1a1a;
   --muted: #e8e8e0;
-  --muted-foreground: #6b6b6b;
+  --muted-foreground: #555555;
   --border: #d4d4d0;
   --input: #d4d4d0;
   --ring: #00ff88;
@@ -66,7 +66,7 @@
   --accent: #1a1a22;
   --accent-foreground: #d4d4d0;
   --muted: #1a1a22;
-  --muted-foreground: #6b6b78;
+  --muted-foreground: #B0C4B8;
   --border: #2a2a35;
   --input: #2a2a35;
   --ring: #00ff88;
