@@ -74,7 +74,7 @@ export function MuseumFooter() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-[13px] text-muted-foreground transition-colors duration-200 hover:text-foreground"
+                  className="text-[13px] text-[#B0C4B8] transition-colors duration-200 hover:text-foreground"
                 >
                   {link.label}
                 </Link>
