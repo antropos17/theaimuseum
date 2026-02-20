@@ -22,20 +22,17 @@ const stats = [
   },
 ]
 
-const DURATION = 2000
+const DURATION = 1500
 
 function easeOutCubic(t: number): number {
   return 1 - Math.pow(1 - t, 3)
 }
 
-function AnimatedCounter({ target, active }: { target: number; active: boolean }) {
+function AnimatedCounter({ target }: { target: number }) {
   const [display, setDisplay] = useState(0)
   const rafRef = useRef<number | null>(null)
-  const hasRun = useRef(false)
 
-  const animate = useCallback(() => {
-    if (hasRun.current) return
-    hasRun.current = true
+  useEffect(() => {
     const start = performance.now()
     function tick(now: number) {
       const elapsed = now - start
@@ -47,37 +44,16 @@ function AnimatedCounter({ target, active }: { target: number; active: boolean }
       }
     }
     rafRef.current = requestAnimationFrame(tick)
-  }, [target])
-
-  useEffect(() => {
-    if (active) animate()
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
     }
-  }, [active, animate])
+  }, [target])
 
   return <>{display}</>
 }
 
 export function HeroStats() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const [visible, setVisible] = useState(false)
-
-  useEffect(() => {
-    const el = containerRef.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true)
-          observer.unobserve(el)
-        }
-      },
-      { threshold: 0.3 }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
 
   const copyFact = async (fact: string) => {
     try {
@@ -125,7 +101,7 @@ export function HeroStats() {
               [{stat.label}]
             </span>
             <span className="font-mono text-4xl font-light tabular-nums text-glow-subtle sm:text-5xl">
-              <AnimatedCounter target={stat.value} active={visible} />
+              <AnimatedCounter target={stat.value} />
             </span>
           </button>
         ))}
