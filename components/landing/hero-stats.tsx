@@ -8,12 +8,12 @@ const stats = [
   {
     value: 25,
     label: 'MODELS',
-    fact: 'The AI Museum documents 25+ AI models across 75 years of artificial intelligence. v0-theaimuseum.vercel.app',
+    fact: 'The AI Museum documents 40+ AI models across 76 years of artificial intelligence. v0-theaimuseum.vercel.app',
   },
   {
     value: 75,
     label: 'YEARS',
-    fact: "75 years of AI — from Turing's 1950 paper to GPT-4. v0-theaimuseum.vercel.app",
+    fact: "76 years of AI — from Turing's 1950 paper to GPT-5.2 Pro. v0-theaimuseum.vercel.app",
   },
   {
     value: 8,

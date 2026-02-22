@@ -93,7 +93,7 @@ export function ExploreTimeline() {
             Explore the Collection
           </h1>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-            75 years of artificial intelligence, mapped chronologically.
+            76 years of artificial intelligence, mapped chronologically.
           </p>
         </div>
 

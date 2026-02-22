@@ -43,7 +43,7 @@ export function MuseumFooter() {
               <span className="text-sm font-medium text-foreground">The AI Museum</span>
             </div>
             <p className="mt-4 text-[13px] leading-relaxed text-muted-foreground">
-              The world{"'"}s first interactive museum of AI history. 75 years of breakthroughs,
+              The world{"'"}s first interactive museum of AI history. 76 years of breakthroughs,
               failures, and everything in between.
             </p>
 
@@ -110,7 +110,7 @@ export function MuseumFooter() {
             &copy; {new Date().getFullYear()} The AI Museum. All rights reserved.
           </p>
           <p className="font-mono text-[10px] text-muted-foreground">
-            est. 1950 &middot; 25 Models &middot; 1950&ndash;2025
+            est. 1950 &middot; 40 Models &middot; 1950&ndash;2026
           </p>
         </div>
       </div>

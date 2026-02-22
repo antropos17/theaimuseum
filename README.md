@@ -1,6 +1,6 @@
 # THE AI MUSEUM
 
-**Interactive online museum documenting 75 years of artificial intelligence history (1950-2025)**
+**Interactive online museum documenting 76 years of artificial intelligence history (1950-2026)**
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/antropos17/theaimuseum)
 
@@ -8,7 +8,7 @@
 
 ## OVERVIEW
 
-The AI Museum is an immersive web experience that chronicles the evolution of artificial intelligence through 25+ historical exhibits spanning 10 themed wings. From the Turing Test to GPT-4, from ELIZA to AlphaFold, explore the breakthroughs, failures, scandals, and transformative moments that shaped modern AI.
+The AI Museum is an immersive web experience that chronicles the evolution of artificial intelligence through 40+ historical exhibits spanning 10 themed wings. From the Turing Test to GPT-5.2 Pro, from ELIZA to AlphaFold, explore the breakthroughs, failures, scandals, and transformative moments that shaped modern AI.
 
 **LIVE SITE: (comings soon)
 
@@ -19,8 +19,8 @@ The AI Museum is an immersive web experience that chronicles the evolution of ar
 
 ### [MAIN EXHIBITS]
 
-- **AI Timeline** — Chronological journey through 75 years of AI history
-- **Model Exhibits** — Deep dives into 25+ landmark AI systems with technical specs, examples, controversies, and cultural impact
+- **AI Timeline** — Chronological journey through 76 years of AI history
+- **Model Exhibits** — Deep dives into 40+ landmark AI systems with technical specs, examples, controversies, and cultural impact
 - **Interactive Chat Simulator** — Experience conversations with historical AI systems from ELIZA (1966) to modern LLMs
 
 ### [INTERACTIVE HALLS]
@@ -118,7 +118,7 @@ theaimuseum/
 │   ├── ui/                  # shadcn/ui components
 │   └── [feature]/           # Feature-specific components
 ├── data/
-│   └── models.ts            # AI model database (25+ exhibits)
+│   └── models.ts            # AI model database (40+ exhibits)
 ├── hooks/                   # Custom React hooks
 ├── lib/
 │   └── utils.ts             # Utility functions
@@ -288,8 +288,8 @@ MIT License — see LICENSE file for details
 
 **[SYSTEM INITIALIZED]**  
 **[MUSEUM STATUS: OPERATIONAL]**  
-**[EXHIBITS: 25+ MODELS]**  
-**[TIMELINE: 1950-2025]**  
+**[EXHIBITS: 40+ MODELS]**  
+**[TIMELINE: 1950-2026]**  
 **[VISITORS: TRACKING...]**
 
 `> EXPLORE THE HISTORY OF ARTIFICIAL INTELLIGENCE`

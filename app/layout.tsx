@@ -20,9 +20,9 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'The AI Museum — 75 Years of Artificial Intelligence History',
+  title: 'The AI Museum — 76 Years of Artificial Intelligence History',
   description:
-    "Explore 75 years of AI history through interactive exhibits spanning 1950-2025. From Turing's foundational work to modern large language models like GPT and ChatGPT. Learn about machine learning, neural networks, deep learning, computer vision, NLP, and the evolution of artificial intelligence through engaging timelines, simulators, quizzes, and the AI Graveyard of discontinued projects.",
+    "Explore 76 years of AI history through interactive exhibits spanning 1950-2026. From Turing's foundational work to modern large language models like GPT and ChatGPT. Learn about machine learning, neural networks, deep learning, computer vision, NLP, and the evolution of artificial intelligence through engaging timelines, simulators, quizzes, and the AI Graveyard of discontinued projects.",
   keywords: [
     'Artificial Intelligence',
     'Machine Learning',
@@ -46,15 +46,15 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: 'The AI Museum',
-    title: 'The AI Museum — 75 Years of Artificial Intelligence History',
-    description: 'Explore 75 years of AI history through interactive exhibits spanning 1950-2025.',
+    title: 'The AI Museum — 76 Years of Artificial Intelligence History',
+    description: 'Explore 76 years of AI history through interactive exhibits spanning 1950-2026.',
     images: [{ url: '/api/og', width: 1200, height: 630, alt: 'The AI Museum' }],
   },
   twitter: {
     card: 'summary_large_image',
     site: '@theaimuseum',
-    title: 'The AI Museum — 75 Years of Artificial Intelligence History',
-    description: 'Explore 75 years of AI history through interactive exhibits spanning 1950-2025.',
+    title: 'The AI Museum — 76 Years of Artificial Intelligence History',
+    description: 'Explore 76 years of AI history through interactive exhibits spanning 1950-2026.',
     images: ['/api/og'],
   },
   robots: {
@@ -87,7 +87,7 @@ export default function RootLayout({
     name: 'The AI Museum',
     url: 'https://v0-theaimuseum.vercel.app',
     description:
-      "The world's first interactive museum of AI history. 25 exhibits spanning 1950-2025. From Turing's question to machines that dream.",
+      "The world's first interactive museum of AI history. 40 exhibits spanning 1950-2026. From Turing's question to machines that dream.",
     inLanguage: 'en',
     creator: {
       '@type': 'Organization',
@@ -97,7 +97,7 @@ export default function RootLayout({
     about: {
       '@type': 'Thing',
       name: 'Artificial Intelligence History',
-      description: '75 years of AI breakthroughs, failures, and cultural impact from 1950 to 2025',
+      description: '76 years of AI breakthroughs, failures, and cultural impact from 1950 to 2026',
     },
     mainEntity: {
       '@type': 'Museum',
@@ -122,7 +122,7 @@ export default function RootLayout({
         name: 'What is The AI Museum?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: "The AI Museum is the world's first interactive online museum dedicated to the history of artificial intelligence, covering 25 major AI systems from 1950 to 2025 across 10 themed exhibit wings.",
+          text: "The AI Museum is the world's first interactive online museum dedicated to the history of artificial intelligence, covering 40 major AI systems from 1950 to 2026 across 10 themed exhibit wings.",
         },
       },
       {
@@ -138,7 +138,7 @@ export default function RootLayout({
         name: 'What AI models are featured in The AI Museum?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'The museum features 25 AI systems including the Turing Test (1950), ELIZA (1966), Deep Blue (1997), AlphaGo (2016), GPT-3 (2020), ChatGPT (2022), GPT-4 (2023), Claude (2023), Gemini (2023), Grok (2024), and DeepSeek R1 (2025).',
+          text: 'The museum features 40 AI systems including the Turing Test (1950), ELIZA (1966), Deep Blue (1997), AlphaGo (2016), GPT-3 (2020), ChatGPT (2022), GPT-4 (2023), Claude (2023), Gemini (2023), Grok (2024), DeepSeek R1 (2025), GPT-5 (2025), Claude Opus 4 (2025), and Gemini 3 Pro (2025).',
         },
       },
     ],

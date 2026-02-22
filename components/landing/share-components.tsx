@@ -5,7 +5,7 @@ import { Copy, Check, Share2 } from 'lucide-react'
 
 const SITE_URL = 'https://v0-theaimuseum.vercel.app'
 const SITE_TITLE = 'The AI Museum — 75 Years of AI History (Interactive)'
-const TWEET_TEXT = 'I found The AI Museum — 75 years of AI history in one interactive site'
+const TWEET_TEXT = 'I found The AI Museum — 76 years of AI history in one interactive site'
 
 export function HeroShareBar({ visible }: { visible: boolean }) {
   const [copied, setCopied] = useState(false)
