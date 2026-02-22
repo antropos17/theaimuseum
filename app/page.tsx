@@ -4,10 +4,11 @@ import { HallsGrid } from '@/components/landing/halls-grid'
 import { NewsletterSection } from '@/components/landing/newsletter-section'
 import { DonationSection } from '@/components/landing/donation-section'
 import { StickySidebarShare } from '@/components/landing/share-components'
+import { ExperienceWrapper } from '@/components/3d/ExperienceWrapper'
 
 export default function HomePage() {
   return (
-    <>
+    <ExperienceWrapper>
       <StickySidebarShare />
       <main>
         <div className="sr-only">
@@ -26,6 +27,6 @@ export default function HomePage() {
         <NewsletterSection />
         <DonationSection />
       </main>
-    </>
+    </ExperienceWrapper>
   )
 }
