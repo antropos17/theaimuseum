@@ -6,6 +6,7 @@ import { Toaster } from 'sonner'
 import { MuseumNav } from '@/components/museum-nav'
 import { MuseumFooter } from '@/components/museum-footer'
 import { PhosphorTrail } from '@/components/phosphor-trail'
+import { KonamiListener } from '@/hooks/use-konami-code'
 import './globals.css'
 
 const inter = Inter({
@@ -164,6 +165,7 @@ export default function RootLayout({
           <div className="crt-overlay" aria-hidden="true" />
           <div className="crt-vignette" aria-hidden="true" />
           <PhosphorTrail />
+          <KonamiListener />
 
           <MuseumNav />
           <main className="relative z-10 min-h-screen">{children}</main>

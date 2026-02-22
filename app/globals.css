@@ -686,3 +686,28 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ═══════════════════════════════════════════════════
+   AGI Mode (Konami Code)
+   ═══════════════════════════════════════════════════ */
+body.agi-mode .crt-overlay {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.3) 2px,
+    rgba(0, 0, 0, 0.3) 4px
+  );
+  animation: agiScanlines 1s linear infinite;
+}
+
+body.agi-mode .phosphor-glow {
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(255, 0, 68, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(255, 0, 68, 0.15) 0%, transparent 50%);
+}
+
+@keyframes agiScanlines {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 4px; }
+}
