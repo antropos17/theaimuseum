@@ -1743,6 +1743,36 @@ export const memes = [
     emoji: '\uD83C\uDFB6',
     tag: 'Vibes',
   },
+  {
+    year: 'Jan 2025',
+    text: 'DeepSeek R1 \u2192 $593B NVIDIA Crash',
+    emoji: '\uD83D\uDCA3',
+    tag: 'DeepSeekR1',
+  },
+  {
+    year: 'Feb 2026',
+    text: "Anthropic\u2019s Superbowl Moment",
+    emoji: '\uD83C\uDFC8',
+    tag: 'SuperBowl',
+  },
+  {
+    year: 2025,
+    text: "Zuckerberg\u2019s Billion-Dollar Offers",
+    emoji: '\uD83D\uDCB0',
+    tag: 'Poaching',
+  },
+  {
+    year: 2025,
+    text: 'Jony Ive \u2192 OpenAI ($6.5B)',
+    emoji: '\uD83D\uDCF1',
+    tag: 'JonyIve',
+  },
+  {
+    year: '2025\u20132026',
+    text: 'Inference Famine & AI Brownouts',
+    emoji: '\u26A1',
+    tag: 'Brownout',
+  },
 ]
 
 export const predictions = [
