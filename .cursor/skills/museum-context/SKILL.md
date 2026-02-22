@@ -16,9 +16,10 @@ description: Full context for The AI Museum project. Use whenever working on thi
 
 | Layer | Tech |
 |-------|------|
-| Framework | Next.js 14 (App Router) |
+| Framework | Next.js 16 (App Router) |
 | Language | TypeScript (strict — no `any`) |
 | Styling | Tailwind CSS v4 |
+| React | React 19 |
 | Components | shadcn/ui primitives (`components/ui/`) |
 | Icons | **Lucide React only** — never emoji in UI |
 | Deploy | Vercel |
