@@ -10,7 +10,8 @@
 
 The AI Museum is an immersive web experience that chronicles the evolution of artificial intelligence through 25+ historical exhibits spanning 10 themed wings. From the Turing Test to GPT-4, from ELIZA to AlphaFold, explore the breakthroughs, failures, scandals, and transformative moments that shaped modern AI.
 
-**LIVE SITE:** [theaimuseum.com](https://theaimuseum.com)
+**LIVE SITE: (comings soon)
+
 
 ---
 
