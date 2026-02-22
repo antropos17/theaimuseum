@@ -104,7 +104,7 @@ export default function RootLayout({
     mainEntity: {
       '@type': 'Museum',
       name: 'The AI Museum',
-      description: 'Interactive online museum featuring 25 AI exhibits across 10 themed wings',
+      description: 'Interactive online museum featuring 40 AI exhibits across 10 themed wings',
       isAccessibleForFree: true,
       availableLanguage: 'English',
     },
