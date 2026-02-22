@@ -136,7 +136,7 @@ const wings: WingData[] = [
   {
     icon: BrainCircuit,
     name: 'Quiz',
-    desc: `${quizQuestions.length} questions across 75 years — from Alan Turing to NVIDIA's $600B crash`,
+    desc: `${quizQuestions.length} questions across 76 years — from Alan Turing to NVIDIA's $600B crash`,
     tag: `${quizQuestions.length} q`,
     href: '/quiz',
     featured: false,
@@ -302,7 +302,7 @@ export function HallsGrid() {
           Museum Wings
         </h2>
         <p className="mt-2 max-w-lg text-[14px] leading-relaxed text-muted-foreground">
-          {totalModels} models · {uniqueErasCount} eras · {activeModels} active — spanning 75 years
+          {totalModels} models · {uniqueErasCount} eras · {activeModels} active — spanning 76 years
           of artificial intelligence history.
         </p>
       </div>

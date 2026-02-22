@@ -162,7 +162,7 @@ export function HeroSection() {
               The world{"'"}s first interactive museum of artificial intelligence
             </p>
             <p className="mt-2 font-mono text-sm tracking-wider text-muted-foreground opacity-60">
-              75 years • 25 exhibits • From Turing to reasoning machines
+              76 years • 40 exhibits • From Turing to reasoning machines
             </p>
           </div>
         </div>

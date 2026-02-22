@@ -46,7 +46,7 @@
 - Components: components/{section}/{component}.tsx
 - Landing components: components/landing/
 - UI primitives: components/ui/ (shadcn — DO NOT modify these)
-- Data: data/models.ts (25 AI systems database)
+- Data: data/models.ts (40 AI systems database)
 - Layout: app/layout.tsx (DO NOT modify without explicit request)
 - Nav: components/museum-nav.tsx
 - Footer: components/museum-footer.tsx

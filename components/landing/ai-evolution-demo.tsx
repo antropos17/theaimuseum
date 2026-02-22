@@ -32,7 +32,7 @@ const responses = [
     name: 'Modern AI',
     label: '2026',
     response:
-      "The AI Museum is the world's first interactive museum dedicated to the history of artificial intelligence. It covers 75 years -- from Turing's 1950 paper to DeepSeek R1 in 2025. You can explore 25 models, compare their evolution, visit the AI Graveyard, test your knowledge in the Quiz, and rate models with community stickers. It's free, open-source, and designed to make AI history accessible to everyone.",
+      "The AI Museum is the world's first interactive museum dedicated to the history of artificial intelligence. It covers 76 years -- from Turing's 1950 paper to GPT-5.2 Pro in 2026. You can explore 40 models, compare their evolution, visit the AI Graveyard, test your knowledge in the Quiz, and rate models with community stickers. It's free, open-source, and designed to make AI history accessible to everyone.",
     responseHighlighted: (
       <>
         The AI Museum is{' '}
@@ -41,11 +41,11 @@ const responses = [
         </span>{' '}
         interactive museum dedicated to the history of artificial intelligence. It covers{' '}
         <span className="text-primary text-shadow-[0_0_12px_rgba(0,255,136,0.4)] font-semibold">
-          75 years
+          76 years
         </span>{' '}
-        -- from Turing's 1950 paper to DeepSeek R1 in 2025. You can explore{' '}
+        -- from Turing's 1950 paper to GPT-5.2 Pro in 2026. You can explore{' '}
         <span className="text-primary text-shadow-[0_0_12px_rgba(0,255,136,0.4)] font-semibold">
-          25 models
+          40 models
         </span>
         , compare their evolution, visit the{' '}
         <span className="text-primary text-shadow-[0_0_12px_rgba(0,255,136,0.4)] font-semibold">
@@ -72,14 +72,14 @@ const stats = [
     label: 'MODELS',
     suffix: '',
     shareText:
-      'The AI Museum documents 25+ AI models across 75 years of history 🤖 https://theaimuseum.vercel.app',
+      'The AI Museum documents 40+ AI models across 76 years of history 🤖 https://theaimuseum.vercel.app',
   },
   {
     value: 75,
     label: 'YEARS',
     suffix: '',
     shareText:
-      "75 years of AI: from Turing's 1950 paper to GPT-4. Explore the full timeline 🧠 https://theaimuseum.vercel.app",
+      "76 years of AI: from Turing's 1950 paper to GPT-5.2 Pro. Explore the full timeline 🧠 https://theaimuseum.vercel.app",
   },
   {
     value: 10,
@@ -627,7 +627,7 @@ const gpt2Templates = [
 
 const modernTemplates = [
   (input: string) =>
-    `Great question about "${input.slice(0, 40)}." The AI Museum covers exactly this kind of topic across 25 interactive exhibits spanning 1950-2025. You can explore the full timeline, compare models side-by-side, and test your knowledge in our diagnostic quiz.`,
+    `Great question about "${input.slice(0, 40)}." The AI Museum covers exactly this kind of topic across 40 interactive exhibits spanning 1950-2026. You can explore the full timeline, compare models side-by-side, and test your knowledge in our diagnostic quiz.`,
   (input: string) =>
     `That's a thoughtful question. The AI Museum was built to help people understand topics like "${input.slice(0, 30)}" through hands-on exhibits. From ELIZA to DeepSeek R1, every model has a detailed dossier with capabilities, controversies, and community ratings.`,
   (input: string) =>
@@ -635,9 +635,9 @@ const modernTemplates = [
   (input: string) =>
     `Interesting question! "${input.slice(0, 30)}" relates to several exhibits in The AI Museum. Check out the Battles wing for corporate rivalries, or the Predictions wing to see what experts got right and wrong about AI's future.`,
   (input: string) =>
-    `That's what The AI Museum is all about. Whether it's "${input.slice(0, 25)}" or any other AI topic, you'll find 75 years of context here -- from Turing's 1950 paper to the models shipping today. The Graveyard wing even covers the cautionary tales.`,
+    `That's what The AI Museum is all about. Whether it's "${input.slice(0, 25)}" or any other AI topic, you'll find 76 years of context here -- from Turing's 1950 paper to the models shipping today. The Graveyard wing even covers the cautionary tales.`,
   (input: string) =>
-    `Good question about "${input.slice(0, 30)}." The AI Museum documents how this kind of thinking evolved over 75 years. Each of our 25 model exhibits includes a full dossier with stats, opinions, bugs, and community stickers.`,
+    `Good question about "${input.slice(0, 30)}." The AI Museum documents how this kind of thinking evolved over 76 years. Each of our 40 model exhibits includes a full dossier with stats, opinions, bugs, and community stickers.`,
 ]
 
 function generateResponse(era: '1966' | '2019' | '2026', input: string): string {
@@ -835,7 +835,7 @@ export function AIEvolutionDemo() {
 
   const handleShareAll = async () => {
     const allStatsText =
-      'The AI Museum: 25+ models, 75 years, 8 categories of AI history. Free interactive museum 🤖🧠 https://theaimuseum.vercel.app'
+      'The AI Museum: 40+ models, 76 years, 8 categories of AI history. Free interactive museum 🤖🧠 https://theaimuseum.vercel.app'
 
     if (navigator.share) {
       try {

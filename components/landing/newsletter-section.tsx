@@ -70,7 +70,7 @@ export function NewsletterSection() {
                 Get the AI History Brief
               </h3>
               <p className="mt-2 text-[14px] leading-relaxed text-[#B0C4B8]">
-                One email per week. 75 years of AI breakthroughs, decoded for humans.
+                One email per week. 76 years of AI breakthroughs, decoded for humans.
               </p>
             </div>
 

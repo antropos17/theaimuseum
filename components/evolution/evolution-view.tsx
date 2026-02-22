@@ -137,7 +137,7 @@ export function EvolutionView() {
             Evolution of AI
           </h1>
           <p className="mt-2 max-w-lg text-sm leading-relaxed text-muted-foreground">
-            Trace the lineage, growth, and divergence of AI models across 75 years.
+            Trace the lineage, growth, and divergence of AI models across 76 years.
           </p>
         </div>
 

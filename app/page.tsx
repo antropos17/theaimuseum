@@ -13,7 +13,7 @@ export default function HomePage() {
         <div className="sr-only">
           <h1>The AI Museum — Interactive Online Museum of Artificial Intelligence History</h1>
           <p>
-            Explore 75 years of AI history from 1950 to 2025. 25 exhibits across 10 themed wings
+            Explore 76 years of AI history from 1950 to 2026. 40 exhibits across 10 themed wings
             covering the Turing Test, ELIZA, Deep Blue, AlphaGo, GPT, DALL-E, ChatGPT, and more.
             Free and open-source. Features include an AI timeline, chat simulator, AI graveyard,
             corporate AI battles, meme hall, job displacement tracker, prediction scorecard, AI IQ
