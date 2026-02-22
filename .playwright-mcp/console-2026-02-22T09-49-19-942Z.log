@@ -1,0 +1,51 @@
+[     408ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/this-page-does-not-exist:0
+[   66511ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/this-page-does-not-exist?_rsc=kw9md:0
+[   66568ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/this-page-does-not-exist?_rsc=kw9md:0
+[   66577ms] [WARNING] %c%s%c ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server   @ http://localhost:3000/_next/static/chunks/fa13b_next_dist_27483a26._.js:2297
+[   66693ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/this-page-does-not-exist:0
+[   69995ms] Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <ErrorBoundary errorComponent={undefined} errorStyles={undefined} errorScripts={undefined}>
+      <LoadingBoundary name="/_not-found/" loading={null}>
+        <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
+          <RedirectBoundary>
+            <RedirectErrorBoundary router={{...}}>
+              <InnerLayoutRouter url="/this-page..." tree={[...]} params={{}} cacheNode={{rsc:<Fragment>, ...}} ...>
+                <SegmentViewNode type="page" pagePath="/.cursor/w...">
+                  <SegmentTrieNode>
+                  <ClientPageRoot Component={function NotFound} serverProvidedParams={{...}}>
+                    <NotFound params={Promise} searchParams={Promise}>
+                      <div className="min-h-scre...">
+                        <div className="mx-auto ma...">
+                          <div>
+                          <div className="mb-6 flex ...">
+                            <div>
+                            <span>
+                            <span className="ml-auto fo...">
++                             0x79CE
+-                             0xE02E
+                          ...
+                ...
+              ...
+
+    at throwOnHydrationMismatch (http://localhost:3000/_next/static/chunks/fa13b_next_dist_compiled_react-dom_c1ae6d28._.js:3348:56)
+    at completeWork (http://localhost:3000/_next/static/chunks/fa13b_next_dist_compiled_react-dom_c1ae6d28._.js:7032:36)
+    at runWithFiberInDEV (http://localhost:3000/_next/static/chunks/fa13b_next_dist_compiled_react-dom_c1ae6d28._.js:965:74)
+    at completeUnitOfWork (http://localhost:3000/_next/static/chunks/fa13b_next_dist_compiled_react-dom_c1ae6d28._.js:9627:23)
+    at performUnitOfWork (http://localhost:3000/_next/static/chunks/fa13b_next_dist_compiled_react-dom_c1ae6d28._.js:9564:28)
+    at workLoopConcurrentByScheduler (http://localhost:3000/_next/static/chunks/fa13b_next_dist_compiled_react-dom_c1ae6d28._.js:9558:58)
+    at renderRootConcurrent (http://localhost:3000/_next/static/chunks/fa13b_next_dist_compiled_react-dom_c1ae6d28._.js:9541:71)
+    at performWorkOnRoot (http://localhost:3000/_next/static/chunks/fa13b_next_dist_compiled_react-dom_c1ae6d28._.js:9068:150)
+    at performWorkOnRootViaSchedulerTask (http://localhost:3000/_next/static/chunks/fa13b_next_dist_compiled_react-dom_c1ae6d28._.js:10230:9)
+    at MessagePort.performWorkUntilDeadline (http://localhost:3000/_next/static/chunks/fa13b_next_dist_compiled_f01362bd._.js:2647:64)

@@ -120,6 +120,38 @@ function CompareTool() {
   )
 }
 
+/* ── Company Icon ──────────────────────────────────────────────── */
+function CompanyIcon({ name, color }: { name: string; color: string }) {
+  const glow = { boxShadow: `0 0 8px ${color}40` }
+
+  if (name === 'OpenAI')
+    return <img src="https://cdn.simpleicons.org/openai/10A37F" width={20} height={20} alt="OpenAI" style={glow} />
+  if (name === 'Google DeepMind')
+    return <img src="https://cdn.simpleicons.org/google/4285F4" width={20} height={20} alt="Google" style={glow} />
+  if (name === 'Meta AI')
+    return <img src="https://cdn.simpleicons.org/meta/1877F2" width={20} height={20} alt="Meta" style={glow} />
+  if (name === 'Anthropic')
+    return (
+      <span
+        className="inline-flex h-5 w-5 items-center justify-center rounded-sm font-bold text-[10px] text-[#0a0a0f] bg-[#D4A574]"
+        style={glow}
+      >
+        A
+      </span>
+    )
+  if (name === 'xAI')
+    return (
+      <span
+        className="inline-flex h-5 w-5 items-center justify-center rounded-sm font-bold text-[10px] text-[#0a0a0f] bg-[#1DA1F2]"
+        style={glow}
+      >
+        X
+      </span>
+    )
+
+  return <div className="h-3 w-3 rounded-sm" style={{ backgroundColor: color, ...glow }} />
+}
+
 /* ── Main Battles View ──────────────────────────────────────────── */
 export function BattlesView() {
   const [selected, setSelected] = useState<number | null>(null)
@@ -157,13 +189,7 @@ export function BattlesView() {
               >
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <div
-                      className="h-3 w-3 rounded-sm"
-                      style={{
-                        backgroundColor: company.color,
-                        boxShadow: `0 0 8px ${company.color}40`,
-                      }}
-                    />
+                    <CompanyIcon name={company.name} color={company.color} />
                     <div>
                       <p className="text-sm font-medium text-foreground">{company.name}</p>
                       <p className="font-mono text-[11px] text-muted-foreground">
