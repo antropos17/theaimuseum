@@ -183,7 +183,7 @@ function CommandEmpty(props: React.ComponentPropsWithoutRef<'div'>) {
   return <Empty data-slot="command-empty" className="py-6 text-center text-sm" {...props} />
 }
 
-function CommandGroup({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
+function CommandGroup({ className, heading, ...props }: React.ComponentPropsWithoutRef<'div'> & { heading?: React.ReactNode }) {
   const [Group, setGroup] = React.useState<any>(null)
 
   React.useEffect(() => {
@@ -191,7 +191,16 @@ function CommandGroup({ className, ...props }: React.ComponentPropsWithoutRef<'d
   }, [])
 
   if (!Group) {
-    return <div className={cn('p-1', className)} {...props} />
+    return (
+      <div className={cn('p-1', className)} {...props}>
+        {heading && (
+          <div className="px-2 py-1.5 text-xs font-medium text-muted-foreground">
+            {heading}
+          </div>
+        )}
+        {props.children}
+      </div>
+    )
   }
 
   return (
@@ -201,6 +210,7 @@ function CommandGroup({ className, ...props }: React.ComponentPropsWithoutRef<'d
         'text-foreground [&_[cmdk-group-heading]]:text-muted-foreground overflow-hidden p-1 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium',
         className,
       )}
+      heading={heading}
       {...props}
     />
   )
