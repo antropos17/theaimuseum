@@ -7,6 +7,7 @@ import { MuseumNav } from '@/components/museum-nav'
 import { MuseumFooter } from '@/components/museum-footer'
 import { PhosphorTrail } from '@/components/phosphor-trail'
 import { KonamiListener } from '@/hooks/use-konami-code'
+import { CrtBootSequence } from '@/components/crt-boot-sequence'
 import './globals.css'
 
 const inter = Inter({
@@ -161,17 +162,19 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          {/* CRT background layers */}
-          <div className="phosphor-glow" aria-hidden="true" />
-          <div className="crt-overlay" aria-hidden="true" />
-          <div className="crt-vignette" aria-hidden="true" />
-          <PhosphorTrail />
-          <KonamiListener />
+          <CrtBootSequence>
+            {/* CRT background layers */}
+            <div className="phosphor-glow" aria-hidden="true" />
+            <div className="crt-overlay" aria-hidden="true" />
+            <div className="crt-vignette" aria-hidden="true" />
+            <PhosphorTrail />
+            <KonamiListener />
 
-          <MuseumNav />
-          <main className="relative z-10 min-h-screen">{children}</main>
-          <MuseumFooter />
-          <Toaster position="bottom-right" />
+            <MuseumNav />
+            <main className="relative z-10 min-h-screen">{children}</main>
+            <MuseumFooter />
+            <Toaster position="bottom-right" />
+          </CrtBootSequence>
         </ThemeProvider>
       </body>
     </html>

@@ -41,7 +41,7 @@ export const models: AIModel[] = [
     hype: 10,
     safety: 0,
     description:
-      "'Can machines think?' \u2014 Alan Turing asked the question that launched an entire field. His 1950 paper proposed the Imitation Game: if a machine can fool a human into thinking it's human, it can 'think.' 75 years later, we're still debating whether modern LLMs actually pass. The paper has shaped every conversation about AI consciousness, capability, and danger. Turing himself was prosecuted for his sexuality and died at 41. The father of AI never saw his children.",
+      "'Can machines think?' \u2014 Alan Turing asked the question that launched an entire field. His 1950 paper proposed the Imitation Game: if a machine can fool a human into thinking it's human, it can 'think.' 76 years later, we're still debating whether modern LLMs actually pass. The paper has shaped every conversation about AI consciousness, capability, and danger. Turing himself was prosecuted for his sexuality and died at 41. The father of AI never saw his children.",
     example:
       "'I propose to consider the question: Can machines think?'\n\u2014 Computing Machinery and Intelligence, 1950",
     opinions: [
@@ -143,6 +143,59 @@ export const models: AIModel[] = [
     ],
     media: [],
     lineage: [],
+    stickers: {},
+  },
+  {
+    id: 'alphago',
+    slug: 'alphago',
+    name: 'AlphaGo',
+    year: 2016,
+    era: 'Deep Learning',
+    category: 'game',
+    status: 'historic',
+    open: false,
+    color: '#5F6368',
+    creator: 'DeepMind',
+    params: '12 layers, ~3M',
+    cost: '$35M+ (estimated compute)',
+    capability: 45,
+    hype: 80,
+    safety: 10,
+    description:
+      "The AI that conquered humanity's hardest board game. AlphaGo defeated Lee Sedol 4–1 in Go — a game with more positions than atoms in the universe. Move 37 of Game 2 stunned experts: a move no human would ever play, yet it was brilliant. Lee Sedol called it 'God's touch.' He retired from Go entirely in 2019, saying AI 'cannot be defeated.' DeepMind later created AlphaZero, which learned chess, Go, and shogi from scratch in hours — with zero human knowledge.",
+    example:
+      "Move 37, Game 2 vs Lee Sedol:\nAlphaGo plays an impossible move on the 5th line.\nCommentators: 'This is a mistake.'\n10 moves later: 'This is genius.'",
+    opinions: [
+      {
+        sentiment: '+',
+        text: "Demis Hassabis: 'Move 37 was the moment AI surprised even us'",
+        source: 'Nature',
+      },
+      {
+        sentiment: '-',
+        text: "Lee Sedol: 'I feel sorry I couldn't show humans are still superior.' Retired 2019.",
+        source: 'Yonhap News',
+      },
+    ],
+    bugs: [
+      {
+        text: 'Lost Game 4 to a brilliant human counter-attack — proving AI had blind spots',
+        severity: 'notable',
+      },
+    ],
+    media: [
+      {
+        type: 'paper',
+        title: 'Mastering the Game of Go with Deep Neural Networks',
+        url: 'https://www.nature.com/articles/nature16961',
+      },
+      {
+        type: 'yt',
+        title: 'AlphaGo — The Movie (Full Documentary)',
+        url: 'https://www.youtube.com/watch?v=WXuK6gekU1Y',
+      },
+    ],
+    lineage: ['deepblue'],
     stickers: {},
   },
   {

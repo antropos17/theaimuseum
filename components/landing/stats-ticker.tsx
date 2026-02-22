@@ -3,8 +3,8 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 
 const stats = [
-  { value: 25, label: 'MODELS' },
-  { value: 75, label: 'YEARS' },
+  { value: 40, label: 'MODELS' },
+  { value: 76, label: 'YEARS' },
   { value: 8, label: 'CATEGORIES' },
   { value: 5, label: 'ERAS' },
 ]

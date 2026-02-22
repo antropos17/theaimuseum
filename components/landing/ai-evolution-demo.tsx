@@ -68,14 +68,14 @@ const responses = [
 
 const stats = [
   {
-    value: 25,
+    value: 40,
     label: 'MODELS',
     suffix: '',
     shareText:
       'The AI Museum documents 40+ AI models across 76 years of history 🤖 https://theaimuseum.vercel.app',
   },
   {
-    value: 75,
+    value: 76,
     label: 'YEARS',
     suffix: '',
     shareText:
@@ -909,7 +909,7 @@ export function AIEvolutionDemo() {
             {'>'} AI_EVOLUTION_DEMO
           </p>
           <h2 className="mb-5 text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl">
-            Same Question. 75 Years Apart.
+            Same Question. 76 Years Apart.
           </h2>
           <p className="mx-auto max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
             We asked three eras of AI the exact same question. Watch the leap from deflection to

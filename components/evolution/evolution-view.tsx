@@ -311,7 +311,7 @@ export function EvolutionView() {
                 })}
 
                 {/* Year labels along bottom */}
-                {[1950, 1970, 1990, 2000, 2010, 2015, 2020, 2023, 2025].map((yr) => {
+                {[1950, 1970, 1990, 2000, 2010, 2015, 2020, 2023, 2026].map((yr) => {
                   const years = nodes.map((n) => n.year)
                   const minY = Math.min(...years)
                   const maxY = Math.max(...years)

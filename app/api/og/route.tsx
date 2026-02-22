@@ -5,7 +5,7 @@ export const runtime = 'edge'
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
-    const title = searchParams.get('title') || '75 Years of Artificial Intelligence'
+    const title = searchParams.get('title') || '76 Years of Artificial Intelligence'
     const subtitle = searchParams.get('subtitle') || ''
 
     return new ImageResponse(

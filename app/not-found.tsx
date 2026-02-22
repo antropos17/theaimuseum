@@ -14,7 +14,7 @@ const CRASH_LINES = [
 ]
 
 const SUGGESTED_WINGS = [
-  { name: 'explore.exe', desc: 'Browse all 25 AI exhibits in the catalog', href: '/explore', icon: Search, color: '#00ff88' },
+  { name: 'explore.exe', desc: 'Browse all 40 AI exhibits in the catalog', href: '/explore', icon: Search, color: '#00ff88' },
   { name: 'evolution.exe', desc: 'Timeline of AI from 1950 to present day', href: '/evolution', icon: Zap, color: '#00aaff' },
   { name: 'battles.exe', desc: 'Head-to-head comparisons of AI models', href: '/battles', icon: Swords, color: '#ffaa00' },
   { name: 'graveyard.exe', desc: 'Where discontinued AI projects rest in peace', href: '/graveyard', icon: Skull, color: '#ff4444' },

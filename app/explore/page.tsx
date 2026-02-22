@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'AI Timeline: 1950–2026 | The AI Museum',
     description:
-      'Interactive timeline of 40 landmark AI systems. From ELIZA (1966) to GPT-5.2 Pro (2025).',
+      'Interactive timeline of 40 landmark AI systems. From ELIZA (1966) to GPT-5.2 Pro (2026).',
     images: [
       {
         url: '/api/og?title=AI%20Timeline%3A%201950%E2%80%932026&subtitle=40%20Landmark%20AI%20Systems',
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'AI Timeline: 1950–2026 | The AI Museum',
     description:
-      'Interactive timeline of 40 landmark AI systems. From ELIZA (1966) to GPT-5.2 Pro (2025).',
+      'Interactive timeline of 40 landmark AI systems. From ELIZA (1966) to GPT-5.2 Pro (2026).',
   },
   alternates: { canonical: 'https://v0-theaimuseum.vercel.app/explore' },
 }
