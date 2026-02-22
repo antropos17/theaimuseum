@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect } from "react"
 import Link from "next/link"
+import { motion, AnimatePresence } from "framer-motion"
 import type { AIModel } from "@/data/models"
 import { categories } from "@/data/models"
 import { cn } from "@/lib/utils"
@@ -162,6 +163,7 @@ function CardContent({
   const [showShareMenu, setShowShareMenu] = useState(false)
   const [copied, setCopied] = useState(false)
   const [canWebShare, setCanWebShare] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
   const shareRef = useRef<HTMLDivElement>(null)
 
   // Detect navigator.share support
@@ -232,12 +234,78 @@ function CardContent({
 
   return (
     <div className="relative">
-      <Link href={`/model/${model.slug}`} className={cn(cardBase, "group block")}>
+      <Link 
+        href={`/model/${model.slug}`} 
+        className={cn(cardBase, "group block overflow-hidden")}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        style={{
+          borderLeftWidth: "2px",
+          borderLeftColor: isHovered ? "rgba(0, 255, 136, 1)" : "rgba(0, 255, 136, 0.4)",
+          boxShadow: isHovered 
+            ? "0 0 40px rgba(0, 255, 136, 0.15)" 
+            : eraStyle === "terminal" 
+              ? "0 0 16px rgba(0, 255, 136, 0.06)"
+              : eraStyle === "glass"
+                ? "0 0 24px rgba(0, 255, 136, 0.08)"
+                : "none",
+        }}
+      >
+        {/* Left border sweep animation */}
+        <div className="pointer-events-none absolute left-0 top-0 h-full w-0.5 overflow-hidden">
+          <div
+            className="h-0 w-full bg-gradient-to-b from-transparent via-primary to-transparent transition-all duration-300 ease-out"
+            style={{
+              height: isHovered ? "100%" : "0%",
+            }}
+          />
+        </div>
+
+        {/* Scanline sweep effect */}
+        <AnimatePresence>
+          {isHovered && (
+            <motion.div
+              initial={{ top: 0 }}
+              animate={{ top: "100%" }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4, ease: "linear" }}
+              className="pointer-events-none absolute left-0 z-20 h-[2px] w-full bg-white/[0.04]"
+              aria-hidden="true"
+            />
+          )}
+        </AnimatePresence>
+
         {/* Terminal window chrome bar */}
-        <div className="mb-3 flex items-center gap-1.5">
-          <div className={cn("h-1.5 w-1.5 rounded-full", chromeColors[0])} />
-          <div className={cn("h-1.5 w-1.5 rounded-full", chromeColors[1])} />
-          <div className={cn("h-1.5 w-1.5 rounded-full", chromeColors[2])} />
+        <div 
+          className="mb-3 flex items-center gap-1.5 transition-colors duration-300"
+          style={{
+            backgroundColor: isHovered ? "rgba(0, 255, 136, 0.06)" : "transparent",
+          }}
+        >
+          <div 
+            className={cn("h-1.5 w-1.5 rounded-full transition-all duration-300", chromeColors[0])}
+            style={{
+              borderWidth: isHovered ? "1px" : "0px",
+              borderColor: isHovered ? "rgba(0, 255, 136, 0.6)" : "transparent",
+              borderStyle: "solid",
+            }}
+          />
+          <div 
+            className={cn("h-1.5 w-1.5 rounded-full transition-all duration-300", chromeColors[1])}
+            style={{
+              borderWidth: isHovered ? "1px" : "0px",
+              borderColor: isHovered ? "rgba(0, 255, 136, 0.6)" : "transparent",
+              borderStyle: "solid",
+            }}
+          />
+          <div 
+            className={cn("h-1.5 w-1.5 rounded-full transition-all duration-300", chromeColors[2])}
+            style={{
+              borderWidth: isHovered ? "1px" : "0px",
+              borderColor: isHovered ? "rgba(0, 255, 136, 0.6)" : "transparent",
+              borderStyle: "solid",
+            }}
+          />
           <span className="ml-2 font-mono text-[9px] text-muted-foreground/60">
             {model.slug}.exe
           </span>

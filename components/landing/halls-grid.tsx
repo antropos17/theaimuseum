@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect } from "react"
 import Link from "next/link"
+import { motion, AnimatePresence } from "framer-motion"
 import {
   Compass,
   Terminal,
@@ -30,24 +31,58 @@ const wings = [
 
 function WingCard({ wing, index, visible }: { wing: typeof wings[0]; index: number; visible: boolean }) {
   const Icon = wing.icon
+  const [isHovered, setIsHovered] = useState(false)
 
   return (
     <Link
       href={wing.href}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       className={`
-        group relative flex flex-col overflow-hidden border border-border border-l-2 border-l-primary/40 bg-card
+        group relative flex flex-col overflow-hidden border border-border bg-card
         transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]
-        hover:-translate-y-1 hover:bg-card/50 hover:border-primary/50 hover:shadow-[0_0_30px_rgba(0,255,136,0.06)]
+        hover:-translate-y-1 hover:bg-card/50 hover:border-primary/50 hover:shadow-[0_0_40px_rgba(0,255,136,0.15)]
         ${wing.featured ? "sm:col-span-2 sm:row-span-1" : ""}
       `}
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "translateY(0)" : "translateY(16px)",
         transitionDelay: `${index * 70}ms`,
+        borderLeftWidth: "2px",
+        borderLeftColor: isHovered ? "rgba(0, 255, 136, 1)" : "rgba(0, 255, 136, 0.4)",
       }}
     >
+      {/* Left border sweep animation */}
+      <div className="pointer-events-none absolute left-0 top-0 h-full w-0.5 overflow-hidden">
+        <div
+          className="h-0 w-full bg-gradient-to-b from-transparent via-primary to-transparent transition-all duration-300 ease-out"
+          style={{
+            height: isHovered ? "100%" : "0%",
+          }}
+        />
+      </div>
+
+      {/* Scanline sweep effect */}
+      <AnimatePresence>
+        {isHovered && (
+          <motion.div
+            initial={{ top: 0 }}
+            animate={{ top: "100%" }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4, ease: "linear" }}
+            className="pointer-events-none absolute left-0 z-20 h-[2px] w-full bg-white/[0.04]"
+            aria-hidden="true"
+          />
+        )}
+      </AnimatePresence>
+
       {/* Terminal window chrome bar */}
-      <div className="flex items-center gap-1.5 border-b border-border bg-surface-2 px-3 py-1.5">
+      <div
+        className="flex items-center gap-1.5 border-b border-border px-3 py-1.5 transition-colors duration-300"
+        style={{
+          backgroundColor: isHovered ? "rgba(0, 255, 136, 0.06)" : "hsl(var(--surface-2))",
+        }}
+      >
         <span className="h-2 w-2 rounded-full bg-destructive/60" />
         <span className="h-2 w-2 rounded-full bg-warning/60" />
         <span className="h-2 w-2 rounded-full bg-success/60" />
@@ -62,7 +97,7 @@ function WingCard({ wing, index, visible }: { wing: typeof wings[0]; index: numb
       {/* Card body */}
       <div className={`flex flex-1 flex-col gap-3 p-5 ${wing.featured ? "sm:p-6" : ""}`}>
         <div className="flex items-start justify-between">
-          <div className="flex h-9 w-9 items-center justify-center border border-dashed border-border transition-colors duration-300 group-hover:border-primary/40">
+          <div className="flex h-9 w-9 items-center justify-center border border-dashed border-border transition-all duration-300 group-hover:border-solid group-hover:border-primary/60">
             <Icon className="h-4 w-4 text-muted-foreground transition-colors duration-300 group-hover:text-primary" />
           </div>
         </div>
