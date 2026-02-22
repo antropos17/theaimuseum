@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
+import type { LucideIcon } from 'lucide-react'
 import {
   Compass,
   Terminal,
@@ -15,85 +16,128 @@ import {
   Trophy,
   BrainCircuit,
 } from 'lucide-react'
+import {
+  models,
+  graveyard,
+  memes as memesData,
+  victims as victimsData,
+  predictions as predictionsData,
+  companies,
+  simulatorEras,
+  quizQuestions,
+} from '@/data/models'
 
-const wings = [
+// --- Derived stats, computed once at module level from static data ---
+const totalModels = models.length
+const activeModels = models.filter((m) => m.status === 'active').length
+const chatbotCount = models.filter((m) => m.category === 'chatbot').length
+const imageCount = models.filter((m) => m.category === 'image').length
+const modelsWithLineage = models.filter((m) => m.lineage.length > 0).length
+const uniqueErasCount = new Set(models.map((m) => m.era)).size
+const totalSimPrompts = simulatorEras.reduce((sum, e) => sum + e.prompts.length, 0)
+const latestModel = models.reduce((a, b) => (b.year > a.year ? b : a))
+const topCapability = Math.max(...models.map((m) => m.capability))
+const topModel = [...models]
+  .filter((m) => m.capability === topCapability)
+  .sort((a, b) => b.year - a.year)[0]
+
+interface WingData {
+  icon: LucideIcon
+  name: string
+  desc: string
+  tag: string
+  href: string
+  featured: boolean
+  chips?: { label: string; value: string }[]
+}
+
+const wings: WingData[] = [
   {
     icon: Compass,
     name: 'Timeline',
-    desc: 'All 25 AI models mapped chronologically across 75 years of history',
-    tag: '25 models',
+    desc: `All ${totalModels} AI systems mapped chronologically — from Turing Test (1950) to ${latestModel.name} (${latestModel.year})`,
+    tag: `${totalModels} models`,
     href: '/explore',
     featured: true,
+    chips: [
+      { label: 'chatbots', value: `${chatbotCount}` },
+      { label: 'image', value: `${imageCount}` },
+      { label: 'active', value: `${activeModels}` },
+    ],
   },
   {
     icon: Terminal,
     name: 'Simulator',
-    desc: 'Chat with artificial intelligence across 5 distinct eras, from ELIZA to GPT-5',
-    tag: '5 eras',
+    desc: `Chat with AI across ${simulatorEras.length} distinct eras — from ELIZA's pattern-matching to o3's chain-of-thought reasoning`,
+    tag: `${simulatorEras.length} eras`,
     href: '/simulator',
     featured: true,
+    chips: [
+      { label: 'span', value: '1966—2025' },
+      { label: 'prompts', value: `${totalSimPrompts}` },
+    ],
   },
   {
     icon: GitBranch,
     name: 'Evolution',
-    desc: 'AI family tree and lineage graph',
-    tag: 'graph',
+    desc: `${modelsWithLineage} models connected by lineage across ${uniqueErasCount} eras — trace every breakthrough back to its origin`,
+    tag: `${modelsWithLineage} links`,
     href: '/evolution',
     featured: false,
   },
   {
     icon: Skull,
     name: 'Graveyard',
-    desc: 'Dead AI projects and why they failed',
-    tag: '6 tombs',
+    desc: `${graveyard.length} failed projects — from Tay's 16-hour racist meltdown to Watson's $4B healthcare collapse`,
+    tag: `${graveyard.length} tombs`,
     href: '/graveyard',
     featured: false,
   },
   {
     icon: Swords,
     name: 'AI Wars',
-    desc: 'The trillion-dollar corporate arms race',
-    tag: '5 wars',
+    desc: `${companies.length} labs, one trillion-dollar race — OpenAI, Google, Anthropic, Meta, xAI`,
+    tag: `${companies.length} labs`,
     href: '/battles',
     featured: false,
   },
   {
     icon: SmilePlus,
     name: 'Memes',
-    desc: 'Iconic and infamous AI moments',
-    tag: '8 memes',
+    desc: `${memesData.length} moments that broke the internet — Sydney's love, Gemini's Nazis, DeepSeek's $600B shock`,
+    tag: `${memesData.length} memes`,
     href: '/memes',
     featured: false,
   },
   {
     icon: Users,
     name: 'Victims',
-    desc: 'Professions disrupted and displaced by AI',
-    tag: '5 jobs',
+    desc: `${victimsData.length} professions disrupted — illustrators, copywriters, junior devs, call centres`,
+    tag: `${victimsData.length} jobs`,
     href: '/victims',
     featured: false,
   },
   {
     icon: TrendingUp,
     name: 'Predictions',
-    desc: 'Expert forecasts vs brutal reality',
-    tag: '5 takes',
+    desc: `${predictionsData.length} expert forecasts vs brutal reality — Kurzweil, Hinton, Altman, LeCun`,
+    tag: `${predictionsData.length} takes`,
     href: '/predictions',
     featured: false,
   },
   {
     icon: Trophy,
     name: 'Leaderboard',
-    desc: 'Top ranked AI models by capability',
-    tag: 'rank',
+    desc: `${activeModels} active models ranked. ${topModel.name} leads at ${topModel.capability}/100 capability`,
+    tag: `#1 ${topModel.name}`,
     href: '/leaderboard',
     featured: false,
   },
   {
     icon: BrainCircuit,
     name: 'Quiz',
-    desc: 'Test your AI IQ with 10 questions',
-    tag: '10 q',
+    desc: `${quizQuestions.length} questions across 75 years — from Alan Turing to NVIDIA's $600B crash`,
+    tag: `${quizQuestions.length} q`,
     href: '/quiz',
     featured: false,
   },
@@ -104,7 +148,7 @@ function WingCard({
   index,
   visible,
 }: {
-  wing: (typeof wings)[0]
+  wing: WingData
   index: number
   visible: boolean
 }) {
@@ -189,6 +233,20 @@ function WingCard({
           >
             {wing.desc}
           </p>
+          {/* Data chips — shown only on featured cards */}
+          {wing.featured && wing.chips && (
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {wing.chips.map((chip) => (
+                <span
+                  key={chip.label}
+                  className="border border-border px-1.5 py-0.5 font-mono text-[9px] text-muted-foreground/70 transition-colors duration-300 group-hover:border-primary/30"
+                >
+                  {chip.label}
+                  <span className="ml-1 text-primary">{chip.value}</span>
+                </span>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="flex items-center justify-between border-t border-dashed border-border pt-3">
@@ -244,8 +302,8 @@ export function HallsGrid() {
           Museum Wings
         </h2>
         <p className="mt-2 max-w-lg text-[14px] leading-relaxed text-muted-foreground">
-          10 curated exhibits spanning 75 years of artificial intelligence history. Choose your
-          path.
+          {totalModels} models · {uniqueErasCount} eras · {activeModels} active — spanning 75 years
+          of artificial intelligence history.
         </p>
       </div>
 
