@@ -1,12 +1,12 @@
-"use client"
+'use client'
 
-import { useEffect, useState, useRef, useCallback } from "react"
+import { useEffect, useState, useRef, useCallback } from 'react'
 
 const stats = [
-  { value: 25, label: "MODELS" },
-  { value: 75, label: "YEARS" },
-  { value: 8, label: "CATEGORIES" },
-  { value: 5, label: "ERAS" },
+  { value: 25, label: 'MODELS' },
+  { value: 75, label: 'YEARS' },
+  { value: 8, label: 'CATEGORIES' },
+  { value: 5, label: 'ERAS' },
 ]
 
 const DURATION = 1500
@@ -60,7 +60,7 @@ export function StatsTicker() {
           observer.unobserve(el)
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.3 },
     )
     observer.observe(el)
     return () => observer.disconnect()
@@ -71,16 +71,16 @@ export function StatsTicker() {
       {/* Divider */}
       <div className="mx-auto mb-12 flex items-center justify-center gap-4">
         <div className="h-px flex-1 max-w-24 bg-border" />
-        <span className="font-mono text-[10px] tracking-widest text-muted-foreground">[ARCHIVE]</span>
+        <span className="font-mono text-[10px] tracking-widest text-muted-foreground">
+          [ARCHIVE]
+        </span>
         <div className="h-px flex-1 max-w-24 bg-border" />
       </div>
 
       <div className="flex flex-wrap items-center justify-center gap-12 sm:gap-20">
         {stats.map((stat) => (
           <div key={stat.label} className="flex flex-col items-center gap-2">
-            <span className="font-mono text-sm text-primary bracket-label">
-              [{stat.label}]
-            </span>
+            <span className="font-mono text-sm text-primary bracket-label">[{stat.label}]</span>
             <span className="font-mono text-3xl font-light tabular-nums text-foreground text-glow-subtle sm:text-4xl">
               <AnimatedCounter target={stat.value} active={visible} />
             </span>

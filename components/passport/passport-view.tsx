@@ -1,24 +1,24 @@
-"use client"
+'use client'
 
-import { useState, useRef, useCallback } from "react"
-import Link from "next/link"
-import { ArrowLeft, Download, Share2 } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { useState, useRef, useCallback } from 'react'
+import Link from 'next/link'
+import { ArrowLeft, Download, Share2 } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 const AI_MODELS = [
-  "ChatGPT",
-  "Claude",
-  "Gemini",
-  "DALL-E",
-  "Midjourney",
-  "AlphaGo",
-  "Deep Blue",
-  "GPT-4",
-  "Stable Diffusion",
-  "Other",
+  'ChatGPT',
+  'Claude',
+  'Gemini',
+  'DALL-E',
+  'Midjourney',
+  'AlphaGo',
+  'Deep Blue',
+  'GPT-4',
+  'Stable Diffusion',
+  'Other',
 ] as const
 
-const PASSPORT_URL = "https://v0-theaimuseum.vercel.app/passport"
+const PASSPORT_URL = 'https://v0-theaimuseum.vercel.app/passport'
 
 const PassportLabel = ({ label, children }: { label: string; children: React.ReactNode }) => (
   <div>
@@ -29,7 +29,12 @@ const PassportLabel = ({ label, children }: { label: string; children: React.Rea
   </div>
 )
 
-const ActionButton = ({ onClick, disabled, icon, children }: {
+const ActionButton = ({
+  onClick,
+  disabled,
+  icon,
+  children,
+}: {
   onClick: () => void
   disabled?: boolean
   icon: React.ReactNode
@@ -41,13 +46,16 @@ const ActionButton = ({ onClick, disabled, icon, children }: {
     className="glass-btn flex h-9 items-center gap-2 px-4 text-foreground transition-all duration-200 hover:text-primary disabled:opacity-50"
   >
     {icon}
-    <span className="font-mono text-[11px] uppercase tracking-wide">
-      {children}
-    </span>
+    <span className="font-mono text-[11px] uppercase tracking-wide">{children}</span>
   </button>
 )
 
-const PassportCard = ({ name, model, visitorId, date }: {
+const PassportCard = ({
+  name,
+  model,
+  visitorId,
+  date,
+}: {
   name: string
   model: string
   visitorId: string
@@ -56,13 +64,14 @@ const PassportCard = ({ name, model, visitorId, date }: {
   <div
     id="passport-card"
     className="relative mx-auto flex h-[240px] w-[400px] flex-col justify-between overflow-hidden border border-primary/60 bg-[#0a0a0f] p-5"
-    style={{ boxShadow: "0 0 30px rgba(0,255,136,0.08), inset 0 0 60px rgba(0,255,136,0.02)" }}
+    style={{ boxShadow: '0 0 30px rgba(0,255,136,0.08), inset 0 0 60px rgba(0,255,136,0.02)' }}
   >
     {/* Scanline overlay inside card */}
     <div
       className="pointer-events-none absolute inset-0"
       style={{
-        background: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,136,0.015) 2px, rgba(0,255,136,0.015) 4px)",
+        background:
+          'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,136,0.015) 2px, rgba(0,255,136,0.015) 4px)',
       }}
       aria-hidden="true"
     />
@@ -93,9 +102,7 @@ const PassportCard = ({ name, model, visitorId, date }: {
         </div>
       </PassportLabel>
       <PassportLabel label="[FAVORITE MODEL]">
-        <div className="mt-0.5 font-mono text-sm text-[#00d4ff]">
-          {model}
-        </div>
+        <div className="mt-0.5 font-mono text-sm text-[#00d4ff]">{model}</div>
       </PassportLabel>
     </div>
 
@@ -115,11 +122,11 @@ const PassportCard = ({ name, model, visitorId, date }: {
 )
 
 export const PassportView = () => {
-  const [name, setName] = useState("")
-  const [model, setModel] = useState("")
+  const [name, setName] = useState('')
+  const [model, setModel] = useState('')
   const [generated, setGenerated] = useState(false)
-  const [visitorId, setVisitorId] = useState("")
-  const [date, setDate] = useState("")
+  const [visitorId, setVisitorId] = useState('')
+  const [date, setDate] = useState('')
   const [downloading, setDownloading] = useState(false)
   const cardRef = useRef<HTMLDivElement>(null)
 
@@ -127,25 +134,25 @@ export const PassportView = () => {
     if (!name.trim() || !model) return
     const id = String(Math.floor(1000 + Math.random() * 9000))
     const now = new Date()
-    const d = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, "0")}.${String(now.getDate()).padStart(2, "0")}`
+    const d = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')}`
     setVisitorId(id)
     setDate(d)
     setGenerated(true)
   }, [name, model])
 
   const handleDownload = useCallback(async () => {
-    const el = document.getElementById("passport-card")
+    const el = document.getElementById('passport-card')
     if (!el) return
     setDownloading(true)
     try {
-      const html2canvas = (await import("html2canvas")).default
+      const html2canvas = (await import('html2canvas')).default
       const canvas = await html2canvas(el, {
-        backgroundColor: "#0a0a0f",
+        backgroundColor: '#0a0a0f',
         scale: 2,
       })
-      const link = document.createElement("a")
-      link.download = "neural-passport.png"
-      link.href = canvas.toDataURL("image/png")
+      const link = document.createElement('a')
+      link.download = 'neural-passport.png'
+      link.href = canvas.toDataURL('image/png')
       link.click()
     } finally {
       setDownloading(false)
@@ -153,9 +160,9 @@ export const PassportView = () => {
   }, [])
 
   const handleShareX = useCallback(() => {
-    const text = "I just got my Neural Passport at The AI Museum!"
+    const text = 'I just got my Neural Passport at The AI Museum!'
     const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(PASSPORT_URL)}`
-    window.open(url, "_blank", "noopener,noreferrer")
+    window.open(url, '_blank', 'noopener,noreferrer')
   }, [])
 
   return (
@@ -211,12 +218,12 @@ export const PassportView = () => {
                   value={model}
                   onChange={(e) => setModel(e.target.value)}
                   className={cn(
-                    "h-10 w-full appearance-none border border-dashed border-border bg-card/30 px-3 font-mono text-sm outline-none transition-colors duration-200 focus:border-primary",
-                    model ? "text-foreground" : "text-muted-foreground/50"
+                    'h-10 w-full appearance-none border border-dashed border-border bg-card/30 px-3 font-mono text-sm outline-none transition-colors duration-200 focus:border-primary',
+                    model ? 'text-foreground' : 'text-muted-foreground/50',
                   )}
                 >
                   <option value="" disabled>
-                    {"> select model_"}
+                    {'> select model_'}
                   </option>
                   {AI_MODELS.map((m) => (
                     <option key={m} value={m} className="bg-card text-foreground">
@@ -226,7 +233,7 @@ export const PassportView = () => {
                 </select>
                 {/* Chevron */}
                 <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 font-mono text-xs text-muted-foreground">
-                  {"▾"}
+                  {'▾'}
                 </div>
               </div>
             </div>
@@ -236,12 +243,12 @@ export const PassportView = () => {
               onClick={handleGenerate}
               disabled={!name.trim() || !model}
               className={cn(
-                "glass-btn-primary mt-2 flex h-10 w-full items-center justify-center gap-2 px-6 text-primary transition-all duration-200",
-                "disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100 disabled:hover:border-primary/15 disabled:hover:shadow-none"
+                'glass-btn-primary mt-2 flex h-10 w-full items-center justify-center gap-2 px-6 text-primary transition-all duration-200',
+                'disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100 disabled:hover:border-primary/15 disabled:hover:shadow-none',
               )}
             >
               <span className="font-mono text-xs uppercase tracking-wide">
-                {">"} Generate Passport
+                {'>'} Generate Passport
               </span>
             </button>
           </div>
@@ -249,12 +256,7 @@ export const PassportView = () => {
           <div className="mt-8 space-y-6">
             {/* Passport card */}
             <div ref={cardRef}>
-              <PassportCard
-                name={name}
-                model={model}
-                visitorId={visitorId}
-                date={date}
-              />
+              <PassportCard name={name} model={model} visitorId={visitorId} date={date} />
             </div>
 
             {/* Action buttons */}
@@ -262,7 +264,13 @@ export const PassportView = () => {
               <ActionButton
                 onClick={handleShareX}
                 icon={
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                   </svg>
                 }
@@ -275,7 +283,7 @@ export const PassportView = () => {
                 disabled={downloading}
                 icon={<Download size={14} strokeWidth={1.5} />}
               >
-                {downloading ? "Saving..." : "Download as PNG"}
+                {downloading ? 'Saving...' : 'Download as PNG'}
               </ActionButton>
             </div>
 
@@ -285,7 +293,7 @@ export const PassportView = () => {
                 onClick={() => setGenerated(false)}
                 className="font-mono text-[10px] text-muted-foreground transition-colors duration-200 hover:text-primary"
               >
-                {">"} Generate another
+                {'>'} Generate another
               </button>
             </div>
           </div>

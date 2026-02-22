@@ -1,11 +1,11 @@
-"use client"
+'use client'
 
-import { useState, useEffect, useRef } from "react"
-import Link from "next/link"
-import { victims } from "@/data/models"
-import { cn } from "@/lib/utils"
-import { CopyableTerminalCard } from "@/components/ui/copyable-terminal-card"
-import { ArrowLeft } from "lucide-react"
+import { useState, useEffect, useRef } from 'react'
+import Link from 'next/link'
+import { victims } from '@/data/models'
+import { cn } from '@/lib/utils'
+import { CopyableTerminalCard } from '@/components/ui/copyable-terminal-card'
+import { ArrowLeft } from 'lucide-react'
 
 /* ── Countdown counter: counts DOWN from 100 to remaining % ───── */
 function PowerDown({ target, color }: { target: number; color: string }) {
@@ -31,7 +31,7 @@ function PowerDown({ target, color }: { target: number; color: string }) {
           requestAnimationFrame(step)
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.3 },
     )
     obs.observe(el)
     return () => obs.disconnect()
@@ -50,7 +50,10 @@ export function VictimsView() {
   return (
     <div className="min-h-screen pt-16">
       <div className="mx-auto max-w-3xl px-4 pb-24 pt-10">
-        <Link href="/" className="flex items-center gap-1.5 mb-4 text-xs font-mono text-muted-foreground hover:text-primary transition-colors">
+        <Link
+          href="/"
+          className="flex items-center gap-1.5 mb-4 text-xs font-mono text-muted-foreground hover:text-primary transition-colors"
+        >
           <ArrowLeft size={14} strokeWidth={1.5} />
           Back to Museum
         </Link>
@@ -73,8 +76,18 @@ export function VictimsView() {
           {victims.map((victim, i) => {
             const isOpen = expanded === i
             const lostPct = 100 - victim.currentPct
-            const severity = victim.currentPct <= 40 ? "CRITICAL" : victim.currentPct <= 55 ? "WARNING" : "DEGRADED"
-            const sevColor = severity === "CRITICAL" ? "text-chart-5" : severity === "WARNING" ? "text-chart-4" : "text-primary"
+            const severity =
+              victim.currentPct <= 40
+                ? 'CRITICAL'
+                : victim.currentPct <= 55
+                  ? 'WARNING'
+                  : 'DEGRADED'
+            const sevColor =
+              severity === 'CRITICAL'
+                ? 'text-chart-5'
+                : severity === 'WARNING'
+                  ? 'text-chart-4'
+                  : 'text-primary'
 
             return (
               <CopyableTerminalCard
@@ -89,12 +102,18 @@ export function VictimsView() {
                     <span className="text-2xl">{victim.emoji}</span>
                     <div>
                       <p className="text-sm font-medium text-foreground">{victim.profession}</p>
-                      <span className={cn("font-mono text-[10px]", sevColor)}>[{severity}]</span>
+                      <span className={cn('font-mono text-[10px]', sevColor)}>[{severity}]</span>
                     </div>
                   </div>
                   <PowerDown
                     target={victim.currentPct}
-                    color={victim.currentPct <= 40 ? "var(--chart-5)" : victim.currentPct <= 55 ? "var(--chart-4)" : "var(--primary)"}
+                    color={
+                      victim.currentPct <= 40
+                        ? 'var(--chart-5)'
+                        : victim.currentPct <= 55
+                          ? 'var(--chart-4)'
+                          : 'var(--primary)'
+                    }
                   />
                 </div>
 
@@ -111,7 +130,12 @@ export function VictimsView() {
                       className="metric-bar-fill transition-all duration-[2s] ease-out"
                       style={{
                         width: `${victim.currentPct}%`,
-                        backgroundColor: victim.currentPct <= 40 ? "var(--chart-5)" : victim.currentPct <= 55 ? "var(--chart-4)" : "var(--primary)",
+                        backgroundColor:
+                          victim.currentPct <= 40
+                            ? 'var(--chart-5)'
+                            : victim.currentPct <= 55
+                              ? 'var(--chart-4)'
+                              : 'var(--primary)',
                       }}
                     />
                   </div>
@@ -126,17 +150,19 @@ export function VictimsView() {
                 {/* Expandable detail */}
                 <div
                   className={cn(
-                    "overflow-hidden transition-all duration-300",
-                    isOpen ? "mt-4 max-h-40 opacity-100" : "max-h-0 opacity-0"
+                    'overflow-hidden transition-all duration-300',
+                    isOpen ? 'mt-4 max-h-40 opacity-100' : 'max-h-0 opacity-0',
                   )}
                 >
                   <div className="border-t border-dashed border-border pt-4">
                     <p className="data-label text-chart-5">[System Log]</p>
-                    <p className="mt-1 text-[13px] leading-relaxed text-foreground/80">{victim.detail}</p>
+                    <p className="mt-1 text-[13px] leading-relaxed text-foreground/80">
+                      {victim.detail}
+                    </p>
                   </div>
                 </div>
                 <p className="mt-3 font-mono text-[10px] text-muted-foreground">
-                  {isOpen ? "[-] Collapse" : "[+] Read diagnostics"}
+                  {isOpen ? '[-] Collapse' : '[+] Read diagnostics'}
                 </p>
               </CopyableTerminalCard>
             )

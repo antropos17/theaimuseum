@@ -1,11 +1,11 @@
-"use client"
+'use client'
 
-import { useState, useEffect, useRef } from "react"
-import Link from "next/link"
-import { companies, models } from "@/data/models"
-import { cn } from "@/lib/utils"
-import { CopyableTerminalCard } from "@/components/ui/copyable-terminal-card"
-import { ArrowLeft } from "lucide-react"
+import { useState, useEffect, useRef } from 'react'
+import Link from 'next/link'
+import { companies, models } from '@/data/models'
+import { cn } from '@/lib/utils'
+import { CopyableTerminalCard } from '@/components/ui/copyable-terminal-card'
+import { ArrowLeft } from 'lucide-react'
 
 /* ── Animated Valuation Counter ─────────────────────────────────── */
 function ValuationCounter({ target }: { target: number }) {
@@ -31,7 +31,7 @@ function ValuationCounter({ target }: { target: number }) {
           requestAnimationFrame(step)
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.3 },
     )
     obs.observe(el)
     return () => obs.disconnect()
@@ -39,20 +39,20 @@ function ValuationCounter({ target }: { target: number }) {
 
   return (
     <span ref={ref} className="font-mono text-xl tabular-nums text-primary text-glow-subtle">
-      ${new Intl.NumberFormat("en-US").format(val)}B
+      ${new Intl.NumberFormat('en-US').format(val)}B
     </span>
   )
 }
 
 /* ── Compare Tool ───────────────────────────────────────────────── */
 function CompareTool() {
-  const [slots, setSlots] = useState<(string | "")[]>(["", "", ""])
+  const [slots, setSlots] = useState<(string | '')[]>(['', '', ''])
   const selected = slots
     .map((s, i) => {
       const m = models.find((m) => m.id === s)
       return m ? { ...m, _slotIdx: i } : null
     })
-    .filter(Boolean) as (typeof models[number] & { _slotIdx: number })[]
+    .filter(Boolean) as ((typeof models)[number] & { _slotIdx: number })[]
 
   return (
     <CopyableTerminalCard className="p-6">
@@ -86,21 +86,27 @@ function CompareTool() {
               <tr className="border-b border-dashed border-border">
                 <th className="px-3 py-2 text-left text-muted-foreground">FIELD</th>
                 {selected.map((m) => (
-                  <th key={m._slotIdx} className="px-3 py-2 text-left text-foreground">{m.name}</th>
+                  <th key={m._slotIdx} className="px-3 py-2 text-left text-foreground">
+                    {m.name}
+                  </th>
                 ))}
               </tr>
             </thead>
             <tbody className="text-muted-foreground">
-              {(["year", "creator", "params", "capability", "hype", "safety"] as const).map((field) => (
-                <tr key={field} className="border-b border-dashed border-border/40">
-                  <td className="px-3 py-2 uppercase text-primary/70">{field}</td>
-                  {selected.map((m) => (
-                    <td key={m._slotIdx} className="px-3 py-2 tabular-nums text-foreground">
-                      {typeof m[field] === "number" && field !== "year" ? `${m[field]}%` : String(m[field])}
-                    </td>
-                  ))}
-                </tr>
-              ))}
+              {(['year', 'creator', 'params', 'capability', 'hype', 'safety'] as const).map(
+                (field) => (
+                  <tr key={field} className="border-b border-dashed border-border/40">
+                    <td className="px-3 py-2 uppercase text-primary/70">{field}</td>
+                    {selected.map((m) => (
+                      <td key={m._slotIdx} className="px-3 py-2 tabular-nums text-foreground">
+                        {typeof m[field] === 'number' && field !== 'year'
+                          ? `${m[field]}%`
+                          : String(m[field])}
+                      </td>
+                    ))}
+                  </tr>
+                ),
+              )}
             </tbody>
           </table>
         </div>
@@ -122,7 +128,10 @@ export function BattlesView() {
   return (
     <div className="min-h-screen pt-16">
       <div className="mx-auto max-w-4xl px-4 pb-24 pt-10">
-        <Link href="/" className="flex items-center gap-1.5 mb-4 text-xs font-mono text-muted-foreground hover:text-primary transition-colors">
+        <Link
+          href="/"
+          className="flex items-center gap-1.5 mb-4 text-xs font-mono text-muted-foreground hover:text-primary transition-colors"
+        >
           <ArrowLeft size={14} strokeWidth={1.5} />
           Back to Museum
         </Link>
@@ -150,11 +159,16 @@ export function BattlesView() {
                   <div className="flex items-center gap-3">
                     <div
                       className="h-3 w-3 rounded-sm"
-                      style={{ backgroundColor: company.color, boxShadow: `0 0 8px ${company.color}40` }}
+                      style={{
+                        backgroundColor: company.color,
+                        boxShadow: `0 0 8px ${company.color}40`,
+                      }}
                     />
                     <div>
                       <p className="text-sm font-medium text-foreground">{company.name}</p>
-                      <p className="font-mono text-[11px] text-muted-foreground">CEO: {company.ceo}</p>
+                      <p className="font-mono text-[11px] text-muted-foreground">
+                        CEO: {company.ceo}
+                      </p>
                     </div>
                   </div>
                   <ValuationCounter target={company.valuation} />
@@ -167,17 +181,19 @@ export function BattlesView() {
                 </div>
                 <div
                   className={cn(
-                    "overflow-hidden transition-all duration-300",
-                    isOpen ? "mt-4 max-h-40 opacity-100" : "max-h-0 opacity-0"
+                    'overflow-hidden transition-all duration-300',
+                    isOpen ? 'mt-4 max-h-40 opacity-100' : 'max-h-0 opacity-0',
                   )}
                 >
                   <div className="border-t border-dashed border-border pt-4">
                     <p className="data-label text-chart-5">[Drama]</p>
-                    <p className="mt-1 text-[13px] leading-relaxed text-foreground/80">{company.drama}</p>
+                    <p className="mt-1 text-[13px] leading-relaxed text-foreground/80">
+                      {company.drama}
+                    </p>
                   </div>
                 </div>
                 <p className="mt-3 font-mono text-[10px] text-muted-foreground">
-                  {isOpen ? "[-] Collapse" : "[+] Expand drama"}
+                  {isOpen ? '[-] Collapse' : '[+] Expand drama'}
                 </p>
               </CopyableTerminalCard>
             )
@@ -195,7 +211,7 @@ export function BattlesView() {
             href="/leaderboard"
             className="inline-block font-mono text-xs text-primary text-glow-subtle transition-opacity hover:opacity-80"
           >
-            {">"} VIEW FULL LEADERBOARD
+            {'>'} VIEW FULL LEADERBOARD
           </Link>
         </div>
       </div>

@@ -121,10 +121,7 @@ function CommandInput({ className, ...props }: CommandInputProps) {
 
   if (!Input) {
     return (
-      <div
-        data-slot="command-input-wrapper"
-        className="flex h-9 items-center gap-2 border-b px-3"
-      >
+      <div data-slot="command-input-wrapper" className="flex h-9 items-center gap-2 border-b px-3">
         <SearchIcon className="size-4 shrink-0 opacity-50" />
         <input
           className={cn(
@@ -138,10 +135,7 @@ function CommandInput({ className, ...props }: CommandInputProps) {
   }
 
   return (
-    <div
-      data-slot="command-input-wrapper"
-      className="flex h-9 items-center gap-2 border-b px-3"
-    >
+    <div data-slot="command-input-wrapper" className="flex h-9 items-center gap-2 border-b px-3">
       <SearchIcon className="size-4 shrink-0 opacity-50" />
       <Input
         data-slot="command-input"
@@ -155,10 +149,7 @@ function CommandInput({ className, ...props }: CommandInputProps) {
   )
 }
 
-function CommandList({
-  className,
-  ...props
-}: React.ComponentPropsWithoutRef<'div'>) {
+function CommandList({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
   const [List, setList] = React.useState<any>(null)
 
   React.useEffect(() => {
@@ -172,10 +163,7 @@ function CommandList({
   return (
     <List
       data-slot="command-list"
-      className={cn(
-        'max-h-[300px] scroll-py-1 overflow-x-hidden overflow-y-auto',
-        className,
-      )}
+      className={cn('max-h-[300px] scroll-py-1 overflow-x-hidden overflow-y-auto', className)}
       {...props}
     />
   )
@@ -192,19 +180,10 @@ function CommandEmpty(props: React.ComponentPropsWithoutRef<'div'>) {
     return null
   }
 
-  return (
-    <Empty
-      data-slot="command-empty"
-      className="py-6 text-center text-sm"
-      {...props}
-    />
-  )
+  return <Empty data-slot="command-empty" className="py-6 text-center text-sm" {...props} />
 }
 
-function CommandGroup({
-  className,
-  ...props
-}: React.ComponentPropsWithoutRef<'div'>) {
+function CommandGroup({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
   const [Group, setGroup] = React.useState<any>(null)
 
   React.useEffect(() => {
@@ -227,10 +206,7 @@ function CommandGroup({
   )
 }
 
-function CommandSeparator({
-  className,
-  ...props
-}: React.ComponentPropsWithoutRef<'div'>) {
+function CommandSeparator({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
   const [Separator, setSeparator] = React.useState<any>(null)
 
   React.useEffect(() => {
@@ -256,11 +232,7 @@ type CommandItemProps = React.ComponentPropsWithoutRef<'div'> & {
   value?: string
 }
 
-function CommandItem({
-  className,
-  onSelect,
-  ...props
-}: CommandItemProps) {
+function CommandItem({ className, onSelect, ...props }: CommandItemProps) {
   const [Item, setItem] = React.useState<any>(null)
 
   React.useEffect(() => {
@@ -284,17 +256,11 @@ function CommandItem({
   )
 }
 
-function CommandShortcut({
-  className,
-  ...props
-}: React.ComponentPropsWithoutRef<'span'>) {
+function CommandShortcut({ className, ...props }: React.ComponentPropsWithoutRef<'span'>) {
   return (
     <span
       data-slot="command-shortcut"
-      className={cn(
-        'text-muted-foreground ml-auto text-xs tracking-widest',
-        className,
-      )}
+      className={cn('text-muted-foreground ml-auto text-xs tracking-widest', className)}
       {...props}
     />
   )

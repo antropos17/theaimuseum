@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from 'react'
 
 export function useInView(threshold = 0.1) {
   const ref = useRef<HTMLDivElement>(null)
@@ -17,7 +17,7 @@ export function useInView(threshold = 0.1) {
           observer.unobserve(el)
         }
       },
-      { threshold }
+      { threshold },
     )
 
     observer.observe(el)

@@ -1,8 +1,8 @@
-"use client"
+'use client'
 
-import { useInView } from "@/hooks/use-in-view"
-import { Heart } from "lucide-react"
-import { CopyableTerminalCard } from "@/components/ui/copyable-terminal-card"
+import { useInView } from '@/hooks/use-in-view'
+import { Heart } from 'lucide-react'
+import { CopyableTerminalCard } from '@/components/ui/copyable-terminal-card'
 
 export function DonationSection() {
   const { ref, isInView } = useInView(0.2)
@@ -10,7 +10,7 @@ export function DonationSection() {
   return (
     <section
       ref={ref}
-      className={`relative z-10 mx-auto max-w-5xl px-4 pb-16 pt-4 fade-in-up ${isInView ? "visible" : ""}`}
+      className={`relative z-10 mx-auto max-w-5xl px-4 pb-16 pt-4 fade-in-up ${isInView ? 'visible' : ''}`}
     >
       <CopyableTerminalCard className="overflow-hidden">
         {/* Terminal chrome */}
@@ -31,7 +31,9 @@ export function DonationSection() {
 
           {/* Copy */}
           <div className="flex-1">
-            <p className="font-mono text-[10px] uppercase tracking-widest text-primary">[Support the Museum]</p>
+            <p className="font-mono text-[10px] uppercase tracking-widest text-primary">
+              [Support the Museum]
+            </p>
             <h3 className="mt-2 text-lg font-light tracking-tight text-white">
               Help keep the exhibits running.
             </h3>

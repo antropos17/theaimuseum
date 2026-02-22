@@ -17,11 +17,13 @@ The AI Museum is an immersive web experience that chronicles the evolution of ar
 ## FEATURES
 
 ### [MAIN EXHIBITS]
+
 - **AI Timeline** — Chronological journey through 75 years of AI history
 - **Model Exhibits** — Deep dives into 25+ landmark AI systems with technical specs, examples, controversies, and cultural impact
 - **Interactive Chat Simulator** — Experience conversations with historical AI systems from ELIZA (1966) to modern LLMs
 
 ### [INTERACTIVE HALLS]
+
 - **AI Graveyard** — Memorial to discontinued AI products (Google Bard, Cortana, IBM Watson, etc.)
 - **Corporate Battles** — Track the competitive dynamics between OpenAI, Google, Anthropic, Meta, and xAI
 - **Meme Hall** — Archive of AI-generated viral moments and cultural phenomena
@@ -36,22 +38,26 @@ The AI Museum is an immersive web experience that chronicles the evolution of ar
 ## TECH STACK
 
 ### [FRAMEWORK]
+
 - **Next.js 16.1** — React framework with App Router
 - **React 19.2** — Latest React with Server Components
 - **TypeScript 5.7** — Type-safe development
 
 ### [STYLING]
+
 - **Tailwind CSS 4.1** — Utility-first CSS framework
 - **shadcn/ui** — Accessible component library
 - **Custom Neo-8-Bit Design System** — CRT phosphor glow + retro terminal aesthetic
 
 ### [UI COMPONENTS]
+
 - **Radix UI** — Unstyled accessible primitives
 - **Lucide React** — Icon system
 - **Recharts** — Data visualization
 - **Sonner** — Toast notifications
 
 ### [DEPLOYMENT]
+
 - **Vercel** — Hosting and serverless functions
 - **Vercel Analytics** — Performance monitoring
 
@@ -60,7 +66,8 @@ The AI Museum is an immersive web experience that chronicles the evolution of ar
 ## INSTALLATION
 
 ### [PREREQUISITES]
-- Node.js 18+ 
+
+- Node.js 18+
 - pnpm (recommended), npm, or yarn
 
 ### [LOCAL DEVELOPMENT]
@@ -109,10 +116,10 @@ theaimuseum/
 │   ├── landing/             # Homepage sections
 │   ├── ui/                  # shadcn/ui components
 │   └── [feature]/           # Feature-specific components
-├── data/                    
+├── data/
 │   └── models.ts            # AI model database (25+ exhibits)
 ├── hooks/                   # Custom React hooks
-├── lib/                     
+├── lib/
 │   └── utils.ts             # Utility functions
 └── public/                  # Static assets
 ```
@@ -126,6 +133,7 @@ theaimuseum/
 The AI Museum uses a custom design system inspired by retro computing terminals and CRT phosphor displays:
 
 **COLOR PALETTE:**
+
 - Primary: `#00ff88` (phosphor green)
 - Background: `#0a0a0f` (deep black)
 - Amber: `#ffb800`
@@ -133,10 +141,12 @@ The AI Museum uses a custom design system inspired by retro computing terminals 
 - Cyan: `#00d4ff`
 
 **TYPOGRAPHY:**
+
 - UI: `JetBrains Mono` (monospace)
 - Body: `Inter` (sans-serif)
 
 **VISUAL EFFECTS:**
+
 - CRT scanlines overlay
 - Phosphor glow on text and borders
 - Terminal-style dashed borders
@@ -144,6 +154,7 @@ The AI Museum uses a custom design system inspired by retro computing terminals 
 - Retro window chrome with colored dots
 
 **INTERACTION PATTERNS:**
+
 - Hover: Border color shifts to `#00ff88` with glow
 - Focus: 2px outline with offset
 - Active: Scale down to 0.97
@@ -158,28 +169,28 @@ Each AI model exhibit includes:
 
 ```typescript
 interface AIModel {
-  id: string              // Unique identifier
-  slug: string            // URL-friendly name
-  name: string            // Display name
-  year: number            // Release year
-  era: string             // Historical period
-  category: string        // Type (chatbot, image, game, etc.)
-  status: string          // active | historic | declining
-  open: boolean           // Open source?
-  color: string           // Brand color
-  creator: string         // Organization/person
-  params: string          // Model size/architecture
-  cost: string            // Training/operation cost
-  capability: number      // Technical capability score (0-100)
-  hype: number           // Public hype score (0-100)
-  safety: number         // Safety alignment score (0-100)
-  description: string     // Historical narrative
-  example: string         // Demonstration output
-  opinions: Array         // Expert/public opinions
-  bugs: Array            // Known issues and controversies
-  media: Array           // Papers, videos, links
-  lineage: Array         // Parent models/influences
-  stickers: Object       // Achievement badges
+  id: string // Unique identifier
+  slug: string // URL-friendly name
+  name: string // Display name
+  year: number // Release year
+  era: string // Historical period
+  category: string // Type (chatbot, image, game, etc.)
+  status: string // active | historic | declining
+  open: boolean // Open source?
+  color: string // Brand color
+  creator: string // Organization/person
+  params: string // Model size/architecture
+  cost: string // Training/operation cost
+  capability: number // Technical capability score (0-100)
+  hype: number // Public hype score (0-100)
+  safety: number // Safety alignment score (0-100)
+  description: string // Historical narrative
+  example: string // Demonstration output
+  opinions: Array // Expert/public opinions
+  bugs: Array // Known issues and controversies
+  media: Array // Papers, videos, links
+  lineage: Array // Parent models/influences
+  stickers: Object // Achievement badges
 }
 ```
 
@@ -188,12 +199,14 @@ interface AIModel {
 ## API ROUTES
 
 ### Newsletter Subscription
+
 ```
 POST /api/newsletter
 Body: { email: string }
 ```
 
 ### Open Graph Images
+
 ```
 GET /api/og
 Query: { title, subtitle }
@@ -214,6 +227,7 @@ We welcome contributions! Areas of interest:
 ### [DEVELOPMENT GUIDELINES]
 
 **DESIGN RULES:**
+
 - Maintain Neo-8-Bit terminal aesthetic (do NOT remove CRT effects)
 - Use JetBrains Mono for UI, Inter for body text
 - Icons: Lucide React only (14px, strokeWidth 1.5)
@@ -221,6 +235,7 @@ We welcome contributions! Areas of interest:
 - All new elements MUST match retro/terminal style
 
 **CODE RULES:**
+
 - TypeScript strict mode — no `any` types
 - Server Components by default, `"use client"` only when necessary
 - Follow existing patterns in codebase
@@ -259,7 +274,7 @@ MIT License — see LICENSE file for details
 **FRAMEWORK:** Next.js (Vercel)  
 **DESIGN SYSTEM:** Custom Neo-8-Bit CRT aesthetic  
 **ICONS:** Lucide React  
-**COMPONENTS:** shadcn/ui + Radix UI  
+**COMPONENTS:** shadcn/ui + Radix UI
 
 ---
 

@@ -1,33 +1,33 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Check, Download } from "lucide-react"
-import { useInView } from "@/hooks/use-in-view"
-import { CopyableTerminalCard } from "@/components/ui/copyable-terminal-card"
+import { useState } from 'react'
+import { Check, Download } from 'lucide-react'
+import { useInView } from '@/hooks/use-in-view'
+import { CopyableTerminalCard } from '@/components/ui/copyable-terminal-card'
 
 export function NewsletterSection() {
-  const [email, setEmail] = useState("")
+  const [email, setEmail] = useState('')
   const [subscribed, setSubscribed] = useState(false)
-  const [error, setError] = useState("")
+  const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const { ref, isInView } = useInView()
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault()
-    setError("")
+    setError('')
     setLoading(true)
 
     try {
-      const res = await fetch("/api/newsletter", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       })
 
       const data = await res.json()
 
       if (!res.ok) {
-        setError(data.error || "Invalid email")
+        setError(data.error || 'Invalid email')
         setLoading(false)
         return
       }
@@ -36,7 +36,7 @@ export function NewsletterSection() {
         setSubscribed(true)
       }
     } catch {
-      setError("Invalid email")
+      setError('Invalid email')
       setLoading(false)
     } finally {
       setLoading(false)
@@ -46,7 +46,7 @@ export function NewsletterSection() {
   return (
     <section
       ref={ref}
-      className={`relative z-10 mx-auto max-w-5xl px-4 py-16 fade-in-up ${isInView ? "visible" : ""}`}
+      className={`relative z-10 mx-auto max-w-5xl px-4 py-16 fade-in-up ${isInView ? 'visible' : ''}`}
     >
       <CopyableTerminalCard className="overflow-hidden border border-primary/30">
         {/* Terminal chrome */}
@@ -60,7 +60,9 @@ export function NewsletterSection() {
         </div>
 
         <div className="p-8 sm:p-10">
-          <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">[Subscribe]</p>
+          <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+            [Subscribe]
+          </p>
 
           <div className="mt-4 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
@@ -75,7 +77,7 @@ export function NewsletterSection() {
             {subscribed ? (
               <div className="shrink-0">
                 <div className="font-mono text-xs text-primary">
-                  {"> SUBSCRIBED! Check your inbox."}
+                  {'> SUBSCRIBED! Check your inbox.'}
                 </div>
               </div>
             ) : (
@@ -88,7 +90,7 @@ export function NewsletterSection() {
                       value={email}
                       onChange={(e) => {
                         setEmail(e.target.value)
-                        setError("")
+                        setError('')
                       }}
                       placeholder="your@email.com"
                       className="w-full min-w-0 bg-transparent py-2.5 pr-2 font-mono text-xs text-foreground placeholder:text-muted-foreground/40 focus:outline-none sm:w-48"
@@ -100,12 +102,10 @@ export function NewsletterSection() {
                     disabled={loading}
                     className="border border-l-0 border-primary bg-[#00E68A] px-4 py-2.5 font-mono text-[11px] font-bold text-black transition-colors hover:bg-[#00ff88] disabled:opacity-50"
                   >
-                    {loading ? "[SENDING...]" : "[SEND]"}
+                    {loading ? '[SENDING...]' : '[SEND]'}
                   </button>
                 </form>
-                {error && (
-                  <p className="mt-2 font-mono text-xs text-chart-5">{error}</p>
-                )}
+                {error && <p className="mt-2 font-mono text-xs text-chart-5">{error}</p>}
               </div>
             )}
           </div>

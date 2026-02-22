@@ -1,45 +1,50 @@
-"use client"
+'use client'
 
-import { useRef, createElement } from "react"
-import { Copy } from "lucide-react"
-import { toast } from "sonner"
-import { cn } from "@/lib/utils"
+import { useRef, createElement } from 'react'
+import { Copy } from 'lucide-react'
+import { toast } from 'sonner'
+import { cn } from '@/lib/utils'
 
 interface CopyableTerminalCardProps {
   children: React.ReactNode
   className?: string
-  as?: "div" | "button"
+  as?: 'div' | 'button'
   [key: string]: unknown
 }
 
-export function CopyableTerminalCard({ children, className, as = "div", ...props }: CopyableTerminalCardProps) {
+export function CopyableTerminalCard({
+  children,
+  className,
+  as = 'div',
+  ...props
+}: CopyableTerminalCardProps) {
   const cardRef = useRef<HTMLElement>(null)
 
   const handleCopy = async (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    
+
     if (cardRef.current) {
       const text = cardRef.current.innerText
       try {
         await navigator.clipboard.writeText(text)
-        toast.success("Copied!", { duration: 2000 })
+        toast.success('Copied!', { duration: 2000 })
       } catch (err) {
-        console.log("[v0] Failed to copy:", err)
+        console.log('[v0] Failed to copy:', err)
       }
     }
   }
 
   /* When the outer wrapper is a <button>, use a <span> for the copy
      trigger to avoid invalid nested <button> HTML (causes hydration errors). */
-  const CopyTrigger = as === "button" ? "span" : "button"
+  const CopyTrigger = as === 'button' ? 'span' : 'button'
 
   return createElement(
     as,
     {
       ref: cardRef,
-      className: cn("terminal-card-solid relative group", className),
-      ...props
+      className: cn('terminal-card-solid relative group', className),
+      ...props,
     },
     <>
       <CopyTrigger
@@ -52,6 +57,6 @@ export function CopyableTerminalCard({ children, className, as = "div", ...props
         <Copy className="h-4 w-4 text-muted-foreground hover:text-primary" />
       </CopyTrigger>
       {children}
-    </>
+    </>,
   )
 }

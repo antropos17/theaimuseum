@@ -1,31 +1,31 @@
-"use client"
+'use client'
 
-import { useRef, useState, useEffect } from "react"
-import Link from "next/link"
-import { motion, AnimatePresence } from "framer-motion"
-import type { AIModel } from "@/data/models"
-import { categories } from "@/data/models"
-import { cn } from "@/lib/utils"
-import { CopyableTerminalCard } from "@/components/ui/copyable-terminal-card"
-import { Share2, Clipboard, Check } from "lucide-react"
-import { toast } from "sonner"
+import { useRef, useState, useEffect } from 'react'
+import Link from 'next/link'
+import { motion, AnimatePresence } from 'framer-motion'
+import type { AIModel } from '@/data/models'
+import { categories } from '@/data/models'
+import { cn } from '@/lib/utils'
+import { CopyableTerminalCard } from '@/components/ui/copyable-terminal-card'
+import { Share2, Clipboard, Check } from 'lucide-react'
+import { toast } from 'sonner'
 
 const statusColors: Record<string, string> = {
-  active: "#00ff88",
-  historic: "#6b6b78",
-  declining: "#ffaa00",
+  active: '#00ff88',
+  historic: '#6b6b78',
+  declining: '#ffaa00',
 }
 
-type EraStyle = "terminal" | "refined" | "glass"
+type EraStyle = 'terminal' | 'refined' | 'glass'
 
 export function TimelineCard({
   model,
-  side = "left",
-  eraStyle = "refined",
+  side = 'left',
+  eraStyle = 'refined',
   index = 0,
 }: {
   model: AIModel
-  side?: "left" | "right"
+  side?: 'left' | 'right'
   eraStyle?: EraStyle
   index?: number
 }) {
@@ -37,8 +37,13 @@ export function TimelineCard({
     const el = cardRef.current
     if (!el) return
     const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.unobserve(el) } },
-      { threshold: 0.15 }
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true)
+          obs.unobserve(el)
+        }
+      },
+      { threshold: 0.15 },
     )
     obs.observe(el)
     return () => obs.disconnect()
@@ -46,39 +51,38 @@ export function TimelineCard({
 
   /* Card base classes depending on era style */
   const cardBase = cn(
-    "relative block p-4 transition-all duration-300",
-    eraStyle === "terminal"
-      ? "border border-dashed border-border bg-card hover:border-primary/50 hover:shadow-[0_0_16px_rgba(0,255,136,0.06)]"
-      : eraStyle === "glass"
-        ? "border border-solid border-primary/10 bg-card/80 backdrop-blur-sm hover:border-primary/30 hover:shadow-[0_0_24px_rgba(0,255,136,0.08)]"
-        : "terminal-card-solid"
+    'relative block p-4 transition-all duration-300',
+    eraStyle === 'terminal'
+      ? 'border border-dashed border-border bg-card hover:border-primary/50 hover:shadow-[0_0_16px_rgba(0,255,136,0.06)]'
+      : eraStyle === 'glass'
+        ? 'border border-solid border-primary/10 bg-card/80 backdrop-blur-sm hover:border-primary/30 hover:shadow-[0_0_24px_rgba(0,255,136,0.08)]'
+        : 'terminal-card-solid',
   )
 
   /* Chrome dots color set */
-  const chromeColors = eraStyle === "terminal"
-    ? ["bg-muted-foreground/40", "bg-muted-foreground/30", "bg-muted-foreground/20"]
-    : ["bg-destructive/60", "bg-warning/60", "bg-primary/60"]
+  const chromeColors =
+    eraStyle === 'terminal'
+      ? ['bg-muted-foreground/40', 'bg-muted-foreground/30', 'bg-muted-foreground/20']
+      : ['bg-destructive/60', 'bg-warning/60', 'bg-primary/60']
 
   return (
     <div
       ref={cardRef}
-      className={cn(
-        "grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-start gap-0 md:gap-6",
-      )}
+      className={cn('grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-start gap-0 md:gap-6')}
       style={{
         opacity: visible ? 1 : 0,
         transform: visible
-          ? "translateY(0)"
-          : `translateY(20px) translateX(${side === "left" ? "-12px" : "12px"})`,
-        transitionProperty: "opacity, transform",
-        transitionDuration: "0.7s",
-        transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+          ? 'translateY(0)'
+          : `translateY(20px) translateX(${side === 'left' ? '-12px' : '12px'})`,
+        transitionProperty: 'opacity, transform',
+        transitionDuration: '0.7s',
+        transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
         transitionDelay: `${(index % 4) * 80}ms`,
       }}
     >
       {/* Left column (card or empty) */}
-      <div className={cn("hidden md:block", side === "right" && "md:invisible")}>
-        {side === "left" && (
+      <div className={cn('hidden md:block', side === 'right' && 'md:invisible')}>
+        {side === 'left' && (
           <CardContent
             model={model}
             cat={cat}
@@ -97,17 +101,17 @@ export function TimelineCard({
           className="h-2.5 w-2.5 shrink-0 rounded-full border-2"
           style={{
             borderColor: model.color,
-            backgroundColor: visible ? model.color + "33" : "transparent",
-            boxShadow: visible ? `0 0 8px ${model.color}44` : "none",
-            transition: "all 0.6s ease",
+            backgroundColor: visible ? model.color + '33' : 'transparent',
+            boxShadow: visible ? `0 0 8px ${model.color}44` : 'none',
+            transition: 'all 0.6s ease',
           }}
         />
         <div className="h-full min-h-4 w-px bg-border" />
       </div>
 
       {/* Right column (card or empty) */}
-      <div className={cn("hidden md:block", side === "left" && "md:invisible")}>
-        {side === "right" && (
+      <div className={cn('hidden md:block', side === 'left' && 'md:invisible')}>
+        {side === 'right' && (
           <CardContent
             model={model}
             cat={cat}
@@ -158,7 +162,7 @@ function CardContent({
   cardBase: string
   eraStyle: EraStyle
   chromeColors: string[]
-  align: "left" | "right"
+  align: 'left' | 'right'
 }) {
   const [showShareMenu, setShowShareMenu] = useState(false)
   const [copied, setCopied] = useState(false)
@@ -168,7 +172,7 @@ function CardContent({
 
   // Detect navigator.share support
   useEffect(() => {
-    setCanWebShare(typeof navigator !== "undefined" && !!navigator.share)
+    setCanWebShare(typeof navigator !== 'undefined' && !!navigator.share)
   }, [])
 
   // Close dropdown when clicking outside
@@ -179,8 +183,8 @@ function CardContent({
       }
     }
     if (showShareMenu) {
-      document.addEventListener("mousedown", handleClickOutside)
-      return () => document.removeEventListener("mousedown", handleClickOutside)
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [showShareMenu])
 
@@ -190,11 +194,11 @@ function CardContent({
     const text = `${model.name} (${model.year}) — via @theaimuseum`
     const url = `${window.location.origin}/model/${model.slug}`
     const full = `${text} ${url}`
-    const tweetText = full.length > 280 ? full.substring(0, 277) + "..." : full
+    const tweetText = full.length > 280 ? full.substring(0, 277) + '...' : full
     window.open(
       `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`,
-      "_blank",
-      "width=550,height=420"
+      '_blank',
+      'width=550,height=420',
     )
     setShowShareMenu(false)
   }
@@ -206,7 +210,7 @@ function CardContent({
     const fact = `${model.name} (${model.year}) — ${firstSentence}.`
     navigator.clipboard.writeText(fact)
     setCopied(true)
-    toast("Copied!")
+    toast('Copied!')
     setTimeout(() => setCopied(false), 2000)
     setShowShareMenu(false)
   }
@@ -234,21 +238,21 @@ function CardContent({
 
   return (
     <div className="relative">
-      <Link 
-        href={`/model/${model.slug}`} 
-        className={cn(cardBase, "group block overflow-hidden")}
+      <Link
+        href={`/model/${model.slug}`}
+        className={cn(cardBase, 'group block overflow-hidden')}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         style={{
-          borderLeftWidth: "2px",
-          borderLeftColor: isHovered ? "rgba(0, 255, 136, 1)" : "rgba(0, 255, 136, 0.4)",
-          boxShadow: isHovered 
-            ? "0 0 40px rgba(0, 255, 136, 0.15)" 
-            : eraStyle === "terminal" 
-              ? "0 0 16px rgba(0, 255, 136, 0.06)"
-              : eraStyle === "glass"
-                ? "0 0 24px rgba(0, 255, 136, 0.08)"
-                : "none",
+          borderLeftWidth: '2px',
+          borderLeftColor: isHovered ? 'rgba(0, 255, 136, 1)' : 'rgba(0, 255, 136, 0.4)',
+          boxShadow: isHovered
+            ? '0 0 40px rgba(0, 255, 136, 0.15)'
+            : eraStyle === 'terminal'
+              ? '0 0 16px rgba(0, 255, 136, 0.06)'
+              : eraStyle === 'glass'
+                ? '0 0 24px rgba(0, 255, 136, 0.08)'
+                : 'none',
         }}
       >
         {/* Left border sweep animation */}
@@ -256,7 +260,7 @@ function CardContent({
           <div
             className="h-0 w-full bg-gradient-to-b from-transparent via-primary to-transparent transition-all duration-300 ease-out"
             style={{
-              height: isHovered ? "100%" : "0%",
+              height: isHovered ? '100%' : '0%',
             }}
           />
         </div>
@@ -266,9 +270,9 @@ function CardContent({
           {isHovered && (
             <motion.div
               initial={{ top: 0 }}
-              animate={{ top: "100%" }}
+              animate={{ top: '100%' }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.4, ease: "linear" }}
+              transition={{ duration: 0.4, ease: 'linear' }}
               className="pointer-events-none absolute left-0 z-20 h-[2px] w-full bg-white/[0.04]"
               aria-hidden="true"
             />
@@ -276,34 +280,34 @@ function CardContent({
         </AnimatePresence>
 
         {/* Terminal window chrome bar */}
-        <div 
+        <div
           className="mb-3 flex items-center gap-1.5 transition-colors duration-300"
           style={{
-            backgroundColor: isHovered ? "rgba(0, 255, 136, 0.06)" : "transparent",
+            backgroundColor: isHovered ? 'rgba(0, 255, 136, 0.06)' : 'transparent',
           }}
         >
-          <div 
-            className={cn("h-1.5 w-1.5 rounded-full transition-all duration-300", chromeColors[0])}
+          <div
+            className={cn('h-1.5 w-1.5 rounded-full transition-all duration-300', chromeColors[0])}
             style={{
-              borderWidth: isHovered ? "1px" : "0px",
-              borderColor: isHovered ? "rgba(0, 255, 136, 0.6)" : "transparent",
-              borderStyle: "solid",
+              borderWidth: isHovered ? '1px' : '0px',
+              borderColor: isHovered ? 'rgba(0, 255, 136, 0.6)' : 'transparent',
+              borderStyle: 'solid',
             }}
           />
-          <div 
-            className={cn("h-1.5 w-1.5 rounded-full transition-all duration-300", chromeColors[1])}
+          <div
+            className={cn('h-1.5 w-1.5 rounded-full transition-all duration-300', chromeColors[1])}
             style={{
-              borderWidth: isHovered ? "1px" : "0px",
-              borderColor: isHovered ? "rgba(0, 255, 136, 0.6)" : "transparent",
-              borderStyle: "solid",
+              borderWidth: isHovered ? '1px' : '0px',
+              borderColor: isHovered ? 'rgba(0, 255, 136, 0.6)' : 'transparent',
+              borderStyle: 'solid',
             }}
           />
-          <div 
-            className={cn("h-1.5 w-1.5 rounded-full transition-all duration-300", chromeColors[2])}
+          <div
+            className={cn('h-1.5 w-1.5 rounded-full transition-all duration-300', chromeColors[2])}
             style={{
-              borderWidth: isHovered ? "1px" : "0px",
-              borderColor: isHovered ? "rgba(0, 255, 136, 0.6)" : "transparent",
-              borderStyle: "solid",
+              borderWidth: isHovered ? '1px' : '0px',
+              borderColor: isHovered ? 'rgba(0, 255, 136, 0.6)' : 'transparent',
+              borderStyle: 'solid',
             }}
           />
           <span className="ml-2 font-mono text-[9px] text-muted-foreground/60">
@@ -312,73 +316,83 @@ function CardContent({
           <div className="ml-auto flex items-center gap-2">
             <div
               className="h-1.5 w-1.5 rounded-full"
-              style={{ backgroundColor: statusColors[model.status] || "#6b6b78" }}
+              style={{ backgroundColor: statusColors[model.status] || '#6b6b78' }}
               title={model.status}
             />
           </div>
         </div>
 
-      {/* Name + year + creator */}
-      <div className={cn("flex items-baseline gap-2", align === "right" && "md:justify-end")}>
-        <span className={cn(
-          "text-sm text-foreground transition-colors group-hover:text-primary",
-          eraStyle === "terminal" ? "font-mono" : "font-sans"
-        )}>
-          {model.name}
-        </span>
-        <span className="font-mono text-[11px] tabular-nums text-primary/70">{model.year}</span>
-      </div>
-      <p className={cn(
-        "mt-0.5 font-mono text-[10px] text-muted-foreground",
-        align === "right" && "md:text-right"
-      )}>
-        {model.creator}
-      </p>
-
-      {/* Description */}
-      <p className={cn(
-        "mt-2 line-clamp-2 text-[13px] leading-relaxed text-muted-foreground",
-        align === "right" && "md:text-right"
-      )}>
-        {model.description}
-      </p>
-
-      {/* Capability bar */}
-      <div className="mt-3 flex items-center gap-3">
-        <div className="metric-bar flex-1">
-          <div
-            className="metric-bar-fill"
-            style={{ width: `${model.capability}%`, backgroundColor: model.color }}
-          />
+        {/* Name + year + creator */}
+        <div className={cn('flex items-baseline gap-2', align === 'right' && 'md:justify-end')}>
+          <span
+            className={cn(
+              'text-sm text-foreground transition-colors group-hover:text-primary',
+              eraStyle === 'terminal' ? 'font-mono' : 'font-sans',
+            )}
+          >
+            {model.name}
+          </span>
+          <span className="font-mono text-[11px] tabular-nums text-primary/70">{model.year}</span>
         </div>
-        <span className="font-mono text-[10px] tabular-nums text-muted-foreground">{model.capability}%</span>
-      </div>
-
-      {/* Tags */}
-      <div className={cn("mt-2.5 flex items-center gap-1.5 flex-wrap", align === "right" && "md:justify-end")}>
-        <span
-          className="border border-current/20 px-1.5 py-0.5 font-mono text-[10px]"
-          style={{ color: cat.color }}
-        >
-          {cat.icon} {cat.label}
-        </span>
-        <span
+        <p
           className={cn(
-            "border px-1.5 py-0.5 font-mono text-[10px]",
-            model.open ? "border-chart-3/20 text-chart-3" : "border-border text-muted-foreground"
+            'mt-0.5 font-mono text-[10px] text-muted-foreground',
+            align === 'right' && 'md:text-right',
           )}
         >
-          {model.open ? "OPEN" : "CLOSED"}
-        </span>
-      </div>
+          {model.creator}
+        </p>
+
+        {/* Description */}
+        <p
+          className={cn(
+            'mt-2 line-clamp-2 text-[13px] leading-relaxed text-muted-foreground',
+            align === 'right' && 'md:text-right',
+          )}
+        >
+          {model.description}
+        </p>
+
+        {/* Capability bar */}
+        <div className="mt-3 flex items-center gap-3">
+          <div className="metric-bar flex-1">
+            <div
+              className="metric-bar-fill"
+              style={{ width: `${model.capability}%`, backgroundColor: model.color }}
+            />
+          </div>
+          <span className="font-mono text-[10px] tabular-nums text-muted-foreground">
+            {model.capability}%
+          </span>
+        </div>
+
+        {/* Tags */}
+        <div
+          className={cn(
+            'mt-2.5 flex items-center gap-1.5 flex-wrap',
+            align === 'right' && 'md:justify-end',
+          )}
+        >
+          <span
+            className="border border-current/20 px-1.5 py-0.5 font-mono text-[10px]"
+            style={{ color: cat.color }}
+          >
+            {cat.icon} {cat.label}
+          </span>
+          <span
+            className={cn(
+              'border px-1.5 py-0.5 font-mono text-[10px]',
+              model.open ? 'border-chart-3/20 text-chart-3' : 'border-border text-muted-foreground',
+            )}
+          >
+            {model.open ? 'OPEN' : 'CLOSED'}
+          </span>
+        </div>
       </Link>
 
       {/* Share button - positioned absolutely in top-right corner */}
       <div ref={shareRef} className="absolute right-3 top-3 z-10">
-        <button
-          onClick={toggleShareMenu}
-          aria-label="Share"
-        >
+        <button onClick={toggleShareMenu} aria-label="Share">
           <Share2
             size={12}
             strokeWidth={1.5}
@@ -400,10 +414,11 @@ function CardContent({
               onClick={handleCopyFact}
               className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-foreground transition-colors hover:bg-[#00ff88]/10 cursor-pointer"
             >
-              {copied
-                ? <Check size={12} strokeWidth={1.5} />
-                : <Clipboard size={12} strokeWidth={1.5} />
-              }
+              {copied ? (
+                <Check size={12} strokeWidth={1.5} />
+              ) : (
+                <Clipboard size={12} strokeWidth={1.5} />
+              )}
               <span>Copy fact</span>
             </button>
             {canWebShare && (

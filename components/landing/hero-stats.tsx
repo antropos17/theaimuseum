@@ -1,24 +1,24 @@
-"use client"
+'use client'
 
-import { useEffect, useState, useRef, useCallback } from "react"
-import { Check, Share2 } from "lucide-react"
-import { toast } from "sonner"
+import { useEffect, useState, useRef, useCallback } from 'react'
+import { Check, Share2 } from 'lucide-react'
+import { toast } from 'sonner'
 
 const stats = [
-  { 
-    value: 25, 
-    label: "MODELS",
-    fact: "The AI Museum documents 25+ AI models across 75 years of artificial intelligence. v0-theaimuseum.vercel.app"
+  {
+    value: 25,
+    label: 'MODELS',
+    fact: 'The AI Museum documents 25+ AI models across 75 years of artificial intelligence. v0-theaimuseum.vercel.app',
   },
-  { 
-    value: 75, 
-    label: "YEARS",
-    fact: "75 years of AI — from Turing's 1950 paper to GPT-4. v0-theaimuseum.vercel.app"
+  {
+    value: 75,
+    label: 'YEARS',
+    fact: "75 years of AI — from Turing's 1950 paper to GPT-4. v0-theaimuseum.vercel.app",
   },
-  { 
-    value: 8, 
-    label: "CATEGORIES",
-    fact: "8 fields of AI research: NLP, Computer Vision, Robotics, Expert Systems, Neural Networks, RL, Generative AI, AGI. v0-theaimuseum.vercel.app"
+  {
+    value: 8,
+    label: 'CATEGORIES',
+    fact: '8 fields of AI research: NLP, Computer Vision, Robotics, Expert Systems, Neural Networks, RL, Generative AI, AGI. v0-theaimuseum.vercel.app',
   },
 ]
 
@@ -58,27 +58,27 @@ export function HeroStats() {
   const copyFact = async (fact: string) => {
     try {
       await navigator.clipboard.writeText(fact)
-      toast("Copied", {
+      toast('Copied', {
         icon: <Check size={12} />,
         duration: 2000,
       })
     } catch (err) {
-      console.error("[v0] Failed to copy:", err)
+      console.error('[v0] Failed to copy:', err)
     }
   }
 
   const shareAllStats = async () => {
-    const combinedText = stats.map(s => s.fact).join("\n\n")
-    
+    const combinedText = stats.map((s) => s.fact).join('\n\n')
+
     if (navigator.share) {
       try {
         await navigator.share({
-          title: "The AI Museum Stats",
+          title: 'The AI Museum Stats',
           text: combinedText,
         })
       } catch (err) {
-        if ((err as Error).name !== "AbortError") {
-          console.error("[v0] Share failed:", err)
+        if ((err as Error).name !== 'AbortError') {
+          console.error('[v0] Share failed:', err)
           await copyFact(combinedText)
         }
       }
@@ -95,18 +95,16 @@ export function HeroStats() {
             key={stat.label}
             onClick={() => copyFact(stat.fact)}
             className="terminal-card flex cursor-pointer flex-col items-center gap-3 px-8 py-6 transition-all duration-200 hover:text-[#00ff88] hover:underline hover:decoration-dashed hover:underline-offset-4 active:scale-95"
-            style={{ transitionDuration: "100ms" }}
+            style={{ transitionDuration: '100ms' }}
           >
-            <span className="font-mono text-sm text-primary bracket-label">
-              [{stat.label}]
-            </span>
+            <span className="font-mono text-sm text-primary bracket-label">[{stat.label}]</span>
             <span className="font-mono text-4xl font-light tabular-nums text-glow-subtle sm:text-5xl">
               <AnimatedCounter target={stat.value} />
             </span>
           </button>
         ))}
       </div>
-      
+
       {/* Share All Stats */}
       <div className="mt-6 flex items-center justify-center">
         <button

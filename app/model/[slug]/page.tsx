@@ -1,7 +1,7 @@
-import { notFound } from "next/navigation"
-import type { Metadata } from "next"
-import { models, categories } from "@/data/models"
-import { ModelExhibit } from "@/components/model/model-exhibit"
+import { notFound } from 'next/navigation'
+import type { Metadata } from 'next'
+import { models, categories } from '@/data/models'
+import { ModelExhibit } from '@/components/model/model-exhibit'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -22,11 +22,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `${model.name} (${model.year}) | The AI Museum`,
       description: desc,
-      type: "article",
-      images: [{ url: "/og-image.png", width: 1200, height: 630, alt: model.name }],
+      type: 'article',
+      images: [{ url: '/og-image.png', width: 1200, height: 630, alt: model.name }],
     },
     twitter: {
-      card: "summary_large_image",
+      card: 'summary_large_image',
       title: `${model.name} (${model.year})`,
       description: desc,
     },
@@ -46,12 +46,5 @@ export default async function ModelPage({ params }: Props) {
 
   const cat = categories[model.category]
 
-  return (
-    <ModelExhibit
-      model={model}
-      category={cat}
-      prevModel={prev}
-      nextModel={next}
-    />
-  )
+  return <ModelExhibit model={model} category={cat} prevModel={prev} nextModel={next} />
 }

@@ -1,7 +1,7 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import { Zap } from "lucide-react"
+import { useState, useEffect } from 'react'
+import { Zap } from 'lucide-react'
 
 export function LiveVisitors() {
   const [count, setCount] = useState<number | null>(null)
@@ -26,7 +26,11 @@ export function LiveVisitors() {
   if (!mounted || count === null) {
     return (
       <div className="flex items-center gap-1.5">
-        <Zap size={10} strokeWidth={1.5} className="text-[#00ff88] animate-[opacityPulse_2s_ease-in-out_infinite]" />
+        <Zap
+          size={10}
+          strokeWidth={1.5}
+          className="text-[#00ff88] animate-[opacityPulse_2s_ease-in-out_infinite]"
+        />
         <span className="font-mono text-[10px] text-muted-foreground">
           [—] minds exploring right now
         </span>
@@ -36,7 +40,11 @@ export function LiveVisitors() {
 
   return (
     <div className="flex items-center gap-1.5">
-      <Zap size={10} strokeWidth={1.5} className="text-[#00ff88] animate-[opacityPulse_2s_ease-in-out_infinite]" />
+      <Zap
+        size={10}
+        strokeWidth={1.5}
+        className="text-[#00ff88] animate-[opacityPulse_2s_ease-in-out_infinite]"
+      />
       <span className="font-mono text-[10px] text-muted-foreground">
         [{count}] minds exploring right now
       </span>

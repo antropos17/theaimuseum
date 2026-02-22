@@ -1,10 +1,10 @@
-"use client"
+'use client'
 
-import { useRef, useState, useEffect } from "react"
-import Link from "next/link"
-import { memes } from "@/data/models"
-import { CopyableTerminalCard } from "@/components/ui/copyable-terminal-card"
-import { ArrowLeft } from "lucide-react"
+import { useRef, useState, useEffect } from 'react'
+import Link from 'next/link'
+import { memes } from '@/data/models'
+import { CopyableTerminalCard } from '@/components/ui/copyable-terminal-card'
+import { ArrowLeft } from 'lucide-react'
 
 /* Deterministic tilt values from index to avoid hydration mismatch */
 const tilts = [-2.5, 1.8, -1.2, 2.4, -3, 1.5, -2, 2.8]
@@ -17,8 +17,13 @@ export function MemesView() {
     const el = gridRef.current
     if (!el) return
     const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.unobserve(el) } },
-      { threshold: 0.1 }
+      ([e]) => {
+        if (e.isIntersecting) {
+          setVisible(true)
+          obs.unobserve(el)
+        }
+      },
+      { threshold: 0.1 },
     )
     obs.observe(el)
     return () => obs.disconnect()
@@ -27,7 +32,10 @@ export function MemesView() {
   return (
     <div className="min-h-screen pt-16">
       <div className="mx-auto max-w-4xl px-4 pb-24 pt-10">
-        <Link href="/" className="flex items-center gap-1.5 mb-4 text-xs font-mono text-muted-foreground hover:text-primary transition-colors">
+        <Link
+          href="/"
+          className="flex items-center gap-1.5 mb-4 text-xs font-mono text-muted-foreground hover:text-primary transition-colors"
+        >
           <ArrowLeft size={14} strokeWidth={1.5} />
           Back to Museum
         </Link>
@@ -40,10 +48,7 @@ export function MemesView() {
         </p>
 
         {/* Card grid */}
-        <div
-          ref={gridRef}
-          className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
-        >
+        <div ref={gridRef} className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {memes.map((meme, i) => {
             const baseTilt = tilts[i % tilts.length]
             return (
@@ -56,7 +61,7 @@ export function MemesView() {
                     ? `translateY(0) rotate(${baseTilt}deg)`
                     : `translateY(24px) rotate(0deg)`,
                   transitionDelay: `${i * 70}ms`,
-                  transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+                  transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
                 }}
               >
                 {/* Hover tilt override */}
@@ -78,9 +83,7 @@ export function MemesView() {
                   </span>
 
                   {/* Text */}
-                  <p className="mt-2 text-[13px] leading-relaxed text-foreground/90">
-                    {meme.text}
-                  </p>
+                  <p className="mt-2 text-[13px] leading-relaxed text-foreground/90">{meme.text}</p>
 
                   {/* Hashtag */}
                   <span className="mt-3 inline-block font-mono text-[11px] text-muted-foreground transition-colors group-hover:text-primary">

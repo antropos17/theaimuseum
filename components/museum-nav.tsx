@@ -1,20 +1,20 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { useTheme } from "next-themes"
-import { cn } from "@/lib/utils"
-import { CommandPalette } from "@/components/command-palette"
-import { Search, Sun, Moon, Menu, X } from "lucide-react"
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { useTheme } from 'next-themes'
+import { cn } from '@/lib/utils'
+import { CommandPalette } from '@/components/command-palette'
+import { Search, Sun, Moon, Menu, X } from 'lucide-react'
 
 const navItems = [
-  { label: "Explore", href: "/explore" },
-  { label: "Evolution", href: "/evolution" },
-  { label: "Battles", href: "/battles" },
-  { label: "Simulator", href: "/simulator" },
-  { label: "Quiz", href: "/quiz" },
-  { label: "Passport", href: "/passport" },
+  { label: 'Explore', href: '/explore' },
+  { label: 'Evolution', href: '/evolution' },
+  { label: 'Battles', href: '/battles' },
+  { label: 'Simulator', href: '/simulator' },
+  { label: 'Quiz', href: '/quiz' },
+  { label: 'Passport', href: '/passport' },
 ]
 
 export function MuseumNav() {
@@ -36,22 +36,22 @@ export function MuseumNav() {
     }
     // Defer initial check to avoid state update before mount completes
     const raf = requestAnimationFrame(() => onScroll())
-    window.addEventListener("scroll", onScroll, { passive: true })
+    window.addEventListener('scroll', onScroll, { passive: true })
     return () => {
       cancelAnimationFrame(raf)
-      window.removeEventListener("scroll", onScroll)
+      window.removeEventListener('scroll', onScroll)
     }
   }, [])
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault()
         setCmdOpen((o) => !o)
       }
     }
-    document.addEventListener("keydown", down)
-    return () => document.removeEventListener("keydown", down)
+    document.addEventListener('keydown', down)
+    return () => document.removeEventListener('keydown', down)
   }, [])
 
   useEffect(() => {
@@ -75,8 +75,8 @@ export function MuseumNav() {
           <Link href="/" className="flex items-center gap-3 group">
             {/* Abstract neural connection icon */}
             <div className="relative flex h-9 w-9 items-center justify-center">
-              <svg 
-                viewBox="0 0 24 24" 
+              <svg
+                viewBox="0 0 24 24"
                 className="h-9 w-9 text-primary transition-all duration-300 group-hover:text-primary/80"
                 fill="none"
                 stroke="currentColor"
@@ -113,10 +113,10 @@ export function MuseumNav() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "relative px-1 py-2 font-mono text-xs tracking-wide transition-all duration-300",
+                    'relative px-1 py-2 font-mono text-xs tracking-wide transition-all duration-300',
                     isActive
-                      ? "text-primary nav-link-active"
-                      : "text-muted-foreground hover:text-foreground"
+                      ? 'text-primary nav-link-active'
+                      : 'text-muted-foreground hover:text-foreground',
                   )}
                 >
                   {item.label}
@@ -143,11 +143,11 @@ export function MuseumNav() {
             {/* Theme toggle */}
             {mounted && (
               <button
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                 className="flex h-9 w-9 items-center justify-center border border-border/50 bg-card/30 text-muted-foreground backdrop-blur-sm transition-all hover:border-primary/30 hover:bg-card/50 hover:text-foreground"
                 aria-label="Toggle theme"
               >
-                {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
               </button>
             )}
 
@@ -164,10 +164,10 @@ export function MuseumNav() {
 
         {/* Mobile menu */}
         {mobileOpen && (
-          <div 
+          <div
             className="border-t border-border/50 backdrop-blur-xl p-6 md:hidden"
             style={{
-              backgroundColor: `rgba(10, 10, 15, 0.9)`
+              backgroundColor: `rgba(10, 10, 15, 0.9)`,
             }}
           >
             <div className="flex flex-col gap-1">
@@ -176,10 +176,10 @@ export function MuseumNav() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "px-4 py-3 font-mono text-xs tracking-wide transition-colors",
+                    'px-4 py-3 font-mono text-xs tracking-wide transition-colors',
                     pathname === item.href
-                      ? "text-primary"
-                      : "text-muted-foreground hover:text-foreground"
+                      ? 'text-primary'
+                      : 'text-muted-foreground hover:text-foreground',
                   )}
                 >
                   {item.label}
@@ -187,12 +187,12 @@ export function MuseumNav() {
               ))}
               <div className="my-2 h-px bg-border/30" />
               {[
-                { label: "Graveyard", href: "/graveyard" },
-                { label: "Memes", href: "/memes" },
-                { label: "Victims", href: "/victims" },
-                { label: "Predictions", href: "/predictions" },
-                { label: "Leaderboard", href: "/leaderboard" },
-                { label: "Passport", href: "/passport" },
+                { label: 'Graveyard', href: '/graveyard' },
+                { label: 'Memes', href: '/memes' },
+                { label: 'Victims', href: '/victims' },
+                { label: 'Predictions', href: '/predictions' },
+                { label: 'Leaderboard', href: '/leaderboard' },
+                { label: 'Passport', href: '/passport' },
               ].map((item) => (
                 <Link
                   key={item.href}

@@ -1,7 +1,7 @@
-"use client"
+'use client'
 
-import { useRouter } from "next/navigation"
-import { models, categories } from "@/data/models"
+import { useRouter } from 'next/navigation'
+import { models, categories } from '@/data/models'
 import {
   Compass,
   GitBranch,
@@ -15,7 +15,7 @@ import {
   HelpCircle,
   Home,
   Fingerprint,
-} from "lucide-react"
+} from 'lucide-react'
 import {
   CommandDialog,
   CommandEmpty,
@@ -24,21 +24,21 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from "@/components/ui/command"
+} from '@/components/ui/command'
 
 const pages = [
-  { label: "Home", href: "/", icon: Home },
-  { label: "Timeline", href: "/explore", icon: Compass },
-  { label: "Evolution", href: "/evolution", icon: GitBranch },
-  { label: "Leaderboard", href: "/leaderboard", icon: Trophy },
-  { label: "Graveyard", href: "/graveyard", icon: Skull },
-  { label: "AI Wars", href: "/battles", icon: Swords },
-  { label: "Memes", href: "/memes", icon: SmilePlus },
-  { label: "Victims", href: "/victims", icon: Users },
-  { label: "Simulator", href: "/simulator", icon: Terminal },
-  { label: "Predictions", href: "/predictions", icon: TrendingUp },
-  { label: "Quiz", href: "/quiz", icon: HelpCircle },
-  { label: "Passport", href: "/passport", icon: Fingerprint },
+  { label: 'Home', href: '/', icon: Home },
+  { label: 'Timeline', href: '/explore', icon: Compass },
+  { label: 'Evolution', href: '/evolution', icon: GitBranch },
+  { label: 'Leaderboard', href: '/leaderboard', icon: Trophy },
+  { label: 'Graveyard', href: '/graveyard', icon: Skull },
+  { label: 'AI Wars', href: '/battles', icon: Swords },
+  { label: 'Memes', href: '/memes', icon: SmilePlus },
+  { label: 'Victims', href: '/victims', icon: Users },
+  { label: 'Simulator', href: '/simulator', icon: Terminal },
+  { label: 'Predictions', href: '/predictions', icon: TrendingUp },
+  { label: 'Quiz', href: '/quiz', icon: HelpCircle },
+  { label: 'Passport', href: '/passport', icon: Fingerprint },
 ]
 
 interface CommandPaletteProps {
