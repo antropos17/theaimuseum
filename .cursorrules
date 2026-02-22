@@ -2,7 +2,7 @@
 
 ## PROJECT IDENTITY
 - Name: The AI Museum — interactive encyclopedia of AI history
-- Stack: Next.js 14 (App Router), React, TypeScript, Tailwind CSS, shadcn/ui, Lucide React
+- Stack: Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4, shadcn/ui, Lucide React
 - Design: "Neo-8-Bit" — CRT terminal aesthetic + glassmorphism
 - Theme: Dark default (#0a0a0f bg), accent #00ff88, JetBrains Mono font
 - Icons: Lucide React ONLY. Never use emoji in UI.
