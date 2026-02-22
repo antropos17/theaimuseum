@@ -1,0 +1,26 @@
+# Bug Fix Walkthrough: The AI Museum
+
+Successfully debugged and fixed the issues reported on the website. The core issues were a combination of React lifecycles and `three.js` (drei) 3D dimension scaling.
+
+## Changes Made
+
+1. **Hydration Mismatch:** Added `suppressHydrationWarning` to the `<html>` and `<body>` tags in `app/layout.tsx`. Next-Themes frequently causes these hydration logs due to syncing system themes on the first render before the server-rendered HTML can catch up.
+2. **Infinite Boot Sequence:** Repaired the `setInterval` logic inside of `BootSequence.tsx`. We included React dependency cleanup flags (`isMounted`, `clearTimeout`, `clearInterval`) to stop the text generation from duplicating indefinitely on strict-mode double-mounts.
+3. **Pointer Events Blocking UI:** Conditionally set `pointer-events-auto` on the 3D wrapper overlay before booting, allowing the user to click the `INITIALIZE NEURAL LINK` button, while allowing pointer events to pass through the empty CRT screen after the boot sequence completes.
+4. **Dimension Collapsing in `three/drei` (<Html>):** Explicitly moved the width and height assignments for `@react-three/drei`'s `<Html>` wrapper from the React styling prop down into the actual child DOM tree. 
+
+## Validation Results
+
+**Build Check:**
+The application compiles fully optimized successfully.
+```bash
+> next build
+▲ Next.js 16.1.6 (Turbopack)
+✓ Compiled successfully in 5.0s
+✓ Generating static pages using 21 workers (55/55) in 1018.0ms
+```
+
+**Browser Validation:**
+The browser subagent confirmed the missing double hydration and the interactive "INITIALIZE NEURAL LINK".
+![Verification Run](C:\Users\murtu\.gemini\antigravity\brain\a43a2cc7-0303-4af6-8cd6-0332bf90b18f\verification_localhost_1771768680767.webp)
+
