@@ -29,20 +29,32 @@ export function HeroShareBar({ visible }: { visible: boolean }) {
   }
 
   const handleWebShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: SITE_TITLE,
-          text: TWEET_TEXT,
-          url: SITE_URL,
-        })
-      } catch (err) {
-        if ((err as Error).name !== 'AbortError') {
-          console.error('[v0] Share failed:', err)
-          handleCopy()
+    // Check if Web Share API is available and can share
+    if (navigator.share && navigator.canShare) {
+      const shareData = {
+        title: SITE_TITLE,
+        text: TWEET_TEXT,
+        url: SITE_URL,
+      }
+      
+      // Verify the data can be shared
+      if (navigator.canShare(shareData)) {
+        try {
+          await navigator.share(shareData)
+        } catch (err) {
+          // AbortError means user cancelled, which is fine
+          if ((err as Error).name !== 'AbortError') {
+            console.error('[v0] Share failed:', err)
+            // Fallback to copy on any other error
+            handleCopy()
+          }
         }
+      } else {
+        // If can't share this data, fallback to copy
+        handleCopy()
       }
     } else {
+      // Web Share API not available, fallback to copy
       handleCopy()
     }
   }
@@ -176,20 +188,32 @@ export function StickySidebarShare() {
   }
 
   const handleWebShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: SITE_TITLE,
-          text: TWEET_TEXT,
-          url: SITE_URL,
-        })
-      } catch (err) {
-        if ((err as Error).name !== 'AbortError') {
-          console.error('[v0] Share failed:', err)
-          handleCopy()
+    // Check if Web Share API is available and can share
+    if (navigator.share && navigator.canShare) {
+      const shareData = {
+        title: SITE_TITLE,
+        text: TWEET_TEXT,
+        url: SITE_URL,
+      }
+      
+      // Verify the data can be shared
+      if (navigator.canShare(shareData)) {
+        try {
+          await navigator.share(shareData)
+        } catch (err) {
+          // AbortError means user cancelled, which is fine
+          if ((err as Error).name !== 'AbortError') {
+            console.error('[v0] Share failed:', err)
+            // Fallback to copy on any other error
+            handleCopy()
+          }
         }
+      } else {
+        // If can't share this data, fallback to copy
+        handleCopy()
       }
     } else {
+      // Web Share API not available, fallback to copy
       handleCopy()
     }
   }
