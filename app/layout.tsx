@@ -22,6 +22,7 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://v0-theaimuseum.vercel.app'),
   title: 'The AI Museum — 76 Years of Artificial Intelligence History',
   description:
     "Explore 76 years of AI history through interactive exhibits spanning 1950-2026. From Turing's foundational work to modern large language models like GPT and ChatGPT. Learn about machine learning, neural networks, deep learning, computer vision, NLP, and the evolution of artificial intelligence through engaging timelines, simulators, quizzes, and the AI Graveyard of discontinued projects.",
