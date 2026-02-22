@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import Link from 'next/link'
 import { companies, models } from '@/data/models'
 import { cn } from '@/lib/utils'
@@ -51,9 +51,34 @@ function ValuationCounter({ target }: { target: number }) {
 /* ── Compare Tool ───────────────────────────────────────────────── */
 function CompareTool() {
   const [slots, setSlots] = useState<(string | '')[]>(['', '', ''])
+  const modelOptions = useMemo(
+    () => {
+      const labelCounts = new Map<string, number>()
+      for (const model of models) {
+        const baseLabel = `${model.name} (${model.year})`
+        labelCounts.set(baseLabel, (labelCounts.get(baseLabel) ?? 0) + 1)
+      }
+
+      return models.map((model, index) => {
+        const baseLabel = `${model.name} (${model.year})`
+        const label =
+          (labelCounts.get(baseLabel) ?? 0) > 1 ? `${baseLabel} — ${model.creator}` : baseLabel
+
+        return {
+          key: `${model.id}-${model.slug}-${index}`,
+          value: String(index),
+          label,
+        }
+      })
+    },
+    [],
+  )
+
   const selected = slots
-    .map((s, i) => {
-      const m = models.find((m) => m.id === s)
+    .map((slotValue, i) => {
+      if (!slotValue) return null
+      const modelIndex = Number(slotValue)
+      const m = Number.isInteger(modelIndex) ? models[modelIndex] : undefined
       return m ? { ...m, _slotIdx: i } : null
     })
     .filter(Boolean) as ((typeof models)[number] & { _slotIdx: number })[]
@@ -74,9 +99,9 @@ function CompareTool() {
             className="w-full border border-dashed border-border bg-transparent px-3 py-2 font-mono text-xs text-foreground focus:border-primary focus:outline-none"
           >
             <option value="">-- slot_{i + 1} --</option>
-            {models.map((m) => (
-              <option key={m.id} value={m.id} className="bg-background text-foreground">
-                {m.name} ({m.year})
+            {modelOptions.map((option) => (
+              <option key={option.key} value={option.value} className="bg-background text-foreground">
+                {option.label}
               </option>
             ))}
           </select>

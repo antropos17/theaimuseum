@@ -621,8 +621,8 @@ export const models: AIModel[] = [
     stickers: {},
   },
   {
-    id: 'sora',
-    slug: 'sora',
+    id: 'sora-hype',
+    slug: 'sora-hype',
     name: 'Sora',
     year: 2024,
     era: 'Peak Hype',
@@ -866,8 +866,8 @@ export const models: AIModel[] = [
     stickers: {},
   },
   {
-    id: 'deepseek',
-    slug: 'deepseek-r1',
+    id: 'deepseek-r1-sputnik',
+    slug: 'deepseek-r1-sputnik',
     name: 'DeepSeek R1',
     year: 2025,
     era: 'The Reckoning',
@@ -1586,8 +1586,8 @@ export const models: AIModel[] = [
     stickers: {},
   },
   {
-    id: 'sora',
-    slug: 'sora',
+    id: 'sora-2024',
+    slug: 'sora-2024',
     name: 'Sora',
     year: 2024,
     era: 'The Reckoning',
@@ -1626,6 +1626,34 @@ export const models: AIModel[] = [
     stickers: {},
   },
 ]
+
+if (process.env.NODE_ENV !== 'production') {
+  const seenIds = new Set<string>()
+  const seenSlugs = new Set<string>()
+  const duplicateIds = new Set<string>()
+  const duplicateSlugs = new Set<string>()
+
+  for (const model of models) {
+    if (seenIds.has(model.id)) {
+      duplicateIds.add(model.id)
+    }
+    if (seenSlugs.has(model.slug)) {
+      duplicateSlugs.add(model.slug)
+    }
+    seenIds.add(model.id)
+    seenSlugs.add(model.slug)
+  }
+
+  if (duplicateIds.size || duplicateSlugs.size) {
+    console.warn(
+      '[models] Duplicate identifiers detected:',
+      JSON.stringify({
+        ids: Array.from(duplicateIds),
+        slugs: Array.from(duplicateSlugs),
+      }),
+    )
+  }
+}
 
 export const categories = {
   chatbot: { label: 'Chatbots', icon: '\uD83D\uDCAC', color: '#10A37F' },
