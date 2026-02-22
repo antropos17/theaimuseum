@@ -50,6 +50,8 @@ export function AIEvolutionDemo() {
   const sectionRef = useRef<HTMLElement>(null)
   const observerRef = useRef<IntersectionObserver | null>(null)
   const hasAnimated = useRef(false)
+  const intervalsRef = useRef<NodeJS.Timeout[]>([])
+  const timeoutsRef = useRef<NodeJS.Timeout[]>([])
 
   useEffect(() => {
     if (!sectionRef.current) return
@@ -72,6 +74,11 @@ export function AIEvolutionDemo() {
       if (observerRef.current) {
         observerRef.current.disconnect()
       }
+      // Clean up all intervals and timeouts
+      intervalsRef.current.forEach(interval => clearInterval(interval))
+      timeoutsRef.current.forEach(timeout => clearTimeout(timeout))
+      intervalsRef.current = []
+      timeoutsRef.current = []
     }
   }, [])
 
@@ -79,10 +86,11 @@ export function AIEvolutionDemo() {
     let delay = 0
 
     CHAT_WINDOWS.forEach((window, index) => {
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
         setVisibleWindows((prev) => [...prev, window.id])
         typeText(window.id, window.aiResponse)
       }, delay)
+      timeoutsRef.current.push(timeout)
 
       const typingDuration = window.aiResponse.length * TYPING_DELAY
       delay += typingDuration + 1500
@@ -103,8 +111,12 @@ export function AIEvolutionDemo() {
       } else {
         clearInterval(interval)
         setIsTyping((prev) => ({ ...prev, [windowId]: false }))
+        // Remove interval from tracking when done
+        intervalsRef.current = intervalsRef.current.filter(i => i !== interval)
       }
     }, TYPING_DELAY)
+    
+    intervalsRef.current.push(interval)
   }
 
   const renderIntelligenceBar = (percentage: number) => {
