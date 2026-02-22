@@ -878,7 +878,7 @@ export const models: AIModel[] = [
     creator: 'DeepSeek (China)',
     params: '671B MoE',
     cost: '$5.6M training',
-    capability: 85,
+    capability: 88,
     hype: 92,
     safety: 15,
     description:
@@ -1250,7 +1250,7 @@ export const models: AIModel[] = [
   {
     id: 'gemini3-pro',
     slug: 'gemini-3-pro',
-    name: 'Gemini 3 Pro',
+    name: 'Gemini 3 Deep Think',
     year: 2025,
     era: 'The Reckoning',
     category: 'chatbot',
@@ -1290,7 +1290,7 @@ export const models: AIModel[] = [
   {
     id: 'grok4-fast',
     slug: 'grok-4-fast',
-    name: 'Grok 4 Fast',
+    name: 'Grok 4.1',
     year: 2025,
     era: 'The Reckoning',
     category: 'chatbot',
