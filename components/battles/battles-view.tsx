@@ -16,22 +16,26 @@ function ValuationCounter({ target }: { target: number }) {
   useEffect(() => {
     const el = ref.current
     if (!el) return
+
+    const animate = () => {
+      if (started.current) return
+      started.current = true
+      const dur = 1400
+      const t0 = performance.now()
+      const step = (now: number) => {
+        const t = Math.min((now - t0) / dur, 1)
+        const ease = 1 - Math.pow(1 - t, 3)
+        setVal(Math.round(ease * target))
+        if (t < 1) requestAnimationFrame(step)
+      }
+      requestAnimationFrame(step)
+    }
+
     const obs = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !started.current) {
-          started.current = true
-          const dur = 1400
-          const start = performance.now()
-          const step = (now: number) => {
-            const t = Math.min((now - start) / dur, 1)
-            const ease = 1 - Math.pow(1 - t, 3)
-            setVal(Math.round(ease * target))
-            if (t < 1) requestAnimationFrame(step)
-          }
-          requestAnimationFrame(step)
-        }
+        if (entry.isIntersecting) animate()
       },
-      { threshold: 0.3 },
+      { threshold: 0 },
     )
     obs.observe(el)
     return () => obs.disconnect()
@@ -123,33 +127,16 @@ function CompareTool() {
 /* ── Company Icon ──────────────────────────────────────────────── */
 function CompanyIcon({ name, color }: { name: string; color: string }) {
   const glow = { boxShadow: `0 0 8px ${color}40` }
+  const initial = name === 'Google DeepMind' ? 'G' : name.charAt(0).toUpperCase()
 
-  if (name === 'OpenAI')
-    return <img src="https://cdn.simpleicons.org/openai/10A37F" width={20} height={20} alt="OpenAI" style={glow} />
-  if (name === 'Google DeepMind')
-    return <img src="https://cdn.simpleicons.org/google/4285F4" width={20} height={20} alt="Google" style={glow} />
-  if (name === 'Meta AI')
-    return <img src="https://cdn.simpleicons.org/meta/1877F2" width={20} height={20} alt="Meta" style={glow} />
-  if (name === 'Anthropic')
-    return (
-      <span
-        className="inline-flex h-5 w-5 items-center justify-center rounded-sm font-bold text-[10px] text-[#0a0a0f] bg-[#D4A574]"
-        style={glow}
-      >
-        A
-      </span>
-    )
-  if (name === 'xAI')
-    return (
-      <span
-        className="inline-flex h-5 w-5 items-center justify-center rounded-sm font-bold text-[10px] text-[#0a0a0f] bg-[#1DA1F2]"
-        style={glow}
-      >
-        X
-      </span>
-    )
-
-  return <div className="h-3 w-3 rounded-sm" style={{ backgroundColor: color, ...glow }} />
+  return (
+    <span
+      className="inline-flex h-5 w-5 items-center justify-center rounded-sm font-bold text-[10px] text-[#0a0a0f]"
+      style={{ backgroundColor: color, ...glow }}
+    >
+      {initial}
+    </span>
+  )
 }
 
 /* ── Main Battles View ──────────────────────────────────────────── */

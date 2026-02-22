@@ -1808,7 +1808,7 @@ export const companies = [
     color: '#D4A574',
     valuation: 183,
     ceo: 'Dario Amodei',
-    drama: 'Superbowl ads. Claude Code explosion Jan 2026. MCP = USB-C for AI.',
+    drama: 'Superbowl ads. Claude Code explosion Jan 2026. MCP = USB-C for AI. IPO imminent.',
   },
   {
     name: 'Meta AI',
