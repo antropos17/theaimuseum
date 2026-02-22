@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from 'sonner'
 import { MuseumNav } from '@/components/museum-nav'
 import { MuseumFooter } from '@/components/museum-footer'
+import { PhosphorTrail } from '@/components/phosphor-trail'
 import './globals.css'
 
 const inter = Inter({
@@ -162,6 +163,7 @@ export default function RootLayout({
           <div className="phosphor-glow" aria-hidden="true" />
           <div className="crt-overlay" aria-hidden="true" />
           <div className="crt-vignette" aria-hidden="true" />
+          <PhosphorTrail />
 
           <MuseumNav />
           <main className="relative z-10 min-h-screen">{children}</main>
