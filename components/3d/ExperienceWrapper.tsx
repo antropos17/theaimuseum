@@ -67,43 +67,43 @@ export function ExperienceWrapper({ children }: { children: React.ReactNode }) {
         className={phase === "ready" ? "opacity-30" : "opacity-50"}
       />
 
-      {/* Main Experience: Either the 3D CRT (Boot/Transition) OR the actual DOM App (Ready) */}
-      <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-        {/* Flash overlay for transition */}
-        {phase === "transition" && (
-          <div
-            ref={flashRef}
-            className="absolute inset-0 pointer-events-none z-[60]"
-            style={{
-              background:
-                "radial-gradient(circle at center, rgba(0,255,136,0.4) 0%, rgba(255,255,255,0.3) 50%, transparent 80%)",
-              opacity: 0,
-            }}
-          />
-        )}
+      {/* Boot/Transition overlay — fixed fullscreen, only during boot */}
+      {phase !== "ready" && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* Flash overlay for transition */}
+          {phase === "transition" && (
+            <div
+              ref={flashRef}
+              className="absolute inset-0 pointer-events-none z-[60]"
+              style={{
+                background:
+                  "radial-gradient(circle at center, rgba(0,255,136,0.4) 0%, rgba(255,255,255,0.3) 50%, transparent 80%)",
+                opacity: 0,
+              }}
+            />
+          )}
 
-        {/* 3D CRT Monitor - Only rendered during loading, boot, or diving transition */}
-        {phase !== "ready" && (
-          <div className="w-full h-full pointer-events-auto bg-[#0a0a0f] absolute inset-0 z-40 transition-opacity duration-500">
+          {/* 3D CRT Monitor */}
+          <div className="w-full h-full bg-[#0a0a0f] absolute inset-0 z-40 transition-opacity duration-500">
             <CrtMonitor3D
               isPowered={true}
-              isZoomingIn={phase === "transition"} // Triggers the camera dive
+              isZoomingIn={phase === "transition"}
             >
               <BootSequence onInitialize={handleInitialize} />
             </CrtMonitor3D>
           </div>
-        )}
-
-        {/* Actual DOM App Data - Renders after the camera dives into the screen */}
-        <div
-          data-boot-wrapper
-          className={cn(
-            "w-full h-full pointer-events-auto absolute inset-0 z-30 overflow-y-auto transition-opacity duration-1000",
-            phase === "ready" ? "opacity-100" : "opacity-0 pointer-events-none"
-          )}
-        >
-          {children}
         </div>
+      )}
+
+      {/* Page content — normal document flow, scrolls naturally */}
+      <div
+        data-boot-wrapper
+        className={cn(
+          "transition-opacity duration-1000",
+          phase === "ready" ? "opacity-100" : "opacity-0 pointer-events-none"
+        )}
+      >
+        {children}
       </div>
     </>
   )
