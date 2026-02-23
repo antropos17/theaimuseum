@@ -48,7 +48,7 @@ export function CopyableTerminalCard({
     <>
       <CopyTrigger
         onClick={handleCopy}
-        className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-primary/10 border border-border hover:border-primary/50 cursor-pointer"
+        className="absolute top-2 right-2 z-10 opacity-100 md:opacity-0 md:group-hover:opacity-100 [@media(hover:none)]:opacity-100 transition-opacity p-1 hover:bg-primary/10 border border-border hover:border-primary/50 cursor-pointer"
         aria-label="Copy card text"
         role="button"
         tabIndex={0}

@@ -138,6 +138,7 @@ export default function NotFound() {
 
   return (
     <div className="min-h-screen pt-20 pb-24">
+      <title>Page Not Found | The AI Museum</title>
       <div className="mx-auto max-w-4xl px-4 pt-8">
         {/* Breadcrumb — skillsmp style */}
         <div

@@ -132,12 +132,12 @@ export function MuseumNav() {
             {/* Search trigger with terminal hint */}
             <button
               onClick={() => setCmdOpen(true)}
-              className="flex h-9 items-center gap-2.5 border border-border/50 bg-card/30 px-3.5 font-mono text-[10px] text-muted-foreground backdrop-blur-sm transition-all hover:border-primary/30 hover:bg-card/50 hover:text-foreground"
+              className="flex h-9 items-center gap-2.5 border border-border/50 bg-card/30 px-3.5 font-mono text-[11px] text-muted-foreground backdrop-blur-sm transition-all hover:border-primary/30 hover:bg-card/50 hover:text-foreground"
               aria-label="Search"
             >
               <Search className="h-3.5 w-3.5" />
               <span className="hidden sm:inline">SEARCH</span>
-              <kbd className="hidden rounded border border-border/50 bg-muted/50 px-1.5 py-0.5 text-[9px] tracking-wider sm:inline">
+              <kbd className="hidden rounded border border-border/50 bg-muted/50 px-1.5 py-0.5 text-[11px] tracking-wider sm:inline">
                 ⌘K
               </kbd>
             </button>
