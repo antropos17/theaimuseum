@@ -44,6 +44,7 @@ State: Zustand. UI: Radix + Shadcn. OS: Windows — use `;` not `&&` in terminal
 3. `pnpm build` must pass with 0 errors before any commit.
 4. Small, focused commits: `type: concise description` (feat/fix/style/chore/refactor).
 5. Feature branches: `feat/name`. Never force push main.
+6. При использовании скилла — логируй: [SKILL: name] в начале ответа.
 
 ## Guardrails
 - Don't suggest — implement. Don't ask "should I?" when the task is clear.

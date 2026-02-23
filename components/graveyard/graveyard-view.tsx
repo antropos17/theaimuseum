@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { graveyard } from '@/lib/data/models'
+import { graveyard } from '@/lib/data'
 import { cn } from '@/lib/utils'
 import { ArrowLeft } from 'lucide-react'
 import { useInView } from '@/lib/hooks/use-in-view'

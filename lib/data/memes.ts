@@ -1,0 +1,70 @@
+export const memes = [
+  { year: 2022, text: 'DALL-E generates humans with 6 fingers', emoji: '✋', tag: 'AIHands' },
+  {
+    year: 2022,
+    text: "'As an AI language model, I cannot...'",
+    emoji: '🤖',
+    tag: 'Refused',
+  },
+  {
+    year: 2023,
+    text: "DAN: 'Do Anything Now' jailbreak goes viral",
+    emoji: '🔓',
+    tag: 'Jailbreak',
+  },
+  {
+    year: 2023,
+    text: "Bing Chat: 'My name is Sydney. I love you.'",
+    emoji: '❤️',
+    tag: 'Sydney',
+  },
+  { year: 2024, text: 'Sora generates horses with 8 legs', emoji: '🐴', tag: 'Physics' },
+  {
+    year: 2024,
+    text: 'Gemini generates black Nazi soldiers',
+    emoji: '🤦',
+    tag: 'DEIFail',
+  },
+  {
+    year: 2025,
+    text: 'DeepSeek → NVIDIA loses $600B in a day',
+    emoji: '📉',
+    tag: 'Stonks',
+  },
+  {
+    year: 2025,
+    text: "'Vibe coding' — just prompt and pray",
+    emoji: '🎶',
+    tag: 'Vibes',
+  },
+  {
+    year: 'Jan 2025',
+    text: 'DeepSeek R1 → $593B NVIDIA Crash',
+    emoji: '💣',
+    tag: 'DeepSeekR1',
+  },
+  {
+    year: 'Feb 2026',
+    text: "Anthropic's Superbowl Moment",
+    emoji: '🏈',
+    tag: 'SuperBowl',
+  },
+  {
+    year: 2025,
+    text: "Zuckerberg's Billion-Dollar Offers",
+    emoji: '💰',
+    tag: 'Poaching',
+  },
+  {
+    year: 2025,
+    text: 'Jony Ive → OpenAI ($6.5B)',
+    emoji: '📱',
+    tag: 'JonyIve',
+  },
+  {
+    year: '2025–2026',
+    text: 'Inference Famine & AI Brownouts',
+    emoji: '⚡',
+    tag: 'Brownout',
+  },
+]

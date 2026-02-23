@@ -26,7 +26,7 @@ import {
   companies,
   simulatorEras,
   quizQuestions,
-} from '@/lib/data/models'
+} from '@/lib/data'
 
 // --- Derived stats, computed once at module level from static data ---
 const totalModels = models.length

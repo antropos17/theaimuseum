@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
-import { models, categories } from '@/lib/data/models'
+import { models, categories } from '@/lib/data'
 import { ModelExhibit } from '@/components/model/model-exhibit'
 
 interface Props {

@@ -1,0 +1,42 @@
+export const predictions = [
+  {
+    who: 'Ray Kurzweil',
+    prediction: 'AGI by 2029',
+    year: 2005,
+    pct: 47,
+    status: 'loading' as const,
+    reality: 'Progress is accelerating. Possible.',
+  },
+  {
+    who: 'Elon Musk',
+    prediction: "'AI more dangerous than nuclear weapons'",
+    year: 2014,
+    pct: 30,
+    status: 'ironic' as const,
+    reality: 'Created Grok with zero restrictions',
+  },
+  {
+    who: 'Sam Altman',
+    prediction: 'AGI in a couple of years',
+    year: 2023,
+    pct: 60,
+    status: 'loading' as const,
+    reality: 'The definition of AGI keeps shifting',
+  },
+  {
+    who: 'Geoffrey Hinton',
+    prediction: 'AI could become an existential threat',
+    year: 2023,
+    pct: 70,
+    status: 'loading' as const,
+    reality: 'Left Google. Won Nobel Prize 2024.',
+  },
+  {
+    who: 'Yann LeCun',
+    prediction: 'LLMs are a dead end — we need new architectures',
+    year: 2023,
+    pct: 15,
+    status: 'failing' as const,
+    reality: 'LLMs still dominate everything',
+  },
+]

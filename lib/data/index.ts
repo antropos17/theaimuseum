@@ -1,13 +1,8 @@
 export type { AIModel } from './models'
-export {
-  models,
-  categories,
-  stickerTypes,
-  graveyard,
-  memes,
-  predictions,
-  companies,
-  simulatorEras,
-  quizQuestions,
-  victims,
-} from './models'
+export { models, categories, simulatorEras, quizQuestions } from './models'
+export { companies } from './companies'
+export { graveyard } from './graveyard'
+export { memes } from './memes'
+export { predictions } from './predictions'
+export { stickerTypes } from './stickers'
+export { victims } from './victims'

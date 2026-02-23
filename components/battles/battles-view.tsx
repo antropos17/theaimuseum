@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useMemo } from 'react'
 import Link from 'next/link'
-import { companies, models } from '@/lib/data/models'
+import { companies, models } from '@/lib/data'
 import { cn } from '@/lib/utils'
 import { CopyableTerminalCard } from '@/components/ui/copyable-terminal-card'
 import { ArrowLeft } from 'lucide-react'
