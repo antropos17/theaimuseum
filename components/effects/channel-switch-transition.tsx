@@ -12,10 +12,12 @@ export function ChannelSwitchTransition({ children }: ChannelSwitchTransitionPro
   const pathname = usePathname();
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [phase, setPhase] = useState<"static" | "blank" | "tune" | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState<boolean | null>(null);
+  const [isHydrated, setIsHydrated] = useState(false);
   const prevPathname = useRef(pathname);
 
   useEffect(() => {
+    setIsHydrated(true);
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener("resize", checkMobile);
@@ -23,16 +25,16 @@ export function ChannelSwitchTransition({ children }: ChannelSwitchTransitionPro
   }, []);
 
   useEffect(() => {
-    if (pathname !== prevPathname.current) {
+    if (isHydrated && pathname !== prevPathname.current) {
       triggerTransition();
       prevPathname.current = pathname;
     }
-  }, [pathname]);
+  }, [pathname, isHydrated]);
 
   const triggerTransition = async () => {
     setIsTransitioning(true);
     
-    if (isMobile) {
+    if (isMobile === true) {
       setPhase("blank");
       await new Promise((r) => setTimeout(r, 200));
     } else {
@@ -65,7 +67,7 @@ export function ChannelSwitchTransition({ children }: ChannelSwitchTransitionPro
             className="fixed inset-0 z-[9999] pointer-events-none overflow-hidden"
           >
             {/* Phase 1: Static Noise */}
-            {phase === "static" && !isMobile && (
+            {phase === "static" && isMobile !== true && (
               <motion.div 
                 className="absolute inset-0 bg-[#0a0a0f]"
                 initial={{ opacity: 0 }}
