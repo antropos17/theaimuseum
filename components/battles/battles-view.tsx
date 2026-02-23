@@ -10,27 +10,10 @@ import { useAnimatedCounter } from '@/lib/hooks'
 
 /* ── Animated Valuation Counter ─────────────────────────────────── */
 function ValuationCounter({ target }: { target: number }) {
-  const ref = useRef<HTMLSpanElement>(null)
-  const [active, setActive] = useState(false)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setActive(true)
-      },
-      { threshold: 0 },
-    )
-    obs.observe(el)
-    return () => obs.disconnect()
-  }, [])
-
-  const val = useAnimatedCounter({ target, duration: 1400, active })
+  const val = useAnimatedCounter({ target, duration: 1400, active: true })
 
   return (
-    <span ref={ref} className="font-mono text-xl tabular-nums text-primary text-glow-subtle">
+    <span className="font-mono text-xl tabular-nums text-primary text-glow-subtle">
       ${new Intl.NumberFormat('en-US').format(val)}B
     </span>
   )
