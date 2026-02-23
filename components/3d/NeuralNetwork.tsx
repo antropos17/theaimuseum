@@ -1,9 +1,18 @@
 "use client";
 
+/* eslint-disable react-hooks/purity, react-hooks/immutability */
+// R3F components use mutable Float32Array buffers updated in useFrame — standard Three.js pattern
+
 import { useRef, useMemo } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useStore } from '@/lib/store';
+
+const PARTICLE_COUNT = 150;
+const MAX_DISTANCE = 2.5;
+const SPREAD_X = 30;
+const SPREAD_Y = 20;
+const SPREAD_Z = 16;
 
 // 3D Neural Network with Magnetic Mouse Effect
 export function NeuralNetwork() {
@@ -12,13 +21,6 @@ export function NeuralNetwork() {
     const linesRef = useRef<THREE.LineSegments>(null);
     const groupRef = useRef<THREE.Group>(null);
     const { mouse, viewport } = useThree();
-
-    const PARTICLE_COUNT = 150;
-    const MAX_DISTANCE = 2.5;
-
-    const SPREAD_X = 30; // range [-15, 15]
-    const SPREAD_Y = 20; // range [-10, 10]
-    const SPREAD_Z = 16; // range [-8, 8]
 
     // Generate nodes
     const { positions, velocities } = useMemo(() => {
@@ -39,7 +41,6 @@ export function NeuralNetwork() {
 
     // Connect close nodes with lines
     const { linePositions, colors } = useMemo(() => {
-        // We update this in useFrame, just allocate max possible size
         const maxLines = PARTICLE_COUNT * PARTICLE_COUNT;
         return {
             linePositions: new Float32Array(maxLines * 6),
@@ -105,9 +106,6 @@ export function NeuralNetwork() {
                     linePositions[lidx + 3] = positionsArray[jdx];
                     linePositions[lidx + 4] = positionsArray[jdx + 1];
                     linePositions[lidx + 5] = positionsArray[jdx + 2];
-
-                    // Fade by distance
-                    const alpha = 1.0 - Math.sqrt(distSq) / MAX_DISTANCE;
 
                     colors[lidx] = 0; colors[lidx + 1] = 1; colors[lidx + 2] = 0.53; // #00ff88
                     colors[lidx + 3] = 0; colors[lidx + 4] = 1; colors[lidx + 5] = 0.53;

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
 
 export function ChannelSwitch({ onComplete, durationMs = 400 }: { onComplete: () => void, durationMs?: number }) {
     const [phase, setPhase] = useState<"glitch" | "black" | "tune-in">("glitch");

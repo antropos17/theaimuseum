@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useRef, useCallback } from "react"
+import { useState, useRef, useCallback } from "react"
 import dynamic from "next/dynamic"
 import { CrtMonitor3D } from "../crt-monitor-3d" // Use the new orchestrator
 import { cn } from "@/lib/utils"
@@ -19,17 +19,13 @@ type Phase = "loading" | "boot" | "transition" | "ready"
 const SESSION_KEY = "aimuseum-booted"
 
 export function ExperienceWrapper({ children }: { children: React.ReactNode }) {
-  const [phase, setPhase] = useState<Phase>("loading")
-  const [mounted, setMounted] = useState(false)
-  const overlayRef = useRef<HTMLDivElement>(null)
-  const flashRef = useRef<HTMLDivElement>(null)
-
-  // Check session on mount
-  useEffect(() => {
-    setMounted(true)
+  const [phase, setPhase] = useState<Phase>(() => {
+    if (typeof window === "undefined") return "loading"
     const alreadyBooted = sessionStorage.getItem(SESSION_KEY)
-    setPhase(alreadyBooted ? "ready" : "boot")
-  }, [])
+    return alreadyBooted ? "ready" : "boot"
+  })
+  const [mounted] = useState(() => typeof window !== "undefined")
+  const flashRef = useRef<HTMLDivElement>(null)
 
   // CRT power-off transition (from Boot to Ready)
   const handleInitialize = useCallback(() => {

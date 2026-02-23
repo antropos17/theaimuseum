@@ -23,13 +23,14 @@ export interface CrtMonitor3DProps {
 }
 
 export function CrtMonitor3D(props: CrtMonitor3DProps) {
-    const [isMobile, setIsMobile] = useState<boolean>(true);
+    const [isMobile, setIsMobile] = useState<boolean>(() => {
+        if (typeof window === "undefined") return true;
+        return window.matchMedia("(pointer: coarse) or (max-width: 768px)").matches;
+    });
     const gpuTier = useDetectGPU();
 
     useEffect(() => {
         const mediaQuery = window.matchMedia("(pointer: coarse) or (max-width: 768px)");
-        setIsMobile(mediaQuery.matches);
-
         const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
         mediaQuery.addEventListener("change", handler);
         return () => mediaQuery.removeEventListener("change", handler);

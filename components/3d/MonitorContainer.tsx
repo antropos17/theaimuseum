@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useMemo, useState } from 'react';
+import { useRef, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Html, PerspectiveCamera, Stars, RoundedBox, MeshTransmissionMaterial } from '@react-three/drei';
+import { Html, PerspectiveCamera, Stars, RoundedBox } from '@react-three/drei';
 import * as THREE from 'three';
 import { useStore } from '@/lib/store';
 import gsap from 'gsap';
@@ -15,9 +15,9 @@ function CrtMonitorModel({ children }: { children: React.ReactNode }) {
     const { camera } = useThree();
 
     // Handle the zoom-in animation when `hasBooted` becomes true
-    useMemo(() => {
+    useEffect(() => {
         if (hasBooted && monitorGroup.current && casingMesh.current) {
-            // Zoom camera inside the monitor screen 
+            // Zoom camera inside the monitor screen
             gsap.to(camera.position, {
                 z: 20, // Pull back to see the full neural network
                 y: 0,
@@ -53,6 +53,7 @@ function CrtMonitorModel({ children }: { children: React.ReactNode }) {
         <group ref={monitorGroup} position={[0, 0, 0]}>
 
             {/* Physical Monitor Outer Casing */}
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             <RoundedBox ref={casingMesh as any} args={[5.2, 4.2, 3.5]} radius={0.2} smoothness={4} position={[0, 0, -0.5]} castShadow receiveShadow>
                 <meshStandardMaterial color="#0a0a0a" roughness={0.7} metalness={0.2} />
             </RoundedBox>
