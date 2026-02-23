@@ -152,6 +152,24 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`} suppressHydrationWarning>
         <Script
+          id="suppress-threejs-warnings"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                const originalWarn = console.warn;
+                console.warn = function(...args) {
+                  const message = args[0];
+                  if (typeof message === 'string' && message.includes('THREE.Clock: This module has been deprecated')) {
+                    return;
+                  }
+                  originalWarn.apply(console, args);
+                };
+              })();
+            `,
+          }}
+        />
+        <Script
           id="website-schema"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
