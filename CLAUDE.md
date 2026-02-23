@@ -65,5 +65,9 @@ Auto-deploys from main. Preview deploys from feature branches.
 - PR #5 pending: split lib/data/models.ts monolith into 9 files
 - Content update needed: valuations show $0B, need real data
 
-## Skills
-Read .claude/skills/ for domain knowledge when working on specific areas.
+## Skills — MANDATORY
+BEFORE any task: read .claude/skills/agent-orchestrator/SKILL.md
+At task start, log: [SKILL: agent-orchestrator] — scanning skills
+For each skill used, log: [SKILL: name] — what you're doing
+Available skills: ls .claude/skills/ — match task to relevant skills
+If no skill fits — say so, don't pretend.
