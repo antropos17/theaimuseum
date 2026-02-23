@@ -6,36 +6,27 @@ import { victims } from '@/data/models'
 import { cn } from '@/lib/utils'
 import { CopyableTerminalCard } from '@/components/ui/copyable-terminal-card'
 import { ArrowLeft } from 'lucide-react'
+import { useAnimatedCounter } from '@/hooks/use-animated-counter'
 
 /* ── Countdown counter: counts DOWN from 100 to remaining % ───── */
 function PowerDown({ target, color }: { target: number; color: string }) {
   const ref = useRef<HTMLSpanElement>(null)
-  const [val, setVal] = useState(100)
-  const started = useRef(false)
+  const [active, setActive] = useState(false)
 
   useEffect(() => {
     const el = ref.current
     if (!el) return
     const obs = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !started.current) {
-          started.current = true
-          const dur = 2000
-          const start = performance.now()
-          const step = (now: number) => {
-            const t = Math.min((now - start) / dur, 1)
-            const ease = 1 - Math.pow(1 - t, 3)
-            setVal(Math.round(100 - ease * (100 - target)))
-            if (t < 1) requestAnimationFrame(step)
-          }
-          requestAnimationFrame(step)
-        }
+        if (entry.isIntersecting) setActive(true)
       },
       { threshold: 0.3 },
     )
     obs.observe(el)
     return () => obs.disconnect()
-  }, [target])
+  }, [])
+
+  const val = useAnimatedCounter({ target, duration: 2000, active, start: 100 })
 
   return (
     <span ref={ref} className="font-mono text-xl tabular-nums" style={{ color }}>

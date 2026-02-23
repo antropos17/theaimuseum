@@ -1,10 +1,11 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { graveyard } from '@/data/models'
 import { cn } from '@/lib/utils'
 import { ArrowLeft } from 'lucide-react'
+import { useInView } from '@/hooks/use-in-view'
 
 const SEVERITY_MAP: Record<number, { label: string; color: string; bg: string }> = {
   0: { label: 'CATASTROPHIC', color: 'text-red-400', bg: 'bg-red-500/10 border-red-500/20' },
@@ -26,24 +27,7 @@ function CrashCard({
   expanded: boolean
   onToggle: () => void
 }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const [visible, setVisible] = useState(false)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const obs = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          setVisible(true)
-          obs.unobserve(el)
-        }
-      },
-      { threshold: 0.15 },
-    )
-    obs.observe(el)
-    return () => obs.disconnect()
-  }, [])
+  const { ref, isInView: visible } = useInView(0.15)
 
   const severity = SEVERITY_MAP[index] || SEVERITY_MAP[0]
   const errorCode = `ERR_${(index * 1337 + 4096).toString(16).toUpperCase()}`

@@ -211,8 +211,8 @@ export function QuizView() {
             text: `${challengeText} ${challengeUrl}`,
             url: challengeUrl,
           })
-        } catch (err) {
-          console.log('[v0] Share cancelled or failed:', err)
+        } catch {
+          // silently ignore
         }
       } else {
         // Fallback to Twitter
@@ -235,8 +235,8 @@ export function QuizView() {
       try {
         await navigator.clipboard.writeText(challengeUrl)
         // Success - you could add a toast here if desired
-      } catch (err) {
-        console.log('[v0] Copy failed:', err)
+      } catch {
+        // silently ignore
       }
     }
     return (
@@ -440,8 +440,8 @@ export function QuizView() {
           text: `${shareText} ${shareUrl}`,
           url: shareUrl,
         })
-      } catch (err) {
-        console.log('[v0] Share cancelled or failed:', err)
+      } catch {
+        // silently ignore
       }
     } else {
       // Fallback to Twitter
@@ -455,8 +455,8 @@ export function QuizView() {
 
     try {
       await navigator.clipboard.writeText(questionText)
-    } catch (err) {
-      console.log('[v0] Copy failed:', err)
+    } catch {
+      // silently ignore
     }
   }
 

@@ -829,8 +829,7 @@ export function AIEvolutionDemo() {
       toast('Fact copied! Share it →', {
         duration: 2000,
       })
-    } catch (err) {
-      console.error('[v0] Failed to copy:', err)
+    } catch {
       toast.error('Failed to copy')
     }
   }
@@ -853,7 +852,6 @@ export function AIEvolutionDemo() {
           return
         }
         // NotAllowedError or other errors - fallback to copy
-        console.log('[v0] Share failed:', errorName)
         try {
           await navigator.clipboard.writeText(allStatsText)
           toast('Stats copied to clipboard!', { duration: 2000 })

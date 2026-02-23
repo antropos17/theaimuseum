@@ -182,8 +182,8 @@ export function SimulatorView() {
       try {
         await navigator.share({ text, url })
         setShowSharePrompt(false)
-      } catch (err) {
-        console.log('[v0] Share cancelled or failed:', err)
+      } catch {
+        // silently ignore
       }
     } else {
       // Fallback to Twitter intent
@@ -207,8 +207,8 @@ export function SimulatorView() {
     try {
       await navigator.clipboard.writeText(fullText)
       // You could add a toast here if you want
-    } catch (err) {
-      console.log('[v0] Copy failed:', err)
+    } catch {
+      // silently ignore
     }
   }
 

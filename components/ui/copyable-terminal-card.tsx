@@ -28,8 +28,8 @@ export function CopyableTerminalCard({
       try {
         await navigator.clipboard.writeText(text)
         toast.success('Copied!', { duration: 2000 })
-      } catch (err) {
-        console.log('[v0] Failed to copy:', err)
+      } catch {
+        // silently ignore
       }
     }
   }

@@ -6,40 +6,28 @@ import { companies, models } from '@/data/models'
 import { cn } from '@/lib/utils'
 import { CopyableTerminalCard } from '@/components/ui/copyable-terminal-card'
 import { ArrowLeft } from 'lucide-react'
+import { useAnimatedCounter } from '@/hooks/use-animated-counter'
 
 /* ── Animated Valuation Counter ─────────────────────────────────── */
 function ValuationCounter({ target }: { target: number }) {
   const ref = useRef<HTMLSpanElement>(null)
-  const [val, setVal] = useState(0)
-  const started = useRef(false)
+  const [active, setActive] = useState(false)
 
   useEffect(() => {
     const el = ref.current
     if (!el) return
 
-    const animate = () => {
-      if (started.current) return
-      started.current = true
-      const dur = 1400
-      const t0 = performance.now()
-      const step = (now: number) => {
-        const t = Math.min((now - t0) / dur, 1)
-        const ease = 1 - Math.pow(1 - t, 3)
-        setVal(Math.round(ease * target))
-        if (t < 1) requestAnimationFrame(step)
-      }
-      requestAnimationFrame(step)
-    }
-
     const obs = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) animate()
+        if (entry.isIntersecting) setActive(true)
       },
       { threshold: 0 },
     )
     obs.observe(el)
     return () => obs.disconnect()
-  }, [target])
+  }, [])
+
+  const val = useAnimatedCounter({ target, duration: 1400, active })
 
   return (
     <span ref={ref} className="font-mono text-xl tabular-nums text-primary text-glow-subtle">
