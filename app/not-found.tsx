@@ -123,7 +123,7 @@ export default function NotFound() {
   const [errorCode, setErrorCode] = useState('0x0404')
 
   useEffect(() => {
-    setErrorCode(`0x${Math.floor(Math.random() * 0xFFFF).toString(16).toUpperCase().padStart(4, '0')}`)
+    queueMicrotask(() => setErrorCode(`0x${Math.floor(Math.random() * 0xFFFF).toString(16).toUpperCase().padStart(4, '0')}`))
     const raf = requestAnimationFrame(() => setEntered(true))
     return () => cancelAnimationFrame(raf)
   }, [])

@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { Check, Download } from 'lucide-react'
 import { useInView } from '@/hooks/use-in-view'
 import { CopyableTerminalCard } from '@/components/ui/copyable-terminal-card'
 

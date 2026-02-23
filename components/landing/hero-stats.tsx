@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useRef, useCallback } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Check, Share2 } from 'lucide-react'
 import { toast } from 'sonner'
 

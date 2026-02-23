@@ -37,13 +37,13 @@ const responses = [
       <>
         The AI Museum is{' '}
         <span className="text-primary text-shadow-[0_0_12px_rgba(0,255,136,0.4)] font-semibold">
-          the world's first
+          the world&apos;s first
         </span>{' '}
         interactive museum dedicated to the history of artificial intelligence. It covers{' '}
         <span className="text-primary text-shadow-[0_0_12px_rgba(0,255,136,0.4)] font-semibold">
           76 years
         </span>{' '}
-        -- from Turing's 1950 paper to GPT-5.2 Pro in 2026. You can explore{' '}
+        -- from Turing&apos;s 1950 paper to GPT-5.2 Pro in 2026. You can explore{' '}
         <span className="text-primary text-shadow-[0_0_12px_rgba(0,255,136,0.4)] font-semibold">
           40 models
         </span>
@@ -55,7 +55,7 @@ const responses = [
         <span className="text-primary text-shadow-[0_0_12px_rgba(0,255,136,0.4)] font-semibold">
           Quiz
         </span>
-        , and rate models with community stickers. It's{' '}
+        , and rate models with community stickers. It&apos;s{' '}
         <span className="text-primary text-shadow-[0_0_12px_rgba(0,255,136,0.4)] font-semibold">
           free, open-source
         </span>
@@ -113,7 +113,9 @@ function AnimatedCounter({
   const rafRef = useRef<number | null>(null)
   const hasRun = useRef(false)
   const onCompleteRef = useRef(onComplete)
-  onCompleteRef.current = onComplete
+  useEffect(() => {
+    onCompleteRef.current = onComplete
+  })
 
   useEffect(() => {
     if (!active || hasRun.current) return
@@ -920,7 +922,7 @@ export function AIEvolutionDemo() {
         {/* ── Animated stat counters ── */}
         <div ref={statsRef} className="mx-auto mb-4 flex flex-col items-center gap-6 md:mb-6">
           <div className="flex flex-wrap items-center justify-center gap-10 sm:gap-16">
-            {stats.map((stat, index) => (
+            {stats.map((stat) => (
               <button
                 key={stat.label}
                 onClick={() => allCountersComplete && handleStatClick(stat.shareText)}

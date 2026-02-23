@@ -51,7 +51,7 @@ export function VirusScanLoader({ onComplete, speed = 1 }: VirusScanLoaderProps)
       const timer = setTimeout(() => setCurrentStep((s) => s + 1), 400 / speed);
       return () => clearTimeout(timer);
     }
-  }, [currentStep, progress, onComplete, speed, scanLines.length]);
+  }, [currentStep, progress, onComplete, speed, scanLines]);
 
   const renderProgressBar = (value: number) => {
     const totalBlocks = 12; // ████████░░░░
@@ -104,27 +104,24 @@ function TypewriterText({
   animate: boolean;
   duration: number;
 }) {
-  const [displayed, setDisplayed] = useState(animate ? "" : text);
+  const [animatedText, setAnimatedText] = useState("");
 
   useEffect(() => {
-    if (!animate) {
-      setDisplayed(text);
-      return;
-    }
+    if (!animate) return;
 
-    let startTime = performance.now();
+    const startTime = performance.now();
     let frameId: number;
 
     const tick = (now: number) => {
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
       const charsToShow = Math.floor(progress * text.length);
-      setDisplayed(text.slice(0, charsToShow));
+      setAnimatedText(text.slice(0, charsToShow));
 
       if (progress < 1) {
         frameId = requestAnimationFrame(tick);
       } else {
-        setDisplayed(text);
+        setAnimatedText(text);
       }
     };
 
@@ -132,5 +129,5 @@ function TypewriterText({
     return () => cancelAnimationFrame(frameId);
   }, [text, animate, duration]);
 
-  return <div className={`whitespace-pre-wrap ${className || ""}`}>{displayed}</div>;
+  return <div className={`whitespace-pre-wrap ${className || ""}`}>{animate ? animatedText : text}</div>;
 }

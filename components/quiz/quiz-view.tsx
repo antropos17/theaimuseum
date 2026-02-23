@@ -40,6 +40,14 @@ function getRank(pct: number) {
   return RANKS.find((r) => pct >= r.min) || RANKS[RANKS.length - 1]
 }
 
+const BOOT_LINES = [
+  '> LOADING DIAGNOSTIC MODULE...',
+  '> CALIBRATING KNOWLEDGE VECTORS...',
+  '> ESTABLISHING NEURAL LINK...',
+  '> 10 CHALLENGES QUEUED',
+  '> BEGIN SYSTEM DIAGNOSTIC_',
+]
+
 export function QuizView() {
   const [phase, setPhase] = useState<'boot' | 'quiz' | 'results'>('boot')
   const [bootLine, setBootLine] = useState(0)
@@ -57,14 +65,6 @@ export function QuizView() {
   const total = questions.length
 
   // Boot sequence
-  const BOOT_LINES = [
-    '> LOADING DIAGNOSTIC MODULE...',
-    '> CALIBRATING KNOWLEDGE VECTORS...',
-    '> ESTABLISHING NEURAL LINK...',
-    '> 10 CHALLENGES QUEUED',
-    '> BEGIN SYSTEM DIAGNOSTIC_',
-  ]
-
   useEffect(() => {
     if (phase !== 'boot') return
     const timers: NodeJS.Timeout[] = []

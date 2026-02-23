@@ -33,7 +33,7 @@ export function HeroSection() {
 
     // Set initial visitor count immediately on mount
     const initialCount = 247 + Math.floor(Math.random() * 337)
-    setExplorers(initialCount)
+    queueMicrotask(() => setExplorers(initialCount))
 
     // Boot sequence
     const bootTimers: NodeJS.Timeout[] = []

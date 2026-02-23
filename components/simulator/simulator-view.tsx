@@ -161,13 +161,11 @@ export function SimulatorView() {
 
   const isTyping = phase === 'typing-user' || phase === 'typing-ai'
   const remainingPrompts = era.prompts.slice(promptIdx)
-  const [messageCount, setMessageCount] = useState(0)
   const [showSharePrompt, setShowSharePrompt] = useState(false)
 
-  // Track message count and show share prompt after 5+ messages
+  // Show share prompt after 5+ AI messages
   useEffect(() => {
     const completedMessages = lines.filter((line) => line.type === 'ai').length
-    setMessageCount(completedMessages)
     if (completedMessages >= 5 && !showSharePrompt && phase === 'idle') {
       setShowSharePrompt(true)
     }

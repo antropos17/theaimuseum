@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, Download, Share2 } from 'lucide-react'
+import { ArrowLeft, Download } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const AI_MODELS = [

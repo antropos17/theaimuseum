@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import type { AIModel } from '@/data/models'
 import { categories } from '@/data/models'
 import { cn } from '@/lib/utils'
-import { CopyableTerminalCard } from '@/components/ui/copyable-terminal-card'
 import { Share2, Clipboard, Check } from 'lucide-react'
 import { toast } from 'sonner'
 
@@ -172,7 +171,7 @@ function CardContent({
 
   // Detect navigator.share support
   useEffect(() => {
-    setCanWebShare(typeof navigator !== 'undefined' && !!navigator.share)
+    queueMicrotask(() => setCanWebShare(typeof navigator !== 'undefined' && !!navigator.share))
   }, [])
 
   // Close dropdown when clicking outside
