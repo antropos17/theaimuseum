@@ -16,6 +16,7 @@ import {
 } from 'lucide-react'
 import type { AIModel } from '@/lib/data'
 import { stickerTypes, models } from '@/lib/data'
+import { useStore } from '@/lib/stores/store'
 import { cn } from '@/lib/utils'
 
 interface ModelExhibitProps {
@@ -81,6 +82,11 @@ export function ModelExhibit({ model, category, prevModel, nextModel }: ModelExh
   const [copied, setCopied] = useState(false)
   const contentRef = useRef<HTMLDivElement>(null)
   const shareRef = useRef<HTMLDivElement>(null)
+  const addVisitedModel = useStore((s) => s.addVisitedModel)
+
+  useEffect(() => {
+    addVisitedModel(model.slug)
+  }, [model.slug, addVisitedModel])
 
   useEffect(() => {
     const raf = requestAnimationFrame(() => {

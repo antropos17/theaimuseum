@@ -5,7 +5,8 @@ import { ThemeProvider } from '@/components/layout/theme-provider'
 import { Toaster } from 'sonner'
 import { MuseumNav } from '@/components/layout/museum-nav'
 import { MuseumFooter } from '@/components/layout/museum-footer'
-import { PhosphorTrail } from '@/components/effects'
+import { PhosphorTrail, ChannelSwitchTransition } from '@/components/effects'
+import { TerminalHud } from '@/components/layout'
 import { KonamiListener } from '@/lib/hooks'
 import './globals.css'
 
@@ -170,8 +171,11 @@ export default function RootLayout({
           <div className="crt-vignette" aria-hidden="true" />
 
           <MuseumNav />
-          <main className="relative z-10 min-h-screen">{children}</main>
+          <main className="relative z-10 min-h-screen pb-8">
+            <ChannelSwitchTransition>{children}</ChannelSwitchTransition>
+          </main>
           <MuseumFooter />
+          <TerminalHud />
           <Toaster position="bottom-right" />
         </ThemeProvider>
       </body>
