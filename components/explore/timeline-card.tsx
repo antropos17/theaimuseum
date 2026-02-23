@@ -230,12 +230,14 @@ function CardContent({
           borderLeftWidth: '2px',
           borderLeftColor: isHovered ? 'rgba(0, 255, 136, 1)' : 'rgba(0, 255, 136, 0.4)',
           boxShadow: isHovered
-            ? '0 0 40px rgba(0, 255, 136, 0.15)'
+            ? '0 0 50px rgba(0, 255, 136, 0.2)'
             : eraStyle === 'terminal'
               ? '0 0 16px rgba(0, 255, 136, 0.06)'
               : eraStyle === 'glass'
                 ? '0 0 24px rgba(0, 255, 136, 0.08)'
                 : 'none',
+          transform: isHovered ? 'scale(1.01)' : 'scale(1)',
+          transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
         }}
       >
         {/* Left border sweep animation */}
@@ -375,7 +377,11 @@ function CardContent({
 
       {/* Share button - positioned absolutely in top-right corner */}
       <div ref={shareRef} className="absolute right-3 top-3 z-10">
-        <button onClick={toggleShareMenu} aria-label="Share">
+        <button 
+          onClick={toggleShareMenu} 
+          aria-label="Share"
+          className="transition-transform duration-200 hover:scale-125 active:scale-95"
+        >
           <Share2
             size={12}
             strokeWidth={1.5}

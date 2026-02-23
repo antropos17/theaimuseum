@@ -163,9 +163,10 @@ function WingCard({
       onMouseLeave={() => setIsHovered(false)}
       className={`
         group relative flex flex-col overflow-hidden border border-border bg-card
-        transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]
-        hover:-translate-y-1 hover:bg-card/50 hover:border-primary/50 hover:shadow-[0_0_40px_rgba(0,255,136,0.15)]
+        transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
+        hover:-translate-y-2 hover:scale-[1.01] hover:bg-card/50 hover:border-primary/60 hover:shadow-[0_0_50px_rgba(0,255,136,0.2)]
         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background
+        active:scale-[0.99] active:-translate-y-1
         ${wing.featured ? 'sm:col-span-2 sm:row-span-1' : ''}
       `}
       style={{
