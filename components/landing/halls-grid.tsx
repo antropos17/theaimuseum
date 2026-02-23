@@ -1,6 +1,7 @@
 'use client'
 
-import { useRef, useState, useEffect } from 'react'
+import { useState } from 'react'
+import { useInView } from '@/hooks/use-in-view'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { LucideIcon } from 'lucide-react'
@@ -263,27 +264,10 @@ function WingCard({
 }
 
 export function HallsGrid() {
-  const sectionRef = useRef<HTMLDivElement>(null)
-  const [visible, setVisible] = useState(false)
-
-  useEffect(() => {
-    const el = sectionRef.current
-    if (!el) return
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true)
-          obs.unobserve(el)
-        }
-      },
-      { threshold: 0.1 },
-    )
-    obs.observe(el)
-    return () => obs.disconnect()
-  }, [])
+  const { ref, isInView: visible } = useInView(0.1)
 
   return (
-    <section ref={sectionRef} className="relative z-10 mx-auto max-w-5xl px-4 py-20">
+    <section ref={ref} className="relative z-10 mx-auto max-w-5xl px-4 py-20">
       {/* Section header — terminal command style */}
       <div
         className="mb-10 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"

@@ -9,22 +9,14 @@ const TWEET_TEXT = 'I found The AI Museum — 76 years of AI history in one inte
 
 export function HeroShareBar({ visible }: { visible: boolean }) {
   const [copied, setCopied] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 768)
-    const handleResize = () => setIsMobile(window.innerWidth < 768)
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
 
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(SITE_URL)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
-    } catch (err) {
-      console.error('[v0] Failed to copy:', err)
+    } catch {
+      // silently ignore
     }
   }
 
@@ -38,7 +30,6 @@ export function HeroShareBar({ visible }: { visible: boolean }) {
         })
       } catch (err) {
         if ((err as Error).name !== 'AbortError') {
-          console.error('[v0] Share failed:', err)
           handleCopy()
         }
       }
@@ -170,8 +161,8 @@ export function StickySidebarShare() {
       await navigator.clipboard.writeText(SITE_URL)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
-    } catch (err) {
-      console.error('[v0] Failed to copy:', err)
+    } catch {
+      // silently ignore
     }
   }
 
@@ -185,7 +176,6 @@ export function StickySidebarShare() {
         })
       } catch (err) {
         if ((err as Error).name !== 'AbortError') {
-          console.error('[v0] Share failed:', err)
           handleCopy()
         }
       }

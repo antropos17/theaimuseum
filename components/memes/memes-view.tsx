@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState, useEffect } from 'react'
+import { useInView } from '@/hooks/use-in-view'
 import Link from 'next/link'
 import { memes } from '@/data/models'
 import { CopyableTerminalCard } from '@/components/ui/copyable-terminal-card'
@@ -10,24 +10,7 @@ import { ArrowLeft } from 'lucide-react'
 const tilts = [-2.5, 1.8, -1.2, 2.4, -3, 1.5, -2, 2.8]
 
 export function MemesView() {
-  const gridRef = useRef<HTMLDivElement>(null)
-  const [visible, setVisible] = useState(false)
-
-  useEffect(() => {
-    const el = gridRef.current
-    if (!el) return
-    const obs = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          setVisible(true)
-          obs.unobserve(el)
-        }
-      },
-      { threshold: 0.1 },
-    )
-    obs.observe(el)
-    return () => obs.disconnect()
-  }, [])
+  const { ref, isInView: visible } = useInView(0.1)
 
   return (
     <div className="min-h-screen pt-16">
@@ -48,7 +31,7 @@ export function MemesView() {
         </p>
 
         {/* Card grid */}
-        <div ref={gridRef} className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div ref={ref} className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {memes.map((meme, i) => {
             const baseTilt = tilts[i % tilts.length]
             return (

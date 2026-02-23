@@ -1,12 +1,12 @@
 'use client'
 
-import { useRef, useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { useInView } from '@/hooks/use-in-view'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { AIModel } from '@/data/models'
 import { categories } from '@/data/models'
 import { cn } from '@/lib/utils'
-import { CopyableTerminalCard } from '@/components/ui/copyable-terminal-card'
 import { Share2, Clipboard, Check } from 'lucide-react'
 import { toast } from 'sonner'
 
@@ -30,24 +30,7 @@ export function TimelineCard({
   index?: number
 }) {
   const cat = categories[model.category]
-  const cardRef = useRef<HTMLDivElement>(null)
-  const [visible, setVisible] = useState(false)
-
-  useEffect(() => {
-    const el = cardRef.current
-    if (!el) return
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true)
-          obs.unobserve(el)
-        }
-      },
-      { threshold: 0.15 },
-    )
-    obs.observe(el)
-    return () => obs.disconnect()
-  }, [])
+  const { ref, isInView: visible } = useInView(0.15)
 
   /* Card base classes depending on era style */
   const cardBase = cn(
@@ -67,7 +50,7 @@ export function TimelineCard({
 
   return (
     <div
-      ref={cardRef}
+      ref={ref}
       className={cn('grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-start gap-0 md:gap-6')}
       style={{
         opacity: visible ? 1 : 0,
@@ -172,7 +155,7 @@ function CardContent({
 
   // Detect navigator.share support
   useEffect(() => {
-    setCanWebShare(typeof navigator !== 'undefined' && !!navigator.share)
+    queueMicrotask(() => setCanWebShare(typeof navigator !== 'undefined' && !!navigator.share))
   }, [])
 
   // Close dropdown when clicking outside

@@ -27,7 +27,7 @@ export function MuseumNav() {
   const [mobileOpen, setMobileOpen] = useState(false)
 
   useEffect(() => {
-    setMounted(true)
+    queueMicrotask(() => setMounted(true))
     const onScroll = () => {
       const scrollY = window.scrollY
       setScrolled(scrollY > 20)
@@ -54,9 +54,11 @@ export function MuseumNav() {
     return () => document.removeEventListener('keydown', down)
   }, [])
 
-  useEffect(() => {
+  const [prevPathname, setPrevPathname] = useState(pathname)
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname)
     setMobileOpen(false)
-  }, [pathname])
+  }
 
   return (
     <>

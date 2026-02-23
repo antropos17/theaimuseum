@@ -5,11 +5,9 @@ import { Zap } from 'lucide-react'
 
 export function LiveVisitors() {
   const [count, setCount] = useState<number | null>(null)
-  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    setMounted(true)
-    setCount(Math.floor(Math.random() * (48 - 12 + 1)) + 12)
+    queueMicrotask(() => setCount(Math.floor(Math.random() * (48 - 12 + 1)) + 12))
 
     const interval = setInterval(() => {
       setCount((prev) => {
@@ -23,7 +21,7 @@ export function LiveVisitors() {
     return () => clearInterval(interval)
   }, [])
 
-  if (!mounted || count === null) {
+  if (count === null) {
     return (
       <div className="flex items-center gap-1.5">
         <Zap

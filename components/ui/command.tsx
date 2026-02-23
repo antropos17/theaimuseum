@@ -13,6 +13,8 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 
+type CmdkCommand = typeof import('cmdk').Command
+
 type CommandProps = React.ComponentPropsWithoutRef<'div'> & {
   shouldFilter?: boolean
   filter?: (value: string, search: string) => number
@@ -28,7 +30,7 @@ const CommandContext = React.createContext<{
   onValueChange: (value: string) => void
 }>({
   value: '',
-  onValueChange: () => {},
+  onValueChange: () => { },
 })
 
 function Command({
@@ -40,7 +42,7 @@ function Command({
   ...props
 }: CommandProps) {
   const [value, setValue] = React.useState(defaultValue ?? '')
-  const [CommandPrimitive, setCommandPrimitive] = React.useState<any>(null)
+  const [CommandPrimitive, setCommandPrimitive] = React.useState<CmdkCommand | null>(null)
 
   React.useEffect(() => {
     import('cmdk').then((mod) => setCommandPrimitive(() => mod.Command))
@@ -113,7 +115,7 @@ type CommandInputProps = React.ComponentPropsWithoutRef<'input'> & {
 }
 
 function CommandInput({ className, ...props }: CommandInputProps) {
-  const [Input, setInput] = React.useState<any>(null)
+  const [Input, setInput] = React.useState<CmdkCommand['Input'] | null>(null)
 
   React.useEffect(() => {
     import('cmdk').then((mod) => setInput(() => mod.Command.Input))
@@ -150,7 +152,7 @@ function CommandInput({ className, ...props }: CommandInputProps) {
 }
 
 function CommandList({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
-  const [List, setList] = React.useState<any>(null)
+  const [List, setList] = React.useState<CmdkCommand['List'] | null>(null)
 
   React.useEffect(() => {
     import('cmdk').then((mod) => setList(() => mod.Command.List))
@@ -170,7 +172,7 @@ function CommandList({ className, ...props }: React.ComponentPropsWithoutRef<'di
 }
 
 function CommandEmpty(props: React.ComponentPropsWithoutRef<'div'>) {
-  const [Empty, setEmpty] = React.useState<any>(null)
+  const [Empty, setEmpty] = React.useState<CmdkCommand['Empty'] | null>(null)
 
   React.useEffect(() => {
     import('cmdk').then((mod) => setEmpty(() => mod.Command.Empty))
@@ -184,7 +186,7 @@ function CommandEmpty(props: React.ComponentPropsWithoutRef<'div'>) {
 }
 
 function CommandGroup({ className, heading, ...props }: React.ComponentPropsWithoutRef<'div'> & { heading?: React.ReactNode }) {
-  const [Group, setGroup] = React.useState<any>(null)
+  const [Group, setGroup] = React.useState<CmdkCommand['Group'] | null>(null)
 
   React.useEffect(() => {
     import('cmdk').then((mod) => setGroup(() => mod.Command.Group))
@@ -217,7 +219,7 @@ function CommandGroup({ className, heading, ...props }: React.ComponentPropsWith
 }
 
 function CommandSeparator({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
-  const [Separator, setSeparator] = React.useState<any>(null)
+  const [Separator, setSeparator] = React.useState<CmdkCommand['Separator'] | null>(null)
 
   React.useEffect(() => {
     import('cmdk').then((mod) => setSeparator(() => mod.Command.Separator))
@@ -243,7 +245,7 @@ type CommandItemProps = React.ComponentPropsWithoutRef<'div'> & {
 }
 
 function CommandItem({ className, onSelect, ...props }: CommandItemProps) {
-  const [Item, setItem] = React.useState<any>(null)
+  const [Item, setItem] = React.useState<CmdkCommand['Item'] | null>(null)
 
   React.useEffect(() => {
     import('cmdk').then((mod) => setItem(() => mod.Command.Item))

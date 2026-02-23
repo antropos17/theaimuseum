@@ -161,13 +161,11 @@ export function SimulatorView() {
 
   const isTyping = phase === 'typing-user' || phase === 'typing-ai'
   const remainingPrompts = era.prompts.slice(promptIdx)
-  const [messageCount, setMessageCount] = useState(0)
   const [showSharePrompt, setShowSharePrompt] = useState(false)
 
-  // Track message count and show share prompt after 5+ messages
+  // Show share prompt after 5+ AI messages
   useEffect(() => {
     const completedMessages = lines.filter((line) => line.type === 'ai').length
-    setMessageCount(completedMessages)
     if (completedMessages >= 5 && !showSharePrompt && phase === 'idle') {
       setShowSharePrompt(true)
     }
@@ -184,8 +182,8 @@ export function SimulatorView() {
       try {
         await navigator.share({ text, url })
         setShowSharePrompt(false)
-      } catch (err) {
-        console.log('[v0] Share cancelled or failed:', err)
+      } catch {
+        // silently ignore
       }
     } else {
       // Fallback to Twitter intent
@@ -209,8 +207,8 @@ export function SimulatorView() {
     try {
       await navigator.clipboard.writeText(fullText)
       // You could add a toast here if you want
-    } catch (err) {
-      console.log('[v0] Copy failed:', err)
+    } catch {
+      // silently ignore
     }
   }
 

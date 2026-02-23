@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, createElement } from 'react'
+import { createElement } from 'react'
 import { Copy } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
@@ -18,19 +18,18 @@ export function CopyableTerminalCard({
   as = 'div',
   ...props
 }: CopyableTerminalCardProps) {
-  const cardRef = useRef<HTMLElement>(null)
-
   const handleCopy = async (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
 
-    if (cardRef.current) {
-      const text = cardRef.current.innerText
+    const card = (e.currentTarget as HTMLElement).closest('[data-copyable-card]')
+    if (card) {
+      const text = (card as HTMLElement).innerText
       try {
         await navigator.clipboard.writeText(text)
         toast.success('Copied!', { duration: 2000 })
-      } catch (err) {
-        console.log('[v0] Failed to copy:', err)
+      } catch {
+        // silently ignore
       }
     }
   }
@@ -42,7 +41,7 @@ export function CopyableTerminalCard({
   return createElement(
     as,
     {
-      ref: cardRef,
+      'data-copyable-card': '',
       className: cn('terminal-card-solid relative group', className),
       ...props,
     },
