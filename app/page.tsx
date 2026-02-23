@@ -1,9 +1,9 @@
-import { HeroSection } from '@/components/landing/hero-section'
-import { AIEvolutionDemo } from '@/components/landing/ai-evolution-demo'
-import { HallsGrid } from '@/components/landing/halls-grid'
-import { NewsletterSection } from '@/components/landing/newsletter-section'
-import { DonationSection } from '@/components/landing/donation-section'
-import { StickySidebarShare } from '@/components/landing/share-components'
+import { HeroSection } from '@/components/sections/hero-section'
+import { AIEvolutionDemo } from '@/components/sections/ai-evolution-demo'
+import { HallsGrid } from '@/components/sections/halls-grid'
+import { NewsletterSection } from '@/components/sections/newsletter-section'
+import { DonationSection } from '@/components/sections/donation-section'
+import { StickySidebarShare } from '@/components/sections/share-components'
 import { ExperienceWrapper } from '@/components/3d/ExperienceWrapper'
 
 export default function HomePage() {
