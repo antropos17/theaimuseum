@@ -1,1 +1,1 @@
-Data files: AI models, companies, memes, predictions, leaderboard rankings.
+Data files: models.ts (AI models, companies, memes, predictions, leaderboard, quiz, simulator, victims).
