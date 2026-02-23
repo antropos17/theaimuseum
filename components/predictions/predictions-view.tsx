@@ -10,6 +10,10 @@ import { ArrowLeft } from 'lucide-react'
 const statusConfig: Record<string, { label: string; color: string; glow: string; spin?: boolean }> =
   {
     loading: { label: 'LIVE', color: 'text-emerald-400', glow: 'bg-emerald-400', spin: true },
+    on_track: { label: 'ON TRACK', color: 'text-emerald-400', glow: 'bg-emerald-400', spin: true },
+    confirmed: { label: 'CONFIRMED', color: 'text-cyan-400', glow: 'bg-cyan-400' },
+    emerging: { label: 'EMERGING', color: 'text-violet-400', glow: 'bg-violet-400', spin: true },
+    pending: { label: 'PENDING', color: 'text-yellow-400', glow: 'bg-yellow-400' },
     ironic: { label: 'IRONIC', color: 'text-amber-400', glow: 'bg-amber-400' },
     failing: { label: 'FAILING', color: 'text-red-400', glow: 'bg-red-400' },
   }
@@ -117,11 +121,13 @@ export function PredictionsView() {
                       style={{
                         width: `${pred.pct}%`,
                         backgroundColor:
-                          pred.status === 'loading'
+                          pred.status === 'on_track' || pred.status === 'emerging'
                             ? 'var(--primary)'
-                            : pred.status === 'ironic'
-                              ? '#f59e0b'
-                              : '#ef4444',
+                            : pred.status === 'confirmed'
+                              ? '#22d3ee'
+                              : pred.status === 'ironic' || pred.status === 'pending'
+                                ? '#f59e0b'
+                                : '#ef4444',
                       }}
                     />
                   </div>

@@ -39,4 +39,22 @@ export const victims = [
     detail:
       'AI chatbots handle 80% of Tier 1 support. Call centers are closing. Human agents handle only escalations.',
   },
+  {
+    emoji: '⚖️',
+    profession: 'Legal Paralegals',
+    startCount: 100,
+    currentPct: 60,
+    detail:
+      'Harvey AI $8B valuation. AI reviews contracts, finds precedents. Law firms cutting paralegal headcount 30-40%.',
+    tools: ['Harvey', 'CoCounsel', 'Claude'],
+  },
+  {
+    emoji: '📊',
+    profession: 'Data Analysts',
+    startCount: 100,
+    currentPct: 50,
+    detail:
+      'Natural language to SQL is standard. Non-technical employees query databases directly.',
+    tools: ['ChatGPT Code Interpreter', 'Claude Artifacts', 'Databricks AI'],
+  },
 ]
