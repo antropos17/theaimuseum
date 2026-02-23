@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "skills": {
+    "dead-code": {
+      "source": "parcadei/continuous-claude-v3",
+      "sourceType": "github",
+      "computedHash": "41db8514c78bcb6e65479e2612e851abb278f276484d01eefe082ded71106292"
+    },
+    "modular-code": {
+      "source": "parcadei/continuous-claude-v3",
+      "sourceType": "github",
+      "computedHash": "494b7b470eadfa3f4ad4eaa27c7789c682e1162e8ae328bb57e2fd5d7fa41513"
+    },
+    "refactor": {
+      "source": "parcadei/continuous-claude-v3",
+      "sourceType": "github",
+      "computedHash": "e6321799351e747819788812676b224011a8fa44762d6c0766b818098af2b183"
+    },
+    "review": {
+      "source": "parcadei/continuous-claude-v3",
+      "sourceType": "github",
+      "computedHash": "cd3ecf0ee7e8e7dffbd23cf9874c6b869268dfd1bb4779bd798accc2e6237f16"
+    }
+  }
+}
