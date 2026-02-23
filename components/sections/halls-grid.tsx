@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useInView } from '@/hooks/use-in-view'
+import { useInView } from '@/lib/hooks/use-in-view'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { LucideIcon } from 'lucide-react'
@@ -26,7 +26,7 @@ import {
   companies,
   simulatorEras,
   quizQuestions,
-} from '@/data/models'
+} from '@/lib/data/models'
 
 // --- Derived stats, computed once at module level from static data ---
 const totalModels = models.length

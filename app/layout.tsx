@@ -6,7 +6,7 @@ import { Toaster } from 'sonner'
 import { MuseumNav } from '@/components/layout/museum-nav'
 import { MuseumFooter } from '@/components/layout/museum-footer'
 import { PhosphorTrail } from '@/components/effects/phosphor-trail'
-import { KonamiListener } from '@/hooks/use-konami-code'
+import { KonamiListener } from '@/lib/hooks/use-konami-code'
 import './globals.css'
 
 const inter = Inter({

@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import { models, categories } from '@/data/models'
+import { models, categories } from '@/lib/data/models'
 import { TimelineCard } from './timeline-card'
 import { cn } from '@/lib/utils'
 import { Search, ArrowLeft } from 'lucide-react'

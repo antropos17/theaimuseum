@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { useStore } from "@/lib/store";
+import { useStore } from "@/lib/stores/store";
 
 export function CRTOverlay({ children }: { children: React.ReactNode }) {
     const { hasBooted } = useStore();

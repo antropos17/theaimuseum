@@ -6,7 +6,7 @@
 import { useRef, useMemo } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
-import { useStore } from '@/lib/store';
+import { useStore } from '@/lib/stores/store';
 
 const PARTICLE_COUNT = 150;
 const MAX_DISTANCE = 2.5;

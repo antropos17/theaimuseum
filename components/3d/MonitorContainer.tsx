@@ -4,7 +4,7 @@ import { useRef, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Html, PerspectiveCamera, Stars, RoundedBox } from '@react-three/drei';
 import * as THREE from 'three';
-import { useStore } from '@/lib/store';
+import { useStore } from '@/lib/stores/store';
 import gsap from 'gsap';
 
 // The CRT Monitor Mesh and Boot Screen integration
