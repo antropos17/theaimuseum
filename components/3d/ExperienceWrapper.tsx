@@ -98,7 +98,7 @@ export function ExperienceWrapper({ children }: { children: React.ReactNode }) {
         <div
           data-boot-wrapper
           className={cn(
-            "w-full h-full pointer-events-auto absolute inset-0 z-30 transition-opacity duration-1000",
+            "w-full h-full pointer-events-auto absolute inset-0 z-30 overflow-y-auto transition-opacity duration-1000",
             phase === "ready" ? "opacity-100" : "opacity-0 pointer-events-none"
           )}
         >

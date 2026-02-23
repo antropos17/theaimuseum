@@ -77,7 +77,7 @@ export function HeroSection() {
 
   return (
     <section
-      className="relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden px-4"
+      className="relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden bg-[#0a0a0f] px-4"
       onClick={!bootComplete ? skipBoot : undefined}
       style={{ cursor: !bootComplete ? 'pointer' : 'default' }}
     >
