@@ -38,6 +38,10 @@
     "@radix-ui/react-toggle": "1.1.10",
     "@radix-ui/react-toggle-group": "1.1.11",
     "@radix-ui/react-tooltip": "1.2.8",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.5.0",
+    "@react-three/postprocessing": "^3.0.4",
+    "@types/three": "^0.183.1",
     "@vercel/analytics": "1.6.1",
     "autoprefixer": "^10.4.20",
     "canvas-confetti": "^1.9.3",
@@ -45,8 +49,10 @@
     "clsx": "^2.1.1",
     "cmdk": "1.1.1",
     "date-fns": "4.1.0",
+    "detect-gpu": "^5.0.70",
     "embla-carousel-react": "8.6.0",
     "framer-motion": "^12.34.3",
+    "gsap": "^3.14.2",
     "html2canvas": "^1.4.1",
     "input-otp": "1.4.2",
     "lucide-react": "^0.564.0",
@@ -60,8 +66,10 @@
     "recharts": "2.15.0",
     "sonner": "^1.7.1",
     "tailwind-merge": "^3.3.1",
+    "three": "^0.183.1",
     "vaul": "^1.1.2",
-    "zod": "^3.24.1"
+    "zod": "^3.24.1",
+    "zustand": "^5.0.11"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.13",

@@ -1,0 +1,36 @@
+# Fix Broken Next.js Website
+
+This plan addresses the bugs reported by the browser subagent regarding the broken 3D Boot Sequence, hydration mismatches, and layout collapsing.
+
+## User Review Required
+
+- **No critical review required**, purely bug fixes to restore the intended functionality.
+
+## Proposed Changes
+
+### Core 
+
+#### [MODIFY] [layout.tsx](file:///x:/Future/T/theaimuseum/app/layout.tsx)
+- Add `suppressHydrationWarning` directly to the `<body>` tag to prevent next-themes or browser extensions from throwing hydration mismatches during the initial render.
+
+### 3D Components
+
+#### [MODIFY] [ExperienceWrapper.tsx](file:///x:/Future/T/theaimuseum/components/3d/ExperienceWrapper.tsx)
+- The overlay container wrapper is hardcoded with `pointer-events-none`. This blocks all interaction with the unbooted 3D objects, preventing the user from clicking the initialization button. I will conditionally update it: `className={`three-overlay-container fixed inset-0 z-0 origin-top ${hasBooted ? 'pointer-events-none' : 'pointer-events-auto'}`}`
+
+#### [MODIFY] [MonitorContainer.tsx](file:///x:/Future/T/theaimuseum/components/3d/MonitorContainer.tsx)
+- Move explicit `width` and `height` values from the `@react-three/drei` `<Html>` component onto the inner DOM node. Currently, the HTML container lacks dimensions, collapsing the 3D `<Html>` DOM object into a tiny "speck" due to zero-width block scoping when paired with absolute children.
+
+#### [MODIFY] [BootSequence.tsx](file:///x:/Future/T/theaimuseum/components/3d/BootSequence.tsx)
+- Implement cleanup methods (`clearTimeout` and `clearInterval`) within the initialization `useEffect`. This prevents the Next.js/React strict-mode double-mount from triggering duplicate text generation intervals, which permanently stuck the system loading progress.
+
+## Verification Plan
+
+### Automated Tests
+- N/A
+
+### Manual Verification
+1. I will use the browser subagent to visit `http://localhost:3000`.
+2. Ensure there are no React hydration errors overlayed upon load.
+3. Observe the boot sequence type out without duplicate text lines.
+4. Verify the `INITIALIZE NEURAL LINK` button is scaled properly at the center of the 3D Monitor, and click it successfully to proceed to the main website layout.

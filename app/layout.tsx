@@ -7,7 +7,6 @@ import { MuseumNav } from '@/components/museum-nav'
 import { MuseumFooter } from '@/components/museum-footer'
 import { PhosphorTrail } from '@/components/phosphor-trail'
 import { KonamiListener } from '@/hooks/use-konami-code'
-import { CrtBootSequence } from '@/components/crt-boot-sequence'
 import './globals.css'
 
 const inter = Inter({
@@ -150,7 +149,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
+      <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`} suppressHydrationWarning>
         <Script
           id="website-schema"
           type="application/ld+json"
@@ -162,19 +161,18 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          <CrtBootSequence>
-            {/* CRT background layers */}
-            <div className="phosphor-glow" aria-hidden="true" />
-            <div className="crt-overlay" aria-hidden="true" />
-            <div className="crt-vignette" aria-hidden="true" />
-            <PhosphorTrail />
-            <KonamiListener />
+          <PhosphorTrail />
+          <KonamiListener />
 
-            <MuseumNav />
-            <main className="relative z-10 min-h-screen">{children}</main>
-            <MuseumFooter />
-            <Toaster position="bottom-right" />
-          </CrtBootSequence>
+          {/* CRT ambient effects */}
+          <div className="phosphor-glow" aria-hidden="true" />
+          <div className="crt-overlay" aria-hidden="true" />
+          <div className="crt-vignette" aria-hidden="true" />
+
+          <MuseumNav />
+          <main className="relative z-10 min-h-screen">{children}</main>
+          <MuseumFooter />
+          <Toaster position="bottom-right" />
         </ThemeProvider>
       </body>
     </html>
