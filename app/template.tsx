@@ -1,13 +1,13 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { VirusScanLoader } from "@/components/virus-scan-loader"
+import { ChannelSwitch } from "@/components/channel-switch"
 
 export default function Template({ children }: { children: React.ReactNode }) {
-  const [isScanning, setIsScanning] = useState(true)
+  const [isSwitching, setIsSwitching] = useState(true)
 
   useEffect(() => {
-    if (isScanning) {
+    if (isSwitching) {
       document.body.style.overflow = "hidden"
     } else {
       document.body.style.overflow = ""
@@ -15,12 +15,12 @@ export default function Template({ children }: { children: React.ReactNode }) {
     return () => {
       document.body.style.overflow = ""
     }
-  }, [isScanning])
+  }, [isSwitching])
 
   return (
     <>
-      {isScanning && <VirusScanLoader onComplete={() => setIsScanning(false)} speed={2} />}
-      <div className={`transition-opacity duration-700 ${isScanning ? "opacity-0" : "opacity-100"}`}>
+      {isSwitching && <ChannelSwitch onComplete={() => setIsSwitching(false)} durationMs={400} />}
+      <div className={`transition-opacity duration-300 ${isSwitching ? "opacity-0" : "opacity-100"}`}>
         {children}
       </div>
     </>

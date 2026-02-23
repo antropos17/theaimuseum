@@ -7,6 +7,10 @@ interface Particle {
   y: number
   vx: number
   vy: number
+  originX: number
+  originY: number
+  gridX: number
+  gridY: number
   size: number
   baseAlpha: number
 }
@@ -15,19 +19,43 @@ export function NeuralCanvas({ className }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const particlesRef = useRef<Particle[]>([])
   const mouseRef = useRef({ x: -9999, y: -9999 })
+  const scrollRef = useRef(0)
   const rafRef = useRef<number>(0)
   const dprRef = useRef(1)
 
   const PARTICLE_COUNT = 90
   const MAX_DISTANCE = 140
   const MOUSE_RADIUS = 180
+  const SCROLL_THRESHOLD = 500 // Max scroll for fully formed grid
 
   const initParticles = useCallback((width: number, height: number) => {
     const particles: Particle[] = []
+
+    // Calculate grid dimensions
+    const cols = Math.ceil(Math.sqrt(PARTICLE_COUNT * (width / height)))
+    const rows = Math.ceil(PARTICLE_COUNT / cols)
+    const paddingX = width * 0.1
+    const paddingY = height * 0.1
+    const stepX = (width - paddingX * 2) / Math.max(1, cols - 1)
+    const stepY = (height - paddingY * 2) / Math.max(1, rows - 1)
+
     for (let i = 0; i < PARTICLE_COUNT; i++) {
+      const c = i % cols
+      const r = Math.floor(i / cols)
+
+      const gridX = paddingX + c * stepX
+      const gridY = paddingY + r * stepY
+
+      const x = Math.random() * width
+      const y = Math.random() * height
+
       particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
+        x,
+        y,
+        originX: x,
+        originY: y,
+        gridX,
+        gridY,
         vx: (Math.random() - 0.5) * 0.4,
         vy: (Math.random() - 0.5) * 0.4,
         size: Math.random() * 1.5 + 0.5,
@@ -54,9 +82,7 @@ export function NeuralCanvas({ className }: { className?: string }) {
       canvas.style.height = window.innerHeight + "px"
       ctx.scale(dpr, dpr)
 
-      if (particlesRef.current.length === 0) {
-        initParticles(window.innerWidth, window.innerHeight)
-      }
+      initParticles(window.innerWidth, window.innerHeight)
     }
 
     resize()
@@ -72,6 +98,12 @@ export function NeuralCanvas({ className }: { className?: string }) {
     }
     document.addEventListener("mouseleave", onMouseLeave)
 
+    const onScroll = (e: Event) => {
+      const customEvent = e as CustomEvent<number>
+      scrollRef.current = customEvent.detail
+    }
+    window.addEventListener("museum-scroll", onScroll)
+
     const animate = () => {
       const w = window.innerWidth
       const h = window.innerHeight
@@ -80,6 +112,10 @@ export function NeuralCanvas({ className }: { className?: string }) {
 
       const particles = particlesRef.current
       const mouse = mouseRef.current
+      const scrollProgress = Math.min(Math.max(scrollRef.current / SCROLL_THRESHOLD, 0), 1)
+
+      // Smooth grid formation interpolation
+      const easeProgress = scrollProgress * scrollProgress * (3 - 2 * scrollProgress) // Smoothstep
 
       // Draw connections first (behind particles)
       for (let i = 0; i < particles.length; i++) {
@@ -92,13 +128,18 @@ export function NeuralCanvas({ className }: { className?: string }) {
           const dist = Math.sqrt(dx * dx + dy * dy)
 
           if (dist < MAX_DISTANCE) {
-            const alpha = (1 - dist / MAX_DISTANCE) * 0.12
-            ctx.beginPath()
-            ctx.moveTo(p.x, p.y)
-            ctx.lineTo(p2.x, p2.y)
-            ctx.strokeStyle = `rgba(0, 255, 136, ${alpha})`
-            ctx.lineWidth = 0.5
-            ctx.stroke()
+            // Connections fade out as grid forms
+            const baseAlpha = (1 - dist / MAX_DISTANCE) * 0.12
+            const alpha = baseAlpha * (1 - easeProgress * 0.8)
+
+            if (alpha > 0.01) {
+              ctx.beginPath()
+              ctx.moveTo(p.x, p.y)
+              ctx.lineTo(p2.x, p2.y)
+              ctx.strokeStyle = `rgba(0, 255, 136, ${alpha})`
+              ctx.lineWidth = 0.5
+              ctx.stroke()
+            }
           }
         }
 
@@ -107,13 +148,15 @@ export function NeuralCanvas({ className }: { className?: string }) {
         const mdy = mouse.y - p.y
         const mdist = Math.sqrt(mdx * mdx + mdy * mdy)
         if (mdist < MOUSE_RADIUS) {
-          const alpha = (1 - mdist / MOUSE_RADIUS) * 0.25
-          ctx.beginPath()
-          ctx.moveTo(p.x, p.y)
-          ctx.lineTo(mouse.x, mouse.y)
-          ctx.strokeStyle = `rgba(0, 255, 136, ${alpha})`
-          ctx.lineWidth = 0.3
-          ctx.stroke()
+          const alpha = (1 - mdist / MOUSE_RADIUS) * 0.25 * (1 - easeProgress * 0.5)
+          if (alpha > 0.01) {
+            ctx.beginPath()
+            ctx.moveTo(p.x, p.y)
+            ctx.lineTo(mouse.x, mouse.y)
+            ctx.strokeStyle = `rgba(0, 255, 136, ${alpha})`
+            ctx.lineWidth = 0.3
+            ctx.stroke()
+          }
         }
       }
 
@@ -121,30 +164,42 @@ export function NeuralCanvas({ className }: { className?: string }) {
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i]
 
-        // Mouse attraction
+        // Mouse attraction (weaker as grid forms)
         const mdx = mouse.x - p.x
         const mdy = mouse.y - p.y
         const mdist = Math.sqrt(mdx * mdx + mdy * mdy)
 
         if (mdist < MOUSE_RADIUS && mdist > 0) {
-          const force = ((MOUSE_RADIUS - mdist) / MOUSE_RADIUS) * 0.015
+          const force = ((MOUSE_RADIUS - mdist) / MOUSE_RADIUS) * 0.015 * (1 - easeProgress)
           p.vx += (mdx / mdist) * force
           p.vy += (mdy / mdist) * force
         }
 
-        // Update position
-        p.x += p.vx
-        p.y += p.vy
+        // Calculate target based on grid progress
+        const targetX = p.originX * (1 - easeProgress) + p.gridX * easeProgress
+        const targetY = p.originY * (1 - easeProgress) + p.gridY * easeProgress
+
+        // Stronger snap to grid based on how close to fully formed it is
+        if (easeProgress > 0) {
+          p.x += (targetX - p.x) * (0.02 + easeProgress * 0.08)
+          p.y += (targetY - p.y) * (0.02 + easeProgress * 0.08)
+        } else {
+          // Normal drifting if perfectly at 0
+          p.x += p.vx
+          p.y += p.vy
+          p.originX += p.vx
+          p.originY += p.vy
+
+          // Re-wrap origins on edge cross
+          if (p.originX < -10) { p.originX = w + 10; p.x = p.originX; }
+          if (p.originX > w + 10) { p.originX = -10; p.x = p.originX; }
+          if (p.originY < -10) { p.originY = h + 10; p.y = p.originY; }
+          if (p.originY > h + 10) { p.originY = -10; p.y = p.originY; }
+        }
 
         // Damping
-        p.vx *= 0.995
-        p.vy *= 0.995
-
-        // Wrap around edges
-        if (p.x < -10) p.x = w + 10
-        if (p.x > w + 10) p.x = -10
-        if (p.y < -10) p.y = h + 10
-        if (p.y > h + 10) p.y = -10
+        p.vx *= 0.995 * (1 - easeProgress * 0.5)
+        p.vy *= 0.995 * (1 - easeProgress * 0.5)
 
         // Draw glow
         const glowSize = p.size * 6
@@ -172,6 +227,7 @@ export function NeuralCanvas({ className }: { className?: string }) {
       window.removeEventListener("resize", resize)
       window.removeEventListener("mousemove", onMouseMove)
       document.removeEventListener("mouseleave", onMouseLeave)
+      window.removeEventListener("museum-scroll", onScroll)
       cancelAnimationFrame(rafRef.current)
     }
   }, [initParticles])

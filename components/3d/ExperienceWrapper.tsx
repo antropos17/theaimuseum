@@ -2,11 +2,9 @@
 
 import { useEffect, useState, useRef, useCallback } from "react"
 import dynamic from "next/dynamic"
+import { CrtMonitor3D } from "../crt-monitor-3d" // Use the new orchestrator
+import { cn } from "@/lib/utils"
 
-const CRTMonitor = dynamic(
-  () => import("@/components/3d/CRTMonitor").then((m) => m.CRTMonitor),
-  { ssr: false },
-)
 const BootSequence = dynamic(
   () => import("@/components/3d/BootSequence").then((m) => m.BootSequence),
   { ssr: false },
@@ -33,48 +31,28 @@ export function ExperienceWrapper({ children }: { children: React.ReactNode }) {
     setPhase(alreadyBooted ? "ready" : "boot")
   }, [])
 
-  // CRT power-off transition
+  // CRT power-off transition (from Boot to Ready)
   const handleInitialize = useCallback(() => {
     setPhase("transition")
     sessionStorage.setItem(SESSION_KEY, "1")
 
-    const overlay = overlayRef.current
     const flash = flashRef.current
-    if (!overlay || !flash) {
-      setPhase("ready")
-      return
+    if (flash) {
+      // Step 1: Screen flash (0-150ms)
+      flash.style.transition = "opacity 100ms ease-out"
+      flash.style.opacity = "0.6"
+
+      setTimeout(() => {
+        // Step 2: Flash fades (150-400ms)
+        flash.style.transition = "opacity 300ms ease-out"
+        flash.style.opacity = "0"
+      }, 150)
     }
 
-    // Step 1: Screen flash (0-150ms)
-    flash.style.transition = "opacity 100ms ease-out"
-    flash.style.opacity = "0.6"
-
+    // Give the 3D camera 1200ms to dive into the screen
     setTimeout(() => {
-      // Step 2: Flash fades (150-400ms)
-      flash.style.transition = "opacity 300ms ease-out"
-      flash.style.opacity = "0"
-    }, 150)
-
-    setTimeout(() => {
-      // Step 3: CRT power-off - shrink vertically (400-1000ms)
-      overlay.style.transition =
-        "transform 600ms cubic-bezier(0.23, 1, 0.32, 1), opacity 400ms ease-out"
-      overlay.style.transform = "scaleY(0.003)"
-      overlay.style.opacity = "0.8"
-    }, 400)
-
-    setTimeout(() => {
-      // Step 4: Shrink to dot and fade (1000-1300ms)
-      overlay.style.transition =
-        "transform 300ms ease-in, opacity 300ms ease-in"
-      overlay.style.transform = "scaleY(0.003) scaleX(0)"
-      overlay.style.opacity = "0"
-    }, 1000)
-
-    setTimeout(() => {
-      // Step 5: Done
       setPhase("ready")
-    }, 1350)
+    }, 1200)
   }, [])
 
   // SSR guard
@@ -84,44 +62,47 @@ export function ExperienceWrapper({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      {/* Neural network background - always visible */}
+      {/* Neural network background - always visible, but dimmer when ready */}
       <NeuralCanvas
         className={phase === "ready" ? "opacity-30" : "opacity-50"}
       />
 
-      {/* Boot overlay */}
-      {(phase === "boot" || phase === "transition") && (
-        <div
-          ref={overlayRef}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[#0a0a0f]"
-          style={{ transformOrigin: "center center" }}
-        >
-          <CRTMonitor isTransitioning={phase === "transition"}>
-            <BootSequence onInitialize={handleInitialize} />
-          </CRTMonitor>
-
-          {/* Flash overlay */}
+      {/* Main Experience: Either the 3D CRT (Boot/Transition) OR the actual DOM App (Ready) */}
+      <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+        {/* Flash overlay for transition */}
+        {phase === "transition" && (
           <div
             ref={flashRef}
-            className="absolute inset-0 pointer-events-none z-10"
+            className="absolute inset-0 pointer-events-none z-[60]"
             style={{
               background:
                 "radial-gradient(circle at center, rgba(0,255,136,0.4) 0%, rgba(255,255,255,0.3) 50%, transparent 80%)",
               opacity: 0,
             }}
           />
-        </div>
-      )}
+        )}
 
-      {/* Main content */}
-      <div
-        className={`relative z-10 transition-opacity duration-700 ${
-          phase === "ready"
-            ? "opacity-100"
-            : "opacity-0 pointer-events-none"
-        }`}
-      >
-        {children}
+        {/* 3D CRT Monitor - Only rendered during loading, boot, or diving transition */}
+        {phase !== "ready" && (
+          <div className="w-full h-full pointer-events-auto bg-[#0a0a0f] absolute inset-0 z-40 transition-opacity duration-500">
+            <CrtMonitor3D
+              isPowered={true}
+              isZoomingIn={phase === "transition"} // Triggers the camera dive
+            >
+              <BootSequence onInitialize={handleInitialize} />
+            </CrtMonitor3D>
+          </div>
+        )}
+
+        {/* Actual DOM App Data - Renders after the camera dives into the screen */}
+        <div
+          className={cn(
+            "w-full h-full pointer-events-auto absolute inset-0 z-30 transition-opacity duration-1000",
+            phase === "ready" ? "opacity-100" : "opacity-0 pointer-events-none"
+          )}
+        >
+          {children}
+        </div>
       </div>
     </>
   )
