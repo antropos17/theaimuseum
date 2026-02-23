@@ -136,7 +136,7 @@ export function HeroSection() {
           style={{ transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}
         >
           <h1
-            className="text-7xl font-bold tracking-tight sm:text-8xl md:text-9xl"
+            className="font-sans text-6xl font-bold tracking-tight leading-[1.1] sm:text-7xl md:text-8xl lg:text-9xl"
             style={{
               color: '#FFFFFF',
               textShadow:
@@ -149,11 +149,11 @@ export function HeroSection() {
           {/* Museum entrance plaque - elegant and high contrast */}
           <div className="mt-6 flex flex-col items-center gap-3">
             <div className="h-px w-32 bg-gradient-to-r from-transparent via-primary to-transparent opacity-60" />
-            <p className="font-mono text-base font-medium tracking-[0.3em] uppercase text-muted-foreground sm:text-lg">
+            <p className="font-mono text-sm font-medium tracking-[0.3em] uppercase text-muted-foreground sm:text-base">
               est. 1950
             </p>
             <p
-              className="max-w-lg text-lg font-medium leading-relaxed sm:text-xl"
+              className="font-sans max-w-lg text-base font-medium leading-relaxed sm:text-lg md:text-xl"
               style={{
                 color: '#E0E0E0',
                 textShadow: '0 1px 2px rgba(0,0,0,0.8)',
@@ -161,7 +161,7 @@ export function HeroSection() {
             >
               The world{"'"}s first interactive museum of artificial intelligence
             </p>
-            <p className="mt-2 font-mono text-sm tracking-wider text-muted-foreground opacity-60">
+            <p className="mt-2 font-mono text-xs tracking-wider text-muted-foreground opacity-60 sm:text-sm">
               76 years • 40+ exhibits • From Turing to reasoning machines
             </p>
           </div>

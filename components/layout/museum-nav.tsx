@@ -74,34 +74,34 @@ export function MuseumNav() {
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
           {/* Logo with abstract neural/computing icon */}
-          <Link href="/" className="flex items-center gap-3 group">
+          <Link href="/" className="flex items-center gap-3 group transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]">
             {/* Abstract neural connection icon */}
             <div className="relative flex h-9 w-9 items-center justify-center">
               <svg
                 viewBox="0 0 24 24"
-                className="h-9 w-9 text-primary transition-all duration-300 group-hover:text-primary/80"
+                className="h-9 w-9 text-primary transition-all duration-300 group-hover:brightness-125 group-hover:drop-shadow-[0_0_8px_rgba(0,255,136,0.6)]"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1"
               >
                 {/* Neural network nodes */}
-                <circle cx="6" cy="6" r="1.5" fill="currentColor" opacity="0.6" />
+                <circle cx="6" cy="6" r="1.5" fill="currentColor" opacity="0.6" className="group-hover:opacity-100 transition-opacity duration-300" />
                 <circle cx="12" cy="4" r="1.5" fill="currentColor" />
-                <circle cx="18" cy="6" r="1.5" fill="currentColor" opacity="0.6" />
-                <circle cx="6" cy="12" r="1.5" fill="currentColor" opacity="0.8" />
-                <circle cx="18" cy="12" r="1.5" fill="currentColor" opacity="0.8" />
-                <circle cx="6" cy="18" r="1.5" fill="currentColor" opacity="0.6" />
+                <circle cx="18" cy="6" r="1.5" fill="currentColor" opacity="0.6" className="group-hover:opacity-100 transition-opacity duration-300" />
+                <circle cx="6" cy="12" r="1.5" fill="currentColor" opacity="0.8" className="group-hover:opacity-100 transition-opacity duration-300" />
+                <circle cx="18" cy="12" r="1.5" fill="currentColor" opacity="0.8" className="group-hover:opacity-100 transition-opacity duration-300" />
+                <circle cx="6" cy="18" r="1.5" fill="currentColor" opacity="0.6" className="group-hover:opacity-100 transition-opacity duration-300" />
                 <circle cx="12" cy="20" r="1.5" fill="currentColor" />
-                <circle cx="18" cy="18" r="1.5" fill="currentColor" opacity="0.6" />
+                <circle cx="18" cy="18" r="1.5" fill="currentColor" opacity="0.6" className="group-hover:opacity-100 transition-opacity duration-300" />
                 {/* Connections */}
-                <path d="M6 6 L12 4 L18 6" strokeDasharray="2 2" opacity="0.3" />
-                <path d="M6 6 L6 12 L6 18" strokeDasharray="2 2" opacity="0.3" />
-                <path d="M18 6 L18 12 L18 18" strokeDasharray="2 2" opacity="0.3" />
-                <path d="M6 12 L18 12" strokeDasharray="2 2" opacity="0.3" />
-                <path d="M6 18 L12 20 L18 18" strokeDasharray="2 2" opacity="0.3" />
+                <path d="M6 6 L12 4 L18 6" strokeDasharray="2 2" opacity="0.3" className="group-hover:opacity-60 transition-opacity duration-300" />
+                <path d="M6 6 L6 12 L6 18" strokeDasharray="2 2" opacity="0.3" className="group-hover:opacity-60 transition-opacity duration-300" />
+                <path d="M18 6 L18 12 L18 18" strokeDasharray="2 2" opacity="0.3" className="group-hover:opacity-60 transition-opacity duration-300" />
+                <path d="M6 12 L18 12" strokeDasharray="2 2" opacity="0.3" className="group-hover:opacity-60 transition-opacity duration-300" />
+                <path d="M6 18 L12 20 L18 18" strokeDasharray="2 2" opacity="0.3" className="group-hover:opacity-60 transition-opacity duration-300" />
               </svg>
             </div>
-            <span className="font-mono text-sm font-medium tracking-wide text-foreground transition-colors group-hover:text-primary">
+            <span className="font-mono text-sm font-medium tracking-wide text-foreground transition-all duration-300 group-hover:text-primary group-hover:drop-shadow-[0_0_6px_rgba(0,255,136,0.4)]">
               THE_AI_MUSEUM
             </span>
           </Link>
@@ -115,10 +115,10 @@ export function MuseumNav() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    'relative px-1 py-2 font-mono text-xs tracking-wide transition-all duration-300',
+                    'relative px-1 py-2 font-mono text-xs tracking-wide transition-all duration-200',
                     isActive
                       ? 'text-primary nav-link-active'
-                      : 'text-muted-foreground hover:text-foreground',
+                      : 'text-muted-foreground hover:text-foreground hover:drop-shadow-[0_0_6px_rgba(0,255,136,0.3)] hover:scale-105 active:scale-95',
                   )}
                 >
                   {item.label}
@@ -156,7 +156,7 @@ export function MuseumNav() {
             {/* Mobile menu toggle */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="flex h-9 w-9 items-center justify-center border border-border/50 bg-card/30 text-muted-foreground backdrop-blur-sm md:hidden"
+              className="flex h-9 w-9 items-center justify-center border border-border/50 bg-card/30 text-muted-foreground backdrop-blur-sm transition-all duration-200 hover:border-primary/40 hover:bg-card/50 hover:text-foreground hover:shadow-[0_0_16px_rgba(0,255,136,0.1)] hover:scale-[1.05] active:scale-[0.95] md:hidden"
               aria-label="Toggle menu"
             >
               {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
@@ -178,10 +178,10 @@ export function MuseumNav() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    'px-4 py-3 font-mono text-xs tracking-wide transition-colors',
+                    'px-4 py-3 font-mono text-xs tracking-wide transition-all duration-200 rounded',
                     pathname === item.href
-                      ? 'text-primary'
-                      : 'text-muted-foreground hover:text-foreground',
+                      ? 'text-primary bg-primary/5'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-card/50 hover:translate-x-1 active:scale-[0.98]',
                   )}
                 >
                   {item.label}
@@ -199,7 +199,7 @@ export function MuseumNav() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="px-4 py-3 font-mono text-xs tracking-wide text-muted-foreground hover:text-foreground"
+                  className="px-4 py-3 font-mono text-xs tracking-wide text-muted-foreground transition-all duration-200 rounded hover:text-foreground hover:bg-card/50 hover:translate-x-1 active:scale-[0.98]"
                 >
                   {item.label}
                 </Link>
