@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useRef, useEffect } from 'react'
 import Link from 'next/link'
-import { models, categories } from '@/lib/data/models'
+import { models, categories } from '@/lib/data'
 import { cn } from '@/lib/utils'
 import { ArrowLeft } from 'lucide-react'
 

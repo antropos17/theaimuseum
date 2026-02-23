@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react'
 import Link from 'next/link'
-import { quizQuestions } from '@/lib/data/models'
+import { quizQuestions } from '@/lib/data'
 import { cn } from '@/lib/utils'
 import { CopyableTerminalCard } from '@/components/ui/copyable-terminal-card'
 import confetti from 'canvas-confetti'

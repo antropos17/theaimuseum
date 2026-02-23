@@ -14,8 +14,8 @@ import {
   Copy,
   Check,
 } from 'lucide-react'
-import type { AIModel } from '@/lib/data/models'
-import { stickerTypes, models } from '@/lib/data/models'
+import type { AIModel } from '@/lib/data'
+import { stickerTypes, models } from '@/lib/data'
 import { cn } from '@/lib/utils'
 
 interface ModelExhibitProps {

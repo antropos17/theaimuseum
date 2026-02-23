@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { predictions } from '@/lib/data/models'
+import { predictions } from '@/lib/data'
 import { cn } from '@/lib/utils'
 import { CopyableTerminalCard } from '@/components/ui/copyable-terminal-card'
 import { ArrowLeft } from 'lucide-react'

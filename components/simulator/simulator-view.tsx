@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
-import { simulatorEras } from '@/lib/data/models'
+import { simulatorEras } from '@/lib/data'
 import { cn } from '@/lib/utils'
 import { ArrowLeft } from 'lucide-react'
 
