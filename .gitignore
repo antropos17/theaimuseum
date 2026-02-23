@@ -21,7 +21,9 @@ yarn-error.log*
 .env.local
 
 # IDE / agent configs
-.claude/
+.claude/*
+!.claude/skills/
+!.claude/rules/
 .cursor/
 .next-clean
 
