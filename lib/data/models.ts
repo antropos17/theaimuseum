@@ -909,7 +909,7 @@ export const models: AIModel[] = [
     creator: 'DeepSeek (China)',
     params: '671B MoE',
     cost: '$5.6M training',
-    capability: 88,
+    capability: 86,
     hype: 92,
     safety: 15,
     description:
@@ -1002,7 +1002,7 @@ export const models: AIModel[] = [
     creator: 'Anthropic',
     params: 'Unknown',
     cost: '$3/M input, $15/M output',
-    capability: 88,
+    capability: 86,
     hype: 70,
     safety: 75,
     description:
@@ -1042,7 +1042,7 @@ export const models: AIModel[] = [
     creator: 'OpenAI',
     params: 'Unknown',
     cost: 'Unknown (extremely expensive)',
-    capability: 90,
+    capability: 89,
     hype: 75,
     safety: 35,
     description:
@@ -1082,7 +1082,7 @@ export const models: AIModel[] = [
     creator: 'DeepSeek',
     params: '685B (37B active)',
     cost: '$5.5M training',
-    capability: 88,
+    capability: 86,
     hype: 95,
     safety: 40,
     description:
@@ -1165,7 +1165,7 @@ export const models: AIModel[] = [
     creator: 'Anthropic',
     params: 'Unknown',
     cost: '$15/M input, $75/M output',
-    capability: 94,
+    capability: 91,
     hype: 85,
     safety: 80,
     description:
@@ -1248,7 +1248,7 @@ export const models: AIModel[] = [
     creator: 'Anthropic',
     params: 'Unknown',
     cost: '$3/M input, $15/M output',
-    capability: 93,
+    capability: 92,
     hype: 88,
     safety: 78,
     description:
@@ -1291,7 +1291,7 @@ export const models: AIModel[] = [
     creator: 'Google DeepMind',
     params: 'Unknown',
     cost: 'Varies by tier',
-    capability: 95,
+    capability: 94,
     hype: 85,
     safety: 60,
     description:
@@ -1331,7 +1331,7 @@ export const models: AIModel[] = [
     creator: 'xAI',
     params: 'Unknown',
     cost: '98% cheaper than Grok 3',
-    capability: 91,
+    capability: 93,
     hype: 70,
     safety: 30,
     description:
@@ -1417,7 +1417,7 @@ export const models: AIModel[] = [
     creator: 'Anthropic',
     params: 'Unknown',
     cost: '$15/M input, $75/M output',
-    capability: 94,
+    capability: 95,
     hype: 82,
     safety: 82,
     description:
@@ -1654,6 +1654,55 @@ export const models: AIModel[] = [
     ],
     media: [],
     lineage: [],
+    stickers: {},
+  },
+  {
+    id: 'claude-opus-46',
+    slug: 'claude-opus-4-6',
+    name: 'Claude Opus 4.6',
+    year: 2026,
+    era: 'The Reckoning',
+    category: 'chatbot',
+    status: 'active',
+    open: false,
+    color: '#D4A574',
+    creator: 'Anthropic',
+    params: 'Unknown',
+    cost: '$5/M input, $25/M output',
+    capability: 97,
+    hype: 92,
+    safety: 85,
+    description:
+      "The #1 model in the world. First to break 1500 Elo on LMArena, scoring 1506 with Thinking mode — ending Gemini 3's brief reign at the top. 68.8% on ARC-AGI-2, nearly double GPT-5.2's 54.2%. 80.8% SWE-bench Verified. 1M token context in beta. Adaptive thinking adjusts reasoning depth based on task complexity. The largest single-generation leap on ARC-AGI-2 ever recorded — from 37.6% (Opus 4.5) to 68.8%. Anthropic went from 'the safety lab' to the undisputed capability leader.",
+    example:
+      'LMArena: 1506 Elo (#1 worldwide)\nARC-AGI-2: 68.8% (vs GPT-5.2: 54.2%)\nSWE-bench Verified: 80.8%\n1M token context (beta)\nAdaptive thinking',
+    opinions: [
+      {
+        sentiment: '+',
+        text: '1506 Elo. First to break 1500 ceiling. ARC-AGI-2 gap over competitors is enormous.',
+        source: 'LMArena',
+      },
+      {
+        sentiment: '-',
+        text: 'Premium pricing at $5/$25 per M tokens. Best model, highest price.',
+        source: 'Indie Developers',
+      },
+    ],
+    bugs: [
+      { text: 'Adaptive thinking can over-think simple queries, burning tokens', severity: 'ux' },
+      {
+        text: '1M context still in beta — occasional degradation at extreme lengths',
+        severity: 'feature',
+      },
+    ],
+    media: [
+      {
+        type: 'link',
+        title: 'Introducing Claude Opus 4.6',
+        url: 'https://www.anthropic.com/news/claude-opus-4-6',
+      },
+    ],
+    lineage: ['claude-opus-45'],
     stickers: {},
   },
 ]
