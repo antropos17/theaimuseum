@@ -132,7 +132,7 @@ export function MuseumNav() {
             {/* Search trigger with terminal hint */}
             <button
               onClick={() => setCmdOpen(true)}
-              className="flex h-9 items-center gap-2.5 border border-border/50 bg-card/30 px-3.5 font-mono text-[11px] text-muted-foreground backdrop-blur-sm transition-all hover:border-primary/30 hover:bg-card/50 hover:text-foreground"
+              className="flex h-9 items-center gap-2.5 border border-border/50 bg-card/30 px-3.5 font-mono text-[11px] text-muted-foreground backdrop-blur-sm transition-all duration-200 hover:border-primary/40 hover:bg-card/50 hover:text-foreground hover:shadow-[0_0_16px_rgba(0,255,136,0.1)] hover:scale-[1.02] active:scale-[0.98]"
               aria-label="Search"
             >
               <Search className="h-3.5 w-3.5" />
@@ -146,7 +146,7 @@ export function MuseumNav() {
             {mounted && (
               <button
                 onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                className="flex h-9 w-9 items-center justify-center border border-border/50 bg-card/30 text-muted-foreground backdrop-blur-sm transition-all hover:border-primary/30 hover:bg-card/50 hover:text-foreground"
+                className="flex h-9 w-9 items-center justify-center border border-border/50 bg-card/30 text-muted-foreground backdrop-blur-sm transition-all duration-200 hover:border-primary/40 hover:bg-card/50 hover:text-foreground hover:shadow-[0_0_16px_rgba(0,255,136,0.1)] hover:scale-[1.05] active:scale-[0.95]"
                 aria-label="Toggle theme"
               >
                 {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
