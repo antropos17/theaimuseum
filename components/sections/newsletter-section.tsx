@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useInView } from '@/hooks/use-in-view'
+import { useInView } from '@/lib/hooks/use-in-view'
 import { CopyableTerminalCard } from '@/components/ui/copyable-terminal-card'
 
 export function NewsletterSection() {

@@ -2,11 +2,11 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import { victims } from '@/data/models'
+import { victims } from '@/lib/data/models'
 import { cn } from '@/lib/utils'
 import { CopyableTerminalCard } from '@/components/ui/copyable-terminal-card'
 import { ArrowLeft } from 'lucide-react'
-import { useAnimatedCounter } from '@/hooks/use-animated-counter'
+import { useAnimatedCounter } from '@/lib/hooks/use-animated-counter'
 
 /* ── Countdown counter: counts DOWN from 100 to remaining % ───── */
 function PowerDown({ target, color }: { target: number; color: string }) {

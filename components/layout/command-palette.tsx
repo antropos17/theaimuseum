@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { models, categories } from '@/data/models'
+import { models, categories } from '@/lib/data/models'
 import {
   Compass,
   GitBranch,

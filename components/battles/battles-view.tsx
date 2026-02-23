@@ -2,11 +2,11 @@
 
 import { useState, useEffect, useRef, useMemo } from 'react'
 import Link from 'next/link'
-import { companies, models } from '@/data/models'
+import { companies, models } from '@/lib/data/models'
 import { cn } from '@/lib/utils'
 import { CopyableTerminalCard } from '@/components/ui/copyable-terminal-card'
 import { ArrowLeft } from 'lucide-react'
-import { useAnimatedCounter } from '@/hooks/use-animated-counter'
+import { useAnimatedCounter } from '@/lib/hooks/use-animated-counter'
 
 /* ── Animated Valuation Counter ─────────────────────────────────── */
 function ValuationCounter({ target }: { target: number }) {

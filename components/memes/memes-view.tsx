@@ -1,8 +1,8 @@
 'use client'
 
-import { useInView } from '@/hooks/use-in-view'
+import { useInView } from '@/lib/hooks/use-in-view'
 import Link from 'next/link'
-import { memes } from '@/data/models'
+import { memes } from '@/lib/data/models'
 import { CopyableTerminalCard } from '@/components/ui/copyable-terminal-card'
 import { ArrowLeft } from 'lucide-react'
 
