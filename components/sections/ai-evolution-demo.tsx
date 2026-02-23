@@ -32,7 +32,7 @@ const responses = [
     name: 'Modern AI',
     label: '2026',
     response:
-      "The AI Museum is the world's first interactive museum dedicated to the history of artificial intelligence. It covers 76 years -- from Turing's 1950 paper to GPT-5.2 Pro in 2026. You can explore 40 models, compare their evolution, visit the AI Graveyard, test your knowledge in the Quiz, and rate models with community stickers. It's free, open-source, and designed to make AI history accessible to everyone.",
+      "The AI Museum is the world's first interactive museum dedicated to the history of artificial intelligence. It covers 76 years -- from Turing's 1950 paper to GPT-5.2 Pro in 2026. You can explore 40+ models, compare their evolution, visit the AI Graveyard, test your knowledge in the Quiz, and rate models with community stickers. It's free, open-source, and designed to make AI history accessible to everyone.",
     responseHighlighted: (
       <>
         The AI Museum is{' '}
@@ -45,7 +45,7 @@ const responses = [
         </span>{' '}
         -- from Turing&apos;s 1950 paper to GPT-5.2 Pro in 2026. You can explore{' '}
         <span className="text-primary text-shadow-[0_0_12px_rgba(0,255,136,0.4)] font-semibold">
-          40 models
+          40+ models
         </span>
         , compare their evolution, visit the{' '}
         <span className="text-primary text-shadow-[0_0_12px_rgba(0,255,136,0.4)] font-semibold">
@@ -629,7 +629,7 @@ const gpt2Templates = [
 
 const modernTemplates = [
   (input: string) =>
-    `Great question about "${input.slice(0, 40)}." The AI Museum covers exactly this kind of topic across 40 interactive exhibits spanning 1950-2026. You can explore the full timeline, compare models side-by-side, and test your knowledge in our diagnostic quiz.`,
+    `Great question about "${input.slice(0, 40)}." The AI Museum covers exactly this kind of topic across 40+ interactive exhibits spanning 1950-2026. You can explore the full timeline, compare models side-by-side, and test your knowledge in our diagnostic quiz.`,
   (input: string) =>
     `That's a thoughtful question. The AI Museum was built to help people understand topics like "${input.slice(0, 30)}" through hands-on exhibits. From ELIZA to DeepSeek R1, every model has a detailed dossier with capabilities, controversies, and community ratings.`,
   (input: string) =>
@@ -639,7 +639,7 @@ const modernTemplates = [
   (input: string) =>
     `That's what The AI Museum is all about. Whether it's "${input.slice(0, 25)}" or any other AI topic, you'll find 76 years of context here -- from Turing's 1950 paper to the models shipping today. The Graveyard wing even covers the cautionary tales.`,
   (input: string) =>
-    `Good question about "${input.slice(0, 30)}." The AI Museum documents how this kind of thinking evolved over 76 years. Each of our 40 model exhibits includes a full dossier with stats, opinions, bugs, and community stickers.`,
+    `Good question about "${input.slice(0, 30)}." The AI Museum documents how this kind of thinking evolved over 76 years. Each of our 40+ model exhibits includes a full dossier with stats, opinions, bugs, and community stickers.`,
 ]
 
 function generateResponse(era: '1966' | '2019' | '2026', input: string): string {

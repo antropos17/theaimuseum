@@ -90,7 +90,7 @@ export default function RootLayout({
     name: 'The AI Museum',
     url: 'https://v0-theaimuseum.vercel.app',
     description:
-      "The world's first interactive museum of AI history. 40 exhibits spanning 1950-2026. From Turing's question to machines that dream.",
+      "The world's first interactive museum of AI history. 40+ exhibits spanning 1950-2026. From Turing's question to machines that dream.",
     inLanguage: 'en',
     creator: {
       '@type': 'Organization',
@@ -105,7 +105,7 @@ export default function RootLayout({
     mainEntity: {
       '@type': 'Museum',
       name: 'The AI Museum',
-      description: 'Interactive online museum featuring 40 AI exhibits across 10 themed wings',
+      description: 'Interactive online museum featuring 40+ AI exhibits across 10 themed wings',
       isAccessibleForFree: true,
       availableLanguage: 'English',
     },
@@ -141,7 +141,7 @@ export default function RootLayout({
         name: 'What AI models are featured in The AI Museum?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'The museum features 40 AI systems including the Turing Test (1950), ELIZA (1966), Deep Blue (1997), AlphaGo (2016), GPT-3 (2020), ChatGPT (2022), GPT-4 (2023), Claude (2023), Gemini (2023), Grok (2024), DeepSeek R1 (2025), GPT-5 (2025), Claude Opus 4 (2025), and Gemini 3 Pro (2025).',
+          text: 'The museum features 40+ AI systems including the Turing Test (1950), ELIZA (1966), Deep Blue (1997), AlphaGo (2016), GPT-3 (2020), ChatGPT (2022), GPT-4 (2023), Claude (2023), Gemini (2023), Grok (2024), DeepSeek R1 (2025), GPT-5 (2025), Claude Opus 4 (2025), and Gemini 3 Pro (2025).',
         },
       },
     ],

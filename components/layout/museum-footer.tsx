@@ -110,7 +110,7 @@ export function MuseumFooter() {
             &copy; {new Date().getFullYear()} The AI Museum. All rights reserved.
           </p>
           <p className="font-mono text-[10px] text-muted-foreground">
-            est. 1950 &middot; 40 Models &middot; 1950&ndash;2026
+            est. 1950 &middot; 40+ Models &middot; 1950&ndash;2026
           </p>
         </div>
       </div>

@@ -74,7 +74,7 @@ const wings: WingData[] = [
     href: '/simulator',
     featured: true,
     chips: [
-      { label: 'span', value: '1966—2025' },
+      { label: 'span', value: '1966—2026' },
       { label: 'prompts', value: `${totalSimPrompts}` },
     ],
   },
