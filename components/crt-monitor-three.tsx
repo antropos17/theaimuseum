@@ -235,7 +235,12 @@ function CameraRig({ isZoomingIn }: { isZoomingIn?: boolean }) {
 export function CrtMonitorThree(props: CrtMonitorThreeProps) {
     return (
         <div className={cn("w-full h-full relative aspect-[4/3] max-w-4xl mx-auto", props.className)}>
-            <Canvas shadows camera={{ position: [0, 0, 5.5], fov: 45 }} dpr={[1, 2]}>
+            <Canvas 
+                shadows 
+                camera={{ position: [0, 0, 5.5], fov: 45 }} 
+                dpr={[1, 2]}
+                gl={{ shadowMapType: THREE.PCFShadowMap }}
+            >
                 <Environment preset="city" />
                 <ambientLight intensity={0.2} />
                 <directionalLight position={[5, 10, 5]} intensity={1.5} castShadow />
