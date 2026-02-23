@@ -286,8 +286,8 @@ function ChatWindow({
   useEffect(() => {
     if (!triggerAnimation) return
     // Stagger: show dots first, then start typing
-    const dotsTimer = setTimeout(() => setPhase('dots'), index * 2000)
-    const typeTimer = setTimeout(() => setPhase('typing'), index * 2000 + 1200)
+    const dotsTimer = setTimeout(() => setPhase('dots'), index * 1400)
+    const typeTimer = setTimeout(() => setPhase('typing'), index * 1400 + 1200)
     return () => {
       clearTimeout(dotsTimer)
       clearTimeout(typeTimer)
@@ -901,7 +901,7 @@ export function AIEvolutionDemo() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="relative border-y border-border bg-surface py-20 md:py-32">
+    <section ref={sectionRef} className="relative border-y border-border bg-surface py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         {/* ── Section heading ── */}
         <div className="mb-6 text-center">

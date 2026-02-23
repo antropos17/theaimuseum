@@ -175,7 +175,7 @@ export function HeroSection() {
           {/* Primary: BEGIN JOURNEY - Mainframe console button */}
           <Link
             href="/explore"
-            className="group relative inline-flex items-center justify-center overflow-hidden rounded-md bg-primary px-8 py-4 font-mono text-base font-bold uppercase tracking-wider text-background transition-shadow duration-300 hover:shadow-[0_0_30px_rgba(0,255,136,0.6)] sm:flex-1 sm:text-lg animate-in fade-in slide-in-from-bottom-2"
+            className="group relative inline-flex items-center justify-center overflow-hidden rounded-md bg-primary px-8 py-4 font-mono text-base font-bold uppercase tracking-wider text-background transition-shadow duration-300 hover:shadow-[0_0_30px_rgba(0,255,136,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:flex-1 sm:text-lg animate-in fade-in slide-in-from-bottom-2"
             style={{
               boxShadow:
                 '0 0 20px rgba(0,255,136,0.4), 0 0 40px rgba(0,255,136,0.2), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -2px 8px rgba(0,0,0,0.3)',
@@ -197,7 +197,7 @@ export function HeroSection() {
           {/* Secondary: AI SIMULATOR - Subordinate outline button */}
           <Link
             href="/simulator"
-            className="group relative inline-flex items-center justify-center overflow-hidden rounded-md border-2 border-primary/40 bg-transparent px-5 py-4 font-mono text-sm font-medium uppercase tracking-wider text-primary/80 transition-all duration-300 hover:border-primary/60 hover:bg-primary/5 hover:text-primary sm:flex-none sm:min-w-[160px]"
+            className="group relative inline-flex items-center justify-center overflow-hidden rounded-md border-2 border-primary/40 bg-transparent px-5 py-4 font-mono text-sm font-medium uppercase tracking-wider text-primary/80 transition-all duration-300 hover:border-primary/60 hover:bg-primary/5 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:flex-none sm:min-w-[160px]"
             style={{
               boxShadow: '0 0 10px rgba(0,255,136,0.1), inset 0 1px 0 rgba(0,255,136,0.1)',
             }}

@@ -165,6 +165,7 @@ function WingCard({
         group relative flex flex-col overflow-hidden border border-border bg-card
         transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]
         hover:-translate-y-1 hover:bg-card/50 hover:border-primary/50 hover:shadow-[0_0_40px_rgba(0,255,136,0.15)]
+        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background
         ${wing.featured ? 'sm:col-span-2 sm:row-span-1' : ''}
       `}
       style={{
@@ -230,7 +231,7 @@ function WingCard({
             {wing.name}
           </h3>
           <p
-            className={`mt-1.5 leading-relaxed text-[#B0C4B8] ${wing.featured ? 'text-[13px]' : 'text-[12px] line-clamp-2'}`}
+            className={`mt-1.5 leading-relaxed text-muted-foreground ${wing.featured ? 'text-[13px]' : 'text-[12px] line-clamp-2'}`}
           >
             {wing.desc}
           </p>
@@ -267,7 +268,7 @@ export function HallsGrid() {
   const { ref, isInView: visible } = useInView(0.1)
 
   return (
-    <section ref={ref} className="relative z-10 mx-auto max-w-5xl px-4 py-20">
+    <section ref={ref} className="relative z-10 mx-auto max-w-5xl px-4 py-16">
       {/* Section header — terminal command style */}
       <div
         className="mb-10 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
@@ -292,7 +293,7 @@ export function HallsGrid() {
       </div>
 
       {/* Bento grid — 3 cols desktop, 2 tablet, 1 mobile */}
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {wings.map((wing, i) => (
           <WingCard key={wing.name} wing={wing} index={i} visible={visible} />
         ))}

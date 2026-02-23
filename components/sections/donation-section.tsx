@@ -37,7 +37,7 @@ export function DonationSection() {
             <h3 className="mt-2 text-lg font-light tracking-tight text-white">
               Help keep the exhibits running.
             </h3>
-            <p className="mt-1.5 text-[13px] leading-relaxed text-[#B0C4B8]">
+            <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">
               This museum is free, open-source, and powered entirely by caffeine and curiosity.
               Every contribution helps us document AI history for everyone.
             </p>
@@ -48,7 +48,7 @@ export function DonationSection() {
             href="https://buymeacoffee.com/theaimuseum"
             target="_blank"
             rel="noopener noreferrer"
-            className="shrink-0 bg-[#00E68A] px-8 py-3.5 font-mono text-xs font-bold text-black transition-all hover:scale-[1.02] hover:bg-[#00ff88]"
+            className="shrink-0 bg-[#00E68A] px-8 py-3.5 font-mono text-xs font-bold text-black transition-all hover:scale-[1.02] hover:bg-[#00ff88] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             {'>'} Buy us a coffee
           </a>

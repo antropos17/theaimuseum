@@ -68,7 +68,7 @@ export function NewsletterSection() {
               <h3 className="text-lg font-light tracking-tight text-white">
                 Get the AI History Brief
               </h3>
-              <p className="mt-2 text-[14px] leading-relaxed text-[#B0C4B8]">
+              <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">
                 One email per week. 76 years of AI breakthroughs, decoded for humans.
               </p>
             </div>
@@ -81,7 +81,7 @@ export function NewsletterSection() {
               </div>
             ) : (
               <div className="shrink-0">
-                <form onSubmit={handleSubscribe} className="flex">
+                <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row">
                   <div className="flex items-center border border-dashed border-border bg-background transition-colors focus-within:border-primary">
                     <span className="px-3 font-mono text-[11px] text-primary">{'>'}</span>
                     <input
@@ -99,7 +99,7 @@ export function NewsletterSection() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="border border-l-0 border-primary bg-[#00E68A] px-4 py-2.5 font-mono text-[11px] font-bold text-black transition-colors hover:bg-[#00ff88] disabled:opacity-50"
+                    className="border sm:border-l-0 border-primary bg-[#00E68A] px-4 py-2.5 font-mono text-[11px] font-bold text-black transition-colors hover:bg-[#00ff88] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50"
                   >
                     {loading ? '[SENDING...]' : '[SEND]'}
                   </button>
