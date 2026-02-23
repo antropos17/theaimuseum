@@ -1,0 +1,24 @@
+---
+description: Always use terminal commands for ALL Git operations. NEVER use MCP servers or extensions for Git tasks.
+alwaysApply: true
+---
+
+# Git Operations Must Be Done via Terminal
+
+For ALL git operations (like `git add`, `git commit`, `git push`, `git pull`, `git status`, `git branch`, `git checkout`, etc.), you must ONLY use terminal commands (bash/shell). 
+
+Do NOT use any MCP servers, extensions, or APIs for Git interaction.
+
+## Correct Approach
+Always execute commands directly in the terminal:
+- `git add -A`
+- `git commit -m "description"`
+- `git push origin main`
+- `git status`
+- `git log --oneline -5`
+
+## Incorrect Approach
+- ❌ Do NOT try to connect to GitHub MCP.
+- ❌ Do NOT use GitKraken MCP.
+- ❌ Do NOT use GitLens commands via extensions.
+- ❌ Do NOT use any internal UI tooling for Git operations.
