@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { ChannelSwitch } from "@/components/channel-switch"
+import { ChannelSwitch } from "@/components/effects/channel-switch"
 
 export default function Template({ children }: { children: React.ReactNode }) {
   const [isSwitching, setIsSwitching] = useState(true)
