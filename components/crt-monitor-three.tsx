@@ -239,7 +239,7 @@ export function CrtMonitorThree(props: CrtMonitorThreeProps) {
                 shadows 
                 camera={{ position: [0, 0, 5.5], fov: 45 }} 
                 dpr={[1, 2]}
-                gl={{ shadowMapType: THREE.PCFShadowMap }}
+                gl={{ shadowMap: { enabled: true, type: THREE.PCFShadowMap } }}
             >
                 <Environment preset="city" />
                 <ambientLight intensity={0.2} />

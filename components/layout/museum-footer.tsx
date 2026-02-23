@@ -56,7 +56,7 @@ export function MuseumFooter() {
                   target="_blank"
                   rel="noopener noreferrer"
                   title={s.label}
-                  className="flex h-8 w-8 items-center justify-center border border-dashed border-border font-mono text-[9px] text-muted-foreground transition-all hover:border-primary hover:text-primary"
+                  className="flex h-8 w-8 items-center justify-center border border-dashed border-border font-mono text-[9px] text-muted-foreground transition-all duration-200 hover:border-primary hover:border-solid hover:text-primary hover:shadow-[0_0_12px_rgba(0,255,136,0.2)] hover:scale-110 active:scale-95"
                 >
                   {s.icon}
                 </a>
@@ -72,7 +72,7 @@ export function MuseumFooter() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-[13px] text-[#B0C4B8] transition-colors duration-200 hover:text-foreground"
+                  className="text-[13px] text-[#B0C4B8] transition-all duration-200 hover:text-foreground hover:translate-x-1 hover:drop-shadow-[0_0_6px_rgba(0,255,136,0.3)] active:scale-95"
                 >
                   {link.label}
                 </Link>

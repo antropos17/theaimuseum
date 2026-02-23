@@ -99,9 +99,9 @@
    Theme tokens
    ═══════════════════════════════════════════════════ */
 @theme inline {
-  --font-sans: 'Inter', 'Inter Fallback', system-ui, sans-serif;
-  --font-serif: 'Inter', 'Inter Fallback', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', 'JetBrains Mono Fallback', 'Courier New', monospace;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-inter), ui-serif, Georgia, serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, 'Courier New', monospace;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -154,9 +154,27 @@
   * {
     @apply border-border outline-ring/50;
   }
+  
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
     font-feature-settings: 'ss01', 'cv01';
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-sans;
+    line-height: 1.2;
+  }
+
+  /* Terminal/code elements */
+  code, kbd, pre {
+    @apply font-mono;
   }
 }
 
