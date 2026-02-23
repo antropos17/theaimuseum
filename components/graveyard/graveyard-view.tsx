@@ -51,10 +51,18 @@ function CrashCard({
         transitionDelay: `${index * 100}ms`,
       }}
     >
-      <button
+      <div
+        role="button"
+        tabIndex={0}
         onClick={onToggle}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            onToggle()
+          }
+        }}
         className={cn(
-          'w-full text-left border border-dashed transition-all duration-300',
+          'w-full text-left border border-dashed transition-all duration-300 cursor-pointer',
           'bg-[#0c0a0a] hover:bg-[#110e0e]',
           expanded ? 'border-red-500/30' : 'border-border/50 hover:border-red-500/20',
         )}
@@ -190,7 +198,7 @@ function CrashCard({
             </div>
           </div>
         </div>
-      </button>
+      </div>
     </div>
   )
 }

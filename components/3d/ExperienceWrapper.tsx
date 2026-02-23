@@ -92,6 +92,7 @@ export function ExperienceWrapper({ children }: { children: React.ReactNode }) {
 
         {/* Actual DOM App Data - Renders after the camera dives into the screen */}
         <div
+          data-boot-wrapper
           className={cn(
             "w-full h-full pointer-events-auto absolute inset-0 z-30 transition-opacity duration-1000",
             phase === "ready" ? "opacity-100" : "opacity-0 pointer-events-none"

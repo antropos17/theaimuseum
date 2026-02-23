@@ -1,0 +1,693 @@
+{
+  "timestamp": "2026-02-23T14:27:01.451Z",
+  "baseUrl": "http://localhost:3000",
+  "pages": [
+    {
+      "route": "/",
+      "url": "http://localhost:3000/",
+      "consoleErrors": [
+        "Each child in a list should have a unique \"key\" prop.%s%s See https://react.dev/link/warning-keys for more information. \n\nCheck the render method of `OuterLayoutRouter`. "
+      ],
+      "consoleWarnings": [],
+      "overflow": false,
+      "scrollWidthDelta": 0,
+      "zIndexConflicts": [
+        {
+          "tag": "canvas",
+          "id": null,
+          "className": "pointer-events-none fixed inset-0 z-40",
+          "zIndex": 40,
+          "navZIndex": 0
+        },
+        {
+          "tag": "div",
+          "id": null,
+          "className": "crt-overlay",
+          "zIndex": 9998,
+          "navZIndex": 0
+        },
+        {
+          "tag": "div",
+          "id": null,
+          "className": "crt-vignette",
+          "zIndex": 9999,
+          "navZIndex": 0
+        },
+        {
+          "tag": "header",
+          "id": null,
+          "className": "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          "zIndex": 50,
+          "navZIndex": 0
+        },
+        {
+          "tag": "main",
+          "id": null,
+          "className": "relative z-10 min-h-screen",
+          "zIndex": 10,
+          "navZIndex": 0
+        },
+        {
+          "tag": "div",
+          "id": null,
+          "className": "fixed inset-0 z-50 flex items-center justify-center pointer-events-none",
+          "zIndex": 50,
+          "navZIndex": 0
+        },
+        {
+          "tag": "div",
+          "id": null,
+          "className": "w-full h-full pointer-events-auto bg-[#0a0a0f] absolute inset-0 z-40 transition-",
+          "zIndex": 40,
+          "navZIndex": 0
+        },
+        {
+          "tag": "div",
+          "id": null,
+          "className": "w-full h-full absolute inset-0 z-30 transition-opacity duration-1000 opacity-0 p",
+          "zIndex": 30,
+          "navZIndex": 0
+        }
+      ],
+      "screenshot": "screenshots/audit/home.png",
+      "loadTimeMs": 845
+    },
+    {
+      "route": "/explore",
+      "url": "http://localhost:3000/explore",
+      "consoleErrors": [
+        "Each child in a list should have a unique \"key\" prop.%s%s See https://react.dev/link/warning-keys for more information. \n\nCheck the render method of `OuterLayoutRouter`. "
+      ],
+      "consoleWarnings": [],
+      "overflow": false,
+      "scrollWidthDelta": 0,
+      "zIndexConflicts": [
+        {
+          "tag": "canvas",
+          "id": null,
+          "className": "pointer-events-none fixed inset-0 z-40",
+          "zIndex": 40,
+          "navZIndex": 0
+        },
+        {
+          "tag": "div",
+          "id": null,
+          "className": "crt-overlay",
+          "zIndex": 9998,
+          "navZIndex": 0
+        },
+        {
+          "tag": "div",
+          "id": null,
+          "className": "crt-vignette",
+          "zIndex": 9999,
+          "navZIndex": 0
+        },
+        {
+          "tag": "header",
+          "id": null,
+          "className": "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          "zIndex": 50,
+          "navZIndex": 0
+        },
+        {
+          "tag": "main",
+          "id": null,
+          "className": "relative z-10 min-h-screen",
+          "zIndex": 10,
+          "navZIndex": 0
+        }
+      ],
+      "screenshot": "screenshots/audit/explore.png",
+      "loadTimeMs": 1167
+    },
+    {
+      "route": "/evolution",
+      "url": "http://localhost:3000/evolution",
+      "consoleErrors": [
+        "Each child in a list should have a unique \"key\" prop.%s%s See https://react.dev/link/warning-keys for more information. \n\nCheck the render method of `OuterLayoutRouter`. "
+      ],
+      "consoleWarnings": [],
+      "overflow": false,
+      "scrollWidthDelta": 0,
+      "zIndexConflicts": [
+        {
+          "tag": "canvas",
+          "id": null,
+          "className": "pointer-events-none fixed inset-0 z-40",
+          "zIndex": 40,
+          "navZIndex": 0
+        },
+        {
+          "tag": "div",
+          "id": null,
+          "className": "crt-overlay",
+          "zIndex": 9998,
+          "navZIndex": 0
+        },
+        {
+          "tag": "div",
+          "id": null,
+          "className": "crt-vignette",
+          "zIndex": 9999,
+          "navZIndex": 0
+        },
+        {
+          "tag": "header",
+          "id": null,
+          "className": "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          "zIndex": 50,
+          "navZIndex": 0
+        },
+        {
+          "tag": "main",
+          "id": null,
+          "className": "relative z-10 min-h-screen",
+          "zIndex": 10,
+          "navZIndex": 0
+        }
+      ],
+      "screenshot": "screenshots/audit/evolution.png",
+      "loadTimeMs": 777
+    },
+    {
+      "route": "/battles",
+      "url": "http://localhost:3000/battles",
+      "consoleErrors": [
+        "Each child in a list should have a unique \"key\" prop.%s%s See https://react.dev/link/warning-keys for more information. \n\nCheck the render method of `OuterLayoutRouter`. "
+      ],
+      "consoleWarnings": [],
+      "overflow": false,
+      "scrollWidthDelta": 0,
+      "zIndexConflicts": [
+        {
+          "tag": "canvas",
+          "id": null,
+          "className": "pointer-events-none fixed inset-0 z-40",
+          "zIndex": 40,
+          "navZIndex": 0
+        },
+        {
+          "tag": "div",
+          "id": null,
+          "className": "crt-overlay",
+          "zIndex": 9998,
+          "navZIndex": 0
+        },
+        {
+          "tag": "div",
+          "id": null,
+          "className": "crt-vignette",
+          "zIndex": 9999,
+          "navZIndex": 0
+        },
+        {
+          "tag": "header",
+          "id": null,
+          "className": "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          "zIndex": 50,
+          "navZIndex": 0
+        },
+        {
+          "tag": "main",
+          "id": null,
+          "className": "relative z-10 min-h-screen",
+          "zIndex": 10,
+          "navZIndex": 0
+        }
+      ],
+      "screenshot": "screenshots/audit/battles.png",
+      "loadTimeMs": 787
+    },
+    {
+      "route": "/simulator",
+      "url": "http://localhost:3000/simulator",
+      "consoleErrors": [
+        "Each child in a list should have a unique \"key\" prop.%s%s See https://react.dev/link/warning-keys for more information. \n\nCheck the render method of `OuterLayoutRouter`. "
+      ],
+      "consoleWarnings": [],
+      "overflow": false,
+      "scrollWidthDelta": 0,
+      "zIndexConflicts": [
+        {
+          "tag": "canvas",
+          "id": null,
+          "className": "pointer-events-none fixed inset-0 z-40",
+          "zIndex": 40,
+          "navZIndex": 0
+        },
+        {
+          "tag": "div",
+          "id": null,
+          "className": "crt-overlay",
+          "zIndex": 9998,
+          "navZIndex": 0
+        },
+        {
+          "tag": "div",
+          "id": null,
+          "className": "crt-vignette",
+          "zIndex": 9999,
+          "navZIndex": 0
+        },
+        {
+          "tag": "header",
+          "id": null,
+          "className": "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          "zIndex": 50,
+          "navZIndex": 0
+        },
+        {
+          "tag": "main",
+          "id": null,
+          "className": "relative z-10 min-h-screen",
+          "zIndex": 10,
+          "navZIndex": 0
+        }
+      ],
+      "screenshot": "screenshots/audit/simulator.png",
+      "loadTimeMs": 733
+    },
+    {
+      "route": "/quiz",
+      "url": "http://localhost:3000/quiz",
+      "consoleErrors": [
+        "Each child in a list should have a unique \"key\" prop.%s%s See https://react.dev/link/warning-keys for more information. \n\nCheck the render method of `OuterLayoutRouter`. "
+      ],
+      "consoleWarnings": [],
+      "overflow": false,
+      "scrollWidthDelta": 0,
+      "zIndexConflicts": [
+        {
+          "tag": "canvas",
+          "id": null,
+          "className": "pointer-events-none fixed inset-0 z-40",
+          "zIndex": 40,
+          "navZIndex": 0
+        },
+        {
+          "tag": "div",
+          "id": null,
+          "className": "crt-overlay",
+          "zIndex": 9998,
+          "navZIndex": 0
+        },
+        {
+          "tag": "div",
+          "id": null,
+          "className": "crt-vignette",
+          "zIndex": 9999,
+          "navZIndex": 0
+        },
+        {
+          "tag": "header",
+          "id": null,
+          "className": "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          "zIndex": 50,
+          "navZIndex": 0
+        },
+        {
+          "tag": "main",
+          "id": null,
+          "className": "relative z-10 min-h-screen",
+          "zIndex": 10,
+          "navZIndex": 0
+        }
+      ],
+      "screenshot": "screenshots/audit/quiz.png",
+      "loadTimeMs": 715
+    },
+    {
+      "route": "/passport",
+      "url": "http://localhost:3000/passport",
+      "consoleErrors": [
+        "Each child in a list should have a unique \"key\" prop.%s%s See https://react.dev/link/warning-keys for more information. \n\nCheck the render method of `OuterLayoutRouter`. "
+      ],
+      "consoleWarnings": [],
+      "overflow": false,
+      "scrollWidthDelta": 0,
+      "zIndexConflicts": [
+        {
+          "tag": "canvas",
+          "id": null,
+          "className": "pointer-events-none fixed inset-0 z-40",
+          "zIndex": 40,
+          "navZIndex": 0
+        },
+        {
+          "tag": "div",
+          "id": null,
+          "className": "crt-overlay",
+          "zIndex": 9998,
+          "navZIndex": 0
+        },
+        {
+          "tag": "div",
+          "id": null,
+          "className": "crt-vignette",
+          "zIndex": 9999,
+          "navZIndex": 0
+        },
+        {
+          "tag": "header",
+          "id": null,
+          "className": "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          "zIndex": 50,
+          "navZIndex": 0
+        },
+        {
+          "tag": "main",
+          "id": null,
+          "className": "relative z-10 min-h-screen",
+          "zIndex": 10,
+          "navZIndex": 0
+        }
+      ],
+      "screenshot": "screenshots/audit/passport.png",
+      "loadTimeMs": 713
+    },
+    {
+      "route": "/graveyard",
+      "url": "http://localhost:3000/graveyard",
+      "consoleErrors": [
+        "Each child in a list should have a unique \"key\" prop.%s%s See https://react.dev/link/warning-keys for more information. \n\nCheck the render method of `OuterLayoutRouter`. "
+      ],
+      "consoleWarnings": [],
+      "overflow": false,
+      "scrollWidthDelta": 0,
+      "zIndexConflicts": [
+        {
+          "tag": "canvas",
+          "id": null,
+          "className": "pointer-events-none fixed inset-0 z-40",
+          "zIndex": 40,
+          "navZIndex": 0
+        },
+        {
+          "tag": "div",
+          "id": null,
+          "className": "crt-overlay",
+          "zIndex": 9998,
+          "navZIndex": 0
+        },
+        {
+          "tag": "div",
+          "id": null,
+          "className": "crt-vignette",
+          "zIndex": 9999,
+          "navZIndex": 0
+        },
+        {
+          "tag": "header",
+          "id": null,
+          "className": "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          "zIndex": 50,
+          "navZIndex": 0
+        },
+        {
+          "tag": "main",
+          "id": null,
+          "className": "relative z-10 min-h-screen",
+          "zIndex": 10,
+          "navZIndex": 0
+        }
+      ],
+      "screenshot": "screenshots/audit/graveyard.png",
+      "loadTimeMs": 748
+    },
+    {
+      "route": "/leaderboard",
+      "url": "http://localhost:3000/leaderboard",
+      "consoleErrors": [
+        "Each child in a list should have a unique \"key\" prop.%s%s See https://react.dev/link/warning-keys for more information. \n\nCheck the render method of `OuterLayoutRouter`. "
+      ],
+      "consoleWarnings": [],
+      "overflow": false,
+      "scrollWidthDelta": 0,
+      "zIndexConflicts": [
+        {
+          "tag": "canvas",
+          "id": null,
+          "className": "pointer-events-none fixed inset-0 z-40",
+          "zIndex": 40,
+          "navZIndex": 0
+        },
+        {
+          "tag": "div",
+          "id": null,
+          "className": "crt-overlay",
+          "zIndex": 9998,
+          "navZIndex": 0
+        },
+        {
+          "tag": "div",
+          "id": null,
+          "className": "crt-vignette",
+          "zIndex": 9999,
+          "navZIndex": 0
+        },
+        {
+          "tag": "header",
+          "id": null,
+          "className": "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          "zIndex": 50,
+          "navZIndex": 0
+        },
+        {
+          "tag": "main",
+          "id": null,
+          "className": "relative z-10 min-h-screen",
+          "zIndex": 10,
+          "navZIndex": 0
+        }
+      ],
+      "screenshot": "screenshots/audit/leaderboard.png",
+      "loadTimeMs": 819
+    },
+    {
+      "route": "/memes",
+      "url": "http://localhost:3000/memes",
+      "consoleErrors": [
+        "Each child in a list should have a unique \"key\" prop.%s%s See https://react.dev/link/warning-keys for more information. \n\nCheck the render method of `OuterLayoutRouter`. "
+      ],
+      "consoleWarnings": [],
+      "overflow": false,
+      "scrollWidthDelta": 0,
+      "zIndexConflicts": [
+        {
+          "tag": "canvas",
+          "id": null,
+          "className": "pointer-events-none fixed inset-0 z-40",
+          "zIndex": 40,
+          "navZIndex": 0
+        },
+        {
+          "tag": "div",
+          "id": null,
+          "className": "crt-overlay",
+          "zIndex": 9998,
+          "navZIndex": 0
+        },
+        {
+          "tag": "div",
+          "id": null,
+          "className": "crt-vignette",
+          "zIndex": 9999,
+          "navZIndex": 0
+        },
+        {
+          "tag": "header",
+          "id": null,
+          "className": "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          "zIndex": 50,
+          "navZIndex": 0
+        },
+        {
+          "tag": "main",
+          "id": null,
+          "className": "relative z-10 min-h-screen",
+          "zIndex": 10,
+          "navZIndex": 0
+        }
+      ],
+      "screenshot": "screenshots/audit/memes.png",
+      "loadTimeMs": 764
+    },
+    {
+      "route": "/predictions",
+      "url": "http://localhost:3000/predictions",
+      "consoleErrors": [
+        "Each child in a list should have a unique \"key\" prop.%s%s See https://react.dev/link/warning-keys for more information. \n\nCheck the render method of `OuterLayoutRouter`. "
+      ],
+      "consoleWarnings": [],
+      "overflow": false,
+      "scrollWidthDelta": 0,
+      "zIndexConflicts": [
+        {
+          "tag": "canvas",
+          "id": null,
+          "className": "pointer-events-none fixed inset-0 z-40",
+          "zIndex": 40,
+          "navZIndex": 0
+        },
+        {
+          "tag": "div",
+          "id": null,
+          "className": "crt-overlay",
+          "zIndex": 9998,
+          "navZIndex": 0
+        },
+        {
+          "tag": "div",
+          "id": null,
+          "className": "crt-vignette",
+          "zIndex": 9999,
+          "navZIndex": 0
+        },
+        {
+          "tag": "header",
+          "id": null,
+          "className": "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          "zIndex": 50,
+          "navZIndex": 0
+        },
+        {
+          "tag": "main",
+          "id": null,
+          "className": "relative z-10 min-h-screen",
+          "zIndex": 10,
+          "navZIndex": 0
+        }
+      ],
+      "screenshot": "screenshots/audit/predictions.png",
+      "loadTimeMs": 739
+    },
+    {
+      "route": "/victims",
+      "url": "http://localhost:3000/victims",
+      "consoleErrors": [
+        "Each child in a list should have a unique \"key\" prop.%s%s See https://react.dev/link/warning-keys for more information. \n\nCheck the render method of `OuterLayoutRouter`. "
+      ],
+      "consoleWarnings": [],
+      "overflow": false,
+      "scrollWidthDelta": 0,
+      "zIndexConflicts": [
+        {
+          "tag": "canvas",
+          "id": null,
+          "className": "pointer-events-none fixed inset-0 z-40",
+          "zIndex": 40,
+          "navZIndex": 0
+        },
+        {
+          "tag": "div",
+          "id": null,
+          "className": "crt-overlay",
+          "zIndex": 9998,
+          "navZIndex": 0
+        },
+        {
+          "tag": "div",
+          "id": null,
+          "className": "crt-vignette",
+          "zIndex": 9999,
+          "navZIndex": 0
+        },
+        {
+          "tag": "header",
+          "id": null,
+          "className": "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          "zIndex": 50,
+          "navZIndex": 0
+        },
+        {
+          "tag": "main",
+          "id": null,
+          "className": "relative z-10 min-h-screen",
+          "zIndex": 10,
+          "navZIndex": 0
+        }
+      ],
+      "screenshot": "screenshots/audit/victims.png",
+      "loadTimeMs": 746
+    }
+  ],
+  "backNavigation": [
+    {
+      "route": "/explore",
+      "stuckElements": [],
+      "screenshot": "screenshots/audit/back-from-explore.png"
+    },
+    {
+      "route": "/evolution",
+      "stuckElements": [],
+      "screenshot": "screenshots/audit/back-from-evolution.png"
+    },
+    {
+      "route": "/battles",
+      "stuckElements": [],
+      "screenshot": "screenshots/audit/back-from-battles.png"
+    },
+    {
+      "route": "/simulator",
+      "stuckElements": [],
+      "screenshot": "screenshots/audit/back-from-simulator.png"
+    },
+    {
+      "route": "/quiz",
+      "stuckElements": [],
+      "screenshot": "screenshots/audit/back-from-quiz.png"
+    },
+    {
+      "route": "/passport",
+      "stuckElements": [],
+      "screenshot": "screenshots/audit/back-from-passport.png"
+    },
+    {
+      "route": "/graveyard",
+      "stuckElements": [],
+      "screenshot": "screenshots/audit/back-from-graveyard.png"
+    },
+    {
+      "route": "/leaderboard",
+      "stuckElements": [],
+      "screenshot": "screenshots/audit/back-from-leaderboard.png"
+    },
+    {
+      "route": "/memes",
+      "stuckElements": [],
+      "screenshot": "screenshots/audit/back-from-memes.png"
+    },
+    {
+      "route": "/predictions",
+      "stuckElements": [],
+      "screenshot": "screenshots/audit/back-from-predictions.png"
+    },
+    {
+      "route": "/victims",
+      "stuckElements": [],
+      "screenshot": "screenshots/audit/back-from-victims.png"
+    }
+  ],
+  "summary": {
+    "totalPages": 12,
+    "totalConsoleErrors": 12,
+    "totalConsoleWarnings": 0,
+    "pagesWithOverflow": [],
+    "pagesWithZIndexConflicts": [
+      "/",
+      "/explore",
+      "/evolution",
+      "/battles",
+      "/simulator",
+      "/quiz",
+      "/passport",
+      "/graveyard",
+      "/leaderboard",
+      "/memes",
+      "/predictions",
+      "/victims"
+    ],
+    "pagesWithStuckElements": []
+  }
+}

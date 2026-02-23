@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "audit:ux": "node scripts/ux-audit.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -71,13 +72,14 @@
     "zustand": "^5.0.11"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
     "@tailwindcss/postcss": "^4.1.13",
     "@types/canvas-confetti": "^1.6.4",
     "@types/node": "^22",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
-    "eslint": "^9.39.3",
     "@types/three": "^0.183.1",
+    "eslint": "^9.39.3",
     "eslint-config-next": "^16.1.6",
     "postcss": "^8.5",
     "prettier": "^3.8.1",

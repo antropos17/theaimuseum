@@ -1,10 +1,17 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { usePathname } from 'next/navigation'
 
 export function useInView(threshold = 0.1) {
   const ref = useRef<HTMLDivElement>(null)
   const [isInView, setIsInView] = useState(false)
+  const pathname = usePathname()
+
+  // Reset on route change so elements can re-animate after back navigation
+  useEffect(() => {
+    setIsInView(false)
+  }, [pathname])
 
   useEffect(() => {
     const el = ref.current
@@ -22,7 +29,7 @@ export function useInView(threshold = 0.1) {
 
     observer.observe(el)
     return () => observer.disconnect()
-  }, [threshold])
+  }, [threshold, pathname])
 
   return { ref, isInView }
 }

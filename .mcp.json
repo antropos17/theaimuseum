@@ -6,6 +6,10 @@
     },
     "vercel": {
       "url": "https://mcp.vercel.com"
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/mcp-playwright"]
     }
   }
 }
