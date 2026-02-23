@@ -5,8 +5,8 @@ import { ThemeProvider } from '@/components/layout/theme-provider'
 import { Toaster } from 'sonner'
 import { MuseumNav } from '@/components/layout/museum-nav'
 import { MuseumFooter } from '@/components/layout/museum-footer'
-import { PhosphorTrail } from '@/components/effects/phosphor-trail'
-import { KonamiListener } from '@/lib/hooks/use-konami-code'
+import { PhosphorTrail } from '@/components/effects'
+import { KonamiListener } from '@/lib/hooks'
 import './globals.css'
 
 const inter = Inter({

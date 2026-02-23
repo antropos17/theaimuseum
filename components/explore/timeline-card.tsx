@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { useInView } from '@/lib/hooks/use-in-view'
+import { useInView } from '@/lib/hooks'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { AIModel } from '@/lib/data'

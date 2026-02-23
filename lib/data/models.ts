@@ -1026,7 +1026,7 @@ export const models: AIModel[] = [
       { text: 'Hybrid thinking mode occasionally contradicts itself', severity: 'feature' },
     ],
     media: [],
-    lineage: ['claude3-opus'],
+    lineage: ['claude3'],
     stickers: {},
   },
   {
@@ -1149,7 +1149,7 @@ export const models: AIModel[] = [
       },
     ],
     media: [],
-    lineage: ['llama'],
+    lineage: ['llama2'],
     stickers: {},
   },
   {
@@ -1192,7 +1192,7 @@ export const models: AIModel[] = [
       { text: 'Computer use occasionally clicks wrong UI elements', severity: 'ux' },
     ],
     media: [],
-    lineage: ['claude3-opus'],
+    lineage: ['claude3'],
     stickers: {},
   },
   {
@@ -1275,7 +1275,7 @@ export const models: AIModel[] = [
       { text: 'Long autonomous sessions can drift from original intent', severity: 'feature' },
     ],
     media: [],
-    lineage: ['claude3-opus'],
+    lineage: ['claude3'],
     stickers: {},
   },
   {
@@ -1444,7 +1444,7 @@ export const models: AIModel[] = [
       { text: 'Premium pricing limits adoption for smaller teams', severity: 'feature' },
     ],
     media: [],
-    lineage: ['claude3-opus'],
+    lineage: ['claude3'],
     stickers: {},
   },
   {

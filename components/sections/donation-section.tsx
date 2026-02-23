@@ -1,6 +1,6 @@
 'use client'
 
-import { useInView } from '@/lib/hooks/use-in-view'
+import { useInView } from '@/lib/hooks'
 import { Heart } from 'lucide-react'
 import { CopyableTerminalCard } from '@/components/ui/copyable-terminal-card'
 

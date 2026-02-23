@@ -6,7 +6,7 @@ import { companies, models } from '@/lib/data'
 import { cn } from '@/lib/utils'
 import { CopyableTerminalCard } from '@/components/ui/copyable-terminal-card'
 import { ArrowLeft } from 'lucide-react'
-import { useAnimatedCounter } from '@/lib/hooks/use-animated-counter'
+import { useAnimatedCounter } from '@/lib/hooks'
 
 /* ── Animated Valuation Counter ─────────────────────────────────── */
 function ValuationCounter({ target }: { target: number }) {

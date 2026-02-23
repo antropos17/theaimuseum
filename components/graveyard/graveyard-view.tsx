@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { graveyard } from '@/lib/data'
 import { cn } from '@/lib/utils'
 import { ArrowLeft } from 'lucide-react'
-import { useInView } from '@/lib/hooks/use-in-view'
+import { useInView } from '@/lib/hooks'
 
 const SEVERITY_MAP: Record<number, { label: string; color: string; bg: string }> = {
   0: { label: 'CATASTROPHIC', color: 'text-red-400', bg: 'bg-red-500/10 border-red-500/20' },

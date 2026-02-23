@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { Star } from 'lucide-react'
-import { useInView } from '@/lib/hooks/use-in-view'
+import { useInView } from '@/lib/hooks'
 
 const links = [
   { label: 'Explore', href: '/explore' },

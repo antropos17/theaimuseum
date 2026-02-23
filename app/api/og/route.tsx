@@ -5,8 +5,8 @@ export const runtime = 'edge'
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
-    const title = searchParams.get('title') || '76 Years of Artificial Intelligence'
-    const subtitle = searchParams.get('subtitle') || ''
+    const title = (searchParams.get('title') || '76 Years of Artificial Intelligence').slice(0, 200)
+    const subtitle = (searchParams.get('subtitle') || '').slice(0, 200)
 
     return new ImageResponse(
       <div
