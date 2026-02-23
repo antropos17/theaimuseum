@@ -1,1 +1,1 @@
-Visual effects: CRT overlay, scanlines, phosphor trail, glitch, boot sequence.
+Visual effects: channel-switch, phosphor-trail, virus-scan-loader.
