@@ -111,7 +111,7 @@ export default function MonitorContainer({ bootSequenceEl, neuralNodeEl }: { boo
 
     return (
         <div className={`absolute inset-0 w-full h-screen z-0 ${hasBooted ? 'pointer-events-none' : 'pointer-events-auto bg-[#0a0a0f]'}`}>
-            <Canvas shadows dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
+            <Canvas shadows="basic" dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
                 {/* Initial camera position sits well back to view the whole 5-unit TV */}
                 <PerspectiveCamera makeDefault position={[0, 0, hasBooted ? 20 : 7]} fov={hasBooted ? 60 : 45} />
 
