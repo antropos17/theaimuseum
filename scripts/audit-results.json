@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-02-23T14:27:01.451Z",
+  "timestamp": "2026-02-23T14:36:15.596Z",
   "baseUrl": "http://localhost:3000",
   "pages": [
     {
@@ -70,7 +70,7 @@
         }
       ],
       "screenshot": "screenshots/audit/home.png",
-      "loadTimeMs": 845
+      "loadTimeMs": 829
     },
     {
       "route": "/explore",
@@ -119,7 +119,7 @@
         }
       ],
       "screenshot": "screenshots/audit/explore.png",
-      "loadTimeMs": 1167
+      "loadTimeMs": 1237
     },
     {
       "route": "/evolution",
@@ -168,7 +168,7 @@
         }
       ],
       "screenshot": "screenshots/audit/evolution.png",
-      "loadTimeMs": 777
+      "loadTimeMs": 817
     },
     {
       "route": "/battles",
@@ -217,7 +217,7 @@
         }
       ],
       "screenshot": "screenshots/audit/battles.png",
-      "loadTimeMs": 787
+      "loadTimeMs": 803
     },
     {
       "route": "/simulator",
@@ -266,7 +266,7 @@
         }
       ],
       "screenshot": "screenshots/audit/simulator.png",
-      "loadTimeMs": 733
+      "loadTimeMs": 781
     },
     {
       "route": "/quiz",
@@ -315,7 +315,7 @@
         }
       ],
       "screenshot": "screenshots/audit/quiz.png",
-      "loadTimeMs": 715
+      "loadTimeMs": 762
     },
     {
       "route": "/passport",
@@ -364,7 +364,7 @@
         }
       ],
       "screenshot": "screenshots/audit/passport.png",
-      "loadTimeMs": 713
+      "loadTimeMs": 755
     },
     {
       "route": "/graveyard",
@@ -413,7 +413,7 @@
         }
       ],
       "screenshot": "screenshots/audit/graveyard.png",
-      "loadTimeMs": 748
+      "loadTimeMs": 789
     },
     {
       "route": "/leaderboard",
@@ -462,7 +462,7 @@
         }
       ],
       "screenshot": "screenshots/audit/leaderboard.png",
-      "loadTimeMs": 819
+      "loadTimeMs": 837
     },
     {
       "route": "/memes",
@@ -511,7 +511,7 @@
         }
       ],
       "screenshot": "screenshots/audit/memes.png",
-      "loadTimeMs": 764
+      "loadTimeMs": 799
     },
     {
       "route": "/predictions",
@@ -560,7 +560,7 @@
         }
       ],
       "screenshot": "screenshots/audit/predictions.png",
-      "loadTimeMs": 739
+      "loadTimeMs": 798
     },
     {
       "route": "/victims",
@@ -609,7 +609,7 @@
         }
       ],
       "screenshot": "screenshots/audit/victims.png",
-      "loadTimeMs": 746
+      "loadTimeMs": 791
     }
   ],
   "backNavigation": [
