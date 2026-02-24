@@ -6,16 +6,8 @@ import { usePathname } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { cn } from '@/lib/utils'
 import { CommandPalette } from '@/components/layout/command-palette'
+import { mainNavItems, secondaryNavItems } from '@/lib/config'
 import { Search, Sun, Moon, Menu, X } from 'lucide-react'
-
-const navItems = [
-  { label: 'Explore', href: '/explore' },
-  { label: 'Evolution', href: '/evolution' },
-  { label: 'Battles', href: '/battles' },
-  { label: 'Simulator', href: '/simulator' },
-  { label: 'Quiz', href: '/quiz' },
-  { label: 'Passport', href: '/passport' },
-]
 
 export function MuseumNav() {
   const pathname = usePathname()
@@ -108,7 +100,7 @@ export function MuseumNav() {
 
           {/* Desktop navigation */}
           <nav className="hidden items-center gap-6 md:flex" aria-label="Main navigation">
-            {navItems.map((item) => {
+            {mainNavItems.map((item) => {
               const isActive = pathname === item.href
               return (
                 <Link
@@ -173,7 +165,7 @@ export function MuseumNav() {
             }}
           >
             <div className="flex flex-col gap-1">
-              {navItems.map((item) => (
+              {mainNavItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
@@ -188,14 +180,7 @@ export function MuseumNav() {
                 </Link>
               ))}
               <div className="my-2 h-px bg-border/30" />
-              {[
-                { label: 'Graveyard', href: '/graveyard' },
-                { label: 'Memes', href: '/memes' },
-                { label: 'Victims', href: '/victims' },
-                { label: 'Predictions', href: '/predictions' },
-                { label: 'Leaderboard', href: '/leaderboard' },
-                { label: 'Passport', href: '/passport' },
-              ].map((item) => (
+              {secondaryNavItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}

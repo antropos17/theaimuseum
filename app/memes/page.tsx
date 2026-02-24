@@ -1,18 +1,15 @@
-import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { MemesView } from '@/components/memes/memes-view'
+import { createPageMetadata } from '@/lib/config'
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: 'AI Memes -- Cultural Artifacts',
   description: "AI's funniest, most embarrassing, and most iconic moments in history.",
-  openGraph: {
-    title: 'AI Memes | The AI Museum',
-    description: "AI's funniest, most embarrassing, and most iconic moments.",
-    images: [{ url: '/og-image.png', width: 1200, height: 630 }],
-  },
-  twitter: { card: 'summary_large_image' },
-}
+  path: '/memes',
+  ogTitle: 'AI Memes | The AI Museum',
+  ogDescription: "AI's funniest, most embarrassing, and most iconic moments.",
+})
 
 export default function MemesPage() {
   return (

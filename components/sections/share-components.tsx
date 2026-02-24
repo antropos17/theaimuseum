@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import { Copy, Check, Share2 } from 'lucide-react'
+import { siteConfig } from '@/lib/config'
 
-const SITE_URL = 'https://v0-theaimuseum.vercel.app'
+
 const SITE_TITLE = 'The AI Museum — 76 Years of AI History (Interactive)'
 const TWEET_TEXT = 'I found The AI Museum — 76 years of AI history in one interactive site'
 
@@ -12,7 +13,7 @@ export function HeroShareBar({ visible }: { visible: boolean }) {
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(SITE_URL)
+      await navigator.clipboard.writeText(siteConfig.url)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch {
@@ -26,7 +27,7 @@ export function HeroShareBar({ visible }: { visible: boolean }) {
         await navigator.share({
           title: SITE_TITLE,
           text: TWEET_TEXT,
-          url: SITE_URL,
+          url: siteConfig.url,
         })
       } catch (err) {
         if ((err as Error).name !== 'AbortError') {
@@ -63,7 +64,7 @@ export function HeroShareBar({ visible }: { visible: boolean }) {
 
       {/* X/Twitter */}
       <a
-        href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(TWEET_TEXT)}&url=${encodeURIComponent(SITE_URL)}`}
+        href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(TWEET_TEXT)}&url=${encodeURIComponent(siteConfig.url)}`}
         target="_blank"
         rel="noopener noreferrer"
         className="inline-flex items-center gap-1 rounded-sm border border-border/30 px-2 py-1 font-mono text-[10px] uppercase tracking-wide text-muted-foreground transition-colors duration-200 hover:border-[#00ff88]/50 hover:text-[#00ff88]"
@@ -76,7 +77,7 @@ export function HeroShareBar({ visible }: { visible: boolean }) {
 
       {/* Reddit */}
       <a
-        href={`https://reddit.com/submit?url=${encodeURIComponent(SITE_URL)}&title=${encodeURIComponent(SITE_TITLE)}`}
+        href={`https://reddit.com/submit?url=${encodeURIComponent(siteConfig.url)}&title=${encodeURIComponent(SITE_TITLE)}`}
         target="_blank"
         rel="noopener noreferrer"
         className="inline-flex items-center gap-1 rounded-sm border border-border/30 px-2 py-1 font-mono text-[10px] uppercase tracking-wide text-muted-foreground transition-colors duration-200 hover:border-[#00ff88]/50 hover:text-[#00ff88]"
@@ -89,7 +90,7 @@ export function HeroShareBar({ visible }: { visible: boolean }) {
 
       {/* LinkedIn */}
       <a
-        href={`https://linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(SITE_URL)}`}
+        href={`https://linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(siteConfig.url)}`}
         target="_blank"
         rel="noopener noreferrer"
         className="inline-flex items-center gap-1 rounded-sm border border-border/30 px-2 py-1 font-mono text-[10px] uppercase tracking-wide text-muted-foreground transition-colors duration-200 hover:border-[#00ff88]/50 hover:text-[#00ff88]"
@@ -102,7 +103,7 @@ export function HeroShareBar({ visible }: { visible: boolean }) {
 
       {/* Telegram */}
       <a
-        href={`https://t.me/share/url?url=${encodeURIComponent(SITE_URL)}&text=${encodeURIComponent(SITE_TITLE)}`}
+        href={`https://t.me/share/url?url=${encodeURIComponent(siteConfig.url)}&text=${encodeURIComponent(SITE_TITLE)}`}
         target="_blank"
         rel="noopener noreferrer"
         className="inline-flex items-center gap-1 rounded-sm border border-border/30 px-2 py-1 font-mono text-[10px] uppercase tracking-wide text-muted-foreground transition-colors duration-200 hover:border-[#00ff88]/50 hover:text-[#00ff88]"
@@ -158,7 +159,7 @@ export function StickySidebarShare() {
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(SITE_URL)
+      await navigator.clipboard.writeText(siteConfig.url)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch {
@@ -172,7 +173,7 @@ export function StickySidebarShare() {
         await navigator.share({
           title: SITE_TITLE,
           text: TWEET_TEXT,
-          url: SITE_URL,
+          url: siteConfig.url,
         })
       } catch (err) {
         if ((err as Error).name !== 'AbortError') {
@@ -206,7 +207,7 @@ export function StickySidebarShare() {
 
         {/* X/Twitter */}
         <a
-          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(TWEET_TEXT)}&url=${encodeURIComponent(SITE_URL)}`}
+          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(TWEET_TEXT)}&url=${encodeURIComponent(siteConfig.url)}`}
           target="_blank"
           rel="noopener noreferrer"
           className="p-2 text-muted-foreground transition-colors hover:text-[#00ff88]"

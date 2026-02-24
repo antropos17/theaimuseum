@@ -4,6 +4,7 @@ import { useState, useRef, useCallback } from 'react'
 import Link from 'next/link'
 import { ArrowLeft, Download } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { siteConfig } from '@/lib/config'
 
 const AI_MODELS = [
   'ChatGPT',
@@ -18,7 +19,7 @@ const AI_MODELS = [
   'Other',
 ] as const
 
-const PASSPORT_URL = 'https://v0-theaimuseum.vercel.app/passport'
+const PASSPORT_URL = `${siteConfig.url}/passport`
 
 const PassportLabel = ({ label, children }: { label: string; children: React.ReactNode }) => (
   <div>

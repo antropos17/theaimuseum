@@ -1,30 +1,17 @@
-import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { VictimsView } from '@/components/victims/victims-view'
+import { createPageMetadata } from '@/lib/config'
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: 'AI Job Displacement Tracker | The AI Museum',
   description:
     'Which professions is AI disrupting? Data-driven analysis of automation rates across 20+ industries — from creative and technical to service and knowledge work.',
-  openGraph: {
-    title: 'AI Job Displacement Tracker | The AI Museum',
-    description: 'Which professions is AI disrupting? Automation risk data across 20+ industries.',
-    images: [
-      {
-        url: '/api/og?title=AI%20Job%20Displacement%20Tracker&subtitle=The%20Human%20Cost%20of%20Progress',
-        width: 1200,
-        height: 630,
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'AI Job Displacement Tracker | The AI Museum',
-    description: 'Which professions is AI disrupting? Automation risk data across 20+ industries.',
-  },
-  alternates: { canonical: 'https://v0-theaimuseum.vercel.app/victims' },
-}
+  path: '/victims',
+  ogTitle: 'AI Job Displacement Tracker | The AI Museum',
+  ogDescription: 'Which professions is AI disrupting? Automation risk data across 20+ industries.',
+  ogImage: '/api/og?title=AI%20Job%20Displacement%20Tracker&subtitle=The%20Human%20Cost%20of%20Progress',
+})
 
 export default function VictimsPage() {
   return (

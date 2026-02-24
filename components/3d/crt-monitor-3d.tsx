@@ -8,7 +8,7 @@ import CrtMonitorCss from "./crt-monitor-css";
 const CrtMonitorThree = dynamic(() => import("./crt-monitor-three").then(m => m.CrtMonitorThree), {
     ssr: false,
     loading: () => (
-        <div className="w-full h-full relative aspect-[4/3] max-w-4xl mx-auto flex items-center justify-center p-[4%]">
+        <div className="w-full h-full relative flex items-center justify-center p-[4%]">
             <div className="w-full h-full rounded-2xl border-[3px] border-[#333] bg-gradient-to-b from-[#1a1a2e] to-[#0d0d1a]" />
         </div>
     )

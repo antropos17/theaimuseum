@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { simulatorEras } from '@/lib/data'
 import { cn } from '@/lib/utils'
 import { ArrowLeft } from 'lucide-react'
+import { siteConfig } from '@/lib/config'
 
 // Era-specific theme colors: from green monochrome (1966) to modern (2025)
 const ERA_THEMES: Record<
@@ -176,7 +177,7 @@ export function SimulatorView() {
     const aiName = era.label.split(' // ')[0]
     const year = era.era
     const text = `I just chatted with ${aiName} from ${year} at The AI Museum`
-    const url = 'https://v0-theaimuseum.vercel.app/simulator'
+    const url = `${siteConfig.url}/simulator`
 
     if (navigator.share) {
       try {
@@ -202,7 +203,7 @@ export function SimulatorView() {
       })
       .join('\n\n')
 
-    const fullText = `Conversation with ${era.label}\n${'='.repeat(50)}\n\n${transcript}\n\n${'-'.repeat(50)}\nThe AI Museum - https://v0-theaimuseum.vercel.app/simulator`
+    const fullText = `Conversation with ${era.label}\n${'='.repeat(50)}\n\n${transcript}\n\n${'-'.repeat(50)}\nThe AI Museum - ${siteConfig.url}/simulator`
 
     try {
       await navigator.clipboard.writeText(fullText)

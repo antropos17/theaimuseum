@@ -6,6 +6,7 @@ import { graveyard } from '@/lib/data'
 import { cn } from '@/lib/utils'
 import { ArrowLeft } from 'lucide-react'
 import { useInView } from '@/lib/hooks'
+import { siteConfig } from '@/lib/config'
 
 const SEVERITY_MAP: Record<number, { label: string; color: string; bg: string }> = {
   0: { label: 'CATASTROPHIC', color: 'text-red-400', bg: 'bg-red-500/10 border-red-500/20' },
@@ -37,7 +38,7 @@ function CrashCard({
     const birthYear = item.years.split(/[–-]/)[0].trim()
     const deathYear = item.years.split(/[–-]/)[1]?.trim() || 'present'
     const twitterText = `RIP ${item.name} (${birthYear}–${deathYear}) — via @theaimuseum`
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(twitterText)}&url=${encodeURIComponent('https://v0-theaimuseum.vercel.app/graveyard')}`
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(twitterText)}&url=${encodeURIComponent(`${siteConfig.url}/graveyard`)}`
     window.open(twitterUrl, '_blank', 'noopener,noreferrer')
   }
 

@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils'
 import { CopyableTerminalCard } from '@/components/ui/copyable-terminal-card'
 import confetti from 'canvas-confetti'
 import { ArrowLeft } from 'lucide-react'
+import { siteConfig } from '@/lib/config'
 
 const RANKS = [
   {
@@ -201,7 +202,7 @@ export function QuizView() {
       challengeText = `Only ${score}/10 on the AI quiz. This thing humbled me.`
     }
 
-    const challengeUrl = 'https://v0-theaimuseum.vercel.app/quiz'
+    const challengeUrl = `${siteConfig.url}/quiz`
 
     const handleChallengeFriend = async () => {
       // Try Web Share API first
@@ -432,7 +433,7 @@ export function QuizView() {
   // Share individual question
   const handleShareQuestion = async () => {
     const shareText = `Can you answer this AI history question?\n\n"${question.q}"\n\nTest your knowledge at The AI Museum`
-    const shareUrl = 'https://v0-theaimuseum.vercel.app/quiz'
+    const shareUrl = `${siteConfig.url}/quiz`
 
     if (navigator.share) {
       try {
@@ -451,7 +452,7 @@ export function QuizView() {
   }
 
   const handleCopyQuestion = async () => {
-    const questionText = `${question.q}\n\nOptions:\nA) ${question.options[0]}\nB) ${question.options[1]}\nC) ${question.options[2]}\nD) ${question.options[3]}\n\nAnswer: ${String.fromCharCode(65 + question.answer)}) ${question.options[question.answer]}\n\nFrom The AI Museum - https://v0-theaimuseum.vercel.app/quiz`
+    const questionText = `${question.q}\n\nOptions:\nA) ${question.options[0]}\nB) ${question.options[1]}\nC) ${question.options[2]}\nD) ${question.options[3]}\n\nAnswer: ${String.fromCharCode(65 + question.answer)}) ${question.options[question.answer]}\n\nFrom The AI Museum - ${siteConfig.url}/quiz`
 
     try {
       await navigator.clipboard.writeText(questionText)

@@ -194,17 +194,25 @@ function MonitorModel({ isPowered, onBootComplete, children }: CrtMonitorThreePr
             <Html
                 transform
                 position={[0, 0, 1.18]}
-                scale={0.10} // Physical scaling to screen metrics
+                scale={0.85}
                 zIndexRange={[100, 0]}
             >
                 <div
-                    className="w-[1024px] h-[768px] absolute pointer-events-auto bg-transparent overflow-hidden"
+                    className="w-[900px] h-[675px] absolute pointer-events-auto overflow-hidden"
                     style={{
                         left: '50%',
                         top: '50%',
-                        transform: 'translate(-50%, -50%)'
+                        transform: 'translate(-50%, -50%)',
                     }}
                 >
+                    {/* CSS scanlines overlay (since HTML covers the 3D shader scanlines) */}
+                    <div
+                        className="absolute inset-0 pointer-events-none z-50"
+                        style={{
+                            background: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.3) 2px, rgba(0,0,0,0.3) 4px)",
+                            mixBlendMode: "multiply",
+                        }}
+                    />
                     {children}
                 </div>
             </Html>
@@ -223,7 +231,7 @@ function CameraRig({ isZoomingIn }: { isZoomingIn?: boolean }) {
             state.camera.position.x = THREE.MathUtils.damp(state.camera.position.x, 0, 4, delta);
         } else {
             const scroll = ScrollSignal.current;
-            const targetZ = Math.max(1.6, 5.5 - scroll * 0.005);
+            const targetZ = Math.max(1.6, 4.8 - scroll * 0.004);
             state.camera.position.z = THREE.MathUtils.damp(state.camera.position.z, targetZ, 4, delta);
         }
 
@@ -234,10 +242,10 @@ function CameraRig({ isZoomingIn }: { isZoomingIn?: boolean }) {
 
 export function CrtMonitorThree(props: CrtMonitorThreeProps) {
     return (
-        <div className={cn("w-full h-full relative aspect-[4/3] max-w-4xl mx-auto", props.className)}>
-            <Canvas 
+        <div className={cn("w-full h-full relative", props.className)}>
+            <Canvas
                 shadows="soft"
-                camera={{ position: [0, 0, 5.5], fov: 45 }} 
+                camera={{ position: [0, 0, 4.8], fov: 40 }}
                 dpr={[1, 2]}
             >
                 <Environment preset="city" />

@@ -1,19 +1,16 @@
-import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { LeaderboardView } from '@/components/leaderboard/leaderboard-view'
+import { createPageMetadata } from '@/lib/config'
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: 'AI Leaderboard -- Community Rankings',
   description:
     'Community-ranked AI models. Vote for your favorites across capability, hype, and safety.',
-  openGraph: {
-    title: 'AI Leaderboard | The AI Museum',
-    description: 'Community-ranked AI models. Vote for your favorites.',
-    images: [{ url: '/og-image.png', width: 1200, height: 630 }],
-  },
-  twitter: { card: 'summary_large_image' },
-}
+  path: '/leaderboard',
+  ogTitle: 'AI Leaderboard | The AI Museum',
+  ogDescription: 'Community-ranked AI models. Vote for your favorites.',
+})
 
 export default function LeaderboardPage() {
   return (

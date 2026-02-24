@@ -1,32 +1,18 @@
-import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { PredictionsView } from '@/components/predictions/predictions-view'
+import { createPageMetadata } from '@/lib/config'
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: 'AI Expert Predictions Scorecard | The AI Museum',
   description:
     'Tracking AI expert forecasts vs. reality. Live, failing, and ironic predictions from leading researchers, executives, and futurists — who got it right?',
-  openGraph: {
-    title: 'AI Expert Predictions Scorecard | The AI Museum',
-    description:
-      'Tracking AI expert forecasts vs. reality. Who got it right? Live, failing, and ironic predictions.',
-    images: [
-      {
-        url: '/api/og?title=AI%20Predictions%20Scorecard&subtitle=Experts%20vs.%20Reality',
-        width: 1200,
-        height: 630,
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'AI Expert Predictions Scorecard | The AI Museum',
-    description:
-      'Tracking AI expert forecasts vs. reality. Who got it right? Live, failing, and ironic predictions.',
-  },
-  alternates: { canonical: 'https://v0-theaimuseum.vercel.app/predictions' },
-}
+  path: '/predictions',
+  ogTitle: 'AI Expert Predictions Scorecard | The AI Museum',
+  ogDescription:
+    'Tracking AI expert forecasts vs. reality. Who got it right? Live, failing, and ironic predictions.',
+  ogImage: '/api/og?title=AI%20Predictions%20Scorecard&subtitle=Experts%20vs.%20Reality',
+})
 
 export default function PredictionsPage() {
   return (

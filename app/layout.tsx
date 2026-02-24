@@ -8,6 +8,7 @@ import { MuseumFooter } from '@/components/layout/museum-footer'
 import { PhosphorTrail, ChannelSwitchTransition } from '@/components/effects'
 import { TerminalHud } from '@/components/layout'
 import { KonamiListener } from '@/lib/hooks'
+import { siteConfig } from '@/lib/config'
 import './globals.css'
 
 const inter = Inter({
@@ -23,10 +24,9 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://v0-theaimuseum.vercel.app'),
-  title: 'The AI Museum — 76 Years of Artificial Intelligence History',
-  description:
-    "Explore 76 years of AI history through interactive exhibits spanning 1950-2026. From Turing's foundational work to modern large language models like GPT and ChatGPT. Learn about machine learning, neural networks, deep learning, computer vision, NLP, and the evolution of artificial intelligence through engaging timelines, simulators, quizzes, and the AI Graveyard of discontinued projects.",
+  metadataBase: new URL(siteConfig.url),
+  title: `${siteConfig.name} — 76 Years of Artificial Intelligence History`,
+  description: siteConfig.description,
   keywords: [
     'Artificial Intelligence',
     'Machine Learning',
@@ -49,24 +49,24 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     type: 'website',
-    siteName: 'The AI Museum',
-    title: 'The AI Museum — 76 Years of Artificial Intelligence History',
-    description: 'Explore 76 years of AI history through interactive exhibits spanning 1950-2026.',
-    images: [{ url: '/api/og', width: 1200, height: 630, alt: 'The AI Museum' }],
+    siteName: siteConfig.name,
+    title: `${siteConfig.name} — 76 Years of Artificial Intelligence History`,
+    description: siteConfig.shortDescription,
+    images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: siteConfig.name }],
   },
   twitter: {
-    card: 'summary_large_image',
-    site: '@theaimuseum',
-    title: 'The AI Museum — 76 Years of Artificial Intelligence History',
-    description: 'Explore 76 years of AI history through interactive exhibits spanning 1950-2026.',
-    images: ['/api/og'],
+    card: siteConfig.twitter.card,
+    site: siteConfig.twitter.handle,
+    title: `${siteConfig.name} — 76 Years of Artificial Intelligence History`,
+    description: siteConfig.shortDescription,
+    images: [siteConfig.ogImage],
   },
   robots: {
     index: true,
     follow: true,
   },
   alternates: {
-    canonical: 'https://v0-theaimuseum.vercel.app',
+    canonical: siteConfig.url,
   },
 }
 
@@ -88,15 +88,15 @@ export default function RootLayout({
   const websiteSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'The AI Museum',
-    url: 'https://v0-theaimuseum.vercel.app',
+    name: siteConfig.name,
+    url: siteConfig.url,
     description:
       "The world's first interactive museum of AI history. 40+ exhibits spanning 1950-2026. From Turing's question to machines that dream.",
     inLanguage: 'en',
     creator: {
       '@type': 'Organization',
-      name: 'The AI Museum',
-      url: 'https://v0-theaimuseum.vercel.app',
+      name: siteConfig.name,
+      url: siteConfig.url,
     },
     about: {
       '@type': 'Thing',
@@ -105,14 +105,14 @@ export default function RootLayout({
     },
     mainEntity: {
       '@type': 'Museum',
-      name: 'The AI Museum',
+      name: siteConfig.name,
       description: 'Interactive online museum featuring 40+ AI exhibits across 10 themed wings',
       isAccessibleForFree: true,
       availableLanguage: 'English',
     },
     potentialAction: {
       '@type': 'SearchAction',
-      target: 'https://v0-theaimuseum.vercel.app/explore?q={search_term_string}',
+      target: `${siteConfig.url}/explore?q={search_term_string}`,
       'query-input': 'required name=search_term_string',
     },
   }

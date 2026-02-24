@@ -39,7 +39,7 @@ export function CrtMonitorCss({ isPowered, onBootComplete, children, className }
 
     return (
         <div className={cn(
-            "relative w-full max-w-4xl mx-auto aspect-[4/3] p-[4%] bg-gradient-to-b from-[#1a1a2e] to-[#0d0d1a] rounded-2xl shadow-2xl border-[3px] border-[#333] transition-all",
+            "relative w-full max-w-6xl mx-auto aspect-[4/3] p-[4%] bg-gradient-to-b from-[#1a1a2e] to-[#0d0d1a] rounded-2xl shadow-2xl border-[3px] border-[#333] transition-all",
             className
         )}>
             {/* Screen Frame Bezel */}

@@ -6,57 +6,16 @@ import { ChevronDown, ChevronRight } from 'lucide-react'
 import { HeroShareBar } from './share-components'
 import { LiveVisitors } from './live-visitors'
 
-const BOOT_LINES = [
-  'INITIATING SYSTEM...',
-  'LOADING HISTORICAL DATABASE...',
-  'CALIBRATING NEURAL NETWORKS...',
-  'ESTABLISHING CONNECTION...',
-  'SYSTEM READY.',
-]
-
-const BOOT_INTERVAL_MS = 250
-const BOOT_COMPLETE_DELAY_MS = BOOT_LINES.length * BOOT_INTERVAL_MS + 400
-
 export function HeroSection() {
-  const [hydrated, setHydrated] = useState(false)
-  const [bootComplete, setBootComplete] = useState(false)
-  const [bootLineIndex, setBootLineIndex] = useState(0)
-  const [stage, setStage] = useState(0)
   const [explorers, setExplorers] = useState(0)
   const mounted = useRef(false)
-  const skipBoot = () => {
-    setBootComplete(true)
-    setStage(4)
-  }
 
   useEffect(() => {
     mounted.current = true
-    setHydrated(true)
 
     // Set initial visitor count immediately on mount
     const initialCount = 247 + Math.floor(Math.random() * 337)
     queueMicrotask(() => setExplorers(initialCount))
-
-    // Boot sequence
-    const bootTimers: NodeJS.Timeout[] = []
-    BOOT_LINES.forEach((_, i) => {
-      bootTimers.push(
-        setTimeout(() => {
-          if (mounted.current) setBootLineIndex(i)
-        }, i * BOOT_INTERVAL_MS),
-      )
-    })
-
-    // Complete boot after last line + delay
-    const completeTimer = setTimeout(() => {
-      if (mounted.current) {
-        setBootComplete(true)
-        // Reveal all stages immediately after boot — no extra delay
-        setStage(4)
-      }
-    }, BOOT_COMPLETE_DELAY_MS)
-
-    const stageTimers: NodeJS.Timeout[] = []
 
     // Visitor counter updates
     const interval = setInterval(() => {
@@ -70,9 +29,6 @@ export function HeroSection() {
 
     return () => {
       mounted.current = false
-      bootTimers.forEach(clearTimeout)
-      clearTimeout(completeTimer)
-      stageTimers.forEach(clearTimeout) // kept for safety (array is empty now)
       clearInterval(interval)
     }
   }, [])
@@ -80,8 +36,6 @@ export function HeroSection() {
   return (
     <section
       className="relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden bg-[#0a0a0f] px-4"
-      onClick={!bootComplete ? skipBoot : undefined}
-      style={{ cursor: !bootComplete ? 'pointer' : 'default' }}
     >
       {/* CRT noise background */}
       <div className="crt-noise absolute inset-0" aria-hidden="true" />
@@ -89,35 +43,14 @@ export function HeroSection() {
       {/* Dot grid background */}
       <div className="dot-grid-pattern absolute inset-0 opacity-30" aria-hidden="true" />
 
-      {/* Boot sequence overlay — only after hydration so h1 is visible in SSR for LCP */}
-      {hydrated && !bootComplete && (
-        <div className="absolute inset-0 z-20 flex flex-col items-start justify-center bg-background px-8">
-          <div className="font-mono text-xs text-primary space-y-1">
-            {BOOT_LINES.slice(0, bootLineIndex + 1).map((line, i) => (
-              <div key={i} className="boot-line" style={{ animationDelay: `${i * 0.1}s` }}>
-                {'> '}
-                {line}
-              </div>
-            ))}
-          </div>
-          <button
-            onClick={skipBoot}
-            className="mt-8 inline-flex items-center gap-2 rounded border border-border/50 px-4 py-2 font-mono text-[11px] tracking-widest text-muted-foreground transition-colors duration-200 hover:border-primary/40 hover:text-primary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary"
-          >
-            [TAP ANYWHERE OR CLICK TO SKIP]
-          </button>
-        </div>
-      )}
-
       {/* Main content */}
-      {/* Subtle phosphor text-shadow for legibility over CRT texture */}
       <div
-        className={`relative z-10 flex max-w-2xl flex-col items-center text-center transition-opacity duration-700 ${!hydrated || bootComplete ? 'opacity-100' : 'opacity-0'}`}
+        className="relative z-10 flex max-w-2xl flex-col items-center text-center transition-opacity duration-700 opacity-100"
         style={{ textShadow: '0 0 20px rgba(0,255,136,0.15)' }}
       >
         {/* Live counter */}
         <div
-          className={`mb-8 flex items-center gap-2.5 transition-all duration-700 ${!hydrated || stage >= 1 ? 'translate-y-0 opacity-100' : 'translate-y-3 opacity-0'}`}
+          className="mb-8 flex items-center gap-2.5 transition-all duration-700 translate-y-0 opacity-100"
         >
           <span
             className="pulse-dot inline-block h-1.5 w-1.5 rounded-full bg-primary"
@@ -134,7 +67,7 @@ export function HeroSection() {
 
         {/* Title with phosphor glow - dominating viewport */}
         <div
-          className={`transition-all duration-1000 ${!hydrated || stage >= 2 ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
+          className="transition-all duration-1000 translate-y-0 opacity-100"
           style={{ transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}
         >
           <h1
@@ -171,7 +104,7 @@ export function HeroSection() {
 
         {/* CTA buttons - terminal style */}
         <div
-          className={`mt-8 flex w-full max-w-md flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-center transition-all duration-700 ${!hydrated || stage >= 4 ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+          className="mt-8 flex w-full max-w-md flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-center transition-all duration-700 translate-y-0 opacity-100"
           style={{ transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}
         >
           {/* Primary: BEGIN JOURNEY - Mainframe console button */}
@@ -231,12 +164,12 @@ export function HeroSection() {
         </div>
 
         {/* Hero Share Bar */}
-        <HeroShareBar visible={!hydrated || stage >= 4} />
+        <HeroShareBar visible={true} />
       </div>
 
       {/* Scroll indicator — hidden on mobile to avoid overlap with sticky CTA */}
       <div
-        className={`absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-1.5 transition-all duration-500 sm:flex ${!hydrated || stage >= 4 ? 'opacity-60' : 'opacity-0'}`}
+        className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-1.5 transition-all duration-500 sm:flex opacity-60"
       >
         <span className="font-mono text-[10px] tracking-widest text-muted-foreground">SCROLL</span>
         <ChevronDown className="bounce-chevron h-4 w-4 text-muted-foreground" />

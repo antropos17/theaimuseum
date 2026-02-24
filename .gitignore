@@ -47,3 +47,5 @@ Thumbs.db
 # Temp screenshots
 before.png
 after.png
+/screenshots/
+debug.log

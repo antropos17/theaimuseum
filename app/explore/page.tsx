@@ -1,32 +1,18 @@
-import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { ExploreTimeline } from '@/components/explore/explore-timeline'
+import { createPageMetadata } from '@/lib/config'
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: 'AI Timeline: 1950–2026 | The AI Museum',
   description:
     'Interactive timeline of 40 landmark AI systems from 1950 to 2026. Explore breakthroughs from the Turing Test and ELIZA to ChatGPT, GPT-5, Claude Opus 4, and Gemini 3.',
-  openGraph: {
-    title: 'AI Timeline: 1950–2026 | The AI Museum',
-    description:
-      'Interactive timeline of 40 landmark AI systems. From ELIZA (1966) to GPT-5.2 Pro (2026).',
-    images: [
-      {
-        url: '/api/og?title=AI%20Timeline%3A%201950%E2%80%932026&subtitle=40%20Landmark%20AI%20Systems',
-        width: 1200,
-        height: 630,
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'AI Timeline: 1950–2026 | The AI Museum',
-    description:
-      'Interactive timeline of 40 landmark AI systems. From ELIZA (1966) to GPT-5.2 Pro (2026).',
-  },
-  alternates: { canonical: 'https://v0-theaimuseum.vercel.app/explore' },
-}
+  path: '/explore',
+  ogTitle: 'AI Timeline: 1950–2026 | The AI Museum',
+  ogDescription:
+    'Interactive timeline of 40 landmark AI systems. From ELIZA (1966) to GPT-5.2 Pro (2026).',
+  ogImage: '/api/og?title=AI%20Timeline%3A%201950%E2%80%932026&subtitle=40%20Landmark%20AI%20Systems',
+})
 
 export default function ExplorePage() {
   return (
