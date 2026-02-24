@@ -2,37 +2,61 @@
 
 import { useEffect, useState, useRef } from "react"
 
-const bootLines = [
-  { text: "[MUSEUM_OS v2026.02] BOOT SEQUENCE INITIATED", delay: 200, glow: true },
-  { text: "", delay: 60 },
-  { text: "CPU : Quantum Neural Processor @ 4.20 GHz", delay: 80 },
-  { text: "MEM : 16384 MB Extended.................. OK", delay: 70 },
-  { text: "GPU : CRT Phosphor Engine v8.0........... OK", delay: 70 },
-  { text: "VGA : VGA-Compatible Phosphor Display..... OK", delay: 70 },
-  { text: "", delay: 40 },
-  { text: "Detecting Primary Master.... AI Core Database", delay: 120 },
-  { text: "Detecting Primary Slave..... 64TB Neural Storage", delay: 100 },
-  { text: "", delay: 40 },
-  { text: "Loading neural pathways.................. OK", delay: 90 },
-  { text: "Calibrating temporal sensors............. OK", delay: 80 },
-  { text: "Mounting exhibit databases............... OK", delay: 80 },
-  { text: "Scanning 40 AI models................... OK", delay: 100 },
-  { text: "Verifying consciousness.dll......... SUSPECT", delay: 120 },
-  { text: "Initializing phosphor display........... OK", delay: 80 },
-  { text: "Connecting to timeline [1950-2026]...... OK", delay: 90 },
-  { text: "Loading CRT shader pipeline............. OK", delay: 70 },
-  { text: "Applying scanline overlay............... OK", delay: 70 },
-  { text: "Establishing quantum link............... OK", delay: 90 },
-  { text: "", delay: 40 },
-  { text: "All subsystems nominal. 40 exhibits across 10 wings.", delay: 140 },
+type Status = "OK" | "SUSPECT" | "WARNING" | "FAILED"
+
+interface BootLine {
+  text: string
+  delay: number
+  glow?: boolean
+  status?: Status
+}
+
+const bootLines: BootLine[] = [
+  { text: "[MUSEUM_OS v2026.02] BOOT SEQUENCE INITIATED", delay: 150, glow: true },
+  { text: "", delay: 20 },
+  { text: "CPU : Quantum Neural Processor @ 4.20 GHz", delay: 50 },
+  { text: "MEM : 16384 MB Extended..................", delay: 40, status: "OK" },
+  { text: "GPU : CRT Phosphor Engine v8.0...........", delay: 40, status: "OK" },
+  { text: "VGA : Phosphor Display 1024x768..........", delay: 40, status: "OK" },
+  { text: "", delay: 15 },
+  { text: "Detecting Primary Master.... AI Core Database", delay: 60 },
+  { text: "Detecting Primary Slave..... 64TB Neural Storage", delay: 50 },
+  { text: "", delay: 15 },
+  { text: "Loading neural pathways..................", delay: 40, status: "OK" },
+  { text: "Calibrating temporal sensors.............", delay: 35, status: "OK" },
+  { text: "Mounting exhibit databases...............", delay: 35, status: "OK" },
+  { text: "Scanning 40 AI models...................", delay: 50, status: "OK" },
+  { text: "Verifying consciousness.dll.............", delay: 80, status: "SUSPECT" },
+  { text: "Skynet prevention module................", delay: 45, status: "WARNING" },
+  { text: "Initializing phosphor display...........", delay: 35, status: "OK" },
+  { text: "Connecting to timeline [1950-2026]......", delay: 40, status: "OK" },
+  { text: "Loading CRT shader pipeline.............", delay: 35, status: "OK" },
+  { text: "Applying scanline overlay...............", delay: 35, status: "OK" },
+  { text: "Establishing quantum link...............", delay: 40, status: "OK" },
+  { text: "", delay: 15 },
+  { text: "All subsystems nominal. 40 exhibits across 10 wings.", delay: 80 },
 ]
+
+const STATUS_COLORS: Record<Status, string> = {
+  OK: "#00ff88",
+  SUSPECT: "#ffaa00",
+  WARNING: "#ffaa00",
+  FAILED: "#ff4444",
+}
+
+const STATUS_SHADOWS: Record<Status, string> = {
+  OK: "0 0 6px rgba(0,255,136,0.4)",
+  SUSPECT: "0 0 6px rgba(255,170,0,0.4)",
+  WARNING: "0 0 6px rgba(255,170,0,0.4)",
+  FAILED: "0 0 8px rgba(255,68,68,0.5)",
+}
 
 interface BootSequenceProps {
   onInitialize: () => void
 }
 
 export function BootSequence({ onInitialize }: BootSequenceProps) {
-  const [lines, setLines] = useState<Array<{ text: string; glow?: boolean }>>([])
+  const [lines, setLines] = useState<BootLine[]>([])
   const [progress, setProgress] = useState(-1)
   const [ready, setReady] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -41,29 +65,29 @@ export function BootSequence({ onInitialize }: BootSequenceProps) {
     let isMounted = true
     const timers: ReturnType<typeof setTimeout>[] = []
 
-    let accDelay = 400
+    let accDelay = 200
 
     bootLines.forEach((line) => {
-      accDelay += line.delay + Math.random() * 80
+      accDelay += line.delay + Math.random() * 25
       timers.push(
         setTimeout(() => {
           if (!isMounted) return
-          setLines((prev) => [...prev, { text: line.text, glow: line.glow }])
+          setLines((prev) => [...prev, line])
         }, accDelay),
       )
     })
 
     // Start progress bar
-    accDelay += 250
+    accDelay += 150
     timers.push(
       setTimeout(() => {
         if (isMounted) setProgress(0)
       }, accDelay),
     )
 
-    // Progress steps
-    const steps = 30
-    const stepMs = 35
+    // Progress steps — fast ASCII bar
+    const steps = 25
+    const stepMs = 25
     for (let s = 1; s <= steps; s++) {
       timers.push(
         setTimeout(() => {
@@ -77,7 +101,7 @@ export function BootSequence({ onInitialize }: BootSequenceProps) {
     timers.push(
       setTimeout(() => {
         if (isMounted) setReady(true)
-      }, accDelay + steps * stepMs + 350),
+      }, accDelay + steps * stepMs + 200),
     )
 
     return () => {
@@ -107,85 +131,102 @@ export function BootSequence({ onInitialize }: BootSequenceProps) {
         }}
       />
 
-      {/* Boot content */}
-      <div
-        ref={scrollRef}
-        className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 md:p-10 scrollbar-none"
-        style={{ fontSize: "clamp(11px, 1.4vw, 15px)", lineHeight: "1.5" }}
-      >
-        {lines.map((line, i) => (
-          <div
-            key={i}
-            className="min-h-[1.4em] whitespace-pre-wrap"
-            style={{
-              textShadow: line.glow
-                ? "0 0 10px rgba(0,255,136,0.5), 0 0 3px rgba(0,255,136,0.3)"
-                : "0 0 4px rgba(0,255,136,0.15)",
-              opacity: 0,
-              animation: "bootLineIn 0.12s ease-out forwards",
-            }}
-          >
-            {line.text}
-          </div>
-        ))}
-
-        {/* Progress bar */}
-        {progress >= 0 && (
-          <div
-            className="mt-3"
-            style={{
-              textShadow: "0 0 6px rgba(0,255,136,0.25)",
-              opacity: 0,
-              animation: "bootLineIn 0.15s ease-out forwards",
-            }}
-          >
-            <div className="flex items-center gap-2 whitespace-pre">
-              <span className="text-[#00ff88]/60">LOAD</span>
-              <span>
-                [{"█".repeat(filled)}
-                {"░".repeat(empty)}]
-              </span>
-              <span className="text-[#00ff88]/80 tabular-nums">{progress}%</span>
-            </div>
-          </div>
-        )}
-
-        {/* Ready state */}
-        {ready && (
-          <div
-            className="mt-4"
-            style={{
-              opacity: 0,
-              animation: "bootLineIn 0.3s ease-out 0.1s forwards",
-            }}
-          >
+      {/* Boot content — terminal layout */}
+      <div className="flex-1 flex items-start justify-center overflow-hidden">
+        <div
+          ref={scrollRef}
+          className="w-full max-w-2xl overflow-y-auto overflow-x-hidden px-4 py-3 sm:px-6 sm:py-4 scrollbar-none"
+          style={{ fontSize: "clamp(11px, 1.4vw, 15px)", lineHeight: "1.55" }}
+        >
+          {lines.map((line, i) => (
             <div
-              className="text-[#00ff88] mb-4 font-bold"
-              style={{ textShadow: "0 0 15px rgba(0,255,136,0.6)" }}
-            >
-              {">"} SYSTEM READY. ALL EXHIBITS LOADED.
-            </div>
-
-            <button
-              onClick={onInitialize}
-              className="group relative px-3 py-1.5 sm:px-4 sm:py-2 border border-[#00ff88]/60 text-[#00ff88] hover:bg-[#00ff88] hover:text-[#0a0a0f] transition-all duration-300 font-bold uppercase tracking-[0.15em] cursor-pointer"
+              key={i}
+              className="min-h-[1.4em] whitespace-pre-wrap"
               style={{
-                fontSize: "clamp(10px, 1.2vw, 14px)",
-                boxShadow:
-                  "0 0 20px rgba(0,255,136,0.15), inset 0 0 20px rgba(0,255,136,0.08)",
-                textShadow: "0 0 8px rgba(0,255,136,0.4)",
-                animation: "pulseDot 2.5s ease-in-out infinite",
+                textShadow: line.glow
+                  ? "0 0 10px rgba(0,255,136,0.5), 0 0 3px rgba(0,255,136,0.3)"
+                  : "0 0 4px rgba(0,255,136,0.15)",
+                opacity: 0,
+                animation: "bootLineIn 0.1s ease-out forwards",
               }}
             >
-              <span className="relative z-10">▶ INITIALIZE NEURAL LINK</span>
-            </button>
-          </div>
-        )}
+              {line.status ? (
+                <>
+                  <span>{line.text} </span>
+                  <span
+                    style={{
+                      color: STATUS_COLORS[line.status],
+                      textShadow: STATUS_SHADOWS[line.status],
+                      fontWeight: line.status !== "OK" ? 700 : 400,
+                    }}
+                  >
+                    {line.status}
+                  </span>
+                </>
+              ) : (
+                line.text
+              )}
+            </div>
+          ))}
+
+          {/* Progress bar */}
+          {progress >= 0 && (
+            <div
+              className="mt-2"
+              style={{
+                textShadow: "0 0 6px rgba(0,255,136,0.25)",
+                opacity: 0,
+                animation: "bootLineIn 0.15s ease-out forwards",
+              }}
+            >
+              <div className="flex items-center gap-2 whitespace-pre">
+                <span className="text-[#00ff88]/60">LOAD</span>
+                <span>
+                  [{"█".repeat(filled)}
+                  {"░".repeat(empty)}]
+                </span>
+                <span className="text-[#00ff88]/80 tabular-nums">{progress}%</span>
+              </div>
+            </div>
+          )}
+
+          {/* Ready state */}
+          {ready && (
+            <div
+              className="mt-3"
+              style={{
+                opacity: 0,
+                animation: "bootLineIn 0.3s ease-out 0.1s forwards",
+              }}
+            >
+              <div
+                className="text-[#00ff88] mb-3 font-bold"
+                style={{ textShadow: "0 0 15px rgba(0,255,136,0.6)" }}
+              >
+                {">"} SYSTEM READY. ALL EXHIBITS LOADED.
+              </div>
+
+              <button
+                onClick={onInitialize}
+                className="group relative px-3 py-1.5 sm:px-4 sm:py-2 border border-[#00ff88]/60 text-[#00ff88] hover:bg-[#00ff88] hover:text-[#0a0a0f] transition-all duration-300 font-bold uppercase tracking-[0.15em] cursor-pointer"
+                style={{
+                  fontSize: "clamp(10px, 1.2vw, 14px)",
+                  boxShadow:
+                    "0 0 20px rgba(0,255,136,0.15), inset 0 0 20px rgba(0,255,136,0.08)",
+                  textShadow: "0 0 8px rgba(0,255,136,0.4)",
+                  animation: "pulseDot 2.5s ease-in-out infinite",
+                }}
+              >
+                <span className="relative z-10">▶ INITIALIZE NEURAL LINK</span>
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Version footer */}
       <div
-        className="px-4 pb-2 sm:px-6 sm:pb-3 md:px-10 flex justify-between items-center"
+        className="px-4 pb-2 sm:px-6 sm:pb-3 flex justify-between items-center"
         style={{ fontSize: "clamp(9px, 1vw, 12px)" }}
       >
         <span className="text-[#00ff88]/20">NO CARRIER</span>
