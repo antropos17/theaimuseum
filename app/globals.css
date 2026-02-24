@@ -314,8 +314,11 @@
     border-radius: 1px;
   }
   .metric-bar-fill {
-    @apply h-full transition-all duration-700 ease-out;
+    @apply h-full w-full ease-out;
     border-radius: 1px;
+    transform-origin: left;
+    transition: transform 0.7s ease-out, background-color 0.3s;
+    will-change: transform;
   }
 
   /* Dot grid subtle pattern */
@@ -331,6 +334,7 @@
     transition:
       opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
       transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
   }
   .fade-in-up.visible {
     opacity: 1;
@@ -342,6 +346,7 @@
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
   }
   .line-grow.visible {
     transform: scaleX(1);
@@ -441,6 +446,7 @@
   /* Enhanced hover states for interactive elements */
   .hover-lift {
     transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
   }
   .hover-lift:hover {
     transform: translateY(-2px);
@@ -458,6 +464,7 @@
 
   .hover-scale {
     transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
   }
   .hover-scale:hover {
     transform: scale(1.02);
@@ -640,7 +647,7 @@
 
 @keyframes neuralFlowLeft {
   0% {
-    left: 0;
+    transform: translateX(0);
     opacity: 0;
   }
   10% {
@@ -650,14 +657,14 @@
     opacity: 1;
   }
   100% {
-    left: 100%;
+    transform: translateX(100cqi);
     opacity: 0;
   }
 }
 
 @keyframes neuralFlowRight {
   0% {
-    right: 0;
+    transform: translateX(0);
     opacity: 0;
   }
   10% {
@@ -667,7 +674,7 @@
     opacity: 1;
   }
   100% {
-    right: 100%;
+    transform: translateX(-100cqi);
     opacity: 0;
   }
 }

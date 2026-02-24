@@ -184,8 +184,8 @@ export function BattlesView() {
                 </div>
                 <div className="mt-3 metric-bar">
                   <div
-                    className="metric-bar-fill transition-all duration-1000"
-                    style={{ width: `${barWidth}%`, backgroundColor: company.color }}
+                    className="metric-bar-fill transition-transform duration-1000"
+                    style={{ transform: `scaleX(${barWidth / 100})`, backgroundColor: company.color }}
                   />
                 </div>
                 <div

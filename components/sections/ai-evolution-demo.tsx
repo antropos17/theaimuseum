@@ -445,6 +445,9 @@ function NeuralParticle({
           width: `${size}px`,
           height: `${size}px`,
           marginTop: `${mt}px`,
+          left: direction === 'left' ? 0 : undefined,
+          right: direction === 'right' ? 0 : undefined,
+          willChange: 'transform, opacity',
           animationName: direction === 'left' ? 'neuralFlowLeft' : 'neuralFlowRight',
           animationDuration: `${dur}s`,
           animationTimingFunction: 'ease-in-out',
@@ -474,7 +477,7 @@ function NeuralMerge({ visible }: { visible: boolean }) {
       style={{ opacity: visible ? 1 : 0, transition: 'opacity 0.8s ease-out' }}
     >
       {/* Left stream: ELIZA -> Modern AI */}
-      <div className="absolute left-[16.67%] top-1/2 h-px" style={{ width: '16.67%' }}>
+      <div className="absolute left-[16.67%] top-1/2 h-px" style={{ width: '16.67%', containerType: 'inline-size' }}>
         <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-primary/10" />
         {leftParticles.map((p, i) => (
           <NeuralParticle
@@ -488,7 +491,7 @@ function NeuralMerge({ visible }: { visible: boolean }) {
         ))}
       </div>
       {/* Right stream: GPT-2 -> Modern AI */}
-      <div className="absolute right-[16.67%] top-1/2 h-px" style={{ width: '16.67%' }}>
+      <div className="absolute right-[16.67%] top-1/2 h-px" style={{ width: '16.67%', containerType: 'inline-size' }}>
         <div className="absolute inset-0 bg-gradient-to-l from-amber-500/20 to-primary/10" />
         {rightParticles.map((p, i) => (
           <NeuralParticle

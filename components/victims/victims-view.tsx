@@ -118,9 +118,9 @@ export function VictimsView() {
                   </div>
                   <div className="mt-1.5 metric-bar">
                     <div
-                      className="metric-bar-fill transition-all duration-[2s] ease-out"
+                      className="metric-bar-fill transition-transform duration-[2s] ease-out"
                       style={{
-                        width: `${victim.currentPct}%`,
+                        transform: `scaleX(${victim.currentPct / 100})`,
                         backgroundColor:
                           victim.currentPct <= 40
                             ? 'var(--chart-5)'

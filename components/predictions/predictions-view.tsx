@@ -119,7 +119,7 @@ export function PredictionsView() {
                     <div
                       className="metric-bar-fill"
                       style={{
-                        width: `${pred.pct}%`,
+                        transform: `scaleX(${pred.pct / 100})`,
                         backgroundColor:
                           pred.status === 'on_track' || pred.status === 'emerging'
                             ? 'var(--primary)'

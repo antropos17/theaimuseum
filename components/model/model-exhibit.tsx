@@ -381,9 +381,9 @@ export function ModelExhibit({ model, category, prevModel, nextModel }: ModelExh
                       <div
                         className="metric-bar-fill"
                         style={{
-                          width: `${barWidths[bar.key] || 0}%`,
+                          transform: `scaleX(${(barWidths[bar.key] || 0) / 100})`,
                           backgroundColor: model.color,
-                          transition: 'width 1.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                          transition: 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s',
                           transitionDelay: `${400 + i * 150}ms`,
                         }}
                       />

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef, useCallback } from "react"
+import { useState, useEffect, useCallback } from "react"
 import dynamic from "next/dynamic"
 import { CrtMonitor3D } from "./crt-monitor-3d"
 import { cn } from "@/lib/utils"
@@ -14,51 +14,41 @@ const NeuralCanvas = dynamic(
   { ssr: false },
 )
 
-type Phase = "loading" | "boot" | "transition" | "ready"
+type Phase = "loading" | "boot" | "transition" | "fadeout" | "ready"
 
 const SESSION_KEY = "aimuseum-booted"
 
 export function ExperienceWrapper({ children }: { children: React.ReactNode }) {
   const [phase, setPhase] = useState<Phase>("loading")
   const [mounted, setMounted] = useState(false)
-  const flashRef = useRef<HTMLDivElement>(null)
 
-  // Initialize on client only — avoids hydration mismatch from
-  // typeof window / sessionStorage checks in useState initializer
   useEffect(() => {
     const alreadyBooted = sessionStorage.getItem(SESSION_KEY)
     setPhase(alreadyBooted ? "ready" : "boot")
     setMounted(true)
   }, [])
 
-  // CRT power-off transition (from Boot to Ready)
   const handleInitialize = useCallback(() => {
     setPhase("transition")
     sessionStorage.setItem(SESSION_KEY, "1")
 
-    const flash = flashRef.current
-    if (flash) {
-      // Step 1: Screen flash (0-150ms)
-      flash.style.transition = "opacity 100ms ease-out"
-      flash.style.opacity = "0.6"
+    // Step 1: Let monitor zoom-in animate (600ms)
+    // Step 2: Fade out the overlay smoothly (800ms)
+    setTimeout(() => {
+      setPhase("fadeout")
+    }, 600)
 
-      setTimeout(() => {
-        // Step 2: Flash fades (150-400ms)
-        flash.style.transition = "opacity 300ms ease-out"
-        flash.style.opacity = "0"
-      }, 150)
-    }
-
-    // Give the 3D camera 1200ms to dive into the screen
+    // Step 3: Remove overlay from DOM after fade completes
     setTimeout(() => {
       setPhase("ready")
-    }, 1200)
+    }, 1400)
   }, [])
+
+  const showOverlay = mounted && phase !== "ready"
 
   return (
     <>
-      {/* SSR dark cover — prevents content flash before JS hydration while
-          keeping children in DOM for Lighthouse LCP measurement. */}
+      {/* SSR dark cover — prevents content flash before JS hydration */}
       {!mounted && (
         <div className="fixed inset-0 z-[9999] bg-[#0a0a0f]" aria-hidden="true" />
       )}
@@ -70,25 +60,18 @@ export function ExperienceWrapper({ children }: { children: React.ReactNode }) {
         />
       )}
 
-      {/* Boot/Transition overlay — fixed fullscreen, only during boot */}
-      {mounted && phase !== "ready" && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          {phase === "transition" && (
-            <div
-              ref={flashRef}
-              className="absolute inset-0 pointer-events-none z-[60]"
-              style={{
-                background:
-                  "radial-gradient(circle at center, rgba(0,255,136,0.4) 0%, rgba(255,255,255,0.3) 50%, transparent 80%)",
-                opacity: 0,
-              }}
-            />
+      {/* Boot/Transition overlay — fixed fullscreen */}
+      {showOverlay && (
+        <div
+          className={cn(
+            "fixed inset-0 z-50 flex items-center justify-center transition-opacity ease-out",
+            phase === "fadeout" ? "opacity-0 duration-800" : "opacity-100 duration-300"
           )}
-
-          <div className="w-full h-full bg-[#0a0a0f] absolute inset-0 z-40 transition-opacity duration-500">
+        >
+          <div className="w-full h-full absolute inset-0 z-40 bg-background">
             <CrtMonitor3D
               isPowered={true}
-              isZoomingIn={phase === "transition"}
+              isZoomingIn={phase === "transition" || phase === "fadeout"}
             >
               <BootSequence onInitialize={handleInitialize} />
             </CrtMonitor3D>
@@ -100,8 +83,10 @@ export function ExperienceWrapper({ children }: { children: React.ReactNode }) {
       <div
         data-boot-wrapper
         className={cn(
-          "transition-opacity duration-1000",
-          !mounted || phase === "ready" ? "opacity-100" : "opacity-0 pointer-events-none"
+          "transition-opacity ease-out",
+          phase === "fadeout" ? "opacity-100 duration-800" : "",
+          !mounted || phase === "ready" ? "opacity-100 duration-300" : "",
+          mounted && phase !== "ready" && phase !== "fadeout" ? "opacity-0 pointer-events-none duration-300" : ""
         )}
       >
         {children}

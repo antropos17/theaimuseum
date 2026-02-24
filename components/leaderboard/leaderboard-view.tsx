@@ -122,7 +122,7 @@ export function LeaderboardView() {
                         <div className="metric-bar w-20">
                           <div
                             className="metric-bar-fill"
-                            style={{ width: `${val}%`, backgroundColor: model.color }}
+                            style={{ transform: `scaleX(${val / 100})`, backgroundColor: model.color }}
                           />
                         </div>
                       </td>

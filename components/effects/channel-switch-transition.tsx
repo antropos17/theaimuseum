@@ -98,10 +98,10 @@ export function ChannelSwitchTransition({ children }: ChannelSwitchTransitionPro
                 {[...Array(5)].map((_, i) => (
                   <motion.div
                     key={i}
-                    className="absolute w-full bg-white/20 h-[1px] md:h-[2px]"
-                    style={{ top: `${Math.random() * 100}%` }}
-                    animate={{ 
-                      top: [`${Math.random() * 100}%`, `${Math.random() * 100}%`],
+                    className="absolute left-0 w-full bg-white/20 h-[1px] md:h-[2px]"
+                    style={{ top: 0, willChange: 'transform, opacity' }}
+                    animate={{
+                      y: [`${Math.random() * 100}vh`, `${Math.random() * 100}vh`],
                       opacity: [0, 0.5, 0]
                     }}
                     transition={{ duration: 0.05, repeat: Infinity }}
@@ -114,9 +114,10 @@ export function ChannelSwitchTransition({ children }: ChannelSwitchTransitionPro
             {phase === "blank" && (
               <div className="absolute inset-0 bg-black flex items-center justify-center">
                 <motion.div
-                  className="h-[2px] bg-white shadow-[0_0_15px_rgba(255,255,255,0.8)]"
-                  initial={{ width: "100%" }}
-                  animate={{ width: "0%" }}
+                  className="h-[2px] w-full bg-white shadow-[0_0_15px_rgba(255,255,255,0.8)]"
+                  style={{ willChange: 'transform' }}
+                  initial={{ scaleX: 1 }}
+                  animate={{ scaleX: 0 }}
                   transition={{ duration: 0.08, ease: "easeInOut" }}
                 />
               </div>

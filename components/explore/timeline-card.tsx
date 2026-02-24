@@ -250,17 +250,20 @@ function CardContent({
           />
         </div>
 
-        {/* Scanline sweep effect */}
+        {/* Scanline sweep effect — GPU-composited via transform */}
         <AnimatePresence>
           {isHovered && (
             <motion.div
-              initial={{ top: 0 }}
-              animate={{ top: '100%' }}
+              initial={{ y: '0%' }}
+              animate={{ y: '100%' }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.4, ease: 'linear' }}
-              className="pointer-events-none absolute left-0 z-20 h-[2px] w-full bg-white/[0.04]"
+              className="pointer-events-none absolute inset-x-0 top-0 z-20 h-full"
+              style={{ willChange: 'transform' }}
               aria-hidden="true"
-            />
+            >
+              <div className="h-[2px] w-full bg-white/[0.04]" />
+            </motion.div>
           )}
         </AnimatePresence>
 
@@ -343,7 +346,7 @@ function CardContent({
           <div className="metric-bar flex-1">
             <div
               className="metric-bar-fill"
-              style={{ width: `${model.capability}%`, backgroundColor: model.color }}
+              style={{ transform: `scaleX(${model.capability / 100})`, backgroundColor: model.color }}
             />
           </div>
           <span className="font-mono text-[10px] tabular-nums text-muted-foreground">

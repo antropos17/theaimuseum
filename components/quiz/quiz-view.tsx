@@ -272,7 +272,7 @@ export function QuizView() {
                 <div
                   className="metric-bar-fill"
                   style={{
-                    width: `${pct}%`,
+                    transform: `scaleX(${pct / 100})`,
                     backgroundColor:
                       pct >= 70
                         ? 'var(--chart-3)'
@@ -494,8 +494,8 @@ export function QuizView() {
           </span>
           <div className="metric-bar flex-1">
             <div
-              className="metric-bar-fill bg-primary transition-all duration-500"
-              style={{ width: `${progressPct}%` }}
+              className="metric-bar-fill bg-primary transition-transform duration-500"
+              style={{ transform: `scaleX(${progressPct / 100})` }}
             />
           </div>
         </div>
