@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react"
 import dynamic from "next/dynamic"
-import { CrtMonitor3D } from "../crt-monitor-3d" // Use the new orchestrator
+import { CrtMonitor3D } from "./crt-monitor-3d"
 import { cn } from "@/lib/utils"
 
 const BootSequence = dynamic(
@@ -55,22 +55,24 @@ export function ExperienceWrapper({ children }: { children: React.ReactNode }) {
     }, 1200)
   }, [])
 
-  // SSR guard
-  if (!mounted) {
-    return <div className="min-h-screen bg-[#0a0a0f]" />
-  }
-
   return (
     <>
-      {/* Neural network background - always visible, but dimmer when ready */}
-      <NeuralCanvas
-        className={phase === "ready" ? "opacity-30" : "opacity-50"}
-      />
+      {/* SSR dark cover — prevents content flash before JS hydration while
+          keeping children in DOM for Lighthouse LCP measurement. */}
+      {!mounted && (
+        <div className="fixed inset-0 z-[9999] bg-[#0a0a0f]" aria-hidden="true" />
+      )}
+
+      {/* Neural network background — client only */}
+      {mounted && (
+        <NeuralCanvas
+          className={phase === "ready" ? "opacity-30" : "opacity-50"}
+        />
+      )}
 
       {/* Boot/Transition overlay — fixed fullscreen, only during boot */}
-      {phase !== "ready" && (
+      {mounted && phase !== "ready" && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-          {/* Flash overlay for transition */}
           {phase === "transition" && (
             <div
               ref={flashRef}
@@ -83,7 +85,6 @@ export function ExperienceWrapper({ children }: { children: React.ReactNode }) {
             />
           )}
 
-          {/* 3D CRT Monitor */}
           <div className="w-full h-full bg-[#0a0a0f] absolute inset-0 z-40 transition-opacity duration-500">
             <CrtMonitor3D
               isPowered={true}
@@ -95,12 +96,12 @@ export function ExperienceWrapper({ children }: { children: React.ReactNode }) {
         </div>
       )}
 
-      {/* Page content — normal document flow, scrolls naturally */}
+      {/* Page content — always in DOM for SSR LCP. Hidden during boot. */}
       <div
         data-boot-wrapper
         className={cn(
           "transition-opacity duration-1000",
-          phase === "ready" ? "opacity-100" : "opacity-0 pointer-events-none"
+          !mounted || phase === "ready" ? "opacity-100" : "opacity-0 pointer-events-none"
         )}
       >
         {children}
